@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412155600) do
+ActiveRecord::Schema.define(version: 201604012174200) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -22,6 +22,20 @@ ActiveRecord::Schema.define(version: 20160412155600) do
 
   add_index "admin_associations", ["dependency_id"], name: "index_admin_associations_on_dependency_id"
   add_index "admin_associations", ["user_id"], name: "index_admin_associations_on_user_id"
+
+  create_table "dependencies", force: :cascade do |t|
+    t.string   "name",                       null: false
+    t.integer  "obligee_id",                 null: false
+    t.integer  "position_id",                null: false
+    t.integer  "parent_id"
+    t.boolean  "active",      default: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "dependencies", ["obligee_id"], name: "index_dependencies_on_obligee_id"
+  add_index "dependencies", ["parent_id"], name: "index_dependencies_on_parent_id"
+  add_index "dependencies", ["position_id"], name: "index_dependencies_on_position_id"
 
   create_table "obligees", force: :cascade do |t|
     t.integer  "person_id",                    null: false
