@@ -11,7 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412150000) do
+ActiveRecord::Schema.define(version: 20160412153000) do
+
+  create_table "admin_associations", force: :cascade do |t|
+    t.integer  "user_id",       null: false
+    t.integer  "dependency_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "admin_associations", ["dependency_id"], name: "index_admin_associations_on_dependency_id"
+  add_index "admin_associations", ["user_id"], name: "index_admin_associations_on_user_id"
+
+  create_table "operator_associations", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "obligee_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "operator_associations", ["obligee_id"], name: "index_operator_associations_on_obligee_id"
+  add_index "operator_associations", ["user_id"], name: "index_operator_associations_on_user_id"
 
   create_table "users", force: :cascade do |t|
     t.integer  "dni",                             null: false
