@@ -11,17 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160412145818) do
+ActiveRecord::Schema.define(version: 20160412150000) do
 
   create_table "users", force: :cascade do |t|
-    t.integer  "dni",             null: false
-    t.string   "name",            null: false
-    t.string   "surname",         null: false
-    t.string   "email",           null: false
+    t.integer  "dni",                             null: false
+    t.string   "name",                            null: false
+    t.string   "surname",                         null: false
+    t.string   "email",                           null: false
     t.string   "telephone"
     t.string   "password_digest"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_superadmin",   default: false
   end
 
 end
