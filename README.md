@@ -11,4 +11,5 @@
 
 ## Server de desarrollo
 * Declarar que version y gemset de ruby vamos a estar usando: `rvm use 2.1.5@audiencias`
-* Desde la carpeta del proyecto, levantar server de desarrollo: `bundle exec rails server`
+* Correr migraciones pendientes: `bundle exec rake db:migrate`
+* Levantar server de desarrollo: `bundle exec rails server`
