@@ -1,0 +1,9 @@
+<h1>Login</h1>
+
+<%= form_tag(login_url, method: 'post') do %>
+    <%= label_tag(:dni, 'DNI') %>
+    <%= text_field_tag(:dni) %>
+    <%= label_tag(:password, 'Contraseña') %>
+    <%= password_field_tag(:password) %>
+    <%= submit_tag('Ingresar') %>
+<% end %>
