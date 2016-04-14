@@ -43,3 +43,8 @@ end
 
 # User authentication
 gem 'bcrypt-ruby', '~> 3.1', '>= 3.1.5'
+
+# https://github.com/thoughtbot/bourbon
+gem 'bourbon'
+# https://github.com/thoughtbot/neat
+gem 'neat'
