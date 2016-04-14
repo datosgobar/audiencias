@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160414090000) do
+ActiveRecord::Schema.define(version: 20160414100000) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -40,6 +40,12 @@ ActiveRecord::Schema.define(version: 20160414090000) do
 
   add_index "audiences", ["applicant_id"], name: "index_audiences_on_applicant_id"
   add_index "audiences", ["obligee_id"], name: "index_audiences_on_obligee_id"
+
+  create_table "companies", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "dependencies", force: :cascade do |t|
     t.string   "name",                       null: false
@@ -91,6 +97,16 @@ ActiveRecord::Schema.define(version: 20160414090000) do
 
   add_index "operator_associations", ["obligee_id"], name: "index_operator_associations_on_obligee_id"
   add_index "operator_associations", ["user_id"], name: "index_operator_associations_on_user_id"
+
+  create_table "participants", force: :cascade do |t|
+    t.integer  "involved_id", null: false
+    t.integer  "audience_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "participants", ["audience_id"], name: "index_participants_on_audience_id"
+  add_index "participants", ["involved_id"], name: "index_participants_on_involved_id"
 
   create_table "positions", force: :cascade do |t|
     t.string   "name",                         null: false
