@@ -55,6 +55,20 @@ ActiveRecord::Schema.define(version: 20160414090000) do
   add_index "dependencies", ["parent_id"], name: "index_dependencies_on_parent_id"
   add_index "dependencies", ["position_id"], name: "index_dependencies_on_position_id"
 
+  create_table "involved", force: :cascade do |t|
+    t.integer  "person_id",      null: false
+    t.integer  "position_id"
+    t.integer  "represented_id"
+    t.integer  "company_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "involved", ["company_id"], name: "index_involved_on_company_id"
+  add_index "involved", ["person_id"], name: "index_involved_on_person_id"
+  add_index "involved", ["position_id"], name: "index_involved_on_position_id"
+  add_index "involved", ["represented_id"], name: "index_involved_on_represented_id"
+
   create_table "obligees", force: :cascade do |t|
     t.integer  "person_id",                    null: false
     t.integer  "dependency_id",                null: false
