@@ -42,6 +42,9 @@ group :development, :test do
 
   # https://github.com/charliesome/better_errors
   gem 'better_errors'
+
+  # https://github.com/ryanb/letter_opener
+  gem "letter_opener"
 end
 
 # User authentication
