@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160418132736) do
+ActiveRecord::Schema.define(version: 20160418144930) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -134,16 +134,18 @@ ActiveRecord::Schema.define(version: 20160418132736) do
   add_index "positions", ["obligee_id"], name: "index_positions_on_obligee_id"
 
   create_table "users", force: :cascade do |t|
-    t.integer  "dni",                             null: false
-    t.string   "name",                            null: false
-    t.string   "surname",                         null: false
-    t.string   "email",                           null: false
+    t.integer  "dni",                                    null: false
+    t.string   "name",                                   null: false
+    t.string   "surname",                                null: false
+    t.string   "email",                                  null: false
     t.string   "telephone"
     t.string   "password_digest"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_superadmin",   default: false
+    t.boolean  "is_superadmin",          default: false
     t.string   "auth_token"
+    t.string   "password_reset_token"
+    t.datetime "password_reset_sent_at"
   end
 
   add_index "users", ["auth_token"], name: "index_users_on_auth_token"
