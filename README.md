@@ -8,6 +8,7 @@
 * Declarar que version y gemset de ruby vamos a estar usando: `rvm use 2.1.5@audiencias`
 * Instalar blunder (gestor de gemas): `gem install bundler`
 * Parado en la carpeta root del proyecto (la que contiene el archivo Gemfile): `bundle install`
+* Crear una db en mysql llamada 'audiencias' y un usuario 'audiencias' con privilegios sobre esa db.
 
 ## Server de desarrollo
 * Declarar que version y gemset de ruby vamos a estar usando: `rvm use 2.1.5@audiencias`

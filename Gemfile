@@ -24,6 +24,17 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+
+# User authentication
+gem 'bcrypt-ruby', '~> 3.1', '>= 3.1.5'
+
+# https://github.com/thoughtbot/bourbon
+gem 'bourbon'
+# https://github.com/thoughtbot/neat
+gem 'neat'
+
+gem 'mysql2', '~> 0.3.18' 
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
@@ -47,10 +58,3 @@ group :development, :test do
   gem "letter_opener"
 end
 
-# User authentication
-gem 'bcrypt-ruby', '~> 3.1', '>= 3.1.5'
-
-# https://github.com/thoughtbot/bourbon
-gem 'bourbon'
-# https://github.com/thoughtbot/neat
-gem 'neat'
