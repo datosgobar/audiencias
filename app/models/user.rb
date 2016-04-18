@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
 	validates :email, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
 	validates :dni, presence: true, uniqueness: true
 	validates :password, length: { minimum: 6 }, allow_nil: true
-	validates :auth_token, presence: true, uniqueness: true
+	validates :auth_token, uniqueness: true
 
 	has_secure_password
 	before_create { generate_token(:auth_token) }
