@@ -1,0 +1,12 @@
+<%= form_for @user, :url => password_reset_path(params[:token]) do |f| %>
+  <%= f.label :password, 'Nueva contraseña' %>
+  <%= f.password_field :password %>
+
+  <% if @user.errors.any? %>
+    <% for message in @user.errors.full_messages %>
+      <p><%= message %></p>
+    <% end %>
+  <% end %>
+
+  <%= f.submit "Actualizar contraseña" %>
+<% end %>

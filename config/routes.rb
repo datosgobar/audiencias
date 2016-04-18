@@ -9,5 +9,5 @@ Rails.application.routes.draw do
   get '/resetear_credenciales', to: 'password_resets#new', as: 'send_password_reset_form'
   post '/resetear_credenciales', to: 'password_resets#create', as: 'send_password_reset'
   get '/resetear_credenciales/:token', to: 'password_resets#edit', as: 'password_reset_form'
-  post '/resetear_credenciales/:token', to: 'password_resets#update', as: 'password_reset'
+  match '/resetear_credenciales/:token', to: 'password_resets#update', as: 'password_reset', via: [:post, :patch]
 end
