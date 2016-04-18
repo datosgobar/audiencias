@@ -1,6 +1,6 @@
 <h1>Login</h1>
 
-<%= form_tag(login_url, method: 'post') do %>
+<%= form_tag login_url do %>
     <%= label_tag(:dni, 'DNI') %>
     <%= text_field_tag(:dni) %>
     <%= label_tag(:password, 'Contraseña') %>
@@ -8,4 +8,6 @@
     <%= submit_tag('Ingresar') %>
 	<%= check_box_tag :remember_me, 1, params[:remember_me] %>
 	<%= label_tag :remember_me, 'Recordarme' %>
+	<p><%= link_to "Olvidé mi contraseña", send_password_reset_form_path %></p>
+
 <% end %>
