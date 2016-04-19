@@ -1,2 +1,4 @@
-class Participant < ActiveRecord::Base
+class Company < ActiveRecord::Base
+  validates :name, presence: true
+
 end

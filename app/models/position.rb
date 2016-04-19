@@ -5,5 +5,6 @@ class Position < ActiveRecord::Base
 
   validates :obligee, presence: true
   validates :dependency, presence: true
+  validates :name, length: { minimum: 6 }
 
 end
