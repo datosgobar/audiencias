@@ -3,10 +3,15 @@
 ## Instalación
 
 * En caso de no contar con rvm (ruby version manager) puede ver el [tutorial completo aquí](https://rvm.io/rvm/install). Sin embargo para esta instalacion es suficiente con ejecutar estos comandos:
+
 1) `apt-get install pgp` y `apt-get install curl`
+
 2) `gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3`
+
 3) `\curl -sSL https://get.rvm.io | bash -s stable --ruby`
+
 4) `source /usr/local/rvm/scripts/rvm`
+
 * Instalar la version 2.1.5 de ruby: `rvm install 2.1.5`
 * Crear un gemset para el prouecto: `rvm gemset create audiencias`
 * Declarar que version y gemset de ruby vamos a estar usando: `rvm use 2.1.5@audiencias`
@@ -17,14 +22,22 @@
 * En caso de que falle la instalacion de la gema de mysql2 (que fue lo que ocurrió durante el ejemplo de esta instalacion) instalar ejecutando este comando `apt-get install libmysqlclient-dev` la dependencias que soluciona el problema.
 * En caso de no tener un mysql-server, instalarlo mediante este comando `apt-get install mysql-server` 
 * Una vez instalado el mysql-server, ejecutar `mysql -uroot -p` para loguearse en la consola de mysql y una vez logueado ejecutar estos comandos para crear la base de datos, el usuario y asignar la base de datos a dicho usuario. Teniendo en cuenta de reemplazar los valores `BASE_DE_DATOS`, `USUARIO` y `PASSWORD` por los valores que correspondan.
+
 1) mysql> `create database BASE_DE_DATOS;`
+
 2) mysql> `create user USUARIO@localhost identified by 'PASSWORD';`
+
 3) mysql> `grant all privileges on BASE_DE_DATOS.* to USUARIO@localhost;`
+
 4) mysql> `flush privileges;`
 
+
 * En caso de no tener instalado nodejs, ejecutar los siguientes comandos:
+
 `curl -sL https://deb.nodesource.com/setup | bash -`
+
 `apt-get install nodejs`
+
 
 
 ## Levantar server
