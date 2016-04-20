@@ -9,10 +9,9 @@ class PasswordResetsController < ApplicationController
     user = User.find_by_dni(params[:dni])
     if user
       user.send_password_reset 
-      redirect_to root_url
-    else
-      redirect_to send_password_reset_form_path
     end
+    @message = 'Si el dni se encuentra en nuestra basde de usuarios se le enviará un email con las instrucciones necesarias. Revise su casilla de mail. '
+    render :new
   end
 
   def edit

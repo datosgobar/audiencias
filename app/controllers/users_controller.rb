@@ -16,7 +16,7 @@ class UsersController < ApplicationController
       # TODO: redirigir a la url que se queria ingresar
       redirect_to root_url
     else
-      @login_error = 'Las credenciales ingresadas no son validas'
+      @message = 'Las credenciales ingresadas no son validas'
       render :login
     end
   end

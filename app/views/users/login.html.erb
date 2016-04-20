@@ -17,9 +17,9 @@
         <%= label_tag :remember_me, 'Recordarme' %>
       </div>
       
-      <% if @login_error %>
-        <div class="errors">
-          <%= @login_error %>
+      <% if @message %>
+        <div class="message">
+          <%= @message %>
         </div>
       <% end %>
 

@@ -40,7 +40,7 @@ div.login-container {
     input#dni {
       width: 100%;
       font-size: 15px;
-      margin: 5px 0 10px 0;
+      margin: 6px 0 12px 0;
       padding: 8px;
       border: solid 1px #ccc;
       @include border-radius(4px);
@@ -48,6 +48,9 @@ div.login-container {
 
     .remember-me {
       text-align: right;
+      input, label {
+        cursor: pointer;
+      }
     }
 
     .submit {
@@ -60,15 +63,19 @@ div.login-container {
         font-size: 12px;
         font-weight: 400;
         padding: 8px 12px;
+        cursor: pointer;
       }
     }
 
-    .errors {
+    .message {
       font-size: 12px;
       color: $grey;
       margin: 12px 0;
     }
 
+    .password-reset-description {
+      font-size: 14px;
+    }
   }
 
   .forgot-password {
