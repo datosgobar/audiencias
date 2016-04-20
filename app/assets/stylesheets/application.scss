@@ -1,0 +1,22 @@
+@import "compass";
+@import 'bourbon';
+@import 'neat';
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: white;
+}
+
+body {
+  @include outer-container;
+}
+
+@import 'header';
+
+div#main-content {
+  margin-top: $header-height;
+}
+
+@import 'login';

@@ -9,7 +9,15 @@
 </head>
 <body>
 
-<%= yield %>
+<header id="main-header">
+  <div class="header-content">
+    <%= image_tag 'logo-ministerio', class: 'logo-ministerio' %>
+  </div>
+</header>
+
+<div id="main-content">
+  <%= yield %>
+</div>
 
 </body>
 </html>

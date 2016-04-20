@@ -1,0 +1,20 @@
+$header-height: 60px;
+
+header#main-header {
+  @include fill-parent();
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: white;
+  @include box-shadow(black 0px 0px 5px);
+
+  .header-content {
+    height: $header-height;
+    @include span-columns(10);
+    @include shift(1);
+  
+    img.logo-ministerio {
+      height: 100%;
+    }
+  }
+}
