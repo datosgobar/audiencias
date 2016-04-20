@@ -32,7 +32,8 @@ gem 'bcrypt-ruby', '~> 3.1', '>= 3.1.5'
 gem 'bourbon'
 # https://github.com/thoughtbot/neat
 gem 'neat'
-
+# http://compass-style.org/help/
+gem 'compass-rails'
 gem 'mysql2', '~> 0.3.18' 
 
 # Use Unicorn as the app server
