@@ -1,4 +1,4 @@
-$header-height: 60px;
+$header-height: 70px;
 
 header.header-shadow {
   position: fixed;
@@ -7,6 +7,7 @@ header.header-shadow {
   width: 100%;
   background: white;
   @include box-shadow(black 0px 0px 5px);
+  z-index: 10;
 
   .main-header {
     @include outer-container; 

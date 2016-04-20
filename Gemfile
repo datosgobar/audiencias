@@ -34,6 +34,10 @@ gem 'bourbon'
 gem 'neat'
 # http://compass-style.org/help/
 gem 'compass-rails'
+# https://github.com/markmcconachie/normalize-rails
+gem 'normalize-rails'
+
+
 gem 'mysql2', '~> 0.3.18' 
 
 # Use Unicorn as the app server
