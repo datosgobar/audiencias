@@ -7,7 +7,7 @@
   <div class="login-card">
     <%= form_tag login_url do %>
       <%= label_tag(:dni, 'DNI') %>
-      <%= text_field_tag(:dni) %>
+      <%= text_field_tag(:dni, nil, autofocus: true) %>
       
       <%= label_tag(:password, 'Contraseña') %>
       <%= password_field_tag(:password) %>
@@ -17,6 +17,12 @@
         <%= label_tag :remember_me, 'Recordarme' %>
       </div>
       
+      <% if @login_error %>
+        <div class="errors">
+          <%= @login_error %>
+        </div>
+      <% end %>
+
       <div class="submit">   
         <%= submit_tag('INGRESAR') %>
       </div>
