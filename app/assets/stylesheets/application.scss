@@ -1,21 +1,23 @@
 @import "compass";
 @import 'bourbon';
+@import 'grid-settings';
 @import 'neat';
+
+@import 'fonts';
 
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   background: white;
-}
-
-body {
-  @include outer-container;
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 400;
 }
 
 @import 'header';
 
 div#main-content {
+  @include outer-container; 
   margin-top: $header-height;
 }
 
