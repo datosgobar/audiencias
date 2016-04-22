@@ -1,0 +1,31 @@
+<header class="header-shadow">
+  <div class="header-content">
+
+
+    <div class="logo-ministerio">
+      <a href='/'>
+        <%= image_tag 'logo-ministerio' %>
+      </a>
+    </div>
+
+    <div class="user-menu">
+      <% if @current_user %>
+
+        <span class="user-icon">
+          <%= initials(@current_user) %>
+        </span>
+
+        <span class="username">
+          <%= @current_user[:name] %>
+          <%= @current_user[:surname] %>
+        </span>
+
+        <span class="user-dropdown-menu">
+          <i class="material-icons">&#xE313;</i>
+        </span>
+
+      <% end %>
+    </div>
+
+  </div>
+</header>

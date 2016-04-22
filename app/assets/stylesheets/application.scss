@@ -1,9 +1,9 @@
 @import "compass";
 @import 'bourbon';
-@import 'grid-settings';
+@import 'utils/grid-settings';
 @import 'neat';
 @import 'normalize-rails';
-@import 'fonts';
+@import 'utils/fonts';
 @import 'utils/colors';
 
 html, body {
