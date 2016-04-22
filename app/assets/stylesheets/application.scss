@@ -16,11 +16,18 @@ html, body {
   color: $black;
 }
 
-@import 'header';
+a {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+@import 'header/header';
 
 div#main-content {
   @include outer-container; 
+  height: 100%;
   padding-top: $header-height;
 }
 
 @import 'login';
+@import 'home';
