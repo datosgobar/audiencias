@@ -10,18 +10,22 @@ header.header-shadow {
   z-index: 10;
   height: $header-height;
 
-  .header-content {
+  .header-content-container {
     @include outer-container; 
-    padding: 0 15px;
 
-    .logo-ministerio {
-      @include span-columns(6);
-      img {
-        height: $header-height;
-        display: block;
+    .header-content {
+      @include span-columns(10);
+      @include shift(1);
+      .logo-ministerio {
+        @include span-columns(6);
+        img {
+          height: $header-height;
+          display: inline-block;
+        }
       }
-    }
 
-    @import 'header-menu'
+      @import 'header-menu'
+    }
+    
   }
 }
