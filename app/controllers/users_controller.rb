@@ -13,10 +13,16 @@ class UsersController < ApplicationController
       else
         cookies[:auth_token] = user.auth_token
       end
-      # TODO: redirigir a la url que se queria ingresar
-      redirect_to root_url
+      if user.dependencies.length > 0
+        redirect_to admin_landing_path
+      elsif user.obligees.length > 0
+        redirect_to operator_landing_path
+      else
+        @message = 'El usuario ingresado ya no tiene permisos de acceder al sistema.' 
+        render :login
+      end
     else
-      @message = 'Las credenciales ingresadas no son validas'
+      @message = 'Las credenciales ingresadas no son validas.'
       render :login
     end
   end
