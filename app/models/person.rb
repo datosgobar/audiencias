@@ -1,10 +1,10 @@
-class Position < ActiveRecord::Base
+class Person < ActiveRecord::Base
 
   validates :name, presence: true
   validates :surname, presence: true
   validates :person_id, presence: true
   validates :id_type, presence: true
   validates :country, presence: true
-  validates :email, format: { with: GLOBALS::MAIL_REGEX }
+  validates :email, format: { with: GLOBALS::EMAIL_REGEX }
 
 end

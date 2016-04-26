@@ -4,8 +4,9 @@ class Dependency < ActiveRecord::Base
 	has_one :parent_dependency
 	has_one :position
 
-	validates :obligee, presence: true
-  validates :position, presence: true
+  has_many :admin_associations
+  has_many :users, through: :admin_associations
+  
 	validates :name, length: { minimum: 6 }
 
 end

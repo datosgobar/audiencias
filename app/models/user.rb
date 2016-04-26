@@ -11,6 +11,11 @@ class User < ActiveRecord::Base
 	before_create { generate_token(:auth_token) }
 	before_save { self.email = email.downcase }
 
+	has_many :admin_associations
+	has_many :dependencies, through: :admin_associations
+	has_many :operator_associations
+	has_many :obligees, through: :operator_associations
+
 	def generate_token(column)
 		begin
 			self[column] = SecureRandom.urlsafe_base64

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160419124400) do
+ActiveRecord::Schema.define(version: 20160426125100) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20160419124400) do
 
   create_table "dependencies", force: :cascade do |t|
     t.string   "name",                       null: false
-    t.integer  "obligee_id",                 null: false
-    t.integer  "position_id",                null: false
+    t.integer  "obligee_id"
+    t.integer  "position_id"
     t.integer  "parent_id"
     t.boolean  "active",      default: true
     t.datetime "created_at"
@@ -115,8 +115,8 @@ ActiveRecord::Schema.define(version: 20160419124400) do
 
   create_table "positions", force: :cascade do |t|
     t.string   "name",                         null: false
-    t.integer  "obligee_id",                   null: false
-    t.integer  "dependency_id",                null: false
+    t.integer  "obligee_id"
+    t.integer  "dependency_id"
     t.boolean  "active",        default: true
     t.datetime "created_at"
     t.datetime "updated_at"

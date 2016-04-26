@@ -1,6 +1,6 @@
 class AdminAssociation < ActiveRecord::Base
-	has_one :user
-	has_one :dependency
+	belongs_to :user
+	belongs_to :dependency
 
 	validates :user, presence: true, uniqueness: { scope: :dependency }
 	validates :dependency, presence: true
