@@ -21,6 +21,7 @@ header.header-shadow {
         img {
           height: $header-height;
           display: inline-block;
+          vertical-align: bottom;
         }
       }
 
