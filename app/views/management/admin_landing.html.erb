@@ -20,11 +20,15 @@
   </div>
 
   <div id="dependencies-tree">
-  <% Dependency.tree.each do |node| %>
-    <div>
-      <%= node[:name] %>
-    </div>
-  <% end %>
+    <ul>
+      <% Dependency.tree.each do |node| %>
+        <li>
+          <i class="material-icons collapsed">chevron_right</i>
+          <i class="material-icons expanded">expand_more</i>
+          <%= node[:name] %>
+        </li>
+      <% end %>
+    </ul>
   </div>
 </div>
 <div id="dependencies-menu">

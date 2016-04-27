@@ -9,4 +9,8 @@ class Dependency < ActiveRecord::Base
   
 	validates :name, length: { minimum: 6 }
 
+  def self.tree 
+    active_dependencies = where(active: true)
+  end
+
 end

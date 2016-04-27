@@ -62,9 +62,28 @@
   }
 
   #dependencies-tree {
-    @include span-columns(7 of 8);
-    @include shift(1);
-
+    @include span-columns(8 of 8);
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        padding: 4px 0 4px 12.5%;
+        &:hover,
+        &.selected {
+          background: $inactive;
+          cursor: pointer;
+        }
+        i {
+          color: $dark-blue;
+          font-weight: bold;
+          vertical-align: bottom;
+          &.expanded {
+            display: none;
+          }
+        }
+      }
+    }
   }
 }
 
