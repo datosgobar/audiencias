@@ -58,18 +58,28 @@ $card-width: 400px;
         padding: 26px 40px;
       }
 
+      &.change-password {
+        display: table;
+        .align {
+          display: table-cell;
+          vertical-align: middle;
+        }
+      }
+
       label {
         font-size: 12px;
         color: $grey;
       }
 
       label[for="password"],
-      label[for="dni"] {
+      label[for="dni"],
+      label[for="user_password"] {
         display: block;
       }
 
       input#password, 
-      input#dni {
+      input#dni,
+      input#user_password {
         width: 100%;
         font-size: 15px;
         margin: 6px 0 12px 0;
@@ -121,10 +131,13 @@ $card-width: 400px;
           display: table-cell;
           vertical-align: middle;
           p {
-            margin: 0 0 10px 0;
+            margin: 0 0 15px 0;
             &:last-child {
               margin: 0;
             }
+          }
+          a {
+            color: $dark-blue;
           }
         }
       }

@@ -1,7 +1,5 @@
 class PasswordResetsController < ApplicationController
 
-  # TODO: i18n mensajes de error
-
   def new
   end
 
@@ -16,19 +14,25 @@ class PasswordResetsController < ApplicationController
 
   def edit
     @user = User.find_by_password_reset_token!(params[:token])
+    if @user.password_reset_sent_at < 1.days.ago
+      @expired = true
+    end
   end
 
   def update
     @user = User.find_by_password_reset_token!(params[:token])
     if @user.password_reset_sent_at < 1.days.ago
-      redirect_to send_password_reset_form_path
+      @expired = true
     else
       @user.password = params[:user][:password]
       if @user.save 
-        redirect_to root_url
+        @changed = true
       else
-        render :edit
+        # mostrar error
+        # contraseña muy corta, etc
       end
     end
+    render :edit
   end
+
 end
