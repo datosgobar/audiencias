@@ -1,90 +1,122 @@
-div.login-background {
-  position: fixed;
-  background: #e8e8e8;
-  width: 100%;
-  height: 400px;;
-  left: 0;
-  top: 0;
-}
+$card-height: 300px;
+$card-width: 400px;
 
-div.login-container {
-  @include span-columns(8);
-  @include shift(2);
+.login-background-wrapper {
+  @include span-columns(12);
+  height: 100%;
   position: relative;
 
-  h1 {
-    margin: 60px 0 40px 0;
-    color: $dark-blue;
-    text-align: center;
-  }
+  div.login-background {
+    position: absolute;
+    background: $dark-blue;
+    width: 100%;
+    height: 50%;
+    left: 0;
+    top: 0;
 
-  .login-card {
-    @include span-columns(6);
-    @include shift(3);
-    border: solid 1px $light-grey;
-    @include border-radius(4px);
-    padding: 40px;
-    background: white;
-
-    label {
-      font-size: 12px;
-      color: $grey;
-    }
-
-    label[for="password"],
-    label[for="dni"] {
-      display: block;
-    }
-
-    input#password, 
-    input#dni {
-      width: 100%;
-      font-size: 15px;
-      margin: 6px 0 12px 0;
-      padding: 8px;
-      border: solid 1px #ccc;
-      @include border-radius(4px);
-    }
-
-    .remember-me {
-      text-align: right;
-      input, label {
-        cursor: pointer;
+    .title-container {
+      @include span-columns(6);
+      @include shift(3);
+      height: 100%;
+      padding-bottom: $card-height/2;
+      display: table;
+      .title-spacer {
+        display: table-cell;
+        vertical-align: middle;
+        h1 {
+          color: white;
+          text-align: center;
+          font-weight: 400;
+          font-size: 24px;
+        }
       }
     }
+  }
 
-    .submit {
-      text-align: center;
-      input[type="submit"] {
-        border: solid 1px transparent;
-        @include border-radius(4px);
-        background: $dark-blue;
-        color: white;
+  div.login-card-container {
+    @include span-columns(8);
+    @include shift(2);
+    height: 100%;
+    display: table;
+    position: relative;
+
+    .login-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -$card-width/2;
+      margin-top: -$card-height/2;
+      width: $card-width;
+      height: $card-height;
+      border: solid 1px $light-grey;
+      @include border-radius(2px);
+      @include box-shadow(0px 0px 4px 0px rgba(0, 0, 0, 0.2));
+      padding: 40px;
+      background: white;
+
+      label {
         font-size: 12px;
-        font-weight: 400;
-        padding: 8px 12px;
-        cursor: pointer;
+        color: $grey;
       }
-    }
 
-    .message {
-      font-size: 12px;
-      color: $grey;
-      margin: 12px 0;
-    }
+      label[for="password"],
+      label[for="dni"] {
+        display: block;
+      }
 
-    .password-reset-description {
-      font-size: 14px;
-    }
-  }
+      input#password, 
+      input#dni {
+        width: 100%;
+        font-size: 15px;
+        margin: 6px 0 12px 0;
+        padding: 8px;
+        border: solid 1px #ccc;
+        @include border-radius(4px);
+      }
 
-  .forgot-password {
-    @include span-columns(12);
-    text-align: center;
-    margin-top: 30px;
-    a {
-      color: $dark-blue;
-      font-weight: 500;
+      .remember-me {
+        text-align: right;
+        input, label {
+          cursor: pointer;
+        }
+      }
+
+      .submit {
+        text-align: center;
+        input[type="submit"] {
+          border: solid 1px transparent;
+          @include border-radius(4px);
+          background: $dark-blue;
+          color: white;
+          font-size: 12px;
+          font-weight: 400;
+          padding: 8px 12px;
+          cursor: pointer;
+        }
+      }
+
+      .message {
+        font-size: 12px;
+        color: $grey;
+        margin: 12px 0;
+      }
+
+      .password-reset-description {
+        font-size: 14px;
+      }
+
+      .forgot-password {
+        position: absolute;
+        bottom: -50px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        a {
+          color: $dark-blue;
+          font-weight: 500;
+        }
+      }
     }
   }
 }
+

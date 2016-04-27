@@ -46,6 +46,12 @@
       }
     }
   }
+
+  #dependencies-tree {
+    @include span-columns(7 of 8);
+    @include shift(1);
+
+  }
 }
 
 #dependencies-menu {
