@@ -4,19 +4,27 @@
     <div id="navigation-content">
 
       <div id="search">
-        <input type="text" id="search-text" placeholder="Buscar por palabra clave">
-        <button id="search-button">Buscar</button>
+        <div id="search-with-icon">
+          <input type="text" id="search-text" placeholder="Buscar por palabra clave">
+          <i class="material-icons">search</i>
+        </div>
       </div>
-      
+    </div>
+    <div id="separator-actions">
       <div id="collapse-expand">
-        <button>DESPLEGAR TODO</button>
-        <button>COLAPSAR TODO</button>
+        <i class="material-icons">view_module</i>
+        <i class="material-icons">view_stream</i>
       </div>
-
+      <button id="superadmin-options">SUPERVISORES</button>
     </div>
   </div>
 
   <div id="dependencies-tree">
+  <% Dependency.tree.each do |node| %>
+    <div>
+      <%= node[:name] %>
+    </div>
+  <% end %>
   </div>
 </div>
 <div id="dependencies-menu">

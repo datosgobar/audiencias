@@ -11,38 +11,52 @@
 
       #search {
         margin: 50px 0;
-        #search-text {
-          border: solid 1px $light-grey;
-          border-radius: 4px;
-          width: 20em;
-          max-width: 70%;
-          padding: 4px;
-          outline: none;
+        #search-with-icon {
+          position: relative;
+          display: inline-block;
+          #search-text {
+            border: solid 1px $light-grey;
+            border-radius: 4px;
+            width: 20em;
+            padding: 4px 30px 4px 4px;
+            outline: none;
+          }
+          i {
+            position: absolute;
+            top: 4px;
+            right: 2px;
+            color: $grey;
+          }
         }
-        #search-button {
-          background: $dark-blue;
-          border: solid 1px transparent;
-          border-radius: 4px;
-          padding: 3px 10px;
-          color: white;
+      }
+    }
+
+    #separator-actions {
+      @include span-columns(8 of 8);
+      text-align: right;
+      border-top: solid 1px $light-grey;
+      #collapse-expand {
+        display: inline-block;
+        border-right: solid 1px $light-grey;
+        margin: 6px 0;
+        padding-right: 10px;
+        i {
+          color: $light-grey;
+          font-size: 30px;
+          vertical-align: middle;
           cursor: pointer;
         }
       }
-
-      #collapse-expand {
-        text-align: right;
-        button {
-          background: white;
-          margin: 0 15px 10px 0;
-          &:first-child {
-            margin-right: 5px;
-          }
-          font-size: 12px;
-          border: solid 1px $light-grey;
-          border-radius: 4px;
-          cursor: pointer;
-          outline: none;
-        }
+      #superadmin-options {
+        background: $dark-blue;
+        color: white;
+        margin: 5px 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 12px;
+        padding: 4px 8px;
+        cursor: pointer;
+        outline: none;
       }
     }
   }
