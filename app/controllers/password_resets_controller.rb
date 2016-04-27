@@ -10,7 +10,7 @@ class PasswordResetsController < ApplicationController
     if user
       user.send_password_reset 
     end
-    @message = 'Si el dni se encuentra en nuestra basde de usuarios se le enviará un email con las instrucciones necesarias. Revise su casilla de mail. '
+    @submitted = true
     render :new
   end
 

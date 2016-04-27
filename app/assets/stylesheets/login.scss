@@ -6,7 +6,7 @@ $card-width: 400px;
   height: 100%;
   position: relative;
 
-  div.login-background {
+  .login-background {
     position: absolute;
     background: $dark-blue;
     width: 100%;
@@ -33,7 +33,7 @@ $card-width: 400px;
     }
   }
 
-  div.login-card-container {
+  .login-card-container {
     @include span-columns(8);
     @include shift(2);
     height: 100%;
@@ -51,8 +51,12 @@ $card-width: 400px;
       border: solid 1px $light-grey;
       @include border-radius(2px);
       @include box-shadow(0px 0px 4px 0px rgba(0, 0, 0, 0.2));
-      padding: 40px;
       background: white;
+      padding: 40px;
+
+      &.password-reset {
+        padding: 26px 40px;
+      }
 
       label {
         font-size: 12px;
@@ -95,12 +99,6 @@ $card-width: 400px;
         }
       }
 
-      .message {
-        font-size: 12px;
-        color: $grey;
-        margin: 12px 0;
-      }
-
       .password-reset-description {
         font-size: 14px;
       }
@@ -116,6 +114,21 @@ $card-width: 400px;
           font-weight: 500;
         }
       }
+
+      &.message {
+        display: table;
+        .message-align {
+          display: table-cell;
+          vertical-align: middle;
+          p {
+            margin: 0 0 10px 0;
+            &:last-child {
+              margin: 0;
+            }
+          }
+        }
+      }
+
     }
   }
 }

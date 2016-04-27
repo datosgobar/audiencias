@@ -1,32 +1,45 @@
-<div class="login-background"></div>
-
-<div class="login-container">
-
-  <h1>Registro Único de Audiencias de Gestión de Intereses del Poder Ejecutivo Nacional</h1>
-
-  <div class="login-card">
-    <%= form_tag send_password_reset_path, :method => :post do %>
-      <div class="password-reset-description">
-        <p>
-          Ingrese su numero de documento y se le enviara un mail con instrucciones para reestablecer su contraseña.
-        </p>
-        <p>
-          En caso de no usar el mismo mail o que no le lleguen las instrucciones, comunicarse con su respectivo administrador.
-        </p>
-
-        <%= text_field_tag :dni, nil, placeholder: 'DNI' %>
+<div class="login-background-wrapper">
+  <div class="login-background">
+      <div class="title-container">
+        <div class="title-spacer">
+          <h1>Registro Único de Audiencias de Gestión de Intereses del Poder Ejecutivo Nacional</h1>
+        </div>
       </div>
-      <div class="submit">
-        <%= submit_tag "Enviar email" %>
-      </div>
+    </div>
+  <div class="login-card-container">
+
+    <% if @submitted %>
+        <div class="login-card message">
+          <div class="message-align">
+            <p>
+              Si el dni se encuentra en nuestra basde de usuarios se le enviará un email con las instrucciones necesarias.
+            </p>
+            <p>
+              Revise su casilla de mail.
+            </p>
+          </div>
+        </div>
+    <% else %>
+      <%= form_tag send_password_reset_path, class: 'login-card password-reset', method: :post do %>
+        <div class="password-reset-description">
+          <p>
+            Ingrese su numero de documento y se le enviara un mail con instrucciones para reestablecer su contraseña.
+          </p>
+          <p>
+            En caso de no usar el mismo mail o que no le lleguen las instrucciones, comunicarse con su respectivo administrador.
+          </p>
+
+          <%= text_field_tag :dni, nil, placeholder: 'DNI' %>
+        </div>
+        <div class="submit">
+          <%= submit_tag "Enviar email" %>
+        </div>
+      <% end %> 
     <% end %>
 
-    <% if @message %>
-      <div class="message">
-        <%= @message %>
-      </div>
-    <% end %> 
+    
+
+
+
   </div>
-
 </div>
-
