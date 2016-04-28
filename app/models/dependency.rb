@@ -9,9 +9,11 @@ class Dependency < ActiveRecord::Base
   
 	validates :name, length: { minimum: 6 }
 
-  def self.tree 
+  def self.for_user(user)
+    # TODO: filtrar el arbol segun permisos de usuario
     active_dependencies = where(active: true).as_json
-    
+    plain_dependencies = active_dependencies.clone
+
     active_dependencies.each do |dependency|
       if dependency['parent_id']
         parent = active_dependencies.find { |parent| parent['id'] == dependency['parent_id'] }
@@ -24,7 +26,10 @@ class Dependency < ActiveRecord::Base
       end
     end
 
-    active_dependencies.select { |d| !d['parent_id'] }
+    {
+      tree: active_dependencies.select { |d| !d['parent_id'] },
+      plain: plain_dependencies
+    }
   end
 
 end

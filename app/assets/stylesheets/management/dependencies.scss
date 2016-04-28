@@ -62,8 +62,21 @@
   }
 }
 
-#dependencies-menu {
+#dependencies-menu-container {
   height: 100%;
   @include span-columns(4);
   background: $light-grey;
+
+  #dependencies-menu-spacer {
+    @include span-columns(4 of 6);
+    @include shift(1 of 6);
+    max-height: 100%;
+    padding: 50px 0;
+    height: 100%;
+
+    #dependencies-menu {
+      background: white;
+      max-height: 100%;
+    }
+  }
 }

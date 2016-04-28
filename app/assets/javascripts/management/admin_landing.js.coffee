@@ -1,6 +1,6 @@
 class window.AdminLanding
 
-  constructor: ->
+  constructor: (@dependencies) ->
     @listenEvents()
 
   listenEvents: ->
@@ -8,7 +8,7 @@ class window.AdminLanding
     $('#expand-all').on('click', @expandAll)
     $('#collapse-all').on('click', @collapseAll)
 
-  dependenctySelected: (e) ->
+  dependenctySelected: (e) =>
     target = $(e.currentTarget)
 
     if target.hasClass('expanded')
@@ -18,8 +18,18 @@ class window.AdminLanding
     else
       target.removeClass('collapsed').addClass('expanded')
 
+    unless target.hasClass('selected')
+      $('li.dependency.selected').removeClass('selected')
+      target.addClass('selected')
+      dependencyId = target.data('dependency-id')
+      @showMenu(dependencyId)
+
   expandAll: ->
     $('li.dependency').removeClass('collapsed').addClass('expanded')
 
   collapseAll: ->
     $('li.dependency').removeClass('expanded').addClass('collapsed')
+
+  showMenu: (dependencyId) ->
+    dependency = _.find(@dependencies, (d) -> d.id == dependencyId ) 
+    $('#dependencies-menu').text(dependency.name)
