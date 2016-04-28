@@ -36,7 +36,8 @@ gem 'neat'
 gem 'compass-rails'
 # https://github.com/markmcconachie/normalize-rails
 gem 'normalize-rails'
-
+# https://github.com/rweng/underscore-rails
+gem 'underscore-rails'
 
 gem 'mysql2', '~> 0.3.18' 
 
