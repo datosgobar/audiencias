@@ -12,8 +12,8 @@
     </div>
     <div id="separator-actions">
       <div id="collapse-expand">
-        <i class="material-icons">view_module</i>
-        <i class="material-icons">view_stream</i>
+        <i class="material-icons" id="expand-all">view_module</i>
+        <i class="material-icons" id="collapse-all">view_stream</i>
       </div>
       <button id="superadmin-options">SUPERVISORES</button>
     </div>
@@ -25,3 +25,10 @@
 </div>
 <div id="dependencies-menu">
 </div>
+
+
+<%= javascript_tag do %>
+  $(function() {
+    new AdminLanding;
+  });
+<% end %>
