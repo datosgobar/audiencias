@@ -20,15 +20,7 @@
   </div>
 
   <div id="dependencies-tree">
-    <ul>
-      <% Dependency.tree.each do |node| %>
-        <li>
-          <i class="material-icons collapsed">chevron_right</i>
-          <i class="material-icons expanded">expand_more</i>
-          <%= node[:name] %>
-        </li>
-      <% end %>
-    </ul>
+    <%= render 'management/dependency_tree', nodes: Dependency.tree, padding_left: 12.5 %>
   </div>
 </div>
 <div id="dependencies-menu">
