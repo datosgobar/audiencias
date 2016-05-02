@@ -1,0 +1,34 @@
+class window.AdminSearch
+
+  constructor: (@dependencies) ->
+    @initializeLunr()
+    @listenEvents()
+
+  initializeLunr: ->
+    @lunr = lunr( ->
+      this.field('name')
+      this.ref('index')
+    )
+    for dependency, index in @dependencies
+      dependency.index = index
+      @lunr.add(dependency)
+
+  listenEvents: ->
+    $('#search-text').on('input', @lunrSearch)
+
+  lunrSearch: (e) =>
+    searchText = $(e.currentTarget).val().trim()
+    
+    if searchText.length > 0 
+      lunrResults = @lunr.search(searchText)
+      results = []
+      for lunrResult in lunrResults
+        results.push(@dependencies[lunrResult.ref])
+      @showResults(results)
+    else 
+      @showBaseList()
+
+  showResults: (results) ->
+    console.log(results)
+
+  showBaseList: ->
