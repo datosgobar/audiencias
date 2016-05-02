@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       else
         cookies[:auth_token] = user.auth_token
       end
-      if user.dependencies.length > 0
+      if user.dependencies.length > 0 or user.is_superadmin
         redirect_to admin_landing_path
       elsif user.obligees.length > 0
         redirect_to operator_landing_path

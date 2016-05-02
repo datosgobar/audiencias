@@ -10,4 +10,8 @@ class ManagementController < ApplicationController
 
   end
 
+  def list_admins
+    render json: User.where(is_superadmin: true)
+  end
+
 end

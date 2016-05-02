@@ -29,4 +29,10 @@ class User < ActiveRecord::Base
 		UserMailer.password_reset(self).deliver
 	end
 
+	def as_json(options={})
+		super({
+			only: [:dni, :email, :id, :is_superadmin, :name, :surname, :telephone]
+		})
+	end
+
 end
