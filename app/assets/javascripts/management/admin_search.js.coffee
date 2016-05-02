@@ -24,11 +24,6 @@ class window.AdminSearch
       results = []
       for lunrResult in lunrResults
         results.push(@dependencies[lunrResult.ref])
-      @showResults(results)
+      $(window).trigger('search:show-results', [results])
     else 
-      @showBaseList()
-
-  showResults: (results) ->
-    console.log(results)
-
-  showBaseList: ->
+      $(window).trigger('search:show-base-list')

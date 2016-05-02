@@ -1,14 +1,16 @@
 class window.AdminDependenciesList
 
-  constructore: ->
+  constructor: ->
     @listenEvents()
 
   listenEvents: ->
-    $('#dependencies-tree').on('click', 'li.dependency', @dependenctySelected)
+    $('#dependencies-tree').on('click', 'li.dependency', @dependencySelected)
     $('#expand-all').on('click', @expandAll)
     $('#collapse-all').on('click', @collapseAll)
+    $(window).on('search:show-results', @showSearchResults)
+      .on('search:show-base-list', @showBaseList)
 
-  dependenctySelected: (e) =>
+  dependencySelected: (e) =>
     target = $(e.currentTarget)
 
     if target.hasClass('expanded')
@@ -27,3 +29,18 @@ class window.AdminDependenciesList
 
   collapseAll: ->
     $('li.dependency').removeClass('expanded').addClass('collapsed')
+
+  showSearchResults: (e, results) ->
+    $('#base-list').addClass('hidden')
+    resultsList = $('#results-list').removeClass('hidden').find('ul').html('')
+
+    for result in results
+      resultEl = $('<li class="dependency">')
+        .data('dependency-id', result.id)
+        .text(result.name)
+        .prepend($('<i class="material-icons collapsed">chevron_right</i>'))
+      resultsList.append(resultEl)
+
+  showBaseList: (e) ->
+    $('#base-list').removeClass('hidden')
+    $('#results-list').addClass('hidden')

@@ -20,7 +20,12 @@
   </div>
 
   <div id="dependencies-tree">
-    <%= render 'management/dependency_tree', nodes: @dependencies[:tree], padding_left: 12.5 %>
+    <div id="base-list">
+      <%= render 'management/dependency_tree', nodes: @dependencies[:tree], padding_left: 12.5 %>
+    </div>
+    <div id="results-list" class="hidden">
+      <ul></ul>
+    </div>
   </div>
 </div>
 <div id="dependencies-menu-container">
@@ -30,7 +35,7 @@
 
 <%= javascript_tag do %>
   $(function() {
-    dependencies = <%= raw @dependencies[:plain].to_json %>
+    window.dependencies = <%= raw @dependencies[:plain].to_json %>
     new AdminLanding(dependencies);
   });
 <% end %>
