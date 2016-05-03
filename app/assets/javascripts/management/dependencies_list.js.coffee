@@ -1,4 +1,4 @@
-class window.AdminDependenciesList
+class window.DependenciesList
 
   constructor: ->
     @listenEvents()

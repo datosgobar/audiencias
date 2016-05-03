@@ -1,6 +1,7 @@
-class window.AdminList
+class window.AdminMenu extends window.AbstractMenu
 
   constructor: ->
+    @menuId = '#admin-menu'
     @listenEvents()
 
   listenEvents: ->
@@ -80,13 +81,7 @@ class window.AdminList
 
       adminList.append(adminEl)
 
-  showTopMenu: ->
-    $('#admin-menu .top-menu').removeClass('hidden')
-    $('#admin-menu .cancel-top-action').addClass('hidden')
 
-  showCancelAction: ->
-    $('#admin-menu .top-menu').addClass('hidden')
-    $('#admin-menu .cancel-top-action').removeClass('hidden')
 
   showRemoveIcons: =>
     @showAdminList()

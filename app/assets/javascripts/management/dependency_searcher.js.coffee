@@ -1,4 +1,4 @@
-class window.AdminSearch
+class window.DependencySearcher
 
   constructor: (@dependencies) ->
     @initializeLunr()

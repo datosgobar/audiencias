@@ -1,11 +1,13 @@
-class window.AdminDependencyEditor
+class window.DependencyMenu extends window.AbstractMenu
 
   constructor: (@dependencies) ->
+    @menuId = '#dependencies-menu'
     @listenEvents()
 
   listenEvents: ->
     $(window).on('dependency:selected', @showDependencyMenu)
     $('#dependencies-tree .add-new-dependency').on('click', @showNewDependencyForm)
+    $('#admin-menu #add-dependency').on('click', @showNewDependencyForm)
 
   showDependencyMenu: (e, dependencyId) ->
     $('#admin-menu').addClass('hidden')
@@ -13,5 +15,6 @@ class window.AdminDependencyEditor
     $('#dependencies-menu').removeClass('hidden').text(dependency.name)
 
   showNewDependencyForm: ->
+    @showCancelAction()
     $('#admin-menu').addClass('hidden')
     $('#dependencies-menu').removeClass('hidden')
