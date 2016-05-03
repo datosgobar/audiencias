@@ -58,6 +58,7 @@
       top: 0;
       right: 8px;
       padding-top: $icon-height;
+      text-align: left;
       ul {
         margin: 0;
         list-style: none;
@@ -160,7 +161,7 @@
       }
       &.user-form {
         .user-icon {
-          top: 35px;
+          top: 40px;
           font-size: 20px;
         }
         label {
@@ -178,6 +179,27 @@
           width: 100%;
           font-size: 14px;
           padding: 4px;
+        }
+        .type-and-doc {
+          position: relative;
+          select#new-admin-id-type {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 36px;
+            font-size: 14px;
+            height: 29px;
+            display: inline-block;
+            outline: none;
+            border: solid 1px #ccc;
+            background: none;
+            -webkit-appearance:none;
+            padding: 0 4px;
+            text-align-last: center;
+          }
+          .id-spacer {
+            margin-left: 40px;
+          }
         }
       }
     }

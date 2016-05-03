@@ -10,8 +10,11 @@
   <div class="login-card-container">
 
     <%= form_tag login_url, class: 'login-card' do %>
-      <%= label_tag(:dni, 'DNI') %>
-      <%= text_field_tag(:dni, nil, autofocus: true) %>
+      <%= label_tag(:id, 'Tipo y nro de documento') %>
+      <div class="type-and-doc">
+        <%= select_tag(:id_type, options_for_select(['DNI', 'LC', 'LE'])) %>
+        <%= text_field_tag(:id, nil, autofocus: true) %>
+      </div>
       
       <%= label_tag(:password, 'Contraseña') %>
       <%= password_field_tag(:password) %>

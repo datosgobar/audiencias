@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   end
 
   def login_attempt
-    user = User.find_by_dni(params[:dni])
+    user = User.find_by_document(params[:id_type], params[:id])
     password = params[:password]
     if user and user.authenticate(password)
       if params[:remember_me]

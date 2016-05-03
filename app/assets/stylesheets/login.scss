@@ -82,7 +82,7 @@ $card-width: 400px;
       }
 
       input#password, 
-      input#dni,
+      input#id,
       input#user_password {
         width: 100%;
         font-size: 15px;
@@ -91,6 +91,29 @@ $card-width: 400px;
         border: solid 1px #ccc;
         @include border-radius(4px);
       }
+
+      .type-and-doc {
+        input#id {
+          width: 80%;
+          float: right;
+        }
+
+        select#id_type {
+          width: 18%;
+          font-size: 16px;
+          height: 38px;
+          display: inline-block;
+          margin: 6px 0 12px 0;
+          outline: none;
+          border: solid 1px #ccc;
+          line-height: 38px;
+          background: none;
+          -webkit-appearance:none;
+          padding: 0 4px;
+          text-align-last: center;
+        }
+      }
+      
 
       .remember-me {
         text-align: right;

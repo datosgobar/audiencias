@@ -15,13 +15,13 @@ class ManagementController < ApplicationController
   end
 
   def new_admin
-    dni = params[:dni]
-    user = User.find_by_dni(dni)
+    user = User.find_by_document(params[:id_type], params[:id])
     newUser = !user
     
     unless user
       user = User.new
-      user.dni = dni
+      user.id_type = params[:id_type]
+      user.dni = params[:id]
       require 'securerandom'
       user.password = SecureRandom.urlsafe_base64(8)
     end
@@ -40,7 +40,7 @@ class ManagementController < ApplicationController
   end
 
   def remove_admin
-    user = User.find_by_dni(params[:dni])
+    user = User.find_by_document(params[:id_type], params[:id])
     user.is_superadmin = false
     if user.save 
       render json: { success: true }

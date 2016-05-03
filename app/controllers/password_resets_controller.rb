@@ -4,7 +4,7 @@ class PasswordResetsController < ApplicationController
   end
 
   def create
-    user = User.find_by_dni(params[:dni])
+    user = User.find_by_document(params[:id_type], params[:id])
     if user
       user.send_password_reset 
     end

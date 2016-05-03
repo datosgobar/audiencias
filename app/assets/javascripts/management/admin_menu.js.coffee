@@ -8,7 +8,7 @@ class window.AdminMenu extends window.AbstractMenu
     $('#superadmin-options').on('click', @showAdminMenu)
     $('#admin-menu .user-section-add').on('click', @showNewAdminForm)
     $('#admin-menu .cancel-top-action .cancel').on('click', @showDefault)
-    $('#submit-new-admin').on('click', @createNewAdmin)
+    $('#submit-new-admin').on('click', @submitAdmin)
     $('#remove-admin').on('click', @showRemoveIcons)
     $('#supervisors-list').on('click', '.user.removable', @removeAdmin)
     $('#supervisors-list').on('click', '.user.editable', @editAdmin)
@@ -51,7 +51,7 @@ class window.AdminMenu extends window.AbstractMenu
     @populateForm(admin)
 
   populateForm: (admin) ->
-    $('#new-admin-dni').val(admin.dni).prop('disabled', true)
+    $('#new-admin-id').val(admin.dni).prop('disabled', true)
     $('#new-admin-name').val(admin.name)
     $('#new-admin-surname').val(admin.surname)
     $('#new-admin-email').val(admin.email)
@@ -68,7 +68,7 @@ class window.AdminMenu extends window.AbstractMenu
   renderAdminList: =>
     adminList = $('#supervisors-list').html('')
     for admin in @admins 
-      adminEl = $('<li class="user">').data('dni', admin.dni)
+      adminEl = $('<li class="user">').data('admin', admin)
       userIcon = $('<span class="user-icon">').text((admin.name[0] + admin.surname[0]).toUpperCase())
       userName = $('<div class="user-name">').text("#{admin.name} #{admin.surname}")
       userDocument = $('<div class="user-document">').text(admin.dni)
@@ -100,9 +100,10 @@ class window.AdminMenu extends window.AbstractMenu
   cleanForm: ->
     $('#new-admin-form input').val('').prop('disabled', false)
 
-  createNewAdmin: =>
+  submitAdmin: =>
     newAdminData = {
-      dni: $('#new-admin-dni').val().trim(),
+      id_type: $('#new-admin-id-type').val().trim(),
+      id: $('#new-admin-id').val().trim(),
       name: $('#new-admin-name').val().trim()
       surname: $('#new-admin-surname').val().trim()
       email: $('#new-admin-email').val().trim()
@@ -114,10 +115,14 @@ class window.AdminMenu extends window.AbstractMenu
     if response and response.success
       @admins = null
       @showDefault()
+    else
+      $('#new-admin-form input, #new-admin-form button').prop('disabled', false)
 
   removeAdmin: (e) =>
+    admin = $(e.currentTarget).data('admin')
     data = {
-      dni: $(e.currentTarget).data('dni')
+      id_type: admin.id_type,
+      id: admin.dni
     }
     $.post('/administracion/eliminar_supervisor', data, @removeAdminCallback)
 
@@ -127,6 +132,5 @@ class window.AdminMenu extends window.AbstractMenu
       @showDefault()
 
   editAdmin: (e) =>
-    dni = $(e.currentTarget).data('dni')
-    admin = _.find(@admins, (a) -> a.dni == dni)
+    admin = $(e.currentTarget).data('admin')
     @showEditForm(admin)

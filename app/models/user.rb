@@ -32,8 +32,13 @@ class User < ActiveRecord::Base
 
 	def as_json(options={})
 		super({
-			only: [:dni, :email, :id, :is_superadmin, :name, :surname, :telephone]
+			only: [:dni, :id_type, :email, :id, :is_superadmin, :name, :surname, :telephone]
 		})
 	end
 
+	def self.find_by_document(id_type, id)
+		id_type = id_type.strip.downcase
+		id = id.to_i
+		where(id_type: id_type, dni: id).first
+	end
 end

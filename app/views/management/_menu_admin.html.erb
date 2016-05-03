@@ -34,8 +34,13 @@
     <div id="new-admin-form" class="hidden">
       <div  class="user user-form">
         <span class="user-icon">+</span>
-        <label for="new-admin-dni">Tipo y nro. de documento</label>
-        <input type="text" id="new-admin-dni" placeholder="00000000">
+        <label for="new-admin-id">Tipo y nro. de documento</label>
+        <div class="type-and-doc">
+          <%= select_tag('new-admin-id-type', options_for_select(['DNI', 'LC', 'LE'])) %>
+          <div class="id-spacer">
+            <input type="text" id="new-admin-id" placeholder="00000000">
+          </div>
+        </div>
         <label for="new-admin-name">Nombre</label>
         <input type="text" id="new-admin-name" placeholder="Nombre">
         <label for="new-admin-surname">Apellido</label>
