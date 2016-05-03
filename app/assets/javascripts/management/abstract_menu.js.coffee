@@ -2,7 +2,6 @@ class window.AbstractMenu
 
   constructor: ->
 
-
   showTopMenu: =>
     $("#{@menuId} .top-menu").removeClass('hidden')
     $("#{@menuId} .cancel-top-action").addClass('hidden')

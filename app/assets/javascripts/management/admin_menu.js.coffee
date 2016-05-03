@@ -81,8 +81,6 @@ class window.AdminMenu extends window.AbstractMenu
 
       adminList.append(adminEl)
 
-
-
   showRemoveIcons: =>
     @showAdminList()
     @showCancelAction()
@@ -115,7 +113,7 @@ class window.AdminMenu extends window.AbstractMenu
   createNewAdminCallback: (response) =>
     if response and response.success
       @admins = null
-      @showAdminList()
+      @showDefault()
 
   removeAdmin: (e) =>
     data = {
@@ -126,7 +124,7 @@ class window.AdminMenu extends window.AbstractMenu
   removeAdminCallback: (response) =>
     if response and response.success
       @admins = null
-      @hideNewAdminForm()
+      @showDefault()
 
   editAdmin: (e) =>
     dni = $(e.currentTarget).data('dni')

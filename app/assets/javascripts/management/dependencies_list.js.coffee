@@ -21,8 +21,9 @@ class window.DependenciesList
     unless target.hasClass('selected')
       $('li.dependency.selected').removeClass('selected')
       target.addClass('selected')
-      dependencyId = target.data('dependency-id')
-      $(window).trigger('dependency:selected', [dependencyId])
+      
+    dependencyId = target.data('dependency-id')
+    $(window).trigger('dependency:selected', [dependencyId])
 
   expandAll: ->
     $('li.dependency').removeClass('collapsed').addClass('expanded')
