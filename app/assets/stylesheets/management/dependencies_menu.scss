@@ -94,8 +94,8 @@
     text-align: left;
     padding: 10px 0 0 10px;
     color: #aaa;
-    cursor: pointer;
     .cancel {
+      cursor: pointer;
       font-size: 14px;
       font-weight: 500;
       img {
@@ -115,9 +115,7 @@
         height: 24px;
         vertical-align: text-bottom;
         float: right;
-        &.user-section-add {
-          cursor: pointer;
-        }
+        cursor: pointer;
       }
     }
     ul {
@@ -128,16 +126,9 @@
     .user {
       position: relative;
       padding: 10px 10px 10px 55px;
-      &.removable {
+      &.removable,
+      &.editable {
         cursor: pointer;
-        &:hover {
-          .user-icon {
-            display: none
-          }
-          .user-icon.remove-icon {
-            display: block;
-          }
-        }
       }
       .user-icon {
         position: absolute;
@@ -152,9 +143,6 @@
         line-height: 38px;
         margin-right: 5px;
         margin-top: -20px;
-        &.remove-icon {
-          display: none;
-        }
       }
       &.user-form {
         .user-icon {

@@ -6,62 +6,106 @@ class window.AdminList
   listenEvents: ->
     $('#superadmin-options').on('click', @showAdminMenu)
     $('#admin-menu .user-section-add').on('click', @showNewAdminForm)
-    $('#admin-menu .cancel-top-action .cancel').on('click', @hideNewAdminForm)
+    $('#admin-menu .cancel-top-action .cancel').on('click', @showDefault)
     $('#submit-new-admin').on('click', @createNewAdmin)
     $('#remove-admin').on('click', @showRemoveIcons)
     $('#supervisors-list').on('click', '.user.removable', @removeAdmin)
+    $('#supervisors-list').on('click', '.user.editable', @editAdmin)
+    $('#edit-admins').on('click', @showEditIcons)
 
   showAdminMenu: =>
-    $('#dependencies-menu').addClass('hidden')
     $('#admin-menu').removeClass('hidden')
-    @hideNewAdminForm()
+      .siblings().addClass('hidden')
+    @showDefault()
+
+  showDefault: =>
+    @showTopMenu()
+    @showAdminList()
+    @showAddIcon()
+
+  showAdminList: ->
+    $('#supervisors-list').removeClass('hidden')
+    $('#new-admin-form').addClass('hidden')
+    @loadAdmins()
+
+  showAddIcon: ->
+    $('#admin-menu .user-section-add').removeClass('hidden')
+    $('#admin-menu .user-section-remove').addClass('hidden')
+    $('#admin-menu .user-section-edit').addClass('hidden')
+
+  hideAllIcons: ->
+    $('#admin-menu .user-section-add').addClass('hidden')
+    $('#admin-menu .user-section-remove').addClass('hidden')
+    $('#admin-menu .user-section-edit').addClass('hidden')
+
+  showNewAdminForm: =>
+    @showCancelAction()
+    $('#supervisors-list').addClass('hidden')
+    $('#new-admin-form').removeClass('hidden')
+    @hideAllIcons()
+    @cleanForm()
+
+  showEditForm: (admin) ->
+    @showNewAdminForm()
+    @populateForm(admin)
+
+  populateForm: (admin) ->
+    $('#new-admin-dni').val(admin.dni).prop('disabled', true)
+    $('#new-admin-name').val(admin.name)
+    $('#new-admin-surname').val(admin.surname)
+    $('#new-admin-email').val(admin.email)
 
   loadAdmins: =>
     if @admins 
-      @showAdminList()
+      @renderAdminList()
     else
       $.getJSON('/administracion/listar_supervisores', (response) =>
         @admins = response
-        @showAdminList()
+        @renderAdminList()
       )
 
-  showAdminList: =>
+  renderAdminList: =>
     adminList = $('#supervisors-list').html('')
     for admin in @admins 
       adminEl = $('<li class="user">').data('dni', admin.dni)
       userIcon = $('<span class="user-icon">').text((admin.name[0] + admin.surname[0]).toUpperCase())
-      removeIcon = $('<span class="user-icon remove-icon">').text('X')
       userName = $('<div class="user-name">').text("#{admin.name} #{admin.surname}")
       userDocument = $('<div class="user-document">').text(admin.dni)
       userEmail = $('<div class="user-email">').text(admin.email)
       
       adminEl.append(userIcon)
-      adminEl.append(removeIcon)
       adminEl.append(userName)
       adminEl.append(userDocument)
       adminEl.append(userEmail)
 
       adminList.append(adminEl)
 
-  showNewAdminForm: =>
-    $('#admin-menu .top-menu').addClass('hidden')
-    $('#admin-menu .cancel-top-action').removeClass('hidden')
-    $('#supervisors-list').addClass('hidden')
-    $('#new-admin-form').removeClass('hidden')
-    $('#admin-menu .user-section-add').addClass('hidden')
-    @cleanForm()
-
-  hideNewAdminForm: =>
+  showTopMenu: ->
     $('#admin-menu .top-menu').removeClass('hidden')
     $('#admin-menu .cancel-top-action').addClass('hidden')
-    $('#supervisors-list').removeClass('hidden')
-    $('#new-admin-form').addClass('hidden')
-    $('#admin-menu .user-section-add').removeClass('hidden')
+
+  showCancelAction: ->
+    $('#admin-menu .top-menu').addClass('hidden')
+    $('#admin-menu .cancel-top-action').removeClass('hidden')
+
+  showRemoveIcons: =>
+    @showAdminList()
+    @showCancelAction()
+    $('#admin-menu .user-section-add').addClass('hidden')
+    $('#admin-menu .user-section-edit').addClass('hidden')
+    $('#admin-menu .user-section-remove').removeClass('hidden')
+    $('#supervisors-list li.user').addClass('removable')
+
+  showEditIcons: =>
+    @showAdminList()
+    @showCancelAction()
+    $('#admin-menu .user-section-add').addClass('hidden')
     $('#admin-menu .user-section-remove').addClass('hidden')
-    @loadAdmins()
+    $('#admin-menu .user-section-edit').removeClass('hidden')
+    $('#supervisors-list li.user').addClass('editable')
 
   cleanForm: ->
-    $('#new-admin-form input').val('')
+    $('#new-admin-form input').val('').prop('disabled', false)
 
   createNewAdmin: =>
     newAdminData = {
@@ -76,15 +120,7 @@ class window.AdminList
   createNewAdminCallback: (response) =>
     if response and response.success
       @admins = null
-      @hideNewAdminForm()
-
-  showRemoveIcons: =>
-    @hideNewAdminForm()
-    $('#admin-menu .user-section-add').addClass('hidden')
-    $('#admin-menu .user-section-remove').removeClass('hidden')
-    $('#admin-menu .top-menu').addClass('hidden')
-    $('#admin-menu .cancel-top-action').removeClass('hidden')
-    $('#supervisors-list li.user').addClass('removable')
+      @showAdminList()
 
   removeAdmin: (e) =>
     data = {
@@ -96,3 +132,8 @@ class window.AdminList
     if response and response.success
       @admins = null
       @hideNewAdminForm()
+
+  editAdmin: (e) =>
+    dni = $(e.currentTarget).data('dni')
+    admin = _.find(@admins, (a) -> a.dni == dni)
+    @showEditForm(admin)
