@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 	validates :surname, presence: true
 	validates :email, format: { with: GLOBALS::EMAIL_REGEX }, uniqueness: { case_sensitive: false }
 	validates :dni, presence: true, uniqueness: true
+	validates_numericality_of :dni, only_integer: true, greater_than: 0
 	validates :password, length: { minimum: 6 }, allow_nil: true
 	validates :auth_token, uniqueness: true
 

@@ -1,7 +1,7 @@
 class window.AdminLanding
 
   constructor: (dependencies) ->
-    @searcher = new window.AdminSearch(dependencies)
-    @results = new window.AdminDependenciesList(dependencies)
-    @dependencyEditor = new window.AdminDependencyEditor(dependencies)
-    @adminEditor = new window.AdminEditor
+    new window.AdminSearch(dependencies)
+    new window.AdminDependenciesList(dependencies)
+    new window.AdminDependencyEditor(dependencies)
+    new window.AdminList

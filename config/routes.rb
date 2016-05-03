@@ -15,4 +15,6 @@ Rails.application.routes.draw do
   get '/administracion/sujeto_obligado/:id', to: 'management#operator_landing', as: 'operator_landing'
 
   get '/administracion/listar_supervisores', to: 'management#list_admins'
+  post '/administracion/nuevo_supervisor', to: 'management#new_admin'
+  post '/administracion/eliminar_supervisor', to: 'management#remove_admin'
 end

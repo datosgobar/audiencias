@@ -95,9 +95,13 @@
     padding: 10px 0 0 10px;
     color: #aaa;
     cursor: pointer;
-    img {
-      height: 20px;
-      vertical-align: sub;
+    .cancel {
+      font-size: 14px;
+      font-weight: 500;
+      img {
+        height: 18px;
+        vertical-align: sub;
+      }
     }
   } 
 }
@@ -111,7 +115,9 @@
         height: 24px;
         vertical-align: text-bottom;
         float: right;
-        cursor: pointer;
+        &.user-section-add {
+          cursor: pointer;
+        }
       }
     }
     ul {
@@ -122,6 +128,17 @@
     .user {
       position: relative;
       padding: 10px 10px 10px 55px;
+      &.removable {
+        cursor: pointer;
+        &:hover {
+          .user-icon {
+            display: none
+          }
+          .user-icon.remove-icon {
+            display: block;
+          }
+        }
+      }
       .user-icon {
         position: absolute;
         top: 50%;
@@ -135,6 +152,9 @@
         line-height: 38px;
         margin-right: 5px;
         margin-top: -20px;
+        &.remove-icon {
+          display: none;
+        }
       }
       &.user-form {
         .user-icon {
