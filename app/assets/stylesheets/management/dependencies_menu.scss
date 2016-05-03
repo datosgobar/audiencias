@@ -13,108 +13,173 @@
     .side-menu {
       position: relative;
       background: white;
-      max-height: 100%;
+      height: 100%;
       padding-bottom: 20px;
+      @include box-shadow(0px 0px 4px 0px rgba(0, 0, 0, 0.2));
+      overflow-y: auto;
 
-      .top-menu {
-        position: absolute;
-        top: 8px;
-        right: 6px;
-        
-        $icon-height: 42px;
-        img {
-          width: $icon-height;
-          position: absolute;
-          top: 0;
-          right: 0;
-          &.settings-icon-hover {
-            display: none;
-          }
-        }
-
-        .menu-dropdown {
-          display: none;
-          position: absolute;
-          top: 0;
-          right: 0;
-          padding-top: $icon-height / 1.3;
-          ul {
-            margin: 0;
-            list-style: none;
-            background: white;
-            padding: 0;
-            white-space: nowrap;
-            max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            border: solid 1px #ccc;
-            border-radius: 2px;
-            font-size: 13px;
-            min-width: 190px;
-            li {
-              border-bottom: solid 1px #ccc;
-              margin: 6px;
-              padding-bottom: 6px;
-              cursor: pointer;
-              &:last-child {
-                border: none;
-              }
-            }
-          }
-        }
-
-        &:hover {
-          img.settings-icon {
-            display: none;
-          }
-          img.settings-icon-hover {
-            display: block;
-          }
-          .menu-dropdown {
-            display: block;
-          }
-        }
-      }
-      
       .title {
-        padding: 50px 0;
+        padding: 20px 0 50px 0;
         font-size: 18px;
         text-align: center;
       }
 
-      .user-section {
-        padding: 0 20px;
-        .user-section-title {
+    }
+  }
+}
+
+.side-menu {
+  .top-actions {
+    text-align: right;
+    height: 40px;
+  }
+
+  .top-menu {
+    display: inline-block;
+    padding: 8px 6px 0 0;
+    
+    $icon-height: 42px;
+    img {
+      width: $icon-height;
+      &.settings-icon-hover {
+        display: none;
+      }
+    }
+
+    .menu-dropdown {
+      display: none;
+      position: absolute;
+      top: 0;
+      right: 8px;
+      padding-top: $icon-height;
+      ul {
+        margin: 0;
+        list-style: none;
+        background: white;
+        padding: 0;
+        white-space: nowrap;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        border: solid 1px #ccc;
+        border-radius: 2px;
+        font-size: 13px;
+        min-width: 190px;
+        li {
           border-bottom: solid 1px #ccc;
-          img {
-            height: 24px;
-            vertical-align: text-bottom;
-            float: right;
+          margin: 6px;
+          padding-bottom: 6px;
+          cursor: pointer;
+          &:last-child {
+            border: none;
           }
         }
-        ul {
-          padding: 0;
-          margin: 0;
-          list-style: none;
-          .user {
-            position: relative;
-            padding: 10px 10px 10px 55px;
-            .user-icon {
-              position: absolute;
-              top: 50%;
-              left: 5px;
-              border: solid 1px $grey;
-              @include border-radius(50%);
-              display: inline-block;
-              width: 40px;
-              height: 40px;
-              text-align: center;
-              line-height: 38px;
-              margin-right: 5px;
-              margin-top: -20px;
-            }
-          }
+      }
+    }
+
+    &:hover {
+      img.settings-icon {
+        display: none;
+      }
+      img.settings-icon-hover {
+        display: inline-block;
+      }
+      .menu-dropdown {
+        display: block;
+      }
+    }
+  } 
+
+  .cancel-top-action {
+    text-align: left;
+    padding: 10px 0 0 10px;
+    color: #aaa;
+    cursor: pointer;
+    img {
+      height: 20px;
+      vertical-align: sub;
+    }
+  } 
+}
+
+.side-menu {
+  .user-section {
+    padding: 0 20px;
+    .user-section-title {
+      border-bottom: solid 1px #ccc;
+      img {
+        height: 24px;
+        vertical-align: text-bottom;
+        float: right;
+        cursor: pointer;
+      }
+    }
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    .user {
+      position: relative;
+      padding: 10px 10px 10px 55px;
+      .user-icon {
+        position: absolute;
+        top: 50%;
+        left: 5px;
+        border: solid 1px $grey;
+        @include border-radius(50%);
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        line-height: 38px;
+        margin-right: 5px;
+        margin-top: -20px;
+      }
+      &.user-form {
+        .user-icon {
+          top: 35px;
+          font-size: 20px;
         }
+        label {
+          color: #555;
+          font-size: 12px;
+          display: block;
+          padding: 4px 0;
+        }
+        input {
+          border: solid 1px #bbb;
+          border-radius: 4px;
+          background: none;
+          outline: none;
+          display: block;
+          width: 100%;
+          font-size: 14px;
+          padding: 4px;
+        }
+      }
+    }
+
+    #new-admin-actions {
+      padding: 0 10px;
+      text-align: right;
+    }
+
+    button {
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      padding: 4px 8px;
+      cursor: pointer;
+      outline: none;
+      margin: 0;
+      &.submit {
+        background: $dark-blue;
+      }
+      &.cancel {
+        background: #aaa;
+        margin-right: 5px;
       }
     }
   }

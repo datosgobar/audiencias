@@ -13,39 +13,43 @@
         <% if @current_user %>
 
           <div class="user-dropdown-menu">
-            <span class="user-icon">
-              <%= initials(@current_user) %>
-            </span>
+            <div class="dropdown-shadow">
+              <span class="user-icon">
+                <%= initials(@current_user) %>
+              </span>
 
-            <span class="username">
-              <%= @current_user[:name] %>
-              <%= @current_user[:surname] %>
-            </span>
+              <span class="username">
+                <%= @current_user[:name] %>
+                <%= @current_user[:surname] %>
+              </span>
 
-            <i class="material-icons">&#xE313;</i>
+              <i class="material-icons">&#xE313;</i>
+            </div>
 
-            <ul class="hidden-menu">
-              <a href="#">
-                <li>
-                  PERFIL
-                </li>
-              </a>
-              <a href="#">
-                <li>
-                  CONFIGURACIÓN
-                </li>
-              </a>
-              <a href="#">
-                <li>
-                  AYUDA
-                </li>
-              </a>
-              <a href="<%= logout_path %>">
-                <li>
-                  CERRAR SESION
-                </li>
-              </a>
-            </ul>
+            <div class="hidden-menu">
+              <ul>
+                <a href="#">
+                  <li>
+                    PERFIL
+                  </li>
+                </a>
+                <a href="#">
+                  <li>
+                    CONFIGURACIÓN
+                  </li>
+                </a>
+                <a href="#">
+                  <li>
+                    AYUDA
+                  </li>
+                </a>
+                <a href="<%= logout_path %>">
+                  <li>
+                    CERRAR SESION
+                  </li>
+                </a>
+              </ul>
+            </div>
 
           </div>
 

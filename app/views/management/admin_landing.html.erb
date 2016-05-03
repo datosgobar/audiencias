@@ -22,6 +22,10 @@
   <div id="dependencies-tree">
     <div id="base-list">
       <%= render 'management/dependency_tree', nodes: @dependencies[:tree], padding_left: 12.5 %>
+      <div class="add-new-dependency">
+        <%= image_tag 'logo-agregar' %>
+        Agregar nueva dependencia
+      </div>
     </div>
     <div id="results-list" class="hidden">
       <ul></ul>
@@ -29,7 +33,10 @@
   </div>
 </div>
 <div id="dependencies-menu-container">
-  <%= render 'side_menu' %>
+  <div id="dependencies-menu-spacer">
+  <%= render 'menu_dependency' %>
+  <%= render 'menu_admin' %>
+  </div>
 </div>
 
 

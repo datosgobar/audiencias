@@ -53,4 +53,16 @@
   #results-list ul li {
     padding-left: 12.5%;
   }
+
+  .add-new-dependency {
+    cursor: pointer;
+    padding-left: 12.5%;
+    &:hover {
+      background: $inactive;
+    }
+    img {
+      height: 25px;
+      vertical-align: middle;
+    }
+  }
 }

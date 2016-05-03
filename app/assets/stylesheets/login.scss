@@ -47,12 +47,16 @@ $card-width: 400px;
       margin-left: -$card-width/2;
       margin-top: -$card-height/2;
       width: $card-width;
-      height: $card-height;
+      min-height: $card-height;
       border: solid 1px $light-grey;
       @include border-radius(2px);
       @include box-shadow(0px 0px 4px 0px rgba(0, 0, 0, 0.2));
       background: white;
       padding: 40px;
+
+      .message {
+        padding: 8px 0;
+      }
 
       &.password-reset {
         padding: 26px 40px;
