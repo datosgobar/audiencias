@@ -10,7 +10,7 @@ class window.AdminMenu extends window.AbstractMenu
     $('#admin-menu .cancel-top-action .cancel').on('click', @showDefault)
     $('#submit-new-admin').on('click', @submitAdmin)
     $('#remove-admin').on('click', @showRemoveIcons)
-    $('#supervisors-list').on('click', '.user.removable', @removeAdmin)
+    $('#supervisors-list').on('click', '.user.removable', @confirmRemoveAdmin)
     $('#supervisors-list').on('click', '.user.editable', @editAdmin)
     $('#edit-admins').on('click', @showEditIcons)
 
@@ -118,8 +118,22 @@ class window.AdminMenu extends window.AbstractMenu
     else
       $('#new-admin-form input, #new-admin-form button').prop('disabled', false)
 
-  removeAdmin: (e) =>
+  confirmRemoveAdmin: (e) =>
     admin = $(e.currentTarget).data('admin')
+    options = {
+      icon: 'alert',
+      confirmation: true,
+      text: {
+        main: '¿Estás seguro de eliminar al supervisor?',
+        secondary: 'Recordá que estos cambios afectan la base de datos del sistema y no tienen modificación.'
+      },
+      callback: {
+        confirm: => @removeAdmin(admin)
+      }
+    }
+    $(window).trigger('important-message', [options])
+
+  removeAdmin: (admin) =>
     data = {
       id_type: admin.id_type,
       id: admin.dni

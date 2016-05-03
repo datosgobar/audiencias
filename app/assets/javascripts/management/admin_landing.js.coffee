@@ -5,3 +5,4 @@ class window.AdminLanding
     new window.DependenciesList(dependencies)
     new window.DependencyMenu(dependencies)
     new window.AdminMenu
+    new window.ImportantMessage
