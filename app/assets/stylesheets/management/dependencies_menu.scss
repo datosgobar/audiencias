@@ -19,9 +19,15 @@
       overflow-y: auto;
 
       .title {
-        padding: 20px 0 50px 0;
+        padding: 20px 10px 50px 10px;
         font-size: 18px;
         text-align: center;
+        .title-button {
+          padding-top: 10px;
+          button {
+            font-size: 10px;
+          }          
+        }
       }
 
     }
@@ -61,15 +67,17 @@
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
-        border: solid 1px #ccc;
+        border: solid 1px #ddd;
         border-radius: 2px;
         font-size: 13px;
         min-width: 190px;
         li {
-          border-bottom: solid 1px #ccc;
-          margin: 6px;
-          padding-bottom: 6px;
+          border-bottom: solid 1px #ddd;
+          padding: 6px 6px 12px 6px;
           cursor: pointer;
+          &:hover {
+            background: #fafafa;
+          }
           &:last-child {
             border: none;
           }
@@ -109,13 +117,16 @@
 .side-menu {
   .user-section {
     padding: 0 20px;
+    margin-bottom: 20px;
     .user-section-title {
       border-bottom: solid 1px #ccc;
       img {
         height: 24px;
         vertical-align: text-bottom;
         float: right;
-        cursor: pointer;
+        &.user-section-add {
+          cursor: pointer;
+        }
       }
     }
     ul {
@@ -129,6 +140,9 @@
       &.removable,
       &.editable {
         cursor: pointer;
+        &:hover {
+          background: #fafafa;
+        }
       }
       .user-icon {
         position: absolute;
@@ -172,23 +186,24 @@
       padding: 0 10px;
       text-align: right;
     }
+  }
 
-    button {
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-size: 12px;
-      padding: 4px 8px;
-      cursor: pointer;
-      outline: none;
-      margin: 0;
-      &.submit {
-        background: $dark-blue;
-      }
-      &.cancel {
-        background: #aaa;
-        margin-right: 5px;
-      }
+  button {
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 4px 8px;
+    cursor: pointer;
+    outline: none;
+    margin: 0;
+    &.submit,
+    &.primary {
+      background: $dark-blue;
+    }
+    &.cancel {
+      background: #aaa;
+      margin-right: 5px;
     }
   }
 }

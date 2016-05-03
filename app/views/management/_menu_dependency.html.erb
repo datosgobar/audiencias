@@ -19,4 +19,43 @@
       </span>
     </div>
   </div>
+
+  <div class="title">
+    <div class="title-text"></div>
+    <div class="title-button">
+      <button id="see-current-dependency-admin" class="primary">VER ADMINISTRADOR</button>
+      <button id="hide-current-dependency-admin" class="hidden">VOLVER</button>
+    </div>
+  </div>
+
+  <div id="current-dependency-admin" class="user-section hidden">
+    <div class="user-section-title">
+      Administrador
+      <%= image_tag 'logo-agregar', class: 'user-section-add' %>
+      <%= image_tag 'icon-cancelar', class: 'user-section-remove hidden' %>
+      <%= image_tag 'icon-editar', class: 'user-section-edit hidden' %>
+    </div>
+    <ul id="current-dependency-admin-list" class="user-section-list tall"></ul>
+  </div>
+
+  <div id="current-dependency-obligee" class="user-section">
+    <div class="user-section-title">
+      Sujeto Obligado
+      <%= image_tag 'logo-agregar', class: 'user-section-add hidden' %>
+      <%= image_tag 'icon-cancelar', class: 'user-section-remove hidden' %>
+      <%= image_tag 'icon-editar', class: 'user-section-edit hidden' %>
+    </div>
+    <ul id="current-dependency-obligee-list" class="user-section-list tall"></ul>
+  </div>
+
+  <div id="current-dependency-operators" class="user-section">
+    <div class="user-section-title">
+      Operadores
+      <%= image_tag 'logo-agregar', class: 'user-section-add' %>
+      <%= image_tag 'icon-cancelar', class: 'user-section-remove hidden' %>
+      <%= image_tag 'icon-editar', class: 'user-section-edit hidden' %>
+    </div>
+    <ul id="current-dependency-operators-list" class="user-section-list tall"></ul>
+  </div>
+
 </div>
