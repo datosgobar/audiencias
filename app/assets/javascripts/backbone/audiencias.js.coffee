@@ -12,5 +12,5 @@ window.Audiencias =
 
       userLogin = new Audiencias.Views.UserLogin
       userLogin.render()
-      $('#main-content').append(userLogin.el)
+      $('body').append(userLogin.el)
   }

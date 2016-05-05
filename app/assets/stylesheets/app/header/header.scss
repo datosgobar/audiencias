@@ -6,6 +6,7 @@
   background: white;
   height: $header-height;
   @include box-shadow($header-shadow);
+  z-index: 10;
 
   #header-container {
     @include outer-container; 

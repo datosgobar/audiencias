@@ -3,9 +3,9 @@ html, body {
   padding: 0;
   height: 100%;
   background: white;
-  font-family: 'Roboto', sans-serif !important;
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
-  color: $grey-100;
+  color: $grey-500;
 }
 
 a {
@@ -17,8 +17,17 @@ a {
   display: none!important;
 }
 
-div#main-content {
-  @include outer-container; 
-  height: 100%;
-  padding-top: $header-height;
+button {
+  outline: none;
+  border: none;
+  @include border-radius(4px);
+  cursor: pointer;
+}
+
+input, select {
+  outline: none;
+  border: solid 1px $grey-300;
+  @include border-radius(4px);
+  background: none;
+
 }
