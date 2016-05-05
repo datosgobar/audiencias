@@ -38,6 +38,8 @@ gem 'compass-rails'
 gem 'normalize-rails'
 # https://github.com/rweng/underscore-rails
 gem 'underscore-rails'
+# https://github.com/codebrew/backbone-rails
+gem "rails-backbone"
 
 gem 'mysql2', '~> 0.3.18' 
 
