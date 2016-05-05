@@ -1,0 +1,24 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: white;
+  font-family: 'Roboto', sans-serif !important;
+  font-weight: 400;
+  color: $grey-100;
+}
+
+a {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+.hidden {
+  display: none!important;
+}
+
+div#main-content {
+  @include outer-container; 
+  height: 100%;
+  padding-top: $header-height;
+}

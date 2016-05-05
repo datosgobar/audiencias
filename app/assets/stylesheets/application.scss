@@ -1,41 +1,9 @@
 @import "compass";
 @import 'bourbon';
-@import 'utils/grid-settings';
+@import 'app/globals/grid-settings';
 @import 'neat';
 @import 'normalize-rails';
-@import 'utils/fonts';
-@import 'utils/colors';
-
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: white;
-  font-family: 'Roboto', sans-serif !important;
-  font-weight: 400;
-  color: $black;
-}
-
-a {
-  text-decoration: none !important;
-  color: inherit;
-}
-
-.hidden {
-  display: none!important;
-}
-
-@import 'header/header';
-
-div#main-content {
-  @include outer-container; 
-  height: 100%;
-  padding-top: $header-height;
-}
-
-@import 'login';
-@import 'home';
-@import 'management/dependencies_navigation';
-@import 'management/dependencies_tree';
-@import 'management/dependencies_menu';
-@import 'management/important_message';
+@import 'app/globals/fonts';
+@import 'app/globals/colors';
+@import 'app/globals/global_variables';
+@import 'app/globals/global_styles';
