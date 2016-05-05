@@ -1,11 +1,16 @@
 #= require_self
 #= require_tree ./templates
-#= require_tree ./models
 #= require_tree ./views
-#= require_tree ./routers
 
 window.Audiencias =
-  Models: {}
-  Collections: {}
-  Routers: {}
   Views: {}
+  App: {
+    UserLogin: ->
+      header = new Audiencias.Views.Header
+      header.render()
+      $('body').prepend(header.el)
+
+      userLogin = new Audiencias.Views.UserLogin
+      userLogin.render()
+      $('#main-content').append(userLogin.el)
+  }

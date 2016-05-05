@@ -1,31 +1,25 @@
-
-header.header-shadow {
+#header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   background: white;
-  @include box-shadow(black 0px 0px 5px);
-  z-index: 10;
   height: $header-height;
+  @include box-shadow($header-shadow);
 
-  .header-content-container {
+  #header-container {
     @include outer-container; 
 
-    .header-content {
+    #header-content {
       @include span-columns(10);
       @include shift(1);
-      .logo-ministerio {
-        @include span-columns(6);
-        img {
-          height: $header-height;
-          display: inline-block;
-          vertical-align: bottom;
-        }
-      }
-
-      @import 'header-menu'
     }
-    
+  }
+}
+
+#header .both-logos img {
+  height: $header-height;
+  &#logo-subsecretaria {
+    float: right;
   }
 }

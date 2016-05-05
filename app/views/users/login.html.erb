@@ -1,43 +1,5 @@
-<div class="login-background-wrapper">
-  <div class="login-background">
-    <div class="title-container">
-      <div class="title-spacer">
-        <h1>Registro Único de Audiencias de Gestión de Intereses del Poder Ejecutivo Nacional</h1>
-      </div>
-    </div>
-  </div>
-
-  <div class="login-card-container">
-
-    <%= form_tag login_url, class: 'login-card' do %>
-      <%= label_tag(:id, 'Tipo y nro de documento') %>
-      <div class="type-and-doc">
-        <%= select_tag(:id_type, options_for_select(['DNI', 'LC', 'LE'])) %>
-        <%= text_field_tag(:id, nil, autofocus: true) %>
-      </div>
-      
-      <%= label_tag(:password, 'Contraseña') %>
-      <%= password_field_tag(:password) %>
-      
-      <div class="remember-me">
-        <%= check_box_tag :remember_me, 1, params[:remember_me] %>
-        <%= label_tag :remember_me, 'Recordarme' %>
-      </div>
-      
-      <% if @message %>
-        <div class="message">
-          <%= @message %>
-        </div>
-      <% end %>
-
-      <div class="submit">   
-        <%= submit_tag('INGRESAR') %>
-      </div>
-
-      <div class="forgot-password">
-        <%= link_to "Olvidé mi contraseña", send_password_reset_form_path %>
-      </div>
-
-    <% end %>  
-  </div>
-</div>
+<%= javascript_tag do %>
+  $(function() {
+    Audiencias.App.UserLogin();
+  });
+<% end %>

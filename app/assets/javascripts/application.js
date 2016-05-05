@@ -14,7 +14,8 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require underscore
+//= require_tree ./libs
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
-//= require_tree .
+//= require backbone/audiencias
