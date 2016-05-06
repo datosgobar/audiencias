@@ -1,23 +1,27 @@
-#login {
+#login,
+#password-reset {
   height: 100%;
   width: 100%;
   padding-top: $header-height;
 
-  #login-position-origin {
+  #login-position-origin,
+  #password-reset-position-origin {
     position: relative;
     height: 100%;
 
-    #login-background {
+    #login-background,
+    #password-reset-background {
       width: 100%;
       height: 50%;
       display: table;
       background: $blue-400;
 
-      #login-title {
+      #login-title,
+      #password-reset-title {
         display: table-cell;
         vertical-align: middle;
         text-align: center;
-        padding-bottom: $login-card-height/2;
+        padding: 0 20px $login-card-height/2 20px;
         h1 {
           color: white;
           text-align: center;
@@ -27,39 +31,25 @@
         }
       }
     }
+
+    #login-card, 
+    #password-reset-card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      background: white;
+      padding: 40px;
+      @include border-radius(2px);
+      width: $login-card-width;
+      min-height: $login-card-height;
+      margin-top: -$login-card-height/2;
+      margin-left: -$login-card-width/2;
+      @include box-shadow($login-card-shadow);
+    }
   }
 }
 
-#login #login-card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: $login-card-width;
-  min-height: $login-card-height;
-  margin-top: -$login-card-height/2;
-  margin-left: -$login-card-width/2;
-  
-  background: white;
-  @include border-radius(2px);
-  @include box-shadow($login-card-shadow);
-  padding: 40px;
-
-  label {
-    font-size: 12px;
-    &[for="password"],
-    &[for="id"] {
-      display: block;
-    }
-  }
-
-  input#password, 
-  input#id {
-    width: 100%;
-    font-size: 15px;
-    margin: 6px 0 12px 0;
-    padding: 8px;
-  }
-
+@mixin id-joint {
   .type-and-doc {
     input#id {
       width: 80%;
@@ -76,6 +66,26 @@
       text-align-last: center;
     }
   }
+}
+
+#login #login-card {
+  label {
+    font-size: 12px;
+    &[for="password"],
+    &[for="id"] {
+      display: block;
+    }
+  }
+
+  input#password, 
+  input#id {
+    width: 100%;
+    font-size: 15px;
+    margin: 6px 0 12px 0;
+    padding: 8px;
+  }
+
+  @include id-joint();
 
   #remember-me-container {
     text-align: right;
@@ -88,9 +98,7 @@
     text-align: center;
     button {
       background: $blue-400;
-      color: white;
       font-size: 12px;
-      font-weight: 400;
       padding: 8px 12px;
     }
   }
@@ -112,3 +120,28 @@
     margin-top: 10px;
   }
 }
+
+#password-reset #password-reset-card {
+  p {
+    font-size: 13px;
+    text-align: justify;
+  }
+
+  @include id-joint();
+
+  input#id {
+    width: 100%;
+    font-size: 15px;
+    margin: 6px 0 12px 0;
+    padding: 8px;
+  }
+
+  #submit-container {
+    text-align: center;
+    button {
+      background: $blue-400;
+      font-size: 12px;
+      padding: 8px 12px;
+    }
+  }
+} 

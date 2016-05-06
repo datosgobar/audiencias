@@ -13,4 +13,13 @@ window.Audiencias =
       userLogin = new Audiencias.Views.UserLogin
       userLogin.render()
       $('body').append(userLogin.el)
+
+    SendPasswordReset: ->
+      header = new Audiencias.Views.Header
+      header.render()
+      $('body').prepend(header.el)
+
+      passwordReset = new Audiencias.Views.PasswordReset
+      passwordReset.render()
+      $('body').append(passwordReset.el)
   }

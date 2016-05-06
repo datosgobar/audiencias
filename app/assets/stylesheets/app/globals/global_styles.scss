@@ -22,6 +22,9 @@ button {
   border: none;
   @include border-radius(4px);
   cursor: pointer;
+  background: $grey-300;
+  color: white;
+  font-weight: 500;
 }
 
 input, select {
