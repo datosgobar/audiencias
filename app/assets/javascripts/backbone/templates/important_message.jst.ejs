@@ -1,0 +1,24 @@
+<div class="message-container">
+  <div class="message-content">
+
+    <div class="image-container">
+      <img src="/assets/logo-info.svg" class="info <%= icon == 'info' ? '' : 'hidden' %>">
+      <img src="/assets/logo-pass.svg" class="pass <%= icon == 'pass' ? '' : 'hidden' %>">
+      <img src="/assets/logo-alert.svg" class="alert <%= icon == 'alert' ? '' : 'hidden' %>">
+    </div>
+
+    <% if (text) { %>
+      <div class="text">
+        <div class="main"><%= text.main %></div>
+        <div class="secondary"><%= text.secondary %></div>
+      </div>
+    <% } %>
+    
+    <div class="buttons">
+      <% if (confirmation) { %>
+        <button id="important-message-cancel" class="cancel">CANCELAR</button>
+      <% } %>
+      <button id="important-message-confirm" class="<%= confirmation ? 'confirm' : 'primary' %>">ACEPTAR</button>
+    </div>
+  </div>
+</div>

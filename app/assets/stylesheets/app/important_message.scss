@@ -1,0 +1,48 @@
+#important-message {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.8);
+  display: table;
+  .message-container {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    .message-content {
+      display: inline-block;
+      @include box-shadow(0px 0px 4px 0px rgba(0,0,0,0.4));
+      padding: 40px;  
+      background: white;
+      max-width: 400px;
+    }
+  }
+}
+
+#important-message {
+  .image-container {
+    text-align: center;
+    width: 100%;
+    img {
+      width: 200px;
+    }
+  }
+  .text {
+    .main {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: #444;
+    }
+    .secondary {
+      font-size: 15px;
+      color: #777;
+      margin-bottom: 10px;
+    }
+  }
+  button.primary {
+    background: $green;
+  }
+}
