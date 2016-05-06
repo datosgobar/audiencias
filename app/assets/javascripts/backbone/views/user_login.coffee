@@ -2,14 +2,26 @@ class Audiencias.Views.UserLogin extends Backbone.View
   template: JST["backbone/templates/user_login"]
   id: 'login'
   events: 
-    'click #submit': 'doLogin'
+    'click #submit': 'validateInputs'
 
   render: ->
     @$el.html(@template())
+
+  validateInputs: =>
+    idInput = $('#login #id')
+    hasId = idInput.val().trim().length > 0
+    idInput.toggleClass('invalid', !hasId)
+
+    passwordInput = $('#login #password')
+    hasPassword = passwordInput.val().length > 0
+    passwordInput.toggleClass('invalid', !hasPassword)
+
+    if hasId and hasPassword
+      @doLogin()
    
   doLogin: =>
     data = {
-      id: $('#login #id').val(),
+      id: $('#login #id').val().trim(),
       id_type: $('#login #id-type').val(),
       password: $('#login #password').val(),
       remember_me: $('#login #remember-me').is(':checked')

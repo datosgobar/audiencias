@@ -6,8 +6,10 @@ class Audiencias.Views.PasswordReset extends Backbone.View
   id: 'password-reset'
 
   events: 
-    'click #submit-email': 'sendResetEmail'
-    'click #submit-password': 'sendNewPassword'
+    'click #submit-email': 'validateEmailRequest'
+    'click #submit-password.enabled': 'sendNewPassword'
+    'input #password': 'updateSubmitButton'
+    'input #password-confirm': 'updateSubmitButton'
 
   renderSendResetLink: ->
     @$el.html(@template())
@@ -17,6 +19,14 @@ class Audiencias.Views.PasswordReset extends Backbone.View
     @$el.html(@template())
     form = @changePassword(formOptions)
     @$el.find('#password-reset-card').html(form)
+
+  validateEmailRequest: =>
+    idInput = $('#password-reset #id')
+    hasId = idInput.val().trim().length > 0
+    idInput.toggleClass('invalid', !hasId)
+
+    if hasId
+      @sendResetEmail()
    
   sendResetEmail: ->
     data = {
@@ -28,6 +38,18 @@ class Audiencias.Views.PasswordReset extends Backbone.View
       url: '/resetear_credenciales', 
       data: data
     })
+
+  updateSubmitButton: ->
+    passwordInput = $('#password-reset #password')
+    passwordValue = passwordInput.val()
+
+    passwordConfirmInput = $('#password-reset #password-confirm')
+    passwordConfirmValue = passwordConfirmInput.val()
+
+    if passwordValue.length >= 6 and passwordConfirmValue.length >= 6 and passwordValue == passwordConfirmValue
+      $('#submit-password').removeClass('disabled').addClass('enabled')
+    else
+      $('#submit-password').addClass('disabled').removeClass('enabled')
 
   sendNewPassword: ->
     data = {

@@ -22,9 +22,13 @@ button {
   border: none;
   @include border-radius(4px);
   cursor: pointer;
-  background: $grey-300;
+  background: $blue-400;
   color: white;
   font-weight: 500;
+  &.disabled {
+    background: $grey-200;
+    cursor: default;
+  }
 }
 
 input, select {
@@ -32,5 +36,9 @@ input, select {
   border: solid 1px $grey-300;
   @include border-radius(4px);
   background: none;
+}
 
+input.invalid {
+  border-color: $red;
+  @include box-shadow(0px 0px 2px 0px $red);
 }
