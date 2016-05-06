@@ -36,8 +36,24 @@ class Audiencias.Views.PasswordReset extends Backbone.View
     $.ajax({
       type: 'POST',
       url: '/resetear_credenciales', 
-      data: data
+      data: data,
+      success: @showEmailSentMessage
     })
+
+  showEmailSentMessage: =>
+    messageOptions = {
+      icon: 'pass',
+      confirmation: false,
+      text: {
+        main: 'Se envió la recuperación de contraseña a la dirección de correo electronico del usuario.',
+        secondary: 'En caso de no recibir el correo o no poder acceder a la casilla, comunicarse con el respectivo administrador de sistema.'
+      },
+      callback: {
+        confirm: => 
+          window.location.href = "/ingresar"
+      }
+    }
+    message = new window.Audiencias.Views.ImportantMessage(messageOptions)
 
   updateSubmitButton: ->
     passwordInput = $('#password-reset #password')
@@ -57,5 +73,23 @@ class Audiencias.Views.PasswordReset extends Backbone.View
     }
     $.ajax({
       type: 'POST',
-      data: data
+      data: data,
+      success: (response) =>
+        if response.success
+          @showPasswordChangedMessage()
     })
+
+  showPasswordChangedMessage: =>
+    messageOptions = {
+      icon: 'pass',
+      confirmation: false,
+      text: {
+        main: 'Se ha actualizado la contraseña del usuario.',
+        secondary: 'Ya puede ingresar usando su nueva contraseña.'
+      },
+      callback: {
+        confirm: => 
+          window.location.href = "/ingresar"
+      }
+    }
+    message = new window.Audiencias.Views.ImportantMessage(messageOptions)
