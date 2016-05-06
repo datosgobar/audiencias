@@ -14,12 +14,12 @@ class Audiencias.Views.PasswordReset extends Backbone.View
    
   sendResetEmail: ->
     data = {
-      id: $('#login #id').val(),
-      id_type: $('#login #id-type').val()
+      id: $('#password-reset #id').val(),
+      id_type: $('#password-reset #id-type').val()
     }
     $.ajax({
       type: 'POST',
-      url: '/ingresar', 
+      url: '/resetear_credenciales', 
       data: data, 
       success: @loginCallback,
       error: @loginError

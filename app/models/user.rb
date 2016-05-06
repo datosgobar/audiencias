@@ -30,6 +30,10 @@ class User < ActiveRecord::Base
 		UserMailer.password_reset(self).deliver
 	end
 
+	def has_any_permit
+		is_superadmin or dependencies.length > 0 or obligees.length > 0
+	end
+
 	def as_json(options={})
 		super({
 			only: [:dni, :id_type, :email, :id, :is_superadmin, :name, :surname, :telephone]
