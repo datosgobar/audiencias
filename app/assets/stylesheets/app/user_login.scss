@@ -49,7 +49,25 @@
   }
 }
 
-@mixin id-joint {
+@mixin id-and-password {
+  label {
+    font-size: 12px;
+    &[for="password"],
+    &[for="password-confirm"],
+    &[for="id"] {
+      display: block;
+    }
+  }
+
+  input#password, 
+  input#password-confirm, 
+  input#id {
+    width: 100%;
+    font-size: 15px;
+    margin: 6px 0 12px 0;
+    padding: 8px;
+  }
+
   .type-and-doc {
     input#id {
       width: 80%;
@@ -69,23 +87,8 @@
 }
 
 #login #login-card {
-  label {
-    font-size: 12px;
-    &[for="password"],
-    &[for="id"] {
-      display: block;
-    }
-  }
 
-  input#password, 
-  input#id {
-    width: 100%;
-    font-size: 15px;
-    margin: 6px 0 12px 0;
-    padding: 8px;
-  }
-
-  @include id-joint();
+  @include id-and-password();
 
   #remember-me-container {
     text-align: right;
@@ -127,14 +130,7 @@
     text-align: justify;
   }
 
-  @include id-joint();
-
-  input#id {
-    width: 100%;
-    font-size: 15px;
-    margin: 6px 0 12px 0;
-    padding: 8px;
-  }
+  @include id-and-password();
 
   #submit-container {
     text-align: center;
@@ -144,4 +140,5 @@
       padding: 8px 12px;
     }
   }
+
 } 

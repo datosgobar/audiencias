@@ -7,10 +7,16 @@ class Audiencias.Views.PasswordReset extends Backbone.View
 
   events: 
     'click #submit-email': 'sendResetEmail'
+    'click #submit-password': 'sendNewPassword'
 
-  render: (subTemplate='sendResetLink') ->
+  renderSendResetLink: ->
     @$el.html(@template())
-    @$el.find('#password-reset-card').html(@[subTemplate]())
+    @$el.find('#password-reset-card').html(@sendResetLink())
+
+  renderUpdatePasswordForm: (formOptions) ->
+    @$el.html(@template())
+    form = @changePassword(formOptions)
+    @$el.find('#password-reset-card').html(form)
    
   sendResetEmail: ->
     data = {
@@ -20,7 +26,14 @@ class Audiencias.Views.PasswordReset extends Backbone.View
     $.ajax({
       type: 'POST',
       url: '/resetear_credenciales', 
-      data: data, 
-      success: @loginCallback,
-      error: @loginError
+      data: data
+    })
+
+  sendNewPassword: ->
+    data = {
+      password: $('#password-reset #password').val()
+    }
+    $.ajax({
+      type: 'POST',
+      data: data
     })

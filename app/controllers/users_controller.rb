@@ -40,7 +40,27 @@ class UsersController < ApplicationController
     render json: { success: true }
   end
 
-  def update_password 
+  def password_reset_form
+    user = User.find_by_password_reset_token(params[:token])
+    @formOptions = { userFound: !!user }
+    if user
+      @formOptions[:tokenExpired] = user.password_reset_sent_at < 1.days.ago
+    end
+  end
+
+  def update_password
+    user = User.find_by_password_reset_token(params[:token])
+    unless user 
+      render json: { success: false }
+    end
+
+    user.password = params[:password]
+    if user.save 
+      render json: { success: true }
+    else
+      render json: { success: false, erros: user.errors }
+    end
+
   end
 
 end

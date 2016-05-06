@@ -5,21 +5,26 @@
 window.Audiencias =
   Views: {}
   App: {
-    UserLogin: ->
+    RenderHeader: ->
       header = new Audiencias.Views.Header
       header.render()
       $('body').prepend(header.el)
 
+    UserLogin: ->
+      @RenderHeader()
       userLogin = new Audiencias.Views.UserLogin
       userLogin.render()
       $('body').append(userLogin.el)
 
     SendPasswordReset: ->
-      header = new Audiencias.Views.Header
-      header.render()
-      $('body').prepend(header.el)
-
+      @RenderHeader()
       passwordReset = new Audiencias.Views.PasswordReset
-      passwordReset.render()
+      passwordReset.renderSendResetLink()
+      $('body').append(passwordReset.el)
+
+    UpdatePassword: (formOptions) ->
+      @RenderHeader()
+      passwordReset = new Audiencias.Views.PasswordReset
+      passwordReset.renderUpdatePasswordForm(formOptions)
       $('body').append(passwordReset.el)
   }
