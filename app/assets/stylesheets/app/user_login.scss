@@ -1,6 +1,7 @@
 #login,
 #password-reset {
   height: 100%;
+  min-height: 600px;
   width: 100%;
   padding-top: $header-height;
 
@@ -92,7 +93,18 @@
 
   #remember-me-container {
     text-align: right;
-    input, label {
+    margin-bottom: 5px;
+    img {
+      height: 20px;
+      width: 20px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    input {
+      position: absolute;
+      top: -9999px;
+    }
+    label {
       cursor: pointer;
     }
   }

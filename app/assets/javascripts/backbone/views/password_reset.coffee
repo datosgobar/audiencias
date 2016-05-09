@@ -1,8 +1,7 @@
-class Audiencias.Views.PasswordReset extends Backbone.View
-  template: JST["backbone/templates/password_reset"]
-  sendResetLink: JST["backbone/templates/send_reset_link"]
-  changePassword: JST["backbone/templates/change_password"]
-
+class audiencias.views.PasswordReset extends Backbone.View
+  template: JST["backbone/templates/password_reset/password_reset"]
+  sendResetLink: JST["backbone/templates/password_reset/send_reset_link"]
+  changePassword: JST["backbone/templates/password_reset/change_password"]
   id: 'password-reset'
 
   events: 
@@ -10,6 +9,9 @@ class Audiencias.Views.PasswordReset extends Backbone.View
     'click #submit-password.enabled': 'sendNewPassword'
     'input #password': 'updateSubmitButton'
     'input #password-confirm': 'updateSubmitButton'
+    'keyup #id': 'sendEmailIfEnter'
+    'keyup #password': 'submitNewPasswordIfEnter'
+    'keyup #password-confirm': 'submitNewPasswordIfEnter'
 
   renderSendResetLink: ->
     @$el.html(@template())
@@ -53,7 +55,7 @@ class Audiencias.Views.PasswordReset extends Backbone.View
           window.location.href = "/ingresar"
       }
     }
-    message = new window.Audiencias.Views.ImportantMessage(messageOptions)
+    message = new audiencias.views.ImportantMessage(messageOptions)
 
   updateSubmitButton: ->
     passwordInput = $('#password-reset #password')
@@ -92,4 +94,11 @@ class Audiencias.Views.PasswordReset extends Backbone.View
           window.location.href = "/ingresar"
       }
     }
-    message = new window.Audiencias.Views.ImportantMessage(messageOptions)
+    message = new audiencias.views.ImportantMessage(messageOptions)
+
+  sendEmailIfEnter: (e) =>
+    @validateEmailRequest() if e.keyCode == 13
+
+  submitNewPasswordIfEnter: (e) =>
+    if e.keyCode == 13 and $('#submit-password').hasClass('enabled')
+      @sendNewPassword()

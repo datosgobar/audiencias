@@ -1,18 +1,24 @@
-class Audiencias.Views.UserLogin extends Backbone.View
+class audiencias.views.UserLogin extends Backbone.View
   template: JST["backbone/templates/user_login"]
   id: 'login'
   events: 
+    'keyup #id': 'submitIfEnter'
+    'keyup #password': 'submitIfEnter'
     'click #submit': 'validateInputs'
+    'change #remember-me': 'toggleCheckImg'
 
   render: ->
     @$el.html(@template())
 
+  submitIfEnter: (e) =>
+    @validateInputs() if e.keyCode == 13
+
   validateInputs: =>
-    idInput = $('#login #id')
+    idInput = $('#id')
     hasId = idInput.val().trim().length > 0
     idInput.toggleClass('invalid', !hasId)
 
-    passwordInput = $('#login #password')
+    passwordInput = $('#password')
     hasPassword = passwordInput.val().length > 0
     passwordInput.toggleClass('invalid', !hasPassword)
 
@@ -21,10 +27,10 @@ class Audiencias.Views.UserLogin extends Backbone.View
    
   doLogin: =>
     data = {
-      id: $('#login #id').val().trim(),
-      id_type: $('#login #id-type').val(),
-      password: $('#login #password').val(),
-      remember_me: $('#login #remember-me').is(':checked')
+      id: $('#id').val().trim(),
+      id_type: $('#id-type').val(),
+      password: $('#password').val(),
+      remember_me: $('#remember-me').is(':checked')
     }
     $.ajax({
       type: 'POST',
@@ -45,3 +51,8 @@ class Audiencias.Views.UserLogin extends Backbone.View
   loginError: =>
     errorMessage = 'Ha ocurrido un error. Por favor espere unos minutos y vuelva a intentar.'
     @$el.find('#message').text(errorMessage)
+
+  toggleCheckImg: ->
+    checked = $('#remember-me').is(':checked')
+    $('#checked').toggleClass('hidden', !checked)
+    $('#unchecked').toggleClass('hidden', checked)
