@@ -34,7 +34,7 @@ button {
 input, select {
   outline: none;
   border: solid 1px $grey-300;
-  @include border-radius(4px);
+  @include border-radius(2px);
   background: none;
 }
 
