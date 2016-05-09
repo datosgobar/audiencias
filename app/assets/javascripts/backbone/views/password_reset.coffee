@@ -23,17 +23,17 @@ class audiencias.views.PasswordReset extends Backbone.View
     @$el.find('#password-reset-card').html(form)
 
   validateEmailRequest: =>
-    idInput = $('#password-reset #id')
+    idInput = @$el.find('#id')
     hasId = idInput.val().trim().length > 0
     idInput.toggleClass('invalid', !hasId)
 
     if hasId
       @sendResetEmail()
    
-  sendResetEmail: ->
+  sendResetEmail: =>
     data = {
-      id: $('#password-reset #id').val(),
-      id_type: $('#password-reset #id-type').val()
+      id: @$el.find('#id').val(),
+      id_type: @$el.find('#id-type').val()
     }
     $.ajax({
       type: 'POST',
@@ -57,21 +57,21 @@ class audiencias.views.PasswordReset extends Backbone.View
     }
     message = new audiencias.views.ImportantMessage(messageOptions)
 
-  updateSubmitButton: ->
-    passwordInput = $('#password-reset #password')
+  updateSubmitButton: =>
+    passwordInput = @$el.find('#password')
     passwordValue = passwordInput.val()
 
-    passwordConfirmInput = $('#password-reset #password-confirm')
+    passwordConfirmInput = @$el.find('#password-confirm')
     passwordConfirmValue = passwordConfirmInput.val()
 
     if passwordValue.length >= 6 and passwordConfirmValue.length >= 6 and passwordValue == passwordConfirmValue
-      $('#submit-password').removeClass('disabled').addClass('enabled')
+      @$el.find('#submit-password').removeClass('disabled').addClass('enabled')
     else
-      $('#submit-password').addClass('disabled').removeClass('enabled')
+      @$el.find('#submit-password').addClass('disabled').removeClass('enabled')
 
-  sendNewPassword: ->
+  sendNewPassword: =>
     data = {
-      password: $('#password-reset #password').val()
+      password: @$el.find('#password').val()
     }
     $.ajax({
       type: 'POST',
@@ -100,5 +100,5 @@ class audiencias.views.PasswordReset extends Backbone.View
     @validateEmailRequest() if e.keyCode == 13
 
   submitNewPasswordIfEnter: (e) =>
-    if e.keyCode == 13 and $('#submit-password').hasClass('enabled')
+    if e.keyCode == 13 and @$el.find('#submit-password').hasClass('enabled')
       @sendNewPassword()

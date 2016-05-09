@@ -8,9 +8,9 @@ class audiencias.views.Header extends Backbone.View
   render: ->
     @$el.html(@template())
 
-  toggleShowMenu: ->
-    userMenu = $('#user-menu')
-    userMenuIcon = $('#user-header-icon')
+  toggleShowMenu: =>
+    userMenu = @$el.find('#user-menu')
+    userMenuIcon = @$el.find('#user-header-icon')
     if userMenu.hasClass('user-menu-visible')
       userMenu.css('bottom', '')
       userMenu.removeClass('user-menu-visible')

@@ -14,11 +14,11 @@ class audiencias.views.UserLogin extends Backbone.View
     @validateInputs() if e.keyCode == 13
 
   validateInputs: =>
-    idInput = $('#id')
+    idInput = @$el.find('#id')
     hasId = idInput.val().trim().length > 0
     idInput.toggleClass('invalid', !hasId)
 
-    passwordInput = $('#password')
+    passwordInput = @$el.find('#password')
     hasPassword = passwordInput.val().length > 0
     passwordInput.toggleClass('invalid', !hasPassword)
 
@@ -27,10 +27,10 @@ class audiencias.views.UserLogin extends Backbone.View
    
   doLogin: =>
     data = {
-      id: $('#id').val().trim(),
-      id_type: $('#id-type').val(),
-      password: $('#password').val(),
-      remember_me: $('#remember-me').is(':checked')
+      id: @$el.find('#id').val().trim(),
+      id_type: @$el.find('#id-type').val(),
+      password: @$el.find('#password').val(),
+      remember_me: @$el.find('#remember-me').is(':checked')
     }
     $.ajax({
       type: 'POST',
@@ -52,7 +52,7 @@ class audiencias.views.UserLogin extends Backbone.View
     errorMessage = 'Ha ocurrido un error. Por favor espere unos minutos y vuelva a intentar.'
     @$el.find('#message').text(errorMessage)
 
-  toggleCheckImg: ->
-    checked = $('#remember-me').is(':checked')
-    $('#checked').toggleClass('hidden', !checked)
-    $('#unchecked').toggleClass('hidden', checked)
+  toggleCheckImg: =>
+    checked = @$el.find('#remember-me').is(':checked')
+    @$el.find('#checked').toggleClass('hidden', !checked)
+    @$el.find('#unchecked').toggleClass('hidden', checked)
