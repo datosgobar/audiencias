@@ -7,6 +7,8 @@ class audiencias.views.UserList extends Backbone.View
     'click .add-new-user': 'addUserFromForm'
     'click .cancel-add-new-user': 'cancelNewUserForm'
     'click .edit-user': 'editUser'
+    'click .cancel-edit-user': 'cancelEditUserForm'
+    'click .save-edit-user': 'saveEditUser'
     'click .remove-user': 'removeUser'
 
   render: ->
@@ -26,7 +28,22 @@ class audiencias.views.UserList extends Backbone.View
     @$el.find('.user').addClass('editable')
     @hideAddUserImg()
 
-  editUser: =>
+  editUser: (e) =>
+    user = $(e.currentTarget).closest('.user').data('user')
+    @showEditForm()
+    @populateEditForm(user)
+
+  populateEditForm: (user) =>
+    @$el.find('.edit-user-form option[value="' + user.id_type + '"]').prop('selected', true)
+    @$el.find('.edit-user-form .id-input').val(user.dni)
+    @$el.find('.edit-user-form .name-input').val(user.name)
+    @$el.find('.edit-user-form .surname-input').val(user.surname)
+    @$el.find('.edit-user-form .email-input').val(user.email)
+
+  cancelEditUserForm: =>
+    @showUserList()
+
+  saveEditUser: =>
 
   removeModeOn: =>
     @showUserList()
@@ -37,7 +54,7 @@ class audiencias.views.UserList extends Backbone.View
     $(e.currentTarget).closest('.user').addClass('removed')
 
   showNewUserForm: =>
-    @showForm()
+    @showCreateForm()
     @hideAddUserImg()
 
   addUserFromForm: (e) =>
@@ -55,11 +72,18 @@ class audiencias.views.UserList extends Backbone.View
   showUserList: =>
     @$el.find('.users').removeClass('hidden')
     @$el.find('.new-user-form').addClass('hidden')
+    @$el.find('.edit-user-form').addClass('hidden')
 
-  showForm: =>
+  showCreateForm: =>
     @$el.find('.users').addClass('hidden')
+    @$el.find('.edit-user-form').addClass('hidden')
     @$el.find('.new-user-form').removeClass('hidden')
     @$el.find('.new-user-form input').val('')
+
+  showEditForm: =>
+    @$el.find('.users').addClass('hidden')
+    @$el.find('.new-user-form').addClass('hidden')
+    @$el.find('.edit-user-form').removeClass('hidden')
 
   validateId: (id) ->
     !!parseInt(id) and parseInt(id) > 0

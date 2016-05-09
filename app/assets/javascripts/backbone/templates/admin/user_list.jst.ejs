@@ -25,3 +25,24 @@
     <button class="add-new-user">AGREGAR</button>
   </div>
 </div>
+<div class="edit-user-form hidden">
+  <div class="label">Tipo y nro. de documento</div>
+  <div class="type-and-doc">
+    <select class="id-type-select" disabled>
+      <option value="dni">DNI</option>
+      <option value="lc">LC</option>
+      <option value="le">LE</option>
+    </select>
+    <input type="text" class="id-input" placeholder="00000000" disabled>
+  </div>
+  <div class="label">Nombre</div>
+  <input type="text" class="name-input" placeholder="Nombre">
+  <div class="label">Apellido</div>
+  <input type="text" class="surname-input" placeholder="Apellido">
+  <div class="label">Mail</div>
+  <input type="text" class="email-input" placeholder="mail@unmail.com">
+  <div class="form-actions">
+    <button class="cancel-edit-user">CANCELAR</button>
+    <button class="save-edit-user">GUARDAR</button>
+  </div>
+</div>

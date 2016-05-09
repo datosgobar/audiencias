@@ -58,4 +58,20 @@ class ManagementController < ApplicationController
     render json: response
   end
 
+  def update_superadmins 
+    users = params[:users]
+    response = { users: [] }
+    users.each do |key, userData|
+      user = User.find_by_document(userData[:id_type], userData[:id])
+      if user 
+        user.update_attributes(userData)
+        userData[:success] = user.save 
+      else 
+        userData[:success] = false
+      end
+      response[:users] << userData
+    end
+    render json: response
+  end
+
 end

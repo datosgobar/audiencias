@@ -17,4 +17,5 @@ Rails.application.routes.draw do
   get '/administracion/listar_supervisores', to: 'management#list_superadmins'
   post '/administracion/nuevo_supervisor', to: 'management#new_superadmin'
   post '/administracion/eliminar_supervisores', to: 'management#remove_superadmins'
+  post '/administracion/actualizar_supervisores', to: 'management#update_superadmins'
 end

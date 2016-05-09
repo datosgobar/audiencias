@@ -27,10 +27,14 @@
         .user-fullname {
           font-weight: 500;
           margin-bottom: 5px;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .user-id,
         .user-email {
           font-size: 12px;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         button {
           display: none;
@@ -61,7 +65,8 @@
         }
       }
     }
-    .new-user-form {
+    .new-user-form,
+    .edit-user-form {
       padding: 0 10px 10px 10px;
       .label {
         font-size: 13px;
@@ -88,7 +93,8 @@
         button {
           font-size: 11px;
           padding: 2px 6px;
-          &.cancel-add-new-user {
+          &.cancel-add-new-user,
+          &.cancel-edit-user {
             background: $grey-300;
           }
         }
