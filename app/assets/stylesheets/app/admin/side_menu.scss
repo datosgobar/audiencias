@@ -13,12 +13,13 @@
 
 #side-menu .generic-menu {
   height: 100%;
+  position: relative;
 
   .top-menu-container {
     padding: 20px 10px 0 10px;
     text-align: right;
     position: relative;
-
+    height: 60px;
     img {
       height: 30px;
       cursor: pointer;
@@ -47,46 +48,61 @@
     }
   }
 
+  .cancel-mode {
+    display: none;
+    padding: 20px 10px 0 10px;
+    text-align: left;
+    height: 60px;
+    #cancel {
+      position: relative;
+      height: 100%;
+      line-height: 40px;
+      display: inline-block;
+      padding-left: 28px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      color: $grey-400;
+      img {
+        height: 30px;
+        padding: 4px;
+        position: absolute;
+        top: 5px;
+        left: 0;
+      }
+    }
+  }
+
+  .confirmation-container {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    text-align: right;
+    button {
+      font-size: 13px;
+      padding: 3px 8px;
+    }
+  }
+
+  &.modifying {
+    padding-bottom: 45px;
+    .cancel-mode {
+      display: block;
+    }
+    .top-menu-container {
+      display: none;
+    }
+    .confirmation-container {
+      display: block;
+    }
+  }
+
   .title {
     font-size: 18px;
     text-align: center;
     padding: 0px 20px 30px 20px;
-  }
-
-  .user-list {
-    margin: 0 15px;
-    .user-list-title {
-      font-size: 13px;
-      font-weight: 500;
-      border-bottom: solid 1px $grey-200;
-      padding-bottom: 4px;
-      img {
-        float: right;
-        height: 24px;
-        cursor: pointer;
-      }
-    }
-    .users {
-      .user {
-        position: relative;
-        padding: 10px 10px 0 3em;
-        &:last-child {
-          padding-bottom: 10px;
-        }
-        .user-icon {
-          position: absolute;
-          left: 0.5em;
-          top: 15px;
-        }
-        .user-fullname {
-          font-weight: 500;
-          margin-bottom: 5px;
-        }
-        .user-id,
-        .user-email {
-          font-size: 12px;
-        }
-      }
-    }
   }
 }

@@ -1,0 +1,98 @@
+#side-menu {
+  .user-list {
+    margin: 0 15px;
+    .user-list-title {
+      font-size: 13px;
+      font-weight: 500;
+      border-bottom: solid 1px $grey-200;
+      padding-bottom: 4px;
+      img {
+        float: right;
+        height: 24px;
+        cursor: pointer;
+      }
+    }
+    .users {
+      .user {
+        position: relative;
+        padding: 10px 10px 0 3em;
+        &:last-child {
+          padding-bottom: 10px;
+        }
+        .user-icon {
+          position: absolute;
+          left: 0.5em;
+          top: 15px;
+        }
+        .user-fullname {
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+        .user-id,
+        .user-email {
+          font-size: 12px;
+        }
+        button {
+          display: none;
+          position: absolute;
+          right: 0;
+          font-size: 10px;
+          width: 50px;
+          top: 15px;
+          &.remove-user {
+            background: $red;
+          }
+        }
+        &.editable {
+          padding-right: 54px;
+          button.edit-user {
+            display: inline-block;
+          }
+        }
+        &.removable {
+          padding-right: 54px;
+          button.remove-user {
+            display: inline-block;
+          } 
+        }
+        &.removed {
+          pointer-events: none;
+          opacity: 0.5;
+        }
+      }
+    }
+    .new-user-form {
+      padding: 0 10px 10px 10px;
+      .label {
+        font-size: 13px;
+        margin-top: 5px;
+      }
+      input {
+        font-size: 14px;
+        width: 100%;
+        padding: 1px 5px;
+      }
+      .type-and-doc {
+        select {
+          font-size: 14px;
+          width: 22%;
+        }
+        input {
+          width: 75%;
+          float: right;
+        }
+      }
+      .form-actions {
+        margin-top: 5px;
+        text-align: right; 
+        button {
+          font-size: 11px;
+          padding: 2px 6px;
+          &.cancel-add-new-user {
+            background: $grey-300;
+          }
+        }
+      }
+    }
+  }
+}

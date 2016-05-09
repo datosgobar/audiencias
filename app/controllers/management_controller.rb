@@ -42,14 +42,20 @@ class ManagementController < ApplicationController
     end
   end
 
-  def remove_superadmin
-    user = User.find_by_document(params[:id_type], params[:id])
-    user.is_superadmin = false
-    if user.save 
-      render json: { success: true }
-    else
-      render json: { success: false, errors: user.errors.messages }
+  def remove_superadmins
+    users = params[:users]
+    response = { users: [] }
+    users.each do |key, userData|
+      user = User.find_by_document(userData[:id_type], userData[:id])
+      if user 
+        user.is_superadmin = false
+        userData[:success] = user.save 
+      else 
+        userData[:success] = false
+      end
+      response[:users] << userData
     end
+    render json: response
   end
 
 end

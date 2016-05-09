@@ -1,0 +1,71 @@
+$navigation-height: 150px;
+#admin-landing #navigation {
+  @include box-shadow($dependencies-navigation-shadow);
+  @include span-columns(8 of 8);
+  height: $navigation-height;
+  position: relative;
+
+  #dependencies-search {
+    @include span-columns(7 of 8);
+    @include shift(1 of 8);
+    margin-top: 30px;
+
+    #search-and-icon {
+      position: relative;
+      display: inline-block;
+
+      #dependencies-search-input {
+        width: 20em;
+        max-width: 100%;
+        padding: 2px 24px 2px 10px;
+      }  
+
+      #search-icon {
+        position: absolute;
+        top: 4px;
+        right: 2px;
+        height: 20px;
+      }
+    }
+  }
+
+  #navigation-actions {
+    @include span-columns(8 of 8);
+    border-top: solid 1px $grey-300;
+    text-align: right;
+    $section-height: 40px;
+    height: $section-height;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+
+    #tree-actions {
+      display: inline-block;
+      height: $section-height;
+      vertical-align: top;
+      img {
+        $img-height: 24px;
+        height: $img-height;
+        $img-margin-top: ($section-height - $img-height)/2;
+        margin: $img-margin-top 4px $img-margin-top 0;
+        cursor: pointer;
+      }
+    }
+
+    #vertical-line-spacer {
+      $line-height: 1.4;
+      $font-size: 12px;
+      $top-padding: 3px;
+      $top-margin: ($section-height - $font-size * $line-height - $top-padding * 2)/4;
+      margin: $top-margin 0;
+      border-left: solid 1px $grey-300;
+      display: inline-block;
+      button {
+        font-size: $font-size;
+        padding: $top-padding 6px;
+        margin: $top-margin 10px;
+      }  
+    }
+  }
+}
