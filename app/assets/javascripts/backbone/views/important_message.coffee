@@ -1,4 +1,4 @@
-class Audiencias.Views.ImportantMessage extends Backbone.View
+class audiencias.views.ImportantMessage extends Backbone.View
   template: JST["backbone/templates/important_message"]
   id: 'important-message'
   className: 'global-veil'

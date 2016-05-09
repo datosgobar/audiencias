@@ -1,0 +1,100 @@
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  height: $header-height;
+  z-index: 10;
+
+  #header-shadow {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    background: white;
+    @include box-shadow($header-shadow);
+
+    #header-container {
+      height: 100%;
+      @include outer-container; 
+
+      #header-content {
+        height: 100%;
+        @include span-columns(10);
+        @include shift(1);
+        
+        #logo-ministerio,
+        #logo-subsecretaria {
+          height: $header-height;
+        }
+        #logo-subsecretaria {
+          float: right;
+          width: 300px;
+        }
+      }
+    }    
+  }
+
+  #user-menu-container {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+
+    @include outer-container; 
+    #user-menu {
+      position: absolute;
+      right: percentage(1/12);
+      bottom: 10px;
+      display: inline-block;
+      min-width: 200px;
+      background: white;
+      font-size: 13px;
+      @include box-shadow($user-menu-shadow);
+      @include transition($user-menu-transition);
+
+      .user-menu-action {
+        padding: 5px 15px;
+        border-bottom: solid 1px $grey-200;
+        cursor: pointer;
+        &:first-child {
+          padding-top: 10px;
+        }
+        &:last-child {
+          border-bottom: none;
+          padding-bottom: 10px;
+        }
+        &:hover {
+          background: $grey-200;
+        }
+      }
+    }
+  }
+}
+
+#header-content {
+  #main-logo {
+    float: left;
+  }
+  #user-header {
+    float: right;
+    height: $header-height;
+    line-height: $header-height;
+    cursor: pointer;
+    font-weight: 500;
+    #user-header-icon {
+      height: 15px;
+      vertical-align: middle;
+      @include transition($user-icon-transition);
+      &.user-menu-visible {
+        @include transform(rotate(180deg));
+      }
+    }
+  }
+} 
+
+#user-header-menu {
+
+}

@@ -2,29 +2,42 @@
 #= require_tree ./templates
 #= require_tree ./views
 
-window.Audiencias =
-  Views: {}
-  App: {
-    RenderHeader: ->
-      header = new Audiencias.Views.Header
+window.audiencias =
+  views: {}
+  app: {
+    renderHeader: ->
+      header = new audiencias.views.Header
       header.render()
       $('body').prepend(header.el)
 
-    UserLogin: ->
-      @RenderHeader()
-      userLogin = new Audiencias.Views.UserLogin
+    userLogin: ->
+      @renderHeader()
+      userLogin = new audiencias.views.UserLogin
       userLogin.render()
       $('body').append(userLogin.el)
 
-    SendPasswordReset: ->
-      @RenderHeader()
-      passwordReset = new Audiencias.Views.PasswordReset
+    sendPasswordReset: ->
+      @renderHeader()
+      passwordReset = new audiencias.views.PasswordReset
       passwordReset.renderSendResetLink()
       $('body').append(passwordReset.el)
 
-    UpdatePassword: (formOptions) ->
-      @RenderHeader()
-      passwordReset = new Audiencias.Views.PasswordReset
+    updatePassword: (formOptions) ->
+      @renderHeader()
+      passwordReset = new audiencias.views.PasswordReset
       passwordReset.renderUpdatePasswordForm(formOptions)
       $('body').append(passwordReset.el)
+
+    adminLanding: ->
+      @renderHeader()
+      adminLanding = new audiencias.views.AdminLanding 
+      adminLanding.render()
+      $('body').append(adminLanding.el)
+
+    operatorLanding: ->
+      @renderHeader()
+      operatorLanding = new audiencias.views.OperatorLanding 
+      operatorLanding.render()
+      $('body').append(operatorLanding.el)
   }
+  globals: {}
