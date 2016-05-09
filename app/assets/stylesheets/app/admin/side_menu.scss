@@ -1,0 +1,92 @@
+#admin-landing #side-menu-container {
+  height: 100%;
+  padding: 30px 0;
+  @include span-columns(4 of 6);
+  @include shift(1 of 6);
+  
+  #side-menu {
+    background: white;
+    @include box-shadow($side-menu-shadow);
+    height: 100%;
+  }
+}
+
+#side-menu .generic-menu {
+  height: 100%;
+
+  .top-menu-container {
+    padding: 20px 10px 0 10px;
+    text-align: right;
+    position: relative;
+
+    img {
+      height: 30px;
+      cursor: pointer;
+    }
+
+    .top-menu {
+      position: absolute;
+      top: 52px;
+      right: 12px;
+      text-align: left;
+      background: white;
+      @include box-shadow($top-menu-shadow);
+
+      .top-menu-action {
+        font-size: 12px;
+        padding: 5px 20px 5px 5px;
+        cursor: pointer;
+        border-bottom: solid 1px $grey-100;
+        &:last-child {
+          border-bottom: none;
+        }
+        &:hover {
+          background: $grey-100;
+        }
+      }
+    }
+  }
+
+  .title {
+    font-size: 18px;
+    text-align: center;
+    padding: 0px 20px 30px 20px;
+  }
+
+  .user-list {
+    margin: 0 15px;
+    .user-list-title {
+      font-size: 13px;
+      font-weight: 500;
+      border-bottom: solid 1px $grey-200;
+      padding-bottom: 4px;
+      img {
+        float: right;
+        height: 24px;
+        cursor: pointer;
+      }
+    }
+    .users {
+      .user {
+        position: relative;
+        padding: 10px 10px 0 3em;
+        &:last-child {
+          padding-bottom: 10px;
+        }
+        .user-icon {
+          position: absolute;
+          left: 0.5em;
+          top: 15px;
+        }
+        .user-fullname {
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+        .user-id,
+        .user-email {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
