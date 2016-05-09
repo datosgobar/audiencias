@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
 	validates :surname, presence: true
 	validates :email, format: { with: GLOBALS::EMAIL_REGEX }, uniqueness: { case_sensitive: false }
 	validates :dni, presence: true, uniqueness: true
+	validates_inclusion_of :id_type, :in => %w(dni lc le)
 	validates_numericality_of :dni, only_integer: true, greater_than: 0
 	validates :password, length: { minimum: 6 }, allow_nil: true
 	validates :auth_token, uniqueness: true
@@ -27,7 +28,7 @@ class User < ActiveRecord::Base
 		generate_token(:password_reset_token)
 		self.password_reset_sent_at = Time.zone.now
 		save!
-		UserMailer.password_reset(self).deliver
+		UserMailer.password_reset(self).deliver_now
 	end
 
 	def has_any_permit
@@ -35,14 +36,20 @@ class User < ActiveRecord::Base
 	end
 
 	def as_json(options={})
-		super({
-			only: [:dni, :id_type, :email, :id, :is_superadmin, :name, :surname, :telephone]
+		json = super({
+			only: [:dni, :id_type, :email, :id, :name, :surname, :telephone]
 		})
+		if is_superadmin
+			json[:role] = 'superadmin'
+		elsif dependencies.length > 0
+			json[:role] = 'admin'
+		elsif obligees.length > 0
+			json[:role] = 'operator'
+		end
+		json
 	end
 
 	def self.find_by_document(id_type, id)
-		id_type = id_type.strip.downcase
-		id = id.to_i
 		where(id_type: id_type, dni: id).first
 	end
 end

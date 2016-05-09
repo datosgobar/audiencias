@@ -2,21 +2,24 @@ class ManagementController < ApplicationController
 
   before_action :require_login
 
+  def superadmin_landing
+    @dependencies = Dependency.for_user @current_user
+  end
+
   def admin_landing
     @dependencies = Dependency.for_user @current_user
   end
 
   def operator_landing
-
   end
 
-  def list_admins
+  def list_superadmins
     render json: User.where(is_superadmin: true)
   end
 
-  def new_admin
+  def new_superadmin
     user = User.find_by_document(params[:id_type], params[:id])
-    newUser = !user
+    new_user = !user
     
     unless user
       user = User.new
@@ -32,14 +35,14 @@ class ManagementController < ApplicationController
     user.email = params[:email]
     
     if user.save 
-      user.send_password_reset if newUser
-      render json: { success: true, new: newUser }
+      user.send_password_reset if new_user
+      render json: { success: true, new: new_user }
     else
       render json: { success: false, errors: user.errors.messages }
     end
   end
 
-  def remove_admin
+  def remove_superadmin
     user = User.find_by_document(params[:id_type], params[:id])
     user.is_superadmin = false
     if user.save 

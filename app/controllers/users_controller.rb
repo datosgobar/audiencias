@@ -36,8 +36,10 @@ class UsersController < ApplicationController
     user = User.find_by_document(params[:id_type], params[:id])
     if user
       user.send_password_reset 
+      render json: { success: true }
+      return
     end
-    render json: { success: true }
+    render json: { success: false }
   end
 
   def password_reset_form
@@ -52,6 +54,7 @@ class UsersController < ApplicationController
     user = User.find_by_password_reset_token(params[:token])
     unless user 
       render json: { success: false }
+      return
     end
 
     user.password = params[:password]
