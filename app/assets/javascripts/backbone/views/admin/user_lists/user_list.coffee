@@ -1,6 +1,6 @@
 class audiencias.views.UserList extends Backbone.View
-  template: JST["backbone/templates/admin/user_list"]
-  userTemplate: JST["backbone/templates/admin/user"]
+  template: JST["backbone/templates/admin/menu/user_list"]
+  userTemplate: JST["backbone/templates/admin/menu/user"]
   className: 'user-list'
   events:
     'click .add-user': 'showNewUserForm'
