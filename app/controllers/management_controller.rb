@@ -74,4 +74,13 @@ class ManagementController < ApplicationController
     render json: response
   end
 
+  def search_user 
+    user = User.find_by_document(params[:id_type], params[:person_id])
+    if user 
+      render json: { user: user }
+    else
+      render json: {}
+    end
+  end
+
 end

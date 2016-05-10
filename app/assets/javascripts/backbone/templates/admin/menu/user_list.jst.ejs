@@ -7,22 +7,22 @@
 <div class="new-user-form hidden">
   <div class="label">Tipo y nro. de documento</div>
   <div class="type-and-doc">
-    <select class="id-type-select">
+    <select class="id-type-select disabled-when-searching">
       <option value="dni">DNI</option>
       <option value="lc">LC</option>
       <option value="le">LE</option>
     </select>
-    <input type="text" class="person-id-input" placeholder="00000000">
+    <input type="text" class="person-id-input disabled-when-searching" placeholder="00000000">
   </div>
   <div class="label">Nombre</div>
-  <input type="text" class="name-input" placeholder="Nombre">
+  <input type="text" class="name-input disabled-when-searching disabled-if-found" placeholder="Nombre" disabled>
   <div class="label">Apellido</div>
-  <input type="text" class="surname-input" placeholder="Apellido">
+  <input type="text" class="surname-input disabled-when-searching disabled-if-found" placeholder="Apellido" disabled>
   <div class="label">Mail</div>
-  <input type="text" class="email-input" placeholder="mail@unmail.com">
+  <input type="text" class="email-input disabled-when-searching disabled-if-found" placeholder="mail@unmail.com" disabled>
   <div class="form-actions">
     <button class="cancel-add-new-user">CANCELAR</button>
-    <button class="add-new-user">AGREGAR</button>
+    <button class="add-new-user disabled-when-searching" disabled>AGREGAR</button>
   </div>
 </div>
 <div class="edit-user-form hidden">

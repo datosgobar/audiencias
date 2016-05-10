@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   post '/administracion/nuevo_supervisor', to: 'management#new_superadmin'
   post '/administracion/eliminar_supervisores', to: 'management#remove_superadmins'
   post '/administracion/actualizar_supervisores', to: 'management#update_superadmins'
+  post '/administracion/buscar_usuario', to: 'management#search_user'
 end

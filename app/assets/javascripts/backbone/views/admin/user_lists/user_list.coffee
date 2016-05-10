@@ -10,6 +10,8 @@ class audiencias.views.UserList extends Backbone.View
     'click .cancel-edit-user': 'cancelEditUserForm'
     'click .save-edit-user': 'saveEditUser'
     'click .remove-user': 'removeUser'
+    'keypress .new-user-form .person-id-input': 'onIdInput'
+    'focusout .new-user-form .person-id-input': 'searchUserFromInput'
 
   render: ->
     @$el.html(@template({
@@ -31,14 +33,15 @@ class audiencias.views.UserList extends Backbone.View
   editUser: (e) =>
     user = $(e.currentTarget).closest('.user').data('user')
     @showEditForm()
-    @populateEditForm(user)
+    @populateForm('.edit-user-form', user)
 
-  populateEditForm: (user) =>
-    @$el.find('.edit-user-form option[value="' + user.id_type + '"]').prop('selected', true)
-    @$el.find('.edit-user-form .person-id-input').val(user.person_id)
-    @$el.find('.edit-user-form .name-input').val(user.name)
-    @$el.find('.edit-user-form .surname-input').val(user.surname)
-    @$el.find('.edit-user-form .email-input').val(user.email)
+  populateForm: (formSelector, user) =>
+    form = @$el.find(formSelector)
+    form.find('option[value="' + user.id_type + '"]').prop('selected', true)
+    form.find('.person-id-input').val(user.person_id)
+    form.find('.name-input').val(user.name)
+    form.find('.surname-input').val(user.surname)
+    form.find('.email-input').val(user.email)
 
   cancelEditUserForm: =>
     @showUserList()
@@ -93,3 +96,29 @@ class audiencias.views.UserList extends Backbone.View
 
   validateEmail: (str) ->
     /[\w+\-.]+@[a-z\d\-.]+\.[a-z]+/i.test(str)
+
+  onIdInput: (e) =>
+    @searchUserFromInput() if e.which == 13
+
+  searchUserFromInput: =>
+    searchPersonId = @$el.find('.new-user-form .person-id-input').val().trim()
+    return if searchPersonId.length == 0
+    searchIdType = @$el.find('.new-user-form .id-type-select').val().trim()
+    $('body').addClass('searching')
+    if (not @userForForm) or (searchPersonId != @userForForm.person_id) or (searchIdType != @userForForm.id_type)
+      @$el.find('.new-user-form .disabled-when-searching').prop('disabled', true)
+      $.ajax(
+        url: '/administracion/buscar_usuario'
+        data: { id_type: searchIdType, person_id: searchPersonId }
+        method: 'POST'
+        success: (response) =>
+          @$el.find('.new-user-form .disabled-when-searching').prop('disabled', false)
+          $('body').removeClass('searching')
+          if response.user 
+            @userForForm = response.user
+            @populateForm('.new-user-form', @userForForm)
+            @$el.find('.new-user-form .disabled-if-found').prop('disabled', true)
+          else 
+            @$el.find('input.disabled-if-found').val('')
+            @$el.find('.new-user-form .name-input').focus()
+      )

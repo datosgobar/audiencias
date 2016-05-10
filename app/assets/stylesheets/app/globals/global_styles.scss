@@ -8,6 +8,10 @@ html, body {
   color: $grey-500;
 }
 
+body.searching {
+  cursor: progress !important;
+}
+
 a {
   text-decoration: none !important;
   color: $blue-400;
