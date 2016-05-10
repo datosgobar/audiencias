@@ -4,6 +4,7 @@ class audiencias.views.DependencyMenu extends Backbone.View
   template: JST["backbone/templates/admin/menu/dependency_menu"]
   events:
     'click .toggle-menu-icon': 'toggleTopMenu'
+    'click .toggle-admin-view': 'toggleAdmins'
 
   initialize: ->
     @adminList = new audiencias.views.AdminList
@@ -23,3 +24,7 @@ class audiencias.views.DependencyMenu extends Backbone.View
 
   toggleTopMenu: =>
     @$el.find('.toggle-menu-icon, .top-menu').toggleClass('hidden')
+
+  toggleAdmins: =>
+    @$el.find('.toggle-admin-view').toggleClass('hidden')
+    @adminList.toggleShow()

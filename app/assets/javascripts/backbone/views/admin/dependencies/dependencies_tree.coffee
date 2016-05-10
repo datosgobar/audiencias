@@ -25,22 +25,32 @@ class audiencias.views.DependenciesTree extends Backbone.View
       @$el.find('#dependencies-tree').html(dependenciesTree)
 
   treeSelectDependency: (e) =>
-    @$el.find('.dependency.selected').removeClass('selected')
     target = $(e.currentTarget)
-    target.toggleClass('expanded collapsed selected')
-    targetId = target.data('dependency-id')
-    @selectDependency(targetId)
+    @selectDependency(target)
+
+    dependency = @findDependency(target)
+    if dependency.children and dependency.children.length > 0
+      target.toggleClass('expanded collapsed')
+    @triggerSelect(dependency)
 
   resultsSelectDependency: (e) =>
-    @$el.find('.dependency.selected').removeClass('selected')
     target = $(e.currentTarget)
-    target.toggleClass('selected')
-    targetId = target.data('dependency-id')
-    @selectDependency(targetId)
+    @selectDependency(target)
 
-  selectDependency: (id) =>
-    dependency = _.find(audiencias.globals.dependencies.plain, (d) -> d.id == id)
+    targetId = target.data('dependency-id')
+    dependency = @findDependency(target)
+    @triggerSelect(dependency)
+
+  triggerSelect: (dependency) =>
     $(window).trigger('dependency-selected', [dependency])
+
+  selectDependency: (el) =>
+    @$el.find('.dependency.selected').removeClass('selected')
+    $(el).addClass('selected')
+
+  findDependency: (el) =>
+    id = $(el).data('dependency-id')
+    _.find(audiencias.globals.dependencies.plain, (d) -> d.id == id)
 
   collapseAll: =>
     @$el.find('.dependency.expanded').removeClass('expanded').addClass('collapsed')
