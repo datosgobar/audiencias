@@ -1,4 +1,38 @@
-#admin-landing #dependencies-tree {
+#admin-landing #dependencies {
   height: 100%;
   padding-top: $navigation-height;
+
+  #dependencies-tree,
+  #dependencies-results {
+    .dependency {
+      padding: 4px 0;
+      cursor: pointer;
+
+      &:hover,
+      &.selected {
+        background: $grey-200;
+      }
+
+      img {
+        height: 1em;
+        width: 1em;
+      }
+
+      &.expanded img.collapsed {
+        display: none;
+      }
+
+      &.collapsed img.expanded {
+        display: none;
+      }
+    }
+
+    .dependency.collapsed + .children {
+      display: none;
+    }
+  }
+
+  #dependencies-results .dependency{
+    padding-left: 12.5%;
+  }
 }
