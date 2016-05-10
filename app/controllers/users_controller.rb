@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   end
 
   def login_attempt
-    user = User.find_by_document(params[:id_type], params[:id])
+    user = User.find_by_document(params[:id_type], params[:person_id])
     password = params[:password]
 
     if not user or not user.authenticate(password)
@@ -33,7 +33,7 @@ class UsersController < ApplicationController
   end
 
   def send_password_reset_email
-    user = User.find_by_document(params[:id_type], params[:id])
+    user = User.find_by_document(params[:id_type], params[:person_id])
     if user
       user.send_password_reset 
       render json: { success: true }

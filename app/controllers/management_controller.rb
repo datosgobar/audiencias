@@ -18,13 +18,13 @@ class ManagementController < ApplicationController
   end
 
   def new_superadmin
-    user = User.find_by_document(params[:id_type], params[:id])
+    user = User.find_by_document(params[:id_type], params[:person_id])
     new_user = !user
     
     unless user
       user = User.new
       user.id_type = params[:id_type]
-      user.dni = params[:id]
+      user.person_id = params[:person_id]
       require 'securerandom'
       user.password = SecureRandom.urlsafe_base64(8)
     end
@@ -46,7 +46,7 @@ class ManagementController < ApplicationController
     users = params[:users]
     response = { users: [] }
     users.each do |key, userData|
-      user = User.find_by_document(userData[:id_type], userData[:id])
+      user = User.find_by_document(userData[:id_type], userData[:person_id])
       if user 
         user.is_superadmin = false
         userData[:success] = user.save 
@@ -62,7 +62,7 @@ class ManagementController < ApplicationController
     users = params[:users]
     response = { users: [] }
     users.each do |key, userData|
-      user = User.find_by_document(userData[:id_type], userData[:id])
+      user = User.find_by_document(userData[:id_type], userData[:person_id])
       if user 
         user.update_attributes(userData)
         userData[:success] = user.save 

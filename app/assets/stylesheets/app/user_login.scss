@@ -55,14 +55,14 @@
     font-size: 12px;
     &[for="password"],
     &[for="password-confirm"],
-    &[for="id"] {
+    &[for="person-id"] {
       display: block;
     }
   }
 
   input#password, 
   input#password-confirm, 
-  input#id {
+  input#person-id {
     width: 100%;
     font-size: 15px;
     margin: 6px 0 12px 0;
@@ -70,7 +70,7 @@
   }
 
   .type-and-doc {
-    input#id {
+    input#person-id {
       width: 80%;
       float: right;
     }

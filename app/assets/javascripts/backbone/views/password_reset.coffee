@@ -9,7 +9,7 @@ class audiencias.views.PasswordReset extends Backbone.View
     'click #submit-password.enabled': 'sendNewPassword'
     'input #password': 'updateSubmitButton'
     'input #password-confirm': 'updateSubmitButton'
-    'keyup #id': 'sendEmailIfEnter'
+    'keyup #person-id': 'sendEmailIfEnter'
     'keyup #password': 'submitNewPasswordIfEnter'
     'keyup #password-confirm': 'submitNewPasswordIfEnter'
 
@@ -23,7 +23,7 @@ class audiencias.views.PasswordReset extends Backbone.View
     @$el.find('#password-reset-card').html(form)
 
   validateEmailRequest: =>
-    idInput = @$el.find('#id')
+    idInput = @$el.find('#person-id')
     hasId = idInput.val().trim().length > 0
     idInput.toggleClass('invalid', !hasId)
 
@@ -32,7 +32,7 @@ class audiencias.views.PasswordReset extends Backbone.View
    
   sendResetEmail: =>
     data = {
-      id: @$el.find('#id').val(),
+      person_id: @$el.find('#person-id').val(),
       id_type: @$el.find('#id-type').val()
     }
     $.ajax({

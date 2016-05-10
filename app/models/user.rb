@@ -3,9 +3,9 @@ class User < ActiveRecord::Base
 	validates :name, presence: true
 	validates :surname, presence: true
 	validates :email, format: { with: GLOBALS::EMAIL_REGEX }, uniqueness: { case_sensitive: false }
-	validates :dni, presence: true, uniqueness: true
 	validates_inclusion_of :id_type, :in => %w(dni lc le)
-	validates_numericality_of :dni, only_integer: true, greater_than: 0
+	validates :person_id, presence: true, uniqueness: true
+	validates_numericality_of :person_id, only_integer: true, greater_than: 0
 	validates :password, length: { minimum: 6 }, allow_nil: true
 	validates :auth_token, uniqueness: true
 
@@ -37,7 +37,7 @@ class User < ActiveRecord::Base
 
 	def as_json(options={})
 		json = super({
-			only: [:dni, :id_type, :email, :id, :name, :surname, :telephone]
+			only: [:person_id, :id_type, :email, :id, :name, :surname, :telephone]
 		})
 		if is_superadmin
 			json[:role] = 'superadmin'
@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
 		json
 	end
 
-	def self.find_by_document(id_type, id)
-		where(id_type: id_type, dni: id).first
+	def self.find_by_document(id_type, person_id)
+		where(id_type: id_type, person_id: person_id).first
 	end
 end

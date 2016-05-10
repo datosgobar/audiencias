@@ -35,7 +35,7 @@ class audiencias.views.UserList extends Backbone.View
 
   populateEditForm: (user) =>
     @$el.find('.edit-user-form option[value="' + user.id_type + '"]').prop('selected', true)
-    @$el.find('.edit-user-form .id-input').val(user.dni)
+    @$el.find('.edit-user-form .person-id-input').val(user.person_id)
     @$el.find('.edit-user-form .name-input').val(user.name)
     @$el.find('.edit-user-form .surname-input').val(user.surname)
     @$el.find('.edit-user-form .email-input').val(user.email)
@@ -85,8 +85,8 @@ class audiencias.views.UserList extends Backbone.View
     @$el.find('.new-user-form').addClass('hidden')
     @$el.find('.edit-user-form').removeClass('hidden')
 
-  validateId: (id) ->
-    !!parseInt(id) and parseInt(id) > 0
+  validatePersonId: (person_id) ->
+    !!parseInt(person_id) and parseInt(person_id) > 0
 
   validateName: (str) ->
     str.trim().length > 0

@@ -31,7 +31,7 @@ class audiencias.views.SupervisorList extends audiencias.views.UserList
   replaceUserElement: (user) =>
     for userEl in @$el.find('.user')
       data = $(userEl).data('user')
-      if data.id_type == user.id_type and data.dni.toString() == user.id
+      if data.id_type == user.id_type and data.person_id.toString() == user.person_id
         data.name = user.name
         data.surname = user.surname
         data.email = user.email
@@ -45,13 +45,13 @@ class audiencias.views.SupervisorList extends audiencias.views.UserList
     $form = @$el.find(formSelector)
     data = {
       id_type: $form.find('.id-type-select').val().trim(),
-      id: $form.find('.id-input').val(),
+      person_id: $form.find('.person-id-input').val(),
       name: $form.find('.name-input').val().trim(),
       surname: $form.find('.surname-input').val().trim(),
       email: $form.find('.email-input').val().trim(),
     }
     
-    idValid = @validateId(data.id)
+    idValid = @validatePersonId(data.person_id)
     $form.find('.id-input').toggleClass('invalid', !idValid)
     nameValid = @validateName(data.name)
     $form.find('.name-input').toggleClass('invalid', !nameValid)
@@ -95,7 +95,7 @@ class audiencias.views.SupervisorList extends audiencias.views.UserList
     data = { users: [] }
     for user in removedUsers
       userData = $(user).data('user')
-      data.users.push({ id: userData.dni, id_type: userData.id_type })
+      data.users.push({ person_id: userData.person_id, id_type: userData.id_type })
     $.ajax(
       url: '/administracion/eliminar_supervisores'
       data: data 

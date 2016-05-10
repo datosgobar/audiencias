@@ -2,7 +2,7 @@ class audiencias.views.UserLogin extends Backbone.View
   template: JST["backbone/templates/user_login"]
   id: 'login'
   events: 
-    'keyup #id': 'submitIfEnter'
+    'keyup #person-id': 'submitIfEnter'
     'keyup #password': 'submitIfEnter'
     'click #submit': 'validateInputs'
     'change #remember-me': 'toggleCheckImg'
@@ -14,7 +14,7 @@ class audiencias.views.UserLogin extends Backbone.View
     @validateInputs() if e.keyCode == 13
 
   validateInputs: =>
-    idInput = @$el.find('#id')
+    idInput = @$el.find('#person-id')
     hasId = idInput.val().trim().length > 0
     idInput.toggleClass('invalid', !hasId)
 
@@ -27,7 +27,7 @@ class audiencias.views.UserLogin extends Backbone.View
    
   doLogin: =>
     data = {
-      id: @$el.find('#id').val().trim(),
+      person_id: @$el.find('#person-id').val().trim(),
       id_type: @$el.find('#id-type').val(),
       password: @$el.find('#password').val(),
       remember_me: @$el.find('#remember-me').is(':checked')
