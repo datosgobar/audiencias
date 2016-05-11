@@ -12,8 +12,10 @@ class audiencias.views.DependenciesTree extends Backbone.View
     $(window).on('expand-all-dependencies', @expandAll)
     $(window).on('search:show-full-list', @showFullList)
     $(window).on('search:show-results-list', @showResultsList)
+    $(window).on('globals:dependencies:loaded', @render)
+    @selectedDependency = {}
 
-  render: ->
+  render: =>
     if audiencias.globals.dependencies and audiencias.globals.dependencies.tree
       tree = audiencias.globals.dependencies.tree
       @$el.html(@baseTemplate())
@@ -26,27 +28,25 @@ class audiencias.views.DependenciesTree extends Backbone.View
 
   treeSelectDependency: (e) =>
     target = $(e.currentTarget)
-    @selectDependency(target)
-
-    dependency = @findDependency(target)
-    if dependency.children and dependency.children.length > 0
+    @selectedDependency = @findDependency(target)
+    @selectDependencyHighlight()
+    if @selectedDependency.children and @selectedDependency.children.length > 0
       target.toggleClass('expanded collapsed')
-    @triggerSelect(dependency)
+    @triggerSelect(@selectedDependency)
 
   resultsSelectDependency: (e) =>
     target = $(e.currentTarget)
-    @selectDependency(target)
-
     targetId = target.data('dependency-id')
-    dependency = @findDependency(target)
-    @triggerSelect(dependency)
+    @selectedDependency = @findDependency(target)
+    @selectDependencyHighlight()
+    @triggerSelect(@selectedDependency)
 
   triggerSelect: (dependency) =>
     $(window).trigger('dependency-selected', [dependency])
 
-  selectDependency: (el) =>
+  selectDependencyHighlight: =>
     @$el.find('.dependency.selected').removeClass('selected')
-    $(el).addClass('selected')
+    @$el.find(".dependency[data-dependency-id='#{@selectedDependency.id}']").addClass('selected')
 
   findDependency: (el) =>
     id = $(el).data('dependency-id')
@@ -64,5 +64,5 @@ class audiencias.views.DependenciesTree extends Backbone.View
 
   showResultsList: (e, results) =>
     @$el.find('#dependencies-tree').addClass('hidden')
-    resultsEl = @resultsTemplate({ results: results })
+    resultsEl = @resultsTemplate({ results: results, selectedDependency: @selectedDependency })
     @$el.find('#dependencies-results').removeClass('hidden').html(resultsEl)

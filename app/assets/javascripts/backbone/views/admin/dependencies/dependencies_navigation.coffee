@@ -8,8 +8,10 @@ class audiencias.views.DependenciesNavigation extends Backbone.View
     'input #dependencies-search-input': 'lunrSearch'
 
   initialize: =>
-    @dependencies = audiencias.globals.dependencies.plain
-    @initializeLunr()
+    $(window).on('globals:dependencies:loaded', =>
+      @dependencies = audiencias.globals.dependencies.plain
+      @initializeLunr()
+    )
 
   render: ->
     @$el.html(@template())
