@@ -5,18 +5,28 @@ class audiencias.views.DependencyMenu extends Backbone.View
   events:
     'click .toggle-menu-icon': 'toggleTopMenu'
     'click .toggle-admin-view': 'toggleAdmins'
+    'click #add-sub-dependency': 'triggerNewDependency'
 
   initialize: ->
-    @adminList = new audiencias.views.AdminList
-    @obligeeList = new audiencias.views.ObligeeList
-    @operatorList = new audiencias.views.OperatorList
+    $(window).on('globals:dependencies:loaded', @refreshDependency)
 
-  defaultView: (dependency) ->
-    @$el.html(@template(dependency))
+  refreshDependency: =>
+    if @dependency
+      newDependencyInfo = _.find(audiencias.globals.dependencies, (d) => d.id == @dependency.id)
+      @defaultView(newDependencyInfo) if newDependencyInfo
 
-    @adminList.render(dependency)
-    @obligeeList.render(dependency)
-    @operatorList.render(dependency)
+  defaultView: (@dependency) ->
+    @$el.html(@template(@dependency))
+    @renderLists()
+
+  renderLists: =>
+    @adminList = new audiencias.views.AdminList(@dependency)
+    @obligeeList = new audiencias.views.ObligeeList(@dependency)
+    @operatorList = new audiencias.views.OperatorList(@dependency)
+    
+    @adminList.render()
+    @obligeeList.render()
+    @operatorList.render()
 
     @$el.find('.menu-lists').html(@adminList.el)
       .append(@obligeeList.el)
@@ -28,3 +38,6 @@ class audiencias.views.DependencyMenu extends Backbone.View
   toggleAdmins: =>
     @$el.find('.toggle-admin-view').toggleClass('hidden')
     @adminList.toggleShow()
+
+  triggerNewDependency: =>
+    $(window).trigger('add-new-dependency', [@dependency])

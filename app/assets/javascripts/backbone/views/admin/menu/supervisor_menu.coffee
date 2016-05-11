@@ -32,10 +32,12 @@ class audiencias.views.SupervisorMenu extends Backbone.View
     @toggleTopMenu()
 
   addDependency: =>
-    $(window).trigger('')
+    $(window).trigger('add-new-dependency')
 
   defaultView: =>
     @$el.removeClass('modifying')
+    unless @$el.find('.top-menu').hasClass('hidden')
+      @$el.find('.toggle-menu-icon, .top-menu').toggleClass('hidden')
     @supervisorList.defaultView()
 
   confirmActions: =>
