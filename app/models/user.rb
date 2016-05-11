@@ -74,25 +74,12 @@ class User < ActiveRecord::Base
       user.password = SecureRandom.urlsafe_base64(8)
     end
 
-    if params[:associations]
-    	params[:associations].each do |association|
-
-    		if association[:type] == 'dependency'
-    			dependency_association = AdminAssociation.new
-    			dependency_association.user = user 
-    			dependency_association.dependency_id = association[:id]
-    			user.admin_associations << dependency_association
-    		
-    		elsif association[:type] == 'obligee'
-    			operator_association = OperatorAssociation.new
-    			operator_association.user = user
-    			operator_association.obligee_id = association[:id]
-    			user.operator_associations << operator_association
-    		end
-
-    	end
-    end
-
     user
 	end
+
+  def update_minor_attributes(new_attr)
+    name = new_attr[:name] if new_attr[:name]
+    surname = new_attr[:surname] if new_attr[:surname]
+    email = new_attr[:email] if new_attr[:email]
+  end
 end

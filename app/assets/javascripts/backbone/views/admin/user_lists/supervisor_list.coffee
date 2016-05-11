@@ -1,20 +1,17 @@
 #= require ./user_list
 class audiencias.views.SupervisorList extends audiencias.views.UserList
+  title: 'Supervisores'
 
   initialize: ->
-    @title = 'Supervisores'
+    super()
+    $(window).on('globals:users:loaded', @filterUsers)
 
-  loadSupervisors: =>
-    $.ajax(
-      url: '/administracion/listar_supervisores'
-      method: 'GET'
-      success: (response) =>
-        audiencias.globals.supervisors = response
-        @renderUsers(audiencias.globals.supervisors)
-    )
+  filterUsers: =>
+    @users = _.filter(audiencias.globals.users, (u) -> u.role == 'superadmin')
+    @renderUsers()
 
   defaultView: =>
-    @loadSupervisors()
+    @renderUsers()
     @showUserList()
     @showAddUserImg()
 
@@ -41,45 +38,39 @@ class audiencias.views.SupervisorList extends audiencias.views.UserList
         $(userEl).replaceWith(newUserEl)
     @showUserList()
 
-  submitNew: (data) =>
+  submitNew: (userData) =>
     $.ajax(
       url: '/administracion/nuevo_supervisor'
-      data: data
+      data: { user: userData }
       method: 'POST'
-      success: (response) =>
-        if response and response.success
-          @defaultView()
+      success: =>
+        audiencias.globals.loadUsers()
+        @defaultView()
     )
 
   submitEdit: =>
     editedUsers = @$el.find('.user.edited')
-    data = { users: [] }
+    requests = []
     for editedUser in editedUsers
       newData = $(editedUser).data('user')
-      data.users.push(newData)
-    $.ajax(
-      url: '/administracion/actualizar_supervisores'
-      data: data 
-      method: 'POST'
-      success: (response) =>
-        if response and response.success
-          @defaultView()
-    )
+      requests.push($.ajax(
+        url: '/administracion/actualizar_usuario'
+        data: {user: newData }
+        method: 'POST'
+      ))
+    $.when.apply($, requests).done(audiencias.globals.loadUsers)
 
   submitRemove: =>
     removedUsers = @$el.find('.user.removed')
-    data = { users: [] }
+    requests = []
     for user in removedUsers
       userData = $(user).data('user')
-      data.users.push({ person_id: userData.person_id, id_type: userData.id_type })
-    $.ajax(
-      url: '/administracion/eliminar_supervisores'
-      data: data 
-      method: 'POST'
-      success: (response) =>
-        if response and response.success
-          @defaultView()
-    )
+      requests.push($.ajax(
+        url: '/administracion/eliminar_supervisor'
+        data: { user: userData } 
+        method: 'POST'
+      ))
+    $.when.apply($, requests).done(audiencias.globals.loadUsers)
 
   submitChanges: =>
     if @$el.find('.user.removed').length > 0

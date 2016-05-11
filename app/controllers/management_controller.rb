@@ -21,13 +21,13 @@ class ManagementController < ApplicationController
 
   def new_admin
     user = User.find_or_initialize(params[:user])
-    dependency = Dependency.find(params[:dependency])
+    dependency = Dependency.find_by_id(params[:dependency][:id])
     association = AdminAssociation.new(user: user, dependency: dependency)
     new_user = user.new_record?
 
     if user.save and association.save
       user.send_password_reset if new_user
-      render json: { success: true }
+      render json: { success: true, dependency: dependency }
     else
       render json: { success: false, errors: user.errors.messages }
     end
@@ -119,15 +119,6 @@ class ManagementController < ApplicationController
       render json: { success: true }
     else
       render json: { success: false }
-    end
-  end
-
-  def search_user 
-    user = User.find_by_document(params[:user][:id_type], params[:user][:person_id])
-    if user 
-      render json: { user: user }
-    else
-      render json: {}
     end
   end
 

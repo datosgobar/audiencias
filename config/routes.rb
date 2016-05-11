@@ -24,7 +24,6 @@ Rails.application.routes.draw do
   post '/administracion/eliminar_operador', to: 'management#remove_operator'
   post '/administracion/actualizar_usuario', to: 'management#update_user'
   post '/administracion/crear_dependencia', to: 'management#new_dependency'
-  post '/administracion/buscar_usuario', to: 'management#search_user'
   post '/administracion/listar_dependencias', to: 'management#dependency_list'
   post '/administracion/listar_usuarios', to: 'management#user_list'
 end

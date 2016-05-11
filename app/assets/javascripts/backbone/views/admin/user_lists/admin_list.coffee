@@ -3,10 +3,15 @@ class audiencias.views.AdminList extends audiencias.views.UserList
   className: 'user-list hidden'
   title: 'Administradores'
 
-  render: (dependency) =>
+  initialize: (dependency) ->
     super()
     @dependency = dependency
-    @renderUsers(dependency.users)
+    @users = dependency.users || []
+
+  render: ->
+    super()
+    @renderUsers()
+    @setAutocompleteOptions() unless @autocompleteOptions
 
   toggleShow: =>
     @$el.toggleClass('hidden')
@@ -14,18 +19,17 @@ class audiencias.views.AdminList extends audiencias.views.UserList
   addUserFromForm: =>
     validation = @validateUser('.new-user-form')
     if validation.valid
-      data = validation.data
-      data.associations = [{ type: 'dependency', id: @dependency.id }]
-      @submitNew(data)
+      userData = validation.data
+      dependencyData = { id: @dependency.id }
+      @submitNew(userData, dependencyData)
 
-  submitNew: (data) =>
+  submitNew: (userData, dependencyData) =>
     $.ajax(
-      url: '/administracion/nuevo_usuario'
-      data: JSON.stringify(data)
+      url: '/administracion/nuevo_administrador'
+      data: { user: userData, dependency: dependencyData }
       method: 'POST'
-      dataType: 'json'
-      contentType: 'application/json'
       success: (response) =>
-        if response and response.success
-          @trigger('reload-dependency')
+        if response.dependency and response.dependency.users
+          @users = response.dependency.users
+          @render()
     )

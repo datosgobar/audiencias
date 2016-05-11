@@ -2,6 +2,7 @@ class audiencias.views.UserList extends Backbone.View
   template: JST["backbone/templates/admin/menu/user_list"]
   userTemplate: JST["backbone/templates/admin/menu/user"]
   className: 'user-list'
+  positionInForm: false
   events:
     'click .add-user': 'showNewUserForm'
     'click .add-new-user': 'addUserFromForm'
@@ -10,29 +11,30 @@ class audiencias.views.UserList extends Backbone.View
     'click .cancel-edit-user': 'cancelEditUserForm'
     'click .save-edit-user': 'saveEditUser'
     'click .remove-user': 'removeUser'
-    'keypress .new-user-form .person-id-input': 'onIdInput'
-    'focusout .new-user-form .person-id-input': 'searchUserFromInput'
+    'change .id-type-select': 'setAutocomplete'
+
+  initialize: ->
+    $(window).on('globals:users:loaded', @setAutocompleteOptions)
 
   render: ->
-    @$el.html(@template({
-      title: @title  
-    }))
+    @$el.html(@template(title: @title, positionInForm: @positionInForm))
 
-  renderUsers: (users) =>
+  renderUsers: =>
     userList = @$el.find('.users').html('')
-    for user in users
+    for user in @users
       userEl = $(@userTemplate(user))
       userEl.data('user', user)
       userList.append(userEl)
 
   editModeOn: =>
-    @showUserList()
+    @renderUsers()
     @$el.find('.user').addClass('editable')
     @hideAddUserImg()
 
   editUser: (e) =>
     user = $(e.currentTarget).closest('.user').data('user')
     @showEditForm()
+    @trigger('hide-global-cancel')
     @populateForm('.edit-user-form', user)
 
   populateForm: (formSelector, user) =>
@@ -44,26 +46,23 @@ class audiencias.views.UserList extends Backbone.View
     form.find('.email-input').val(user.email)
 
   cancelEditUserForm: =>
+    @trigger('show-global-cancel')
     @showUserList()
-
-  saveEditUser: =>
 
   removeModeOn: =>
-    @showUserList()
+    @renderUsers()
     @$el.find('.user').addClass('removable')
     @hideAddUserImg()
 
   removeUser: (e) =>
-    $(e.currentTarget).closest('.user').addClass('removed')
+    $(e.currentTarget).closest('.user').addClass('hidden removed')
 
   showNewUserForm: =>
     @showCreateForm()
     @hideAddUserImg()
 
-  addUserFromForm: (e) =>
-
   cancelNewUserForm: =>
-    @showUserList()
+    @renderUsers()
     @showAddUserImg()
 
   showAddUserImg: =>
@@ -96,32 +95,32 @@ class audiencias.views.UserList extends Backbone.View
 
   validateEmail: (str) ->
     /[\w+\-.]+@[a-z\d\-.]+\.[a-z]+/i.test(str)
-
-  onIdInput: (e) =>
-    @searchUserFromInput() if e.which == 13
-
-  searchUserFromInput: =>
-    searchPersonId = @$el.find('.new-user-form .person-id-input').val().trim()
-    return if searchPersonId.length == 0
-    searchIdType = @$el.find('.new-user-form .id-type-select').val().trim()
-    $('body').addClass('searching')
-    if (not @userForForm) or (searchPersonId != @userForForm.person_id) or (searchIdType != @userForForm.id_type)
-      @$el.find('.new-user-form .disabled-when-searching').prop('disabled', true)
-      $.ajax(
-        url: '/administracion/buscar_usuario'
-        data: { id_type: searchIdType, person_id: searchPersonId }
-        method: 'POST'
-        success: (response) =>
-          @$el.find('.new-user-form .disabled-when-searching').prop('disabled', false)
-          $('body').removeClass('searching')
-          if response.user 
-            @userForForm = response.user
-            @populateForm('.new-user-form', @userForForm)
-            @$el.find('.new-user-form .disabled-if-found').prop('disabled', true)
-          else 
-            @$el.find('input.disabled-if-found').val('')
-            @$el.find('.new-user-form .name-input').focus()
+    
+  setAutocompleteOptions: =>
+    @autocompleteOptions = { dni: [], le: [], lc: [] }
+    for user in audiencias.globals.users
+      @autocompleteOptions[user.id_type].push(
+        value: user.person_id.toString()
+        data: user
       )
+    @setAutocomplete()
+
+  setAutocomplete: =>
+    if @autocompleteOptions and @$el.find('.new-user-form .id-type-select').length > 0
+      id_type = @$el.find('.new-user-form .id-type-select').val().trim()
+      @$el.find('.new-user-form .person-id-input').autocomplete(
+        source: @autocompleteOptions[id_type]
+        select: @autocompleteSelectedChange
+        change: @autocompleteSelectedChange
+      )
+
+  autocompleteSelectedChange: (e, ui) =>
+    if ui and ui.item
+      user = ui.item.data
+      @populateForm('.new-user-form', user)
+      @$el.find('.new-user-form .disabled-if-found').prop('disabled', true)
+    else
+      @$el.find('.new-user-form .disabled-if-found').prop('disabled', false)
 
   validateUser: (formSelector) =>
     $form = @$el.find(formSelector)
