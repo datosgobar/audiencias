@@ -9,14 +9,38 @@ class Dependency < ActiveRecord::Base
   
 	validates :name, length: { minimum: 6 }
 
-  def self.for_user(user)
-    # TODO: filtrar el arbol segun permisos de usuario
-    active_dependencies = where(active: true).as_json
-    plain_dependencies = active_dependencies.clone
+  def self.list_for_user(user)
+    if user.role == 'superadmin' 
+      list_all_active
+    elsif user.role == 'admin'
+      list_administred_by(user)
+    else
+      []
+    end
+    
+  end
 
-    active_dependencies.each do |dependency|
+  def self.list_all_active
+    active_dependencies = where(active: true).as_json
+    list = { plain: active_dependencies.clone }
+    trees = all_trees(active_dependencies)
+    list[:tree] = trees.select { |d| !d['parent_id'] }
+    list
+  end
+
+  def self.list_administred_by(user)
+    active_dependencies = where(active: true).as_json
+    list = { plain: active_dependencies.clone }
+    trees = all_trees(active_dependencies)
+    user_dependencies = user.dependencies.collect(&:id)
+    list[:tree] = trees.select { |d| user_dependencies.include?(d.id) }
+    list
+  end
+
+  def self.all_trees(dependencies)
+    dependencies.each do |dependency|
       if dependency['parent_id']
-        parent = active_dependencies.find { |parent| parent['id'] == dependency['parent_id'] }
+        parent = dependencies.find { |parent| parent['id'] == dependency['parent_id'] }
         if parent 
           unless parent['children']
             parent['children'] = []
@@ -25,11 +49,7 @@ class Dependency < ActiveRecord::Base
         end
       end
     end
-
-    {
-      tree: active_dependencies.select { |d| !d['parent_id'] },
-      plain: plain_dependencies
-    }
+    dependencies
   end
 
   def as_json(options={})

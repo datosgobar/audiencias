@@ -29,6 +29,9 @@ window.audiencias =
       $('body').append(passwordReset.el)
 
     adminLanding: ->
+      audiencias.globals.loadDependencies()
+      audiencias.globals.loadUsers()
+
       @renderHeader()
       adminLanding = new audiencias.views.AdminLanding 
       adminLanding.render()
@@ -40,4 +43,21 @@ window.audiencias =
       operatorLanding.render()
       $('body').append(operatorLanding.el)
   }
-  globals: {}
+  globals: {
+    loadDependencies: ->
+      $.ajax(
+        url: '/administracion/listar_dependencias'
+        method: 'POST'
+        success: (response) =>
+          audiencias.globals.dependencies = response.dependencies
+          $(window).trigger('globals:dependencies:loaded')
+      )
+    loadUsers: ->
+      $.ajax(
+        url: '/administracion/listar_usuarios'
+        method: 'POST'
+        success: (response) =>
+          audiencias.globals.users = response.users
+          $(window).trigger('globals:users:loaded')
+      )
+  }

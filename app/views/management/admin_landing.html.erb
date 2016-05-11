@@ -1,6 +1,5 @@
 <%= javascript_tag do %>
   $(function() {
-    audiencias.globals.dependencies = <%= raw @dependencies.to_json %>;
     audiencias.globals.currentUser = <%= raw @current_user.to_json %>
     audiencias.app.adminLanding();
   });

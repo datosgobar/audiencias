@@ -2,14 +2,6 @@ class ManagementController < ApplicationController
 
   before_action :require_login, :authorize_user
 
-  def superadmin_landing
-    load_resources
-  end
-
-  def admin_landing
-    load_resources
-  end
-
   def list_superadmins
     render json: User.where(is_superadmin: true)
   end
@@ -148,10 +140,14 @@ class ManagementController < ApplicationController
     end
   end
 
-  private
-
-  def load_resources
-    @dependencies = Dependency.list_for_user @current_user
-    @users = User.list_for_user @current_user
+  def dependency_list
+    dependencies = Dependency.list_for_user @current_user
+    render json: { dependencies: dependencies }
   end
+
+  def user_list
+    users = User.all
+    render json: { users: users }
+  end
+
 end
