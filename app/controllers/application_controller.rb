@@ -5,12 +5,24 @@ class ApplicationController < ActionController::Base
 
   before_action :set_current_user
 
+  rescue_from CanCan::AccessDenied do |exception|
+    head :forbidden
+  end
+
   def set_current_user
     @current_user ||= User.find_by_auth_token!(cookies[:auth_token]) if cookies[:auth_token]
   end
 
   def require_login
     redirect_to login_url unless @current_user
+  end
+
+  def authorize_user
+    authorize!(params[:action].to_sym, self)
+  end
+
+  def current_user
+    @current_user
   end
 
 end

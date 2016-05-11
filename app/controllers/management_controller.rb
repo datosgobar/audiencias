@@ -1,6 +1,6 @@
 class ManagementController < ApplicationController
 
-  before_action :require_login
+  before_action :require_login, :authorize_user
 
   def superadmin_landing
     @dependencies = Dependency.for_user @current_user
