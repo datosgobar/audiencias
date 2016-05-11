@@ -18,25 +18,24 @@ class ManagementController < ApplicationController
   end
 
   def new_superadmin
-    user = User.find_by_document(params[:id_type], params[:person_id])
-    new_user = !user
-    
-    unless user
-      user = User.new
-      user.id_type = params[:id_type]
-      user.person_id = params[:person_id]
-      require 'securerandom'
-      user.password = SecureRandom.urlsafe_base64(8)
-    end
-
+    user = User.find_or_initialize(params)
+    new_user = user.new_record?
     user.is_superadmin = true
-    user.name = params[:name]
-    user.surname = params[:surname]
-    user.email = params[:email]
-    
     if user.save 
       user.send_password_reset if new_user
-      render json: { success: true, new: new_user }
+      render json: { success: true }
+    else
+      render json: { success: false, errors: user.errors.messages }
+    end
+  end
+
+  def new_user
+    user = User.find_or_initialize(params)
+    new_user = user.new_record?
+
+    if user.save
+      user.send_password_reset if new_user
+      render json: { success: true }
     else
       render json: { success: false, errors: user.errors.messages }
     end

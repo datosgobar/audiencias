@@ -35,21 +35,64 @@ class User < ActiveRecord::Base
 		is_superadmin or dependencies.length > 0 or obligees.length > 0
 	end
 
+
+  AS_JSON_OPTIONS = {
+    only: [:person_id, :id_type, :email, :id, :name, :surname, :telephone],
+    methods: [:role]
+  }
 	def as_json(options={})
-		json = super({
-			only: [:person_id, :id_type, :email, :id, :name, :surname, :telephone]
-		})
-		if is_superadmin
-			json[:role] = 'superadmin'
-		elsif dependencies.length > 0
-			json[:role] = 'admin'
-		elsif obligees.length > 0
-			json[:role] = 'operator'
-		end
-		json
+		json = super(AS_JSON_OPTIONS)
 	end
+
+  def role
+    if is_superadmin
+      'superadmin'
+    elsif dependencies.length > 0
+      'admin'
+    elsif obligees.length > 0
+      'operator'
+    else
+      'user'
+    end
+  end
 
 	def self.find_by_document(id_type, person_id)
 		where(id_type: id_type, person_id: person_id).first
+	end
+
+	def self.find_or_initialize(params)
+		user = find_by_document(params[:id_type], params[:person_id])
+    
+    unless user
+      user = new
+      user.id_type = params[:id_type]
+      user.person_id = params[:person_id]
+      user.name = params[:name]
+      user.surname = params[:surname]
+      user.email = params[:email]
+      require 'securerandom'
+      user.password = SecureRandom.urlsafe_base64(8)
+    end
+
+    if params[:associations]
+    	params[:associations].each do |association|
+
+    		if association[:type] == 'dependency'
+    			dependency_association = AdminAssociation.new
+    			dependency_association.user = user 
+    			dependency_association.dependency_id = association[:id]
+    			user.admin_associations << dependency_association
+    		
+    		elsif association[:type] == 'obligee'
+    			operator_association = OperatorAssociation.new
+    			operator_association.user = user
+    			operator_association.obligee_id = association[:id]
+    			user.operator_associations << operator_association
+    		end
+
+    	end
+    end
+
+    user
 	end
 end

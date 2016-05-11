@@ -14,9 +14,9 @@ class audiencias.views.DependencyMenu extends Backbone.View
   defaultView: (dependency) ->
     @$el.html(@template(dependency))
 
-    @adminList.render()
-    @obligeeList.render()
-    @operatorList.render()
+    @adminList.render(dependency)
+    @obligeeList.render(dependency)
+    @operatorList.render(dependency)
 
     @$el.find('.menu-lists').html(@adminList.el)
       .append(@obligeeList.el)

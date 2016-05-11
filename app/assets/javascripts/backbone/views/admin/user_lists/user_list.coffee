@@ -122,3 +122,27 @@ class audiencias.views.UserList extends Backbone.View
             @$el.find('input.disabled-if-found').val('')
             @$el.find('.new-user-form .name-input').focus()
       )
+
+  validateUser: (formSelector) =>
+    $form = @$el.find(formSelector)
+    data = {
+      id_type: $form.find('.id-type-select').val().trim(),
+      person_id: $form.find('.person-id-input').val(),
+      name: $form.find('.name-input').val().trim(),
+      surname: $form.find('.surname-input').val().trim(),
+      email: $form.find('.email-input').val().trim(),
+    }
+    
+    idValid = @validatePersonId(data.person_id)
+    $form.find('.id-input').toggleClass('invalid', !idValid)
+    nameValid = @validateName(data.name)
+    $form.find('.name-input').toggleClass('invalid', !nameValid)
+    surnameValid = @validateName(data.surname)
+    $form.find('.surname-input').toggleClass('invalid', !surnameValid)
+    emailValid = @validateEmail(data.email)
+    $form.find('.email-input').toggleClass('invalid', !emailValid)
+    
+    {
+      valid: idValid and nameValid and surnameValid and emailValid,
+      data: data 
+    }

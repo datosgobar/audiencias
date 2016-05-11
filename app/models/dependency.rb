@@ -32,4 +32,8 @@ class Dependency < ActiveRecord::Base
     }
   end
 
+  def as_json(options={})
+    super(include: { users: User::AS_JSON_OPTIONS })
+  end
+
 end
