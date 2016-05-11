@@ -3,14 +3,11 @@ class ManagementController < ApplicationController
   before_action :require_login, :authorize_user
 
   def superadmin_landing
-    @dependencies = Dependency.for_user @current_user
+    load_resources
   end
 
   def admin_landing
-    @dependencies = Dependency.for_user @current_user
-  end
-
-  def operator_landing
+    load_resources
   end
 
   def list_superadmins
@@ -18,9 +15,10 @@ class ManagementController < ApplicationController
   end
 
   def new_superadmin
-    user = User.find_or_initialize(params)
+    user = User.find_or_initialize(params[:user])
     new_user = user.new_record?
     user.is_superadmin = true
+
     if user.save 
       user.send_password_reset if new_user
       render json: { success: true }
@@ -29,11 +27,13 @@ class ManagementController < ApplicationController
     end
   end
 
-  def new_user
-    user = User.find_or_initialize(params)
+  def new_admin
+    user = User.find_or_initialize(params[:user])
+    dependency = Dependency.find(params[:dependency])
+    association = AdminAssociation.new(user: user, dependency: dependency)
     new_user = user.new_record?
 
-    if user.save
+    if user.save and association.save
       user.send_password_reset if new_user
       render json: { success: true }
     else
@@ -41,40 +41,97 @@ class ManagementController < ApplicationController
     end
   end
 
-  def remove_superadmins
-    users = params[:users]
-    response = { users: [] }
-    users.each do |key, userData|
-      user = User.find_by_document(userData[:id_type], userData[:person_id])
-      if user 
-        user.is_superadmin = false
-        userData[:success] = user.save 
-      else 
-        userData[:success] = false
-      end
-      response[:users] << userData
+  def new_obligee
+    person = Person.find_or_initialize(params[:person])
+    obligee = Obligee.find_or_initialize(params[:obligee])
+
+    if person.save and obligee.save
+      render json: { success: true }
+    else
+      render json: { success: false }
     end
-    render json: response
   end
 
-  def update_superadmins 
-    users = params[:users]
-    response = { users: [] }
-    users.each do |key, userData|
-      user = User.find_by_document(userData[:id_type], userData[:person_id])
-      if user 
-        user.update_attributes(userData)
-        userData[:success] = user.save 
-      else 
-        userData[:success] = false
-      end
-      response[:users] << userData
+  def new_operator
+    obligee = Obligee.find_or_initialize(params[:obligee])
+    user = User.find_or_initialize(params[:user])
+    association = OperatorAssociation.find_or_initialize(user, obligee)
+
+    if obligee.save and user.save and association.save 
+      render json: { success: true }
+    else
+      render json: { success: false }
+    end 
+  end
+
+  def remove_superadmin
+    user = User.find_by_document(params[:user][:id_type], params[:user][:person_id])
+    unless user 
+      render json: { success: false }
+      return
     end
-    render json: response
+    user.is_superadmin = false 
+    if user.save 
+      render json: { success: true }
+    else 
+      render json: { success: false }
+    end
+  end
+
+  def remove_admin
+    association = AdminAssociation.where(user_id: params[:user][:id], dependency_id: params[:dependency][:id])
+    if association.length > 0
+      association.destroy_all
+      render json: { success: true }
+    else
+      render json: { success: false }
+    end
+
+  end
+
+  def remove_obligee
+    obligee = Obligee.find_by_person_id(params[:obligee][:person_id])
+    unless obligee
+      render json: { success: false }
+      return
+    end
+    obligee.active = false
+    if obligee.save
+      render json: { success: true }
+    else
+      render json: { success: false }
+    end
+  end
+
+  def remove_operator
+    association = OperatorAssociation.where(user_id: params[:user][:id], obligee_id: params[:obligee][:id])
+    unless association 
+      render json: { success: false }
+      return
+    end
+    if association.destroy_all 
+      render json: { success: true }
+    else
+      render json: { success: false }
+    end
+  end
+
+  def update_user
+    user = User.find_by_document(params[:user][:id_type], params[:user][:person_id])
+    unless user 
+      render json: { success: false }
+      return
+    end 
+    user.update_minor_attributes(params[:user])
+    if user.save 
+      render json: { success: true }
+    else
+      render json: { success: false }
+    end
   end
 
   def search_user 
-    user = User.find_by_document(params[:id_type], params[:person_id])
+    user = User.find_by_document(params[:user][:id_type], params[:user][:person_id])
     if user 
       render json: { user: user }
     else
@@ -82,4 +139,19 @@ class ManagementController < ApplicationController
     end
   end
 
+  def new_dependency
+    dependency = Dependency.create(params[:dependency])
+    if dependency.save 
+      render json: { success: true }
+    else
+      render json: { success: false }
+    end
+  end
+
+  private
+
+  def load_resources
+    @dependencies = Dependency.list_for_user @current_user
+    @users = User.list_for_user @current_user
+  end
 end
