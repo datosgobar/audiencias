@@ -14,22 +14,22 @@ class audiencias.views.OperatorList extends audiencias.views.UserList
     if @obligee
       super()
       @renderUsers()
+      @setAutocompleteOptions() unless @autocompleteOptions
 
   addUserFromForm: =>
     validation = @validateUser('.new-user-form')
     if validation.valid
-      data = validation.data
-      data.associations = [{ type: 'obligee', id: @dependency.obligee.id }]
-      @submitNew(data)
+      userData = validation.data
+      dependencyData = { id: @dependency.id }
+      @submitNew(userData, dependencyData)
 
-  submitNew: (data) =>
+  submitNew: (userData, dependencyData) =>
     $.ajax(
-      url: '/administracion/nuevo_usuario'
-      data: JSON.stringify(data)
+      url: '/administracion/nuevo_operador'
+      data: { user: userData, dependency: dependencyData }
       method: 'POST'
-      dataType: 'json'
-      contentType: 'application/json'
       success: (response) =>
-        if response and response.success
-          @trigger('reload-dependency')
+        if response.dependency and response.dependency.obligee and response.dependency.obligee.users
+          @users = response.dependency.obligee.users
+          @render()
     )

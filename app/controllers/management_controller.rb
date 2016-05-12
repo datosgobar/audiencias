@@ -51,11 +51,12 @@ class ManagementController < ApplicationController
   end
 
   def new_operator
-    obligee = Obligee.find_or_initialize(params[:obligee])
+    dependency = Dependency.find_by_id(params[:dependency][:id])
+    obligee = dependency.obligee
     user = User.find_or_initialize(params[:user])
-    association = OperatorAssociation.find_or_initialize(user, obligee)
+    association = OperatorAssociation.new(user: user, obligee: obligee)
 
-    if obligee.save and user.save and association.save 
+    if user.save and association.save 
       render json: { success: true }
     else
       render json: { success: false }
