@@ -35,10 +35,16 @@ class ManagementController < ApplicationController
 
   def new_obligee
     person = Person.find_or_initialize(params[:person])
-    obligee = Obligee.find_or_initialize(params[:obligee])
+    dependency = Dependency.find_by_id(params[:dependency][:id])
+    if dependency.obligee or person.has_active_obligee
+      render json: { success: false }
+      return
+    end
+    obligee = Obligee.new(person: person, dependency: dependency, position: params[:obligee][:position])
+    dependency.obligee = obligee 
 
-    if person.save and obligee.save
-      render json: { success: true }
+    if person.save and obligee.save and dependency.save
+      render json: { success: true, obligee: obligee, dependency: dependency, person: person }
     else
       render json: { success: false }
     end

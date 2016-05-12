@@ -133,7 +133,7 @@ class audiencias.views.UserList extends Backbone.View
     }
     
     idValid = @validatePersonId(data.person_id)
-    $form.find('.id-input').toggleClass('invalid', !idValid)
+    $form.find('.person-id-input').toggleClass('invalid', !idValid)
     nameValid = @validateName(data.name)
     $form.find('.name-input').toggleClass('invalid', !nameValid)
     surnameValid = @validateName(data.surname)
