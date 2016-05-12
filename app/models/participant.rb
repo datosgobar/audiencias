@@ -1,7 +1,6 @@
 class Participant < ActiveRecord::Base
 
   has_one :audience
-  has_one :position
   has_one :dependency
   has_one :person
   has_one :represented

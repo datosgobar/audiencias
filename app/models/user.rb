@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
     methods: [:role]
   }
 	def as_json(options={})
-		json = super(AS_JSON_OPTIONS)
+		super(AS_JSON_OPTIONS)
 	end
 
   def role

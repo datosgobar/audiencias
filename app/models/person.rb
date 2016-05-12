@@ -6,5 +6,49 @@ class Person < ActiveRecord::Base
   validates :id_type, presence: true
   validates :country, presence: true
   validates :email, format: { with: GLOBALS::EMAIL_REGEX }
+  has_many :obligees
+  after_initialize :set_default_country
 
+  def self.find_by_document(id_type, person_id)
+    where(id_type: id_type, person_id: person_id).first
+  end
+
+  def self.find_or_initialize(params)
+    person = find_by_document(params[:id_type], params[:person_id])
+    
+    unless person
+      person = new
+      person.id_type = params[:id_type]
+      person.person_id = params[:person_id]
+      person.name = params[:name]
+      person.surname = params[:surname]
+      person.email = params[:email]
+    end
+
+    person
+  end
+
+  def has_active_obligee
+    active_obligee = false
+    obligees.each do |obligee|
+      if obligee.active 
+        active_obligee = true 
+        break
+      end
+    end
+    active_obligee
+  end
+
+  AS_JSON_OPTIONS = {
+    only: [:country, :email, :id, :id_type, :name, :person_id, :surname, :telephone]
+  }
+  def as_json(options={})
+    super(AS_JSON_OPTIONS)
+  end
+
+  private
+
+  def set_default_country
+    self.country ||= 'Argentina'
+  end
 end

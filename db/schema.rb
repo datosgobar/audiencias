@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160509182100) do
+ActiveRecord::Schema.define(version: 20160512110000) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -43,31 +43,28 @@ ActiveRecord::Schema.define(version: 20160509182100) do
   end
 
   create_table "dependencies", force: :cascade do |t|
-    t.string   "name",                       null: false
+    t.string   "name",                      null: false
     t.integer  "obligee_id"
-    t.integer  "position_id"
     t.integer  "parent_id"
-    t.boolean  "active",      default: true
+    t.boolean  "active",     default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "dependencies", ["obligee_id"], name: "index_dependencies_on_obligee_id"
   add_index "dependencies", ["parent_id"], name: "index_dependencies_on_parent_id"
-  add_index "dependencies", ["position_id"], name: "index_dependencies_on_position_id"
 
   create_table "obligees", force: :cascade do |t|
     t.integer  "person_id",                    null: false
     t.integer  "dependency_id",                null: false
-    t.integer  "position_id",                  null: false
     t.boolean  "active",        default: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "position"
   end
 
   add_index "obligees", ["dependency_id"], name: "index_obligees_on_dependency_id"
   add_index "obligees", ["person_id"], name: "index_obligees_on_person_id"
-  add_index "obligees", ["position_id"], name: "index_obligees_on_position_id"
 
   create_table "operator_associations", force: :cascade do |t|
     t.integer  "user_id",    null: false
@@ -83,7 +80,6 @@ ActiveRecord::Schema.define(version: 20160509182100) do
     t.integer  "audience_id",                    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "position_id"
     t.integer  "dependency_id"
     t.integer  "person_id"
     t.integer  "represented_id"
@@ -96,34 +92,21 @@ ActiveRecord::Schema.define(version: 20160509182100) do
   add_index "participants", ["company_id"], name: "index_participants_on_company_id"
   add_index "participants", ["dependency_id"], name: "index_participants_on_dependency_id"
   add_index "participants", ["person_id"], name: "index_participants_on_person_id"
-  add_index "participants", ["position_id"], name: "index_participants_on_position_id"
   add_index "participants", ["represented_id"], name: "index_participants_on_represented_id"
 
   create_table "people", force: :cascade do |t|
     t.string   "person_id",  null: false
     t.string   "name",       null: false
     t.string   "surname",    null: false
-    t.integer  "country"
     t.string   "telephone"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "id_type"
+    t.string   "country"
   end
 
   add_index "people", ["person_id"], name: "index_people_on_person_id"
-
-  create_table "positions", force: :cascade do |t|
-    t.string   "name",                         null: false
-    t.integer  "obligee_id"
-    t.integer  "dependency_id"
-    t.boolean  "active",        default: true
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "positions", ["dependency_id"], name: "index_positions_on_dependency_id"
-  add_index "positions", ["obligee_id"], name: "index_positions_on_obligee_id"
 
   create_table "users", force: :cascade do |t|
     t.integer  "person_id",                              null: false

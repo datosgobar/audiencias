@@ -1,11 +1,11 @@
 class Dependency < ActiveRecord::Base
 
-	has_one :obligee
-	has_one :parent_dependency
-	has_one :position
+	belongs_to :obligee
+	belongs_to :parent_dependency, foreign_key: 'parent_id', class_name: 'Dependency'
 
   has_many :admin_associations
   has_many :users, through: :admin_associations
+  has_many :historic_obligees, foreign_key: 'dependency_id', class_name: 'Obligee'
   
 	validates :name, length: { minimum: 6 }
 
@@ -53,7 +53,13 @@ class Dependency < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super(include: { users: User::AS_JSON_OPTIONS })
+    super({
+      only: [:id, :name, :active, :parent_id],
+      include: { 
+        users: User::AS_JSON_OPTIONS,
+        obligee: Obligee::AS_JSON_OPTIONS
+      }
+    })
   end
 
 end

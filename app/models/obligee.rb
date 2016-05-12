@@ -1,8 +1,7 @@
 class Obligee < ActiveRecord::Base
 
-	has_one :person
-	has_one :dependency
-	has_one :position
+	belongs_to :person
+	belongs_to :dependency
 
   has_many :operator_associations
   has_many :users, through: :operator_associations
@@ -11,4 +10,12 @@ class Obligee < ActiveRecord::Base
 	validates :dependency, presence: true
 	validates :position, presence: true
 
+
+  AS_JSON_OPTIONS = {
+    only: [:active],
+    include: [:person]
+  }
+  def as_json(options={})
+    super(AS_JSON_OPTIONS)
+  end
 end
