@@ -46,6 +46,13 @@ class Person < ActiveRecord::Base
     super(AS_JSON_OPTIONS)
   end
 
+  def update_minor_attributes(new_attr)
+    self.name = new_attr[:name] if new_attr[:name]
+    self.surname = new_attr[:surname] if new_attr[:surname]
+    self.telephone = new_attr[:telephone] if new_attr[:telephone]
+    self.email = new_attr[:email] if new_attr[:email]
+  end
+
   private
 
   def set_default_country

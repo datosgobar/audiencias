@@ -12,10 +12,14 @@ class Obligee < ActiveRecord::Base
 
 
   AS_JSON_OPTIONS = {
-    only: [:id, :active],
+    only: [:id, :active, :position],
     include: [{ person: Person::AS_JSON_OPTIONS }, { users: User::AS_JSON_OPTIONS }]
   }
   def as_json(options={})
     super(AS_JSON_OPTIONS)
+  end
+
+  def update_minor_attributes(new_attr)
+    self.position = new_attr[:position] if new_attr[:position]
   end
 end

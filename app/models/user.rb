@@ -78,8 +78,8 @@ class User < ActiveRecord::Base
 	end
 
   def update_minor_attributes(new_attr)
-    name = new_attr[:name] if new_attr[:name]
-    surname = new_attr[:surname] if new_attr[:surname]
-    email = new_attr[:email] if new_attr[:email]
+    self.name = new_attr[:name] if new_attr[:name]
+    self.surname = new_attr[:surname] if new_attr[:surname]
+    self.email = new_attr[:email] if new_attr[:email]
   end
 end

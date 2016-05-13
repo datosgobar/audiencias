@@ -13,7 +13,7 @@ class ManagementController < ApplicationController
 
     if user.save 
       user.send_password_reset if new_user
-      render json: { success: true }
+      render json: { success: true, user: user }
     else
       render json: { success: false, errors: user.errors.messages }
     end
@@ -27,7 +27,7 @@ class ManagementController < ApplicationController
 
     if user.save and association.save
       user.send_password_reset if new_user
-      render json: { success: true, dependency: dependency }
+      render json: { success: true, dependency: dependency, user: user }
     else
       render json: { success: false, errors: user.errors.messages }
     end
@@ -57,7 +57,7 @@ class ManagementController < ApplicationController
     association = OperatorAssociation.new(user: user, obligee: obligee)
 
     if user.save and association.save 
-      render json: { success: true, dependency: dependency }
+      render json: { success: true, dependency: dependency, user: user }
     else
       render json: { success: false }
     end 
@@ -71,7 +71,7 @@ class ManagementController < ApplicationController
     end
     user.is_superadmin = false 
     if user.save 
-      render json: { success: true }
+      render json: { success: true, user: user }
     else 
       render json: { success: false }
     end
@@ -123,7 +123,23 @@ class ManagementController < ApplicationController
     end 
     user.update_minor_attributes(params[:user])
     if user.save 
-      render json: { success: true }
+      render json: { success: true, user: user }
+    else
+      render json: { success: false }
+    end
+  end
+
+  def update_obligee
+    obligee = Obligee.find_by_person_id(params[:obligee][:person_id])
+    unless obligee
+      render json: { success: false }
+      return
+    end
+    person = obligee.person
+    obligee.update_minor_attributes(params[:obligee])
+    person.update_minor_attributes(params[:person])
+    if person.save and obligee.save 
+      render json: { success: true, obligee: obligee, person: person }
     else
       render json: { success: false }
     end
