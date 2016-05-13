@@ -16,15 +16,13 @@
       img {
         height: 1em;
         width: 1em;
+        @include transition(transform 100ms ease-in-out 0s);
       }
 
-      &.expanded img.collapsed {
-        display: none;
+      &.expanded img {
+        @include transform(rotate(90deg) translateX(2px));
       }
 
-      &.collapsed img.expanded {
-        display: none;
-      }
     }
 
     .dependency.collapsed + .children {

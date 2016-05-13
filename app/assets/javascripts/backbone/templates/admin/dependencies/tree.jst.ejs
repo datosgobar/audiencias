@@ -1,7 +1,6 @@
 <% for (var i=0; i<nodes.length; i++) { %>
   <div class="dependency collapsed" style="padding-left:<%= padding %>%" data-dependency-id="<%= nodes[i].id %>">
-    <img src="/assets/icon-marcador-derecha.svg" class="collapsed">
-    <img src="/assets/icon-marcador-abajo.svg" class="expanded">
+    <img src="/assets/icon-marcador-derecha.svg">
     <%= nodes[i].name %>
   </div>
   <% var children = nodes[i].children; %>

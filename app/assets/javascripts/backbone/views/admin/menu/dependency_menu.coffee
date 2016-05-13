@@ -10,7 +10,7 @@ class audiencias.views.DependencyMenu extends Backbone.View
     'click #edit-supervisors': 'editDependencyAndUsers'
     'click #remove-supervisors': 'removeDependencyOrUsers'
     'click #see-dependency-audiencees': 'goToObligeeAudiences'
-    'click #cancel': 'defaultView'
+    'click #cancel': 'cancelModifying'
 
   initialize: ->
     $(window).on('globals:dependencies:loaded', @refreshDependency)
