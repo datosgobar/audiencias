@@ -14,7 +14,7 @@ class audiencias.views.OperatorList extends audiencias.views.UserList
     if @obligee
       super()
       @renderUsers()
-      @setAutocompleteOptions() unless @autocompleteOptions
+      @setAutocomplete()
 
   addUserFromForm: =>
     validation = @validateUser('.new-user-form')

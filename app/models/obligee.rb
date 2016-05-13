@@ -12,7 +12,7 @@ class Obligee < ActiveRecord::Base
 
 
   AS_JSON_OPTIONS = {
-    only: [:active],
+    only: [:id, :active],
     include: [{ person: Person::AS_JSON_OPTIONS }, { users: User::AS_JSON_OPTIONS }]
   }
   def as_json(options={})

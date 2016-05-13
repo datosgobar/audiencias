@@ -11,10 +11,13 @@ class audiencias.views.AdminList extends audiencias.views.UserList
   render: ->
     super()
     @renderUsers()
-    @setAutocompleteOptions() unless @autocompleteOptions
+    @setAutocomplete()
 
-  toggleShow: =>
-    @$el.toggleClass('hidden')
+  showAdminList: =>
+    @$el.removeClass('hidden')
+
+  hideAdminList: =>
+    @$el.addClass('hidden')
 
   addUserFromForm: =>
     validation = @validateUser('.new-user-form')

@@ -64,6 +64,7 @@ class audiencias.views.UserList extends Backbone.View
   cancelNewUserForm: =>
     @renderUsers()
     @showAddUserImg()
+    @showUserList()
 
   showAddUserImg: =>
     @$el.find('.user-list-title img').removeClass('hidden')
@@ -106,6 +107,7 @@ class audiencias.views.UserList extends Backbone.View
     @setAutocomplete()
 
   setAutocomplete: =>
+    @setAutocompleteOptions() unless @autocompleteOptions
     if @autocompleteOptions and @$el.find('.new-user-form .id-type-select').length > 0
       id_type = @$el.find('.new-user-form .id-type-select').val().trim()
       @$el.find('.new-user-form .person-id-input').autocomplete(

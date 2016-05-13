@@ -53,13 +53,15 @@ class Dependency < ActiveRecord::Base
   end
 
   def as_json(options={})
-    super({
+    json = super({
       only: [:id, :name, :active, :parent_id],
       include: { 
         users: User::AS_JSON_OPTIONS,
         obligee: Obligee::AS_JSON_OPTIONS
       }
     })
+    json['obligee'] = nil unless json.key?('obligee')
+    json
   end
 
 end

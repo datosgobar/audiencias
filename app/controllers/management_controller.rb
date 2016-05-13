@@ -57,7 +57,7 @@ class ManagementController < ApplicationController
     association = OperatorAssociation.new(user: user, obligee: obligee)
 
     if user.save and association.save 
-      render json: { success: true }
+      render json: { success: true, dependency: dependency }
     else
       render json: { success: false }
     end 

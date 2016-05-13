@@ -34,7 +34,8 @@ class audiencias.views.SideMenu extends Backbone.View
     @$el.find('#side-menu').removeClass('hidden')
     @$el.find('#dependency-menu').removeClass('hidden')
       .siblings().addClass('hidden')
-    @dependencyMenu.defaultView(dependency)
+    @dependencyMenu.setDependency(dependency)
+    @dependencyMenu.defaultView()
 
   showNewDependencyMenu: (e, parentDependency) =>
     @$el.find('#side-menu').removeClass('hidden')
