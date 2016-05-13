@@ -56,20 +56,17 @@ class audiencias.views.DependencyMenu extends Backbone.View
     @obligeeList.cancelRemoveMode()
     @operatorList.cancelRemoveMode()
 
-    @$el.find('#remove-dependency, #edit-dependency').addClass('hidden')
     @hideAdmins()
 
   toggleTopMenu: =>
     @$el.find('.toggle-menu-icon, .top-menu').toggleClass('hidden')
 
   showAdmins: =>
-    @$el.find('#see-admins').addClass('hidden')
-    @$el.find('#hide-admins').removeClass('hidden')
+    @showButtons('#hide-admins')
     @adminList.showAdminList()
 
   hideAdmins: =>
-    @$el.find('#see-admins').removeClass('hidden')
-    @$el.find('#hide-admins').addClass('hidden')
+    @showButtons('#see-admins')
     @adminList.hideAdminList()
 
   triggerNewDependency: =>
@@ -82,8 +79,7 @@ class audiencias.views.DependencyMenu extends Backbone.View
     @obligeeList.editModeOn()
     @operatorList.editModeOn()
     @toggleTopMenu()
-    @$el.find('#see-admins, #hide-admins, #remove-dependency').addClass('hidden')
-    @$el.find('#edit-dependency').removeClass('hidden')
+    @showButtons('#edit-dependency')
 
   removeDependencyOrUsers: =>
     @$el.addClass('modifying')
@@ -92,9 +88,8 @@ class audiencias.views.DependencyMenu extends Backbone.View
     @obligeeList.removeModeOn()
     @operatorList.removeModeOn()
     @toggleTopMenu()
-    @$el.find('#see-admins, #hide-admins, #edit-dependency').addClass('hidden')
-    @$el.find('#remove-dependency').removeClass('hidden')
-
+    @showButtons('#remove-dependency')
+    
   goToObligeeAudiences: =>
     window.open('/administracion/sujeto_obligado/' + @dependency.obligee.id, '_blank')
 
@@ -104,4 +99,8 @@ class audiencias.views.DependencyMenu extends Backbone.View
     changes = changes.concat(@obligeeList.submitChanges())
     changes = changes.concat(@operatorList.submitChanges())
     $.when(changes).done(@render)
+
+  showButtons: (selector) =>
+    @$el.find('.title button').addClass('hidden')
+    @$el.find(selector).removeClass('hidden')
     

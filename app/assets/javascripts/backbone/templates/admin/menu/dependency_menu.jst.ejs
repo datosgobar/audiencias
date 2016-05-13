@@ -15,11 +15,18 @@
 </div>
 
 <div class="title">
-  <%= name %>
+  <div class="title-name">
+    <%= name %>
+  </div>
+  <div class="title-form hidden">
+    <input type="text" class="title-input" value="<%= name %>">
+  </div>
   <div class="title-buttons">
     <button id="see-admins" class="toggle-admin-view">VER ADMINISTRADORES</button>
     <button id="hide-admins" class="toggle-admin-view hidden">OCULTAR ADMINISTRADORES</button>
     <button id="edit-dependency" class="hidden">EDITAR</button>
+    <button id="cancel-edit-dependency" class="hidden">CANCELAR</button>
+    <button id="confirm-edit-dependency" class="hidden">CONFIRMAR</button>
     <button id="remove-dependency" class="hidden">BAJA</button>
   </div>
 </div>

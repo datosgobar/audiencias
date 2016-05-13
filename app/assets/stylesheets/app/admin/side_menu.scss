@@ -116,7 +116,8 @@
       font-size: 11px;
       button {
         font-weight: 400;
-        &#hide-admins {
+        &#hide-admins,
+        &#cancel-edit-dependency {
           background: $grey-300;
         }
         &#remove-dependency {

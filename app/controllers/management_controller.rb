@@ -148,6 +148,16 @@ class ManagementController < ApplicationController
     end
   end
 
+  def update_dependency
+    dependency = Dependency.find_by_id(params[:dependency][:id])
+    dependency.update_minor_attributes(params[:dependency])
+    if dependency.save 
+      render json: { success: true, dependency: dependency }
+    else
+      render json: { success: false }
+    end
+  end
+
   def new_dependency
     dependency = Dependency.create(params[:dependency])
     if dependency.save 
