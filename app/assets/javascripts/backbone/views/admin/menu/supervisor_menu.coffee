@@ -7,11 +7,13 @@ class audiencias.views.SupervisorMenu extends Backbone.View
     'click #edit-supervisors': 'editSupervisors'
     'click #remove-supervisors': 'removeSupervisors'
     'click #add-dependency': 'addDependency'
-    'click #cancel': 'defaultView'
+    'click #cancel': 'cancelEdition'
     'click #confirm-actions': 'confirmActions'
 
   initialize: ->
     @supervisorList = new audiencias.views.SupervisorList
+    @supervisorList.on('form-shown', => @$el.addClass('with-form'))
+    @supervisorList.on('form-hidden', => @$el.removeClass('with-form'))
 
   render: ->
     @$el.html(@template())
@@ -34,12 +36,11 @@ class audiencias.views.SupervisorMenu extends Backbone.View
   addDependency: =>
     $(window).trigger('add-new-dependency')
 
-  defaultView: =>
+  cancelEdition: =>
     @$el.removeClass('modifying')
-    unless @$el.find('.top-menu').hasClass('hidden')
-      @$el.find('.toggle-menu-icon, .top-menu').toggleClass('hidden')
-    @supervisorList.defaultView()
+    @supervisorList.cancelEditMode()
+    @supervisorList.cancelRemoveMode()
 
   confirmActions: =>
+    @$el.removeClass('modifying')
     @supervisorList.submitChanges()
-    @defaultView()

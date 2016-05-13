@@ -16,10 +16,6 @@ class audiencias.views.SideMenu extends Backbone.View
   render: ->
     @$el.html(@template())
 
-    @dependencyMenu.render()
-    @supervisorMenu.render()
-    @newDependencyMenu.render()
-
     @$el.find('#side-menu').html(@supervisorMenu.el)
       .append(@dependencyMenu.el)
       .append(@newDependencyMenu.el)
@@ -28,17 +24,17 @@ class audiencias.views.SideMenu extends Backbone.View
     @$el.find('#side-menu').removeClass('hidden')
     @$el.find('#supervisor-menu').removeClass('hidden')
       .siblings().addClass('hidden')
-    @supervisorMenu.defaultView()
+    @supervisorMenu.render()
 
   showDependencyMenu: (e, dependency) =>
     @$el.find('#side-menu').removeClass('hidden')
     @$el.find('#dependency-menu').removeClass('hidden')
       .siblings().addClass('hidden')
     @dependencyMenu.setDependency(dependency)
-    @dependencyMenu.defaultView()
+    @dependencyMenu.render()
 
   showNewDependencyMenu: (e, parentDependency) =>
     @$el.find('#side-menu').removeClass('hidden')
     @$el.find('#new-dependency-menu').removeClass('hidden')
       .siblings().addClass('hidden')
-    @newDependencyMenu.defaultView(parentDependency)
+    @newDependencyMenu.render()

@@ -11,6 +11,7 @@ class audiencias.views.DependencyMenu extends Backbone.View
     'click #remove-supervisors': 'removeDependencyOrUsers'
     'click #see-dependency-audiencees': 'goToObligeeAudiences'
     'click #cancel': 'cancelModifying'
+    'click #confirm-actions': 'confirmActions'
 
   initialize: ->
     $(window).on('globals:dependencies:loaded', @refreshDependency)
@@ -18,27 +19,45 @@ class audiencias.views.DependencyMenu extends Backbone.View
   refreshDependency: =>
     if @dependency
       newDependencyInfo = _.find(audiencias.globals.dependencies, (d) => d.id == @dependency.id)
-      @defaultView(newDependencyInfo) if newDependencyInfo
+      @setDependency(newDependencyInfo) if newDependencyInfo
 
   setDependency: (@dependency) ->
-
-  defaultView: ->
-    @$el.removeClass('modifying')
-    @$el.html(@template(@dependency))
-    @renderLists()
-
-  renderLists: =>
     @adminList = new audiencias.views.AdminList(@dependency)
     @obligeeList = new audiencias.views.ObligeeList(@dependency)
     @operatorList = new audiencias.views.OperatorList(@dependency)
     
+    @adminList.on('form-shown', => @$el.addClass('with-form'))
+    @adminList.on('form-hidden', => @$el.removeClass('with-form'))
+    @obligeeList.on('form-shown', => @$el.addClass('with-form'))
+    @obligeeList.on('form-hidden', => @$el.removeClass('with-form'))
+    @operatorList.on('form-shown', => @$el.addClass('with-form'))
+    @operatorList.on('form-hidden', => @$el.removeClass('with-form'))
+
+  render: =>
+    @$el.removeClass('modifying')
+    @$el.html(@template(@dependency))
+    
     @adminList.render()
     @obligeeList.render()
     @operatorList.render()
-
+    
     @$el.find('.menu-lists').html(@adminList.el)
       .append(@obligeeList.el)
       .append(@operatorList.el)
+
+  cancelModifying: ->
+    @$el.removeClass('modifying')
+
+    @adminList.cancelEditMode()
+    @obligeeList.cancelEditMode()
+    @operatorList.cancelEditMode()
+
+    @adminList.cancelRemoveMode()
+    @obligeeList.cancelRemoveMode()
+    @operatorList.cancelRemoveMode()
+
+    @$el.find('#remove-dependency, #edit-dependency').addClass('hidden')
+    @hideAdmins()
 
   toggleTopMenu: =>
     @$el.find('.toggle-menu-icon, .top-menu').toggleClass('hidden')
@@ -78,3 +97,11 @@ class audiencias.views.DependencyMenu extends Backbone.View
 
   goToObligeeAudiences: =>
     window.open('/administracion/sujeto_obligado/' + @dependency.obligee.id, '_blank')
+
+  confirmActions: =>
+    changes = []
+    changes = changes.concat(@adminList.submitChanges())
+    changes = changes.concat(@obligeeList.submitChanges())
+    changes = changes.concat(@operatorList.submitChanges())
+    $.when(changes).done(@render)
+    

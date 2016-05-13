@@ -3,6 +3,7 @@ class audiencias.views.OperatorList extends audiencias.views.UserList
   title: 'Operadores'
 
   initialize: (dependency) ->
+    super()
     @dependency = dependency
     @obligee = dependency.obligee
     if @obligee and @obligee.users
@@ -11,10 +12,7 @@ class audiencias.views.OperatorList extends audiencias.views.UserList
       @users = []
 
   render: ->
-    if @obligee
-      super()
-      @renderUsers()
-      @setAutocomplete()
+    super() if @obligee
 
   addUserFromForm: =>
     validation = @validateUser('.new-user-form')
@@ -33,3 +31,27 @@ class audiencias.views.OperatorList extends audiencias.views.UserList
           @users = response.dependency.obligee.users
           @render()
     )
+
+  submitEdit: =>
+    editedUsers = @$el.find('.user.edited')
+    requests = []
+    for editedUser in editedUsers
+      newData = $(editedUser).data('user')
+      requests.push($.ajax(
+        url: '/administracion/actualizar_usuario'
+        data: {user: newData }
+        method: 'POST'
+      ))
+    requests
+
+  submitRemove: =>
+    removedUsers = @$el.find('.user.removed')
+    requests = []
+    for user in removedUsers
+      userData = $(user).data('user')
+      requests.push($.ajax(
+        url: '/administracion/eliminar_operador'
+        data: { user: { id: userData.id }, obligee: { id: @obligee.id } } 
+        method: 'POST'
+      ))
+    requests

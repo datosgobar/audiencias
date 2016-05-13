@@ -8,11 +8,6 @@ class audiencias.views.AdminList extends audiencias.views.UserList
     @dependency = dependency
     @users = dependency.users || []
 
-  render: ->
-    super()
-    @renderUsers()
-    @setAutocomplete()
-
   showAdminList: =>
     @$el.removeClass('hidden')
 
@@ -36,3 +31,27 @@ class audiencias.views.AdminList extends audiencias.views.UserList
           @users = response.dependency.users
           @render()
     )
+
+  submitEdit: =>
+    editedUsers = @$el.find('.user.edited')
+    requests = []
+    for editedUser in editedUsers
+      newData = $(editedUser).data('user')
+      requests.push($.ajax(
+        url: '/administracion/actualizar_usuario'
+        data: {user: newData }
+        method: 'POST'
+      ))
+    requests
+
+  submitRemove: =>
+    removedUsers = @$el.find('.user.removed')
+    requests = []
+    for user in removedUsers
+      userData = $(user).data('user')
+      requests.push($.ajax(
+        url: '/administracion/eliminar_administrador'
+        data: { user: { id: userData.id }, dependency: { id: @dependency.id}  } 
+        method: 'POST'
+      ))
+    requests

@@ -4,28 +4,26 @@ class audiencias.views.ObligeeList extends audiencias.views.UserList
   positionInForm: true
 
   initialize: (dependency) ->
+    super()
     @dependency = dependency
     @setUsers()
-    if @dependency.obligee and @dependency.obligee.person
-      @users = [@dependency.obligee.person]
-    else
-      @users = []
 
   setUsers: =>
     if @dependency.obligee and @dependency.obligee.person
       @dependency.obligee.person.role = 'obligee'
       @users = [@dependency.obligee.person]
+      @users[0].position = @dependency.obligee.position
     else
       @users = []
 
   render: ->
     super()
-    @renderUsers()
     @hideAddUserImg() if @users.length > 0
 
   validateUser: (formSelector) =>
-    positionInput = @$el.find(formSelector).find('.position-input')
     validation = super(formSelector)
+
+    positionInput = @$el.find(formSelector).find('.position-input')
     validation.data.position = positionInput.val().trim()
     
     positionValid = @validateName(validation.data.position)
@@ -67,3 +65,35 @@ class audiencias.views.ObligeeList extends audiencias.views.UserList
           @setUsers()
           @render()
     )
+
+  submitEdit: =>
+    editedUsers = @$el.find('.user.edited')
+    requests = []
+    for editedUser in editedUsers
+      newData = $(editedUser).data('user')
+      newPersonData = {
+        name: newData.name,
+        surname: newData.surname,
+        email: newData.email
+      }
+      newObligeeData = {
+        id: @dependency.obligee.id,
+        position: newData.position
+      }
+      requests.push($.ajax(
+        url: '/administracion/actualizar_sujeto_obligado'
+        data: { obligee: newObligeeData, person: newPersonData }
+        method: 'POST'
+      ))
+    requests
+
+  submitRemove: =>
+    removedUsers = @$el.find('.user.removed')
+    requests = []
+    for user in removedUsers
+      requests.push($.ajax(
+        url: '/administracion/eliminar_sujeto_obligado'
+        data: { obligee: { id: @dependency.obligee.id } } 
+        method: 'POST'
+      ))
+    requests

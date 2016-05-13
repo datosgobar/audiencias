@@ -14,28 +14,105 @@ class audiencias.views.UserList extends Backbone.View
     'change .id-type-select': 'setAutocomplete'
 
   initialize: ->
+    @users = []
     $(window).on('globals:users:loaded', @setAutocompleteOptions)
+      .on('globals:users:updated', @setAutocompleteOptions)
 
   render: ->
     @$el.html(@template(title: @title, positionInForm: @positionInForm))
-
-  renderUsers: =>
     userList = @$el.find('.users').html('')
     for user in @users
-      userEl = $(@userTemplate(user))
-      userEl.data('user', user)
+      userEl = $(@userTemplate(user)).data('user', user)
       userList.append(userEl)
+    @setAutocomplete()
+
+  showUserList: =>
+    @$el.find('.users').removeClass('hidden')
+    @$el.find('.new-user-form, .edit-user-form').addClass('hidden')
+  
+  showAddUserImg: =>
+    @$el.find('.user-list-title img').removeClass('hidden')
+
+  hideAddUserImg: =>
+    @$el.find('.user-list-title img').addClass('hidden')
+
+  # ---- NEW USERS ----
+
+  showNewUserForm: =>
+    @hideAddUserImg()
+    @$el.find('.users, .edit-user-form').addClass('hidden')
+    @$el.find('.new-user-form').removeClass('hidden')
+    @$el.find('.new-user-form input').val('')
+
+  cancelNewUserForm: =>
+    @showAddUserImg()
+    @showUserList()
+
+  addUserFromForm: =>
+    console.log('needs override')
+
+  # ---- EDIT USERS ----
 
   editModeOn: =>
-    @renderUsers()
+    @editMode = 'on'
+    @oldUsers = $.extend(true, [], @users)
     @$el.find('.user').addClass('editable')
     @hideAddUserImg()
 
+  cancelEditMode: =>
+    if @editMode == 'on'
+      @editMode = 'off'
+      @users = @oldUsers
+      @render()
+
   editUser: (e) =>
     user = $(e.currentTarget).closest('.user').data('user')
-    @showEditForm()
-    @trigger('hide-global-cancel')
+    @showEditFormFor(user)
+    @trigger('form-shown')
+
+  saveEditUser: =>
+    validation = @validateUser('.edit-user-form')
+    if validation.valid
+      @replaceUserElement(validation.data)
+
+  replaceUserElement: (user) =>
+    for userEl in @$el.find('.user')
+      data = $(userEl).data('user')
+      if data.id_type == user.id_type and data.person_id.toString() == user.person_id
+        data.name = user.name
+        data.surname = user.surname
+        data.email = user.email
+        data.position = user.position if user.position
+        newUserEl = $(@userTemplate(data))
+        newUserEl.data('user', data)
+        newUserEl.addClass('editable edited')
+        $(userEl).replaceWith(newUserEl)
+    @trigger('form-hidden')
+    @showUserList()
+
+  cancelEditUserForm: =>
+    @trigger('form-hidden')
+    @showUserList()
+
+  showEditFormFor: (user) =>
     @populateForm('.edit-user-form', user)
+    @$el.find('.users').addClass('hidden')
+    @$el.find('.new-user-form').addClass('hidden')
+    @$el.find('.edit-user-form').removeClass('hidden')
+
+  # ---- REMOVE USERS ----
+
+  removeModeOn: =>
+    @$el.find('.user').addClass('removable')
+    @hideAddUserImg()
+
+  cancelRemoveMode: =>
+    @$el.find('.user').removeClass('removable')
+
+  removeUser: (e) =>
+    $(e.currentTarget).closest('.user').addClass('hidden removed')  
+
+  # ---- UTILS ----
 
   populateForm: (formSelector, user) =>
     form = @$el.find(formSelector)
@@ -44,49 +121,7 @@ class audiencias.views.UserList extends Backbone.View
     form.find('.name-input').val(user.name)
     form.find('.surname-input').val(user.surname)
     form.find('.email-input').val(user.email)
-
-  cancelEditUserForm: =>
-    @trigger('show-global-cancel')
-    @showUserList()
-
-  removeModeOn: =>
-    @renderUsers()
-    @$el.find('.user').addClass('removable')
-    @hideAddUserImg()
-
-  removeUser: (e) =>
-    $(e.currentTarget).closest('.user').addClass('hidden removed')
-
-  showNewUserForm: =>
-    @showCreateForm()
-    @hideAddUserImg()
-
-  cancelNewUserForm: =>
-    @renderUsers()
-    @showAddUserImg()
-    @showUserList()
-
-  showAddUserImg: =>
-    @$el.find('.user-list-title img').removeClass('hidden')
-
-  hideAddUserImg: =>
-    @$el.find('.user-list-title img').addClass('hidden')
-
-  showUserList: =>
-    @$el.find('.users').removeClass('hidden')
-    @$el.find('.new-user-form').addClass('hidden')
-    @$el.find('.edit-user-form').addClass('hidden')
-
-  showCreateForm: =>
-    @$el.find('.users').addClass('hidden')
-    @$el.find('.edit-user-form').addClass('hidden')
-    @$el.find('.new-user-form').removeClass('hidden')
-    @$el.find('.new-user-form input').val('')
-
-  showEditForm: =>
-    @$el.find('.users').addClass('hidden')
-    @$el.find('.new-user-form').addClass('hidden')
-    @$el.find('.edit-user-form').removeClass('hidden')
+    form.find('.position-input').val(user.position)
 
   validatePersonId: (person_id) ->
     !!parseInt(person_id) and parseInt(person_id) > 0
@@ -107,7 +142,7 @@ class audiencias.views.UserList extends Backbone.View
     @setAutocomplete()
 
   setAutocomplete: =>
-    @setAutocompleteOptions() unless @autocompleteOptions
+    return unless @autocompleteOptions
     if @autocompleteOptions and @$el.find('.new-user-form .id-type-select').length > 0
       id_type = @$el.find('.new-user-form .id-type-select').val().trim()
       @$el.find('.new-user-form .person-id-input').autocomplete(
@@ -147,3 +182,11 @@ class audiencias.views.UserList extends Backbone.View
       valid: idValid and nameValid and surnameValid and emailValid,
       data: data 
     }
+
+  submitChanges: =>
+    if @$el.find('.user.removed').length > 0
+      @submitRemove()
+    else if @$el.find('.user.edited').length > 0
+      @submitEdit()
+    else
+      @render()

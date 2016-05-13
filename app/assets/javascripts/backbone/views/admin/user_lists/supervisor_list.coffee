@@ -8,44 +8,19 @@ class audiencias.views.SupervisorList extends audiencias.views.UserList
 
   filterUsers: =>
     @users = _.filter(audiencias.globals.users, (u) -> u.role == 'superadmin')
-    @renderUsers()
-
-  defaultView: =>
-    @renderUsers()
-    @showUserList()
-    @showAddUserImg()
+    @render()
 
   addUserFromForm: =>
     validation = @validateUser('.new-user-form')
     if validation.valid
       @submitNew(validation.data)
 
-  saveEditUser: =>
-    validation = @validateUser('.edit-user-form')
-    if validation.valid
-      @replaceUserElement(validation.data)
-
-  replaceUserElement: (user) =>
-    for userEl in @$el.find('.user')
-      data = $(userEl).data('user')
-      if data.id_type == user.id_type and data.person_id.toString() == user.person_id
-        data.name = user.name
-        data.surname = user.surname
-        data.email = user.email
-        newUserEl = $(@userTemplate(data))
-        newUserEl.data('user', data)
-        newUserEl.addClass('editable edited')
-        $(userEl).replaceWith(newUserEl)
-    @showUserList()
-
   submitNew: (userData) =>
     $.ajax(
       url: '/administracion/nuevo_supervisor'
       data: { user: userData }
       method: 'POST'
-      success: =>
-        audiencias.globals.loadUsers()
-        @defaultView()
+      success: audiencias.globals.loadUsers
     )
 
   submitEdit: =>
@@ -71,11 +46,3 @@ class audiencias.views.SupervisorList extends audiencias.views.UserList
         method: 'POST'
       ))
     $.when.apply($, requests).done(audiencias.globals.loadUsers)
-
-  submitChanges: =>
-    if @$el.find('.user.removed').length > 0
-      @submitRemove()
-    else if @$el.find('.user.edited').length > 0
-      @submitEdit()
-    else
-      @defaultView()
