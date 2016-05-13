@@ -89,13 +89,16 @@ class ManagementController < ApplicationController
   end
 
   def remove_obligee
-    obligee = Obligee.find_by_person_id(params[:obligee][:person_id])
+    obligee = Obligee.find_by_id(params[:obligee][:id])
     unless obligee
       render json: { success: false }
       return
     end
     obligee.active = false
-    if obligee.save
+    dependency = obligee.dependency
+    dependency.obligee = nil
+    operatorAssociations = obligee.operator_associations
+    if obligee.save and dependency.save and operatorAssociations.destroy_all
       render json: { success: true }
     else
       render json: { success: false }
@@ -130,7 +133,7 @@ class ManagementController < ApplicationController
   end
 
   def update_obligee
-    obligee = Obligee.find_by_person_id(params[:obligee][:person_id])
+    obligee = Obligee.find_by_id(params[:obligee][:id])
     unless obligee
       render json: { success: false }
       return

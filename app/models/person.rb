@@ -42,6 +42,9 @@ class Person < ActiveRecord::Base
   AS_JSON_OPTIONS = {
     only: [:country, :email, :id, :id_type, :name, :person_id, :surname, :telephone]
   }
+  MINIMAL_JSON_OPTIONS = {
+    only: [:email, :id, :id_type, :name, :person_id, :surname]
+  }
   def as_json(options={})
     super(AS_JSON_OPTIONS)
   end

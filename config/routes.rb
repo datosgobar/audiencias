@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   post '/administracion/eliminar_sujeto_obligado', to: 'management#remove_obligee'
   post '/administracion/eliminar_operador', to: 'management#remove_operator'
   post '/administracion/actualizar_usuario', to: 'management#update_user'
+  post '/administracion/actualizar_sujeto_obligado', to: 'management#update_obligee'
   post '/administracion/crear_dependencia', to: 'management#new_dependency'
   post '/administracion/listar_dependencias', to: 'management#dependency_list'
   post '/administracion/listar_usuarios', to: 'management#user_list'
