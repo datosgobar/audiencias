@@ -3,6 +3,11 @@
   <div class="user-fullname">
     <%= name %> <%= surname %>
   </div>
+  <% if (role == 'obligee') { %>
+    <div class="user-position">
+      <%= position %>
+    </div>
+  <% } %>
   <div class="user-id">
     <%= id_type.toUpperCase() %> <%= person_id %>
   </div>

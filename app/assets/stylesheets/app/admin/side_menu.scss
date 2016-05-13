@@ -92,14 +92,18 @@
 
   &.modifying {
     padding-bottom: 45px;
-    .cancel-mode {
+    .cancel-mode,
+    .confirmation-container {
       display: block;
     }
     .top-menu-container {
       display: none;
     }
-    .confirmation-container {
-      display: block;
+    &.with-form {
+      .cancel-mode,
+      .confirmation-container {
+        visibility: hidden;
+      }
     }
   }
 

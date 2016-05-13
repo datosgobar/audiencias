@@ -26,15 +26,18 @@
         }
         .user-fullname {
           font-weight: 500;
-          margin-bottom: 5px;
           overflow: hidden;
           text-overflow: ellipsis;
         }
+        .user-position,
         .user-id,
         .user-email {
           font-size: 12px;
           overflow: hidden;
           text-overflow: ellipsis;
+        }
+        .user-id {
+          margin-top: 5px;
         }
         button {
           display: none;
