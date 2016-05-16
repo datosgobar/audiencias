@@ -19,7 +19,19 @@ class audiencias.views.OperatorList extends audiencias.views.UserList
     if validation.valid
       userData = validation.data
       dependencyData = { id: @dependency.id }
-      @submitNew(userData, dependencyData)
+      messageOptions = {
+        icon: 'alert',
+        confirmation: true,
+        text: {
+          main: '¿Está seguro de que quiere dar permisos de operador al usuario?',
+          secondary: 'El usuario podrá gestionar las audiencias del sujeto obligado de esta dependencia.'
+        },
+        callback: {
+          confirm: => 
+            @submitNew(userData, dependencyData)
+        }
+      }
+      new audiencias.views.ImportantMessage(messageOptions)
 
   submitNew: (userData, dependencyData) =>
     $.ajax(

@@ -13,7 +13,19 @@ class audiencias.views.SupervisorList extends audiencias.views.UserList
   addUserFromForm: =>
     validation = @validateUser('.new-user-form')
     if validation.valid
-      @submitNew(validation.data)
+      messageOptions = {
+        icon: 'alert',
+        confirmation: true,
+        text: {
+          main: '¿Está seguro de que quiere dar permisos de supervisor al usuario?',
+          secondary: 'El usuario podrá administrar dependencias, sujetos obligados y demás usuarios'
+        },
+        callback: {
+          confirm: => 
+            @submitNew(validation.data)
+        }
+      }
+      new audiencias.views.ImportantMessage(messageOptions)
 
   submitNew: (userData) =>
     $.ajax(

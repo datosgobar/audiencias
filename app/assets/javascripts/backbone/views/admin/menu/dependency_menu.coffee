@@ -86,9 +86,21 @@ class audiencias.views.DependencyMenu extends Backbone.View
     @showButtons('#edit-dependency')
 
   editDependencyName: =>
-    @$el.find('.title-name').addClass('hidden')
-    @$el.find('.title-form').removeClass('hidden')
-    @showButtons('#cancel-edit-dependency, #confirm-edit-dependency')
+    messageOptions = {
+      icon: 'alert',
+      confirmation: true,
+      text: {
+        main: '¿Está seguro de que quiere editar el nombre de la dependencia?',
+        secondary: 'Los cambios afectaran las audiencias ya cargadas y seran visibles al público.'
+      },
+      callback: {
+        confirm: => 
+          @$el.find('.title-name').addClass('hidden')
+          @$el.find('.title-form').removeClass('hidden')
+          @showButtons('#cancel-edit-dependency, #confirm-edit-dependency')
+      }
+    }
+    new audiencias.views.ImportantMessage(messageOptions)
 
   cancelEditDependencyName: =>
     @$el.find('.title-name').removeClass('hidden')
@@ -113,9 +125,22 @@ class audiencias.views.DependencyMenu extends Backbone.View
     @showButtons('#remove-dependency')
     
   goToObligeeAudiences: =>
-    window.open('/administracion/sujeto_obligado/' + @dependency.obligee.id, '_blank')
+    window.open('/audiencias/carga/' + @dependency.obligee.id, '_blank')
 
   confirmActions: =>
+    messageOptions = {
+      icon: 'alert',
+      confirmation: true,
+      text: {
+        main: '¿Está seguro de que quiere aplicar los cambios?'
+      },
+      callback: {
+        confirm: @submitChanges
+      }
+    }
+    new audiencias.views.ImportantMessage(messageOptions)
+
+  submitChanges: =>
     changes = []
     newName = @$el.find('.title-name').text()
     if newName != @dependency.name

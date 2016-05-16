@@ -50,7 +50,19 @@ class audiencias.views.ObligeeList extends audiencias.views.UserList
           position: validation.data.position
         }
       }
-      @submitNew(data)
+      messageOptions = {
+        icon: 'alert',
+        confirmation: true,
+        text: {
+          main: '¿Está seguro de que quiere agregar un nuevo sujeto obligado?',
+          secondary: 'El cambio quedara guardado en la base de datos y será visible al público.'
+        },
+        callback: {
+          confirm: => 
+            @submitNew(data)
+        }
+      }
+      new audiencias.views.ImportantMessage(messageOptions)
 
   submitNew: (data) =>
     $.ajax(

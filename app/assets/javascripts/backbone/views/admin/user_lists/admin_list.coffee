@@ -19,7 +19,19 @@ class audiencias.views.AdminList extends audiencias.views.UserList
     if validation.valid
       userData = validation.data
       dependencyData = { id: @dependency.id }
-      @submitNew(userData, dependencyData)
+      messageOptions = {
+        icon: 'alert',
+        confirmation: true,
+        text: {
+          main: '¿Está seguro de que quiere dar permisos de administrador al usuario?',
+          secondary: 'El usuario podrá administrar sujetos obligados, usuarios y otras dependencias que dependendan de la actual.'
+        },
+        callback: {
+          confirm: => 
+            @submitNew(userData, dependencyData)
+        }
+      }
+      new audiencias.views.ImportantMessage(messageOptions)
 
   submitNew: (userData, dependencyData) =>
     $.ajax(
