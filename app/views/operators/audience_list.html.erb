@@ -1,0 +1,8 @@
+<%= javascript_tag do %>
+  $(function() {
+    audiencias.globals.currentUser = <%= raw @current_user.to_json %>;
+    audiencias.globals.obligees = <%= raw @obligees.to_json %>;
+    audiencias.globals.currentObligee = <%= raw @current_obligee.to_json %>;
+    audiencias.app.operatorLanding();
+  });
+<% end %>

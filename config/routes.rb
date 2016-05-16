@@ -29,4 +29,7 @@ Rails.application.routes.draw do
   post '/administracion/crear_sub_dependencia', to: 'management#new_sub_dependency'
   post '/administracion/listar_dependencias', to: 'management#dependency_list'
   post '/administracion/listar_usuarios', to: 'management#user_list'
+
+  get '/audiencias/carga', to: 'operators#operator_landing', as: 'operator_landing'
+  get '/audiencias/carga/:obligee_id', to: 'operators#audience_list', as: 'audience_list'
 end
