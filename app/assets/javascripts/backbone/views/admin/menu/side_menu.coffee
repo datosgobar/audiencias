@@ -12,6 +12,7 @@ class audiencias.views.SideMenu extends Backbone.View
     $(window).on('menu:show-supervisor', @showSupervisorMenu)
     $(window).on('dependency-selected', @showDependencyMenu)
     $(window).on('add-new-dependency', @showNewDependencyMenu)
+    $(window).on('cancel-new-dependency', @cancelNewDependencyMenu)
 
   render: ->
     @$el.html(@template())
@@ -38,3 +39,6 @@ class audiencias.views.SideMenu extends Backbone.View
     @$el.find('#new-dependency-menu').removeClass('hidden')
       .siblings().addClass('hidden')
     @newDependencyMenu.render()
+
+  cancelNewDependencyMenu: =>
+    @$el.find('#side-menu, #new-dependency-menu').addClass('hidden')

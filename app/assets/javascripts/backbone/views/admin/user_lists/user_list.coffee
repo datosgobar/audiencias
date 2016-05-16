@@ -142,7 +142,9 @@ class audiencias.views.UserList extends Backbone.View
     @setAutocomplete()
 
   setAutocomplete: =>
-    return unless @autocompleteOptions
+    if audiencias.globals.users and not @autocompleteOptions
+      @setAutocompleteOptions()
+      return
     if @autocompleteOptions and @$el.find('.new-user-form .id-type-select').length > 0
       id_type = @$el.find('.new-user-form .id-type-select').val().trim()
       @$el.find('.new-user-form .person-id-input').autocomplete(
