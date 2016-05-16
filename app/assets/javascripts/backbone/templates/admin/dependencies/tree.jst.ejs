@@ -1,9 +1,17 @@
 <% for (var i=0; i<nodes.length; i++) { %>
+  <% var node = nodes[i]; %>
   <div class="dependency collapsed" style="padding-left:<%= padding %>%" data-dependency-id="<%= nodes[i].id %>">
     <img src="/assets/icon-marcador-derecha.svg">
-    <%= nodes[i].name %>
+    <span class="dependency-name">
+      <%= node.name %> 
+    <span>
+    <% if (node.obligee) { %>
+      <span class="obligee-name">
+        | <%= node.obligee.person.name %> <%= node.obligee.person.surname %>
+      </span>
+    <% } %>
   </div>
-  <% var children = nodes[i].children; %>
+  <% var children = node.children; %>
   <% if (children && children.length > 0) { %>
     <div class="children">
       <%= template({ nodes: children, padding: padding + 2, template: template}) %>

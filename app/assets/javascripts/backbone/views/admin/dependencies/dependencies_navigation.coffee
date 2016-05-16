@@ -27,11 +27,14 @@ class audiencias.views.DependenciesNavigation extends Backbone.View
 
   initializeLunr: =>
     @lunr = lunr( ->
-      this.field('name')
+      this.field('lunrName')
       this.ref('index')
     )
     for dependency, index in @dependencies
       dependency.index = index
+      dependency.lunrName = dependency.name 
+      if dependency.obligee 
+        dependency.lunrName += " #{dependency.obligee.person.name} #{dependency.obligee.person.surname}"
       @lunr.add(dependency)
 
   lunrSearch: (e) =>

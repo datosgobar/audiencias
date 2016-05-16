@@ -1,6 +1,14 @@
 <% for (var i=0; i<results.length; i++) { %>
   <div class="dependency collapsed <%= selectedDependency.id == results[i].id ? 'selected': '' %>" data-dependency-id="<%= results[i].id %>">
     <img src="/assets/icon-marcador-derecha.svg">
-    <%= results[i].name %>
+    <% var result = results[i]; %>
+    <span class="dependency-name">
+      <%= result.name %> 
+    <span>
+    <% if (result.obligee) { %>
+      <span class="obligee-name">
+        | <%= result.obligee.person.name %> <%= result.obligee.person.surname %>
+      </span>
+    <% } %>
   </div>
 <% } %>
