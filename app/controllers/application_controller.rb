@@ -6,7 +6,15 @@ class ApplicationController < ActionController::Base
   before_action :set_current_user
 
   rescue_from CanCan::AccessDenied do |exception|
-    head :forbidden
+    if request.method == 'GET'
+      render(
+        file: File.join(Rails.root, 'public/403.html'), 
+        status: 403, 
+        layout: false
+      )
+    else
+      head :forbidden
+    end
   end
 
   def set_current_user
