@@ -17,6 +17,7 @@
 #side-menu .generic-menu {
   position: relative;
   padding-bottom: 10px;
+  min-height: 100%;
 
   .top-menu-container {
     padding: 20px 10px 0 10px;
@@ -128,6 +129,7 @@
     .title-form {
       padding: 0 10px;
       input {
+        text-align: center;
         width: 100%;
         padding: 1px 10px;
       }

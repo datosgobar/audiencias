@@ -22,7 +22,10 @@
       &.expanded img {
         @include transform(rotate(90deg) translateX(2px));
       }
-
+      
+      .obligee-name {
+        font-size: 13px;
+      }
     }
 
     .dependency.collapsed + .children {

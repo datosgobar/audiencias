@@ -70,3 +70,8 @@ span.user-icon {
     color: $blue-200;
   }
 }
+
+.ui-autocomplete {
+  max-height: 160px;
+  overflow-y: auto;
+}
