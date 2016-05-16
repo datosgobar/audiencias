@@ -7,11 +7,14 @@ class audiencias.views.DependencyMenu extends Backbone.View
     'click #see-admins': 'showAdmins'
     'click #hide-admins': 'hideAdmins'
     'click #add-sub-dependency': 'triggerNewDependency'
-    'click #edit-supervisors': 'editDependencyAndUsers'
-    'click #remove-supervisors': 'removeDependencyOrUsers'
+    'click #edit-users': 'editDependencyAndUsers'
+    'click #remove-users': 'removeDependencyOrUsers'
     'click #see-dependency-audiencees': 'goToObligeeAudiences'
     'click #cancel': 'cancelModifying'
     'click #confirm-actions': 'confirmActions'
+    'click #edit-dependency': 'editDependencyName'
+    'click #cancel-edit-dependency': 'cancelEditDependencyName'
+    'click #confirm-edit-dependency': 'confirmEditDependencyName'
 
   initialize: ->
     $(window).on('globals:dependencies:loaded', @refreshDependency)
@@ -47,6 +50,7 @@ class audiencias.views.DependencyMenu extends Backbone.View
 
   cancelModifying: ->
     @$el.removeClass('modifying')
+    @$el.find('.title-name').text(@dependency.name)
 
     @adminList.cancelEditMode()
     @obligeeList.cancelEditMode()
@@ -81,6 +85,24 @@ class audiencias.views.DependencyMenu extends Backbone.View
     @toggleTopMenu()
     @showButtons('#edit-dependency')
 
+  editDependencyName: =>
+    @$el.find('.title-name').addClass('hidden')
+    @$el.find('.title-form').removeClass('hidden')
+    @showButtons('#cancel-edit-dependency, #confirm-edit-dependency')
+
+  cancelEditDependencyName: =>
+    @$el.find('.title-name').removeClass('hidden')
+    @$el.find('.title-form').addClass('hidden')
+    @$el.find('.title-input').val(@$el.find('.title-name').text())
+    @showButtons('#edit-dependency')
+
+  confirmEditDependencyName: =>
+    @$el.find('.title-name').removeClass('hidden')
+    @$el.find('.title-form').addClass('hidden')
+    @$el.find('.title-name').addClass('edited')
+      .text(@$el.find('.title-input').val())
+    @showButtons('#edit-dependency')
+
   removeDependencyOrUsers: =>
     @$el.addClass('modifying')
     @adminList.showAdminList()
@@ -95,6 +117,14 @@ class audiencias.views.DependencyMenu extends Backbone.View
 
   confirmActions: =>
     changes = []
+    newName = @$el.find('.title-name').text()
+    if newName != @dependency.name
+      data = { dependency: { id: @dependency.id, name: newName}}
+      changes.push($.ajax(
+        url: '/administracion/actualizar_dependencia'
+        data: data
+        method: 'POST'
+      ))
     changes = changes.concat(@adminList.submitChanges())
     changes = changes.concat(@obligeeList.submitChanges())
     changes = changes.concat(@operatorList.submitChanges())

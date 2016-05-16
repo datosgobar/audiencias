@@ -1,7 +1,6 @@
 <% for (var i=0; i<results.length; i++) { %>
   <div class="dependency collapsed <%= selectedDependency.id == results[i].id ? 'selected': '' %>" data-dependency-id="<%= results[i].id %>">
-    <img src="/assets/icon-marcador-derecha.svg" class="collapsed">
-    <img src="/assets/icon-marcador-abajo.svg" class="expanded">
+    <img src="/assets/icon-marcador-derecha.svg">
     <%= results[i].name %>
   </div>
 <% } %>

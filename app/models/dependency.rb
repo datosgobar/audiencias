@@ -64,4 +64,8 @@ class Dependency < ActiveRecord::Base
     json
   end
 
+  def update_minor_attributes(new_attr)
+    self.name = new_attr[:name] if new_attr[:name]
+  end
+
 end
