@@ -1,6 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  # TODO: definir direccion
-  # TODO: configurar smtp para produccion 
-  default from: "no-reply@audiencias.gob.ar"
+  default from: "no-reply@mininterior.gov.ar"
   layout 'mailer'
 end
