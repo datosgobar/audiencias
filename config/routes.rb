@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   post '/administracion/actualizar_sujeto_obligado', to: 'management#update_obligee'
   post '/administracion/actualizar_dependencia', to: 'management#update_dependency'
   post '/administracion/crear_dependencia', to: 'management#new_dependency'
+  post '/administracion/crear_sub_dependencia', to: 'management#new_sub_dependency'
   post '/administracion/listar_dependencias', to: 'management#dependency_list'
   post '/administracion/listar_usuarios', to: 'management#user_list'
 end

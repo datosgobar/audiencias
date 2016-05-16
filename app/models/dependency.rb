@@ -6,48 +6,35 @@ class Dependency < ActiveRecord::Base
   has_many :admin_associations
   has_many :users, through: :admin_associations
   has_many :historic_obligees, foreign_key: 'dependency_id', class_name: 'Obligee'
+  has_many :direct_sub_dependencies, foreign_key: 'parent_id', class_name: 'Dependency'
   
 	validates :name, length: { minimum: 6 }
 
   def self.list_for_user(user)
-    if user.role == 'superadmin' 
-      list_all_active
-    elsif user.role == 'admin'
-      list_administred_by(user)
-    else
-      []
-    end
+    role = user.role
+    return [] unless role == 'superadmin' or role == 'admin'
     
-  end
-
-  def self.list_all_active
-    active_dependencies = where(active: true).as_json
-    list = { plain: active_dependencies.clone }
-    trees = all_trees(active_dependencies)
-    list[:tree] = trees.select { |d| !d['parent_id'] }
-    list
-  end
-
-  def self.list_administred_by(user)
-    active_dependencies = where(active: true).as_json
-    list = { plain: active_dependencies.clone }
-    trees = all_trees(active_dependencies)
-    user_dependencies = user.dependencies.collect(&:id)
-    list[:tree] = trees.select { |d| user_dependencies.include?(d.id) }
-    list
-  end
-
-  def self.all_trees(dependencies)
+    if role == 'superadmin' 
+      dependencies = where(active: true, parent_id: nil)
+    else
+      dependencies = user.dependencies
+    end
+    plain_dependencies = []
+    tree_dependencies = []
     dependencies.each do |dependency|
-      if dependency['parent_id']
-        parent = dependencies.find { |parent| parent['id'] == dependency['parent_id'] }
-        if parent 
-          unless parent['children']
-            parent['children'] = []
-          end
-          parent['children'] << dependency
-        end
-      end
+      full_branch = dependency.as_json_with_sub_dependencies
+      plain_dependencies << full_branch
+      tree_dependencies << full_branch
+      plain_dependencies.concat dependency.all_sub_dependencies
+    end
+    { plain: plain_dependencies, tree: tree_dependencies }
+  end
+
+  def all_sub_dependencies
+    dependencies = []
+    self.direct_sub_dependencies.each do |sub_dependency|
+      dependencies << sub_dependency.as_json_with_sub_dependencies
+      dependencies.concat sub_dependency.all_sub_dependencies
     end
     dependencies
   end
@@ -62,6 +49,26 @@ class Dependency < ActiveRecord::Base
     })
     json['obligee'] = nil unless json.key?('obligee')
     json
+  end
+
+  def as_json_with_sub_dependencies
+    json = self.as_json
+    json[:children] = []
+    self.direct_sub_dependencies.each do |dependency|
+      json[:children] << dependency.as_json_with_sub_dependencies
+    end
+    json
+  end
+
+  def is_sub_dependency_of(dependencies)
+    is_sub_dependency = false
+    dependencies.each do |dependency|
+      if self.id == dependency.id or self.is_sub_dependency_of(dependency.direct_sub_dependencies)
+        is_sub_dependency = true
+        break
+      end
+    end
+    is_sub_dependency
   end
 
   def update_minor_attributes(new_attr)

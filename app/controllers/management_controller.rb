@@ -1,6 +1,11 @@
 class ManagementController < ApplicationController
 
   before_action :require_login, :authorize_user
+  before_action :check_dependency_permissions, only: [
+    :new_admin, :new_obligee, :new_operator, :new_sub_dependency,
+    :remove_admin, :remove_obligee, :remove_operator,
+    :update_obligee, :update_dependency
+  ]
 
   def list_superadmins
     render json: User.where(is_superadmin: true)
@@ -89,7 +94,8 @@ class ManagementController < ApplicationController
   end
 
   def remove_obligee
-    obligee = Obligee.find_by_id(params[:obligee][:id])
+    dependency = Dependency.find_by_id(params[:dependency][:id])
+    obligee = dependency.obligee
     unless obligee
       render json: { success: false }
       return
@@ -106,7 +112,9 @@ class ManagementController < ApplicationController
   end
 
   def remove_operator
-    association = OperatorAssociation.where(user_id: params[:user][:id], obligee_id: params[:obligee][:id])
+    dependency = Dependency.find_by_id(params[:dependency][:id])
+    obligee = dependency.obligee
+    association = OperatorAssociation.where(user_id: params[:user][:id], obligee_id: obligee.id)
     unless association 
       render json: { success: false }
       return
@@ -119,6 +127,7 @@ class ManagementController < ApplicationController
   end
 
   def update_user
+    # TODO: validate
     user = User.find_by_document(params[:user][:id_type], params[:user][:person_id])
     unless user 
       render json: { success: false }
@@ -133,7 +142,8 @@ class ManagementController < ApplicationController
   end
 
   def update_obligee
-    obligee = Obligee.find_by_id(params[:obligee][:id])
+    dependency = Dependency.find_by_id(params[:dependency][:id])
+    obligee = dependency.obligee
     unless obligee
       render json: { success: false }
       return
@@ -167,6 +177,9 @@ class ManagementController < ApplicationController
     end
   end
 
+  def new_sub_dependency
+  end
+
   def dependency_list
     dependencies = Dependency.list_for_user @current_user
     render json: { dependencies: dependencies }
@@ -175,6 +188,16 @@ class ManagementController < ApplicationController
   def user_list
     users = User.all
     render json: { users: users }
+  end
+
+  private 
+
+  def check_dependency_permissions
+    return if @current_user.role == 'superadmin'
+    dependency = Dependency.find_by_id(params[:dependency][:id])
+    unless dependency.is_sub_dependency_of(@current_user.dependencies)
+      raise CanCan::AccessDenied.new
+    end
   end
 
 end

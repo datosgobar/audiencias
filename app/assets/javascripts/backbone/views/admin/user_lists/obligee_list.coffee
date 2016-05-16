@@ -82,7 +82,7 @@ class audiencias.views.ObligeeList extends audiencias.views.UserList
       }
       requests.push($.ajax(
         url: '/administracion/actualizar_sujeto_obligado'
-        data: { obligee: newObligeeData, person: newPersonData }
+        data: { obligee: newObligeeData, person: newPersonData, dependency: { id: @dependency.id } }
         method: 'POST'
       ))
     requests
@@ -93,7 +93,7 @@ class audiencias.views.ObligeeList extends audiencias.views.UserList
     for user in removedUsers
       requests.push($.ajax(
         url: '/administracion/eliminar_sujeto_obligado'
-        data: { obligee: { id: @dependency.obligee.id } } 
+        data: { dependency: { id: @dependency.id } } 
         method: 'POST'
       ))
     requests

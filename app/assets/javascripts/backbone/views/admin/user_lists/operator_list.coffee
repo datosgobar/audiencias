@@ -51,7 +51,7 @@ class audiencias.views.OperatorList extends audiencias.views.UserList
       userData = $(user).data('user')
       requests.push($.ajax(
         url: '/administracion/eliminar_operador'
-        data: { user: { id: userData.id }, obligee: { id: @obligee.id } } 
+        data: { user: { id: userData.id }, dependency: { id: @dependency.id } } 
         method: 'POST'
       ))
     requests
