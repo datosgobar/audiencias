@@ -15,3 +15,11 @@ class audiencias.collections.UserDependencies extends Backbone.Collection
     newSelectedDependency.set('selected', true)
     newSelectedDependency.toggleExpanded()
     @expandParents(newSelectedDependency)
+
+  forceUpdate: (newDependency) ->
+    savedDependency = @get(newDependency.id)
+    if savedDependency
+      savedDependency.set(newDependency)
+      savedDependency.set('users', newDependency.users)
+    else 
+      @add(newDependency)

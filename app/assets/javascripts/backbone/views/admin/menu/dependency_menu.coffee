@@ -1,160 +1,118 @@
 class audiencias.views.DependencyMenu extends Backbone.View
   id: 'dependency-menu'
-  className: 'generic-menu hidden'
+  className: 'generic-menu'
   template: JST["backbone/templates/admin/menu/dependency_menu"]
-  events:
+  events: {
     'click .toggle-menu-icon': 'toggleTopMenu'
-    'click #see-admins': 'showAdmins'
-    'click #hide-admins': 'hideAdmins'
-    'click #add-sub-dependency': 'triggerNewDependency'
+
+    'click #add-sub-dependency': 'addSubNewDependency'
     'click #edit-users': 'editDependencyAndUsers'
     'click #remove-users': 'removeDependencyOrUsers'
     'click #see-dependency-audiencees': 'goToObligeeAudiences'
-    'click #cancel': 'cancelModifying'
-    'click #confirm-actions': 'confirmActions'
+
+    'click #cancel': 'cancelEdition'
+    'click #confirm-actions': 'submitChanges'
+
+    'click #see-admins': 'showAdmins'
+    'click #hide-admins': 'hideAdmins'
     'click #edit-dependency': 'editDependencyName'
     'click #cancel-edit-dependency': 'cancelEditDependencyName'
     'click #confirm-edit-dependency': 'confirmEditDependencyName'
+  }
 
-  initialize: ->
-
-  refreshDependency: =>
-    if @dependency
-      newDependencyInfo = _.find(audiencias.globals.userDependencies, (d) => d.id == @dependency.id)
-      @setDependency(newDependencyInfo) if newDependencyInfo
-
-  setDependency: (@dependency) ->
-    @adminList = new audiencias.views.AdminList(@dependency)
-    @obligeeList = new audiencias.views.ObligeeList(@dependency)
-    @operatorList = new audiencias.views.OperatorList(@dependency)
-    
-    @adminList.on('form-shown', => @$el.addClass('with-form'))
-    @adminList.on('form-hidden', => @$el.removeClass('with-form'))
-    @obligeeList.on('form-shown', => @$el.addClass('with-form'))
-    @obligeeList.on('form-hidden', => @$el.removeClass('with-form'))
-    @operatorList.on('form-shown', => @$el.addClass('with-form'))
-    @operatorList.on('form-hidden', => @$el.removeClass('with-form'))
+  initialize: (dependencyId) ->
+    @dependency = audiencias.globals.userDependencies.get(dependencyId)
+    @dependency.on('add change remove', @render)
+    @renderMode = 'normal'
+    @showingAdmins = false
+    @editingTitle = false
 
   render: =>
-    @$el.removeClass('modifying')
-    @$el.html(@template(@dependency))
+    @$el.html(@template({
+      dependency: @dependency
+      showingAdmins: @showingAdmins
+      renderMode: @renderMode
+      editingTitle: @editingTitle
+    }))
+    @$el.toggleClass('modifying', @renderMode != 'normal')
+
+    userMode = if @renderMode == 'remove' then 'removable' else if @renderMode == 'normal' then '' else 'editable'
+    @adminList = new audiencias.views.AdminList({ dependency: @dependency, userMode: userMode })
+    #@obligeeList = new audiencias.views.ObligeeList({ dependency: @dependency })
+    #@operatorList = new audiencias.views.OperatorList({ dependency: @dependency })
     
     @adminList.render()
-    @obligeeList.render()
-    @operatorList.render()
+    @adminList.$el.toggleClass('hidden', !@showingAdmins)
+    #@obligeeList.render()
+    #@operatorList.render()
     
-    @$el.find('.menu-lists').html(@adminList.el)
-      .append(@obligeeList.el)
-      .append(@operatorList.el)
-
-  cancelModifying: ->
-    @$el.removeClass('modifying')
-    @$el.find('.title-name').text(@dependency.name)
-
-    @adminList.cancelEditMode()
-    @obligeeList.cancelEditMode()
-    @operatorList.cancelEditMode()
-
-    @adminList.cancelRemoveMode()
-    @obligeeList.cancelRemoveMode()
-    @operatorList.cancelRemoveMode()
-
-    @hideAdmins()
+    @$el.find('.menu-lists')
+      .html(@adminList.el)
+     # .append(@obligeeList.el)
+     # .append(@operatorList.el)
 
   toggleTopMenu: =>
     @$el.find('.toggle-menu-icon, .top-menu').toggleClass('hidden')
 
+  editDependencyAndUsers: =>
+    @renderMode = 'edit'
+    @showingAdmins = true
+    @render()
+
+  removeDependencyOrUsers: =>
+    @renderMode = 'remove'
+    @showingAdmins = true
+    @render()
+
+  addSubNewDependency: =>
+
+  cancelEdition: =>
+    @renderMode = 'normal'
+    @editingTitle = false
+    @showingAdmins = false
+    audiencias.globals.users.cancelChanges()
+    @dependency.restore()
+    @render()
+
+  editDependencyName: =>
+    @editingTitle = true
+    @render()
+
+  cancelEditDependencyName: =>
+    @editingTitle = false
+    @render()
+
+  confirmEditDependencyName: =>
+    newName = @$el.find('.title-input').val().trim()
+    if newName.length > 0
+      @editingTitle = false
+      @dependency.set('name', newName)
+      @render()
+    else
+      @$el.find('.title-input').addClass('invalid')
+
+  submitChanges: =>
+    @renderMode = 'normal'
+    @showingAdmins = true
+    @editingTitle = false
+    @adminList.submitChanges()
+    #@obligeeList.submitChanges()
+    #@operatorList.submitChanges()
+    @submitDependencyChanges()
+    @render()
+
+  submitDependencyChanges: =>
+
   showAdmins: =>
-    @showButtons('#hide-admins')
-    @adminList.showAdminList()
+    @showingAdmins = true
+    @render()
 
   hideAdmins: =>
-    @showButtons('#see-admins')
-    @adminList.hideAdminList()
+    @showingAdmins = false
+    @render()
 
   triggerNewDependency: =>
     $(window).trigger('add-new-dependency', [@dependency])
 
-  editDependencyAndUsers: =>
-    @$el.addClass('modifying')
-    @adminList.showAdminList()
-    @adminList.editModeOn()
-    @obligeeList.editModeOn()
-    @operatorList.editModeOn()
-    @toggleTopMenu()
-    @showButtons('#edit-dependency')
-
-  editDependencyName: =>
-    messageOptions = {
-      icon: 'alert',
-      confirmation: true,
-      text: {
-        main: '¿Está seguro de que quiere editar el nombre de la dependencia?',
-        secondary: 'Los cambios afectaran las audiencias ya cargadas y seran visibles al público.'
-      },
-      callback: {
-        confirm: => 
-          @$el.find('.title-name').addClass('hidden')
-          @$el.find('.title-form').removeClass('hidden')
-          @showButtons('#cancel-edit-dependency, #confirm-edit-dependency')
-      }
-    }
-    new audiencias.views.ImportantMessage(messageOptions)
-
-  cancelEditDependencyName: =>
-    @$el.find('.title-name').removeClass('hidden')
-    @$el.find('.title-form').addClass('hidden')
-    @$el.find('.title-input').val(@$el.find('.title-name').text())
-    @showButtons('#edit-dependency')
-
-  confirmEditDependencyName: =>
-    @$el.find('.title-name').removeClass('hidden')
-    @$el.find('.title-form').addClass('hidden')
-    @$el.find('.title-name').addClass('edited')
-      .text(@$el.find('.title-input').val())
-    @showButtons('#edit-dependency')
-
-  removeDependencyOrUsers: =>
-    @$el.addClass('modifying')
-    @adminList.showAdminList()
-    @adminList.removeModeOn()
-    @obligeeList.removeModeOn()
-    @operatorList.removeModeOn()
-    @toggleTopMenu()
-    @showButtons('#remove-dependency')
-    
   goToObligeeAudiences: =>
-    window.open('/audiencias/carga/' + @dependency.obligee.id, '_blank')
-
-  confirmActions: =>
-    messageOptions = {
-      icon: 'alert',
-      confirmation: true,
-      text: {
-        main: '¿Está seguro de que quiere aplicar los cambios?'
-      },
-      callback: {
-        confirm: @submitChanges
-      }
-    }
-    new audiencias.views.ImportantMessage(messageOptions)
-
-  submitChanges: =>
-    changes = []
-    newName = @$el.find('.title-name').text()
-    if newName != @dependency.name
-      data = { dependency: { id: @dependency.id, name: newName}}
-      changes.push($.ajax(
-        url: '/administracion/actualizar_dependencia'
-        data: data
-        method: 'POST'
-      ))
-    changes = changes.concat(@adminList.submitChanges())
-    changes = changes.concat(@obligeeList.submitChanges())
-    changes = changes.concat(@operatorList.submitChanges())
-    $.when(changes).done(@render)
-
-  showButtons: (selector) =>
-    @$el.find('.title button').addClass('hidden')
-    @$el.find(selector).removeClass('hidden')
-    
+    window.open('/audiencias/carga/' + @dependency.obligee.id, '_blank')    

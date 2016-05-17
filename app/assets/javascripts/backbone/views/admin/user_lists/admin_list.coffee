@@ -1,69 +1,51 @@
 #= require ./user_list
 class audiencias.views.AdminList extends audiencias.views.UserList
-  className: 'user-list hidden'
   title: 'Administradores'
 
-  initialize: (dependency) ->
-    super()
-    @dependency = dependency
-    @users = dependency.users || []
+  initialize: (options) ->
+    super(options)
+    @dependency = options.dependency
 
-  showAdminList: =>
-    @$el.removeClass('hidden')
+  userFilter: (u) => 
+    dependencyAdmins = @dependency.get('users')
+    adminsIds = _.collect(dependencyAdmins, (a) -> a.id)
+    adminsIds.indexOf(u.get('id')) > -1
 
-  hideAdminList: =>
-    @$el.addClass('hidden')
-
-  addUserFromForm: =>
-    validation = @validateUser('.new-user-form')
-    if validation.valid
-      userData = validation.data
-      dependencyData = { id: @dependency.id }
-      messageOptions = {
-        icon: 'alert',
-        confirmation: true,
-        text: {
-          main: '¿Está seguro de que quiere dar permisos de administrador al usuario?',
-          secondary: 'El usuario podrá administrar sujetos obligados, usuarios y otras dependencias que dependendan de la actual.'
-        },
-        callback: {
-          confirm: => 
-            @submitNew(userData, dependencyData)
-        }
-      }
-      new audiencias.views.ImportantMessage(messageOptions)
-
-  submitNew: (userData, dependencyData) =>
+  submitNewUser: (user) ->
     $.ajax(
-      url: '/administracion/nuevo_administrador'
-      data: { user: userData, dependency: dependencyData }
+      url: '/intranet/nuevo_administrador'
+      data: { user: user.attributes, dependency: @dependency.attributes }
       method: 'POST'
-      success: (response) =>
-        if response.dependency and response.dependency.users
-          @users = response.dependency.users
-          @render()
+      success: (response) ->
+        if response and response.user
+          audiencias.globals.users.add(response.user)
+        if response and response.dependency
+          audiencias.globals.userDependencies.forceUpdate(response.dependency)
     )
 
-  submitEdit: =>
-    editedUsers = @$el.find('.user.edited')
+  submitChanges: =>
     requests = []
-    for editedUser in editedUsers
-      newData = $(editedUser).data('user')
+    usersForUpdate = audiencias.globals.users.filter( (user) -> user.get('markedForUpdate' ))
+    usersForUpdate.forEach( (user) ->
       requests.push($.ajax(
-        url: '/administracion/actualizar_usuario'
-        data: {user: newData }
+        url: '/intranet/actualizar_usuario'
+        data: { user: user.attributes }
         method: 'POST'
+        success: (response) ->
+          if response and response.user 
+            user.set(response.user)
       ))
-    requests
-
-  submitRemove: =>
-    removedUsers = @$el.find('.user.removed')
-    requests = []
-    for user in removedUsers
-      userData = $(user).data('user')
+    )
+    usersForRemoval = audiencias.globals.users.filter( (user) -> user.get('markedForRemoval' ))
+    usersForRemoval.forEach( (user) =>
       requests.push($.ajax(
-        url: '/administracion/eliminar_administrador'
-        data: { user: { id: userData.id }, dependency: { id: @dependency.id}  } 
+        url: '/intranet/eliminar_administrador'
+        data: { user: user.attributes, dependency: @dependency.attributes } 
         method: 'POST'
+        success: (response) ->
+          if response and response.user 
+            user.set(response.user)
+          if response and response.dependency
+            audiencias.globals.userDependencies.forceUpdate(response.dependency)
       ))
-    requests
+    )

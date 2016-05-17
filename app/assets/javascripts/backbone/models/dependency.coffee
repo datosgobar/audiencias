@@ -13,7 +13,20 @@ class audiencias.models.Dependency extends Backbone.Model
   }
 
   initialize: ->
+    @lastSavedAttributes =  jQuery.extend(true, {}, @attributes)
 
+  restore: =>
+    @set(@lastSavedAttributes)
+
+  validate: ->
+    validations = {
+      name: @validateName()
+    }
+    valid = validations.name
+    if valid 
+      undefined 
+    else 
+      validations
 
   toggleExpanded: ->
     if @get('direct_sub_dependencies').length > 0
@@ -25,3 +38,7 @@ class audiencias.models.Dependency extends Backbone.Model
 
   collapse: ->
     @set('expanded', false)
+
+  validateName: (name) ->
+    name = @get('name')
+    name.trim().length > 0

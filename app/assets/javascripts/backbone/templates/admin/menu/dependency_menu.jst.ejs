@@ -5,7 +5,7 @@
     <div class="top-menu-action" id="add-sub-dependency">Agregar subdependencia</div>
     <div class="top-menu-action" id="edit-users">Editar dependencia y/o usuarios</div>
     <div class="top-menu-action" id="remove-users">Dar de baja dependencia y/o usuarios</div>
-    <% if (obligee) { %> 
+    <% if (dependency.get('obligee_id')) { %> 
       <div class="top-menu-action" id="see-dependency-audiencees">Ver audiencias</div>
     <% } %>
   </div>
@@ -15,20 +15,46 @@
 </div>
 
 <div class="title">
-  <div class="title-name">
-    <%= name %>
-  </div>
-  <div class="title-form hidden">
-    <input type="text" class="title-input" value="<%= name %>">
-  </div>
-  <div class="title-buttons">
-    <button id="see-admins" class="toggle-admin-view">VER ADMINISTRADORES</button>
-    <button id="hide-admins" class="toggle-admin-view hidden">OCULTAR ADMINISTRADORES</button>
-    <button id="edit-dependency" class="hidden">EDITAR</button>
-    <button id="cancel-edit-dependency" class="hidden">CANCELAR</button>
-    <button id="confirm-edit-dependency" class="hidden">CONFIRMAR</button>
-    <button id="remove-dependency" class="hidden">BAJA</button>
-  </div>
+  
+  <% if (renderMode == 'normal') { %>
+  
+    <div class="title-name">
+      <%= dependency.get('name') %>
+    </div>
+    <div class="title-buttons">
+      <button id="see-admins" class="<%= showingAdmins ? 'hidden' : '' %>">VER ADMINISTRADORES</button>
+      <button id="hide-admins" class="<%= showingAdmins ? '' : 'hidden' %>">OCULTAR ADMINISTRADORES</button>
+    </div>
+  
+  <% } else if (renderMode == 'remove') { %>
+
+    <div class="title-name">
+      <%= dependency.get('name') %>
+    </div>
+    <div class="title-buttons">
+      <button id="remove-dependency">BAJA</button>
+    </div>
+
+  <% } else if (editingTitle) { %>
+
+    <div class="title-form">
+      <input type="text" class="title-input" value="<%= dependency.get('name') %>">
+    </div>
+    <div class="title-buttons">
+      <button id="cancel-edit-dependency">CANCELAR</button>
+      <button id="confirm-edit-dependency">CONFIRMAR</button>
+    </div>
+
+  <% } else { %>
+
+    <div class="title-name">
+      <%= dependency.get('name') %>
+    </div>
+    <div class="title-buttons">
+      <button id="edit-dependency">EDITAR</button>
+    </div>
+
+  <% } %>
 </div>
 
 <div class="menu-lists"></div>

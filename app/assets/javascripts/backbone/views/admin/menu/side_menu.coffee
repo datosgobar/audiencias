@@ -19,7 +19,6 @@ class audiencias.views.SideMenu extends Backbone.View
       .html(@supervisorMenu.el)
 
   showDependencyMenu: (e, dependencyId) =>
-    console.log('showing dependency ' + dependencyId)
     @render()
     @dependencyMenu = new audiencias.views.DependencyMenu(dependencyId)
     @dependencyMenu.render()

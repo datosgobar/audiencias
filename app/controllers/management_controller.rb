@@ -34,7 +34,7 @@ class ManagementController < ApplicationController
       user.send_password_reset if new_user
       render json: { success: true, dependency: dependency, user: user }
     else
-      render json: { success: false, errors: user.errors.messages }
+      render json: { success: false, user_errors: user.errors.messages, association_errors: association.errors.messages }
     end
   end
 
@@ -83,10 +83,12 @@ class ManagementController < ApplicationController
   end
 
   def remove_admin
-    association = AdminAssociation.where(user_id: params[:user][:id], dependency_id: params[:dependency][:id])
+    user = User.find(params[:user][:id])
+    dependency = Dependency.find(params[:dependency][:id])
+    association = AdminAssociation.where(user: user, dependency: dependency)
     if association.length > 0
       association.destroy_all
-      render json: { success: true }
+      render json: { success: true, user: user, dependency: dependency }
     else
       render json: { success: false }
     end
