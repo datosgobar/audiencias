@@ -1,111 +1,93 @@
-#= require ./user_list
-class audiencias.views.ObligeeList extends audiencias.views.UserList
+class audiencias.views.ObligeeList extends Backbone.View
   title: 'Sujeto obligado'
-  positionInForm: true
+  template: JST["backbone/templates/admin/menu/user_list"]
+  obligeeTemplate: JST["backbone/templates/admin/menu/obligee"]
+  className: 'user-list'
+  events:
+    'click .add-user': 'showAddUserForm'
+    'click .edit-user': 'showEditUserForm'
+    'click .remove-user': 'markForRemove'
 
-  initialize: (dependency) ->
-    super()
-    @dependency = dependency
-    @setUsers()
+  initialize: (options) ->
+    @showingForm = false
+    @userMode = options.userMode || ''
+    @dependency = options.dependency
+    @newObligee = false
 
-  setUsers: =>
-    if @dependency.obligee and @dependency.obligee.person
-      @dependency.obligee.person.role = 'obligee'
-      @users = [@dependency.obligee.person]
-      @users[0].position = @dependency.obligee.position
-    else
-      @users = []
+  render: =>
+    @$el.html(@template({
+      title: @title
+      showingForm: @showingForm
+      userMode: @userMode
+    }))
+    if @showingForm
+      userForm = new audiencias.views.ObligeeForm({ dependency: @dependency, newObligee: @newObligee })
+      userForm.render()
+      userForm.on('cancel', @hideForm)
+      userForm.on('done', @updateOrCreateUser)
+      @$el.find('.form').html(userForm.el)
+    else if @dependency.get('obligee')
+      obligeeEl = $(@obligeeTemplate({dependency: @dependency})).addClass(@userMode)
+      @$el.find('.users').html(obligeeEl)
+      @$el.find('.add-user').addClass('hidden')
 
-  render: ->
-    super()
-    @hideAddUserImg() if @users.length > 0
+  showAddUserForm: =>
+    @showingForm = true
+    @newObligee = true
+    @render()
 
-  validateUser: (formSelector) =>
-    validation = super(formSelector)
+  showEditUserForm: (event) =>
+    @showingForm = true
+    @newObligee = false
+    @render()
 
-    positionInput = @$el.find(formSelector).find('.position-input')
-    validation.data.position = positionInput.val().trim()
-    
-    positionValid = @validateName(validation.data.position)
-    positionInput.toggleClass('invalid', !positionValid)
-    
-    validation.valid = validation.valid && positionValid
-    validation
+  markForRemove: (event) =>
+    obligeeData = @dependency.get('obligee')
+    obligeeData.markedForRemoval = true
+    @dependency.set('obligee', obligeeData)
+    @render()
 
-  addUserFromForm: =>
-    validation = @validateUser('.new-user-form')
-    if validation.valid
-      data = {
-        person: {
-          person_id: validation.data.person_id
-          id_type: validation.data.id_type
-          name: validation.data.name
-          surname: validation.data.surname
-          email: validation.data.email
-        }
-        dependency: {
-          id: @dependency.id
-        }
-        obligee: {
-          position: validation.data.position
-        }
-      }
-      messageOptions = {
-        icon: 'alert',
-        confirmation: true,
-        text: {
-          main: '¿Está seguro de que quiere agregar un nuevo sujeto obligado?',
-          secondary: 'El cambio quedara guardado en la base de datos y será visible al público.'
-        },
-        callback: {
-          confirm: => 
-            @submitNew(data)
-        }
-      }
-      new audiencias.views.ImportantMessage(messageOptions)
+  hideForm: =>
+    @showingForm = false
+    @render()
 
-  submitNew: (data) =>
+  updateOrCreateUser: (user) =>
+    if @newObligee
+      @submitNewUser(user)
+    else 
+      obligeeData = @dependency.get('obligee')
+      obligeeData.markedForUpdate = true
+      @dependency.set('obligee', obligeeData)
+    @hideForm()
+
+  submitNewUser: (user) =>
+    obligee = @dependency.get('obligee')
     $.ajax(
-      url: '/administracion/nuevo_sujeto_obligado'
-      data: data
+      url: '/intranet/nuevo_sujeto_obligado'
+      data: { dependency: @dependency.attributes, person: obligee.person }
       method: 'POST'
-      success: (response) =>
+      success: (response) ->
         if response and response.dependency
-          @dependency = response.dependency
-          oldDependency = _.find(audiencias.globals.userDependencies.plain, (d) => d.id == @dependency.id)
-          audiencias.globals.userDependencies.plain[oldDependency.index] = @dependency
-          @setUsers()
-          @render()
+          audiencias.globals.userDependencies.forceUpdate(response.dependency)
     )
 
-  submitEdit: =>
-    editedUsers = @$el.find('.user.edited')
-    requests = []
-    for editedUser in editedUsers
-      newData = $(editedUser).data('user')
-      newPersonData = {
-        name: newData.name,
-        surname: newData.surname,
-        email: newData.email
-      }
-      newObligeeData = {
-        id: @dependency.obligee.id,
-        position: newData.position
-      }
-      requests.push($.ajax(
-        url: '/administracion/actualizar_sujeto_obligado'
-        data: { obligee: newObligeeData, person: newPersonData, dependency: { id: @dependency.id } }
+  submitChanges: =>
+    obligee = @dependency.get('obligee')
+    if obligee.markedForUpdate
+      $.ajax(
+        url: '/intranet/actualizar_sujeto_obligado'
+        data: { dependency: @dependency.attributes, person: obligee.person, obligee: obligee }
         method: 'POST'
-      ))
-    requests
-
-  submitRemove: =>
-    removedUsers = @$el.find('.user.removed')
-    requests = []
-    for user in removedUsers
-      requests.push($.ajax(
-        url: '/administracion/eliminar_sujeto_obligado'
-        data: { dependency: { id: @dependency.id } } 
+        success: (response) ->
+          if response and response.dependency
+            audiencias.globals.userDependencies.forceUpdate(response.dependency)
+      )
+    else if obligee.markedForRemoval
+      $.ajax(
+        url: '/intranet/eliminar_sujeto_obligado'
+        data: { dependency: @dependency.attributes } 
         method: 'POST'
-      ))
-    requests
+        success: (response) ->
+          if response and response.dependency
+            audiencias.globals.userDependencies.forceUpdate(response.dependency)
+      )

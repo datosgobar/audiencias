@@ -21,5 +21,6 @@ class audiencias.collections.UserDependencies extends Backbone.Collection
     if savedDependency
       savedDependency.set(newDependency)
       savedDependency.set('users', newDependency.users)
+      savedDependency.set('obligee', newDependency.obligee)
     else 
       @add(newDependency)

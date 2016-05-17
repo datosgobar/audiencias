@@ -1,0 +1,20 @@
+<% var obligee = dependency.get('obligee'); %>
+<% var removedClass = obligee.markedForRemoval ? 'removed' : '' %>
+<div class="user <%= removedClass %>">
+  <% var person = obligee.person %>
+  <span class="user-icon obligee"><%= person.name[0] + person.surname[0] %></span> 
+  <div class="user-fullname">
+    <%= person.name %> <%= person.surname %>
+  </div>
+  <div class="user-position">
+    <%= obligee.position %>
+  </div>
+  <div class="user-id">
+    <%= person.id_type.toUpperCase() %> <%= person.person_id %>
+  </div>
+  <div class="user-email">
+    <%= person.email %>
+  </div>
+  <button class="edit-user">EDITAR</button>
+  <button class="remove-user">BAJA</button>
+</div>

@@ -49,7 +49,7 @@ class ManagementController < ApplicationController
     dependency.obligee = obligee 
 
     if person.save and obligee.save and dependency.save
-      render json: { success: true, obligee: obligee, dependency: dependency, person: person }
+      render json: { success: true, dependency: dependency }
     else
       render json: { success: false }
     end
@@ -107,7 +107,7 @@ class ManagementController < ApplicationController
     dependency.obligee = nil
     operatorAssociations = obligee.operator_associations
     if obligee.save and dependency.save and operatorAssociations.destroy_all
-      render json: { success: true }
+      render json: { success: true, dependency: dependency }
     else
       render json: { success: false }
     end
@@ -154,7 +154,7 @@ class ManagementController < ApplicationController
     obligee.update_minor_attributes(params[:obligee])
     person.update_minor_attributes(params[:person])
     if person.save and obligee.save 
-      render json: { success: true, obligee: obligee, person: person }
+      render json: { success: true, dependency: dependency }
     else
       render json: { success: false }
     end
