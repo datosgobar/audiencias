@@ -1,21 +1,26 @@
-<div class="user-form">
-  <div class="label">Tipo y nro. de documento</div>
-  <div class="type-and-doc">
-    <select class="id-type-select ">
-      <option value="dni">DNI</option>
-      <option value="lc">LC</option>
-      <option value="le">LE</option>
-    </select>
-    <input type="text" class="person-id-input" placeholder="00000000">
-  </div>
-  <div class="label">Nombre</div>
-  <input type="text" class="name-input disabled-if-found" placeholder="Nombre">
-  <div class="label">Apellido</div>
-  <input type="text" class="surname-input disabled-if-found" placeholder="Apellido">
-  <div class="label">Mail</div>
-  <input type="text" class="email-input disabled-if-found" placeholder="mail@unmail.com">
-  <div class="form-actions">
-    <button class="cancel-add-new-user">CANCELAR</button>
-    <button class="add-new-user">AGREGAR</button>
-  </div>
+<% var disabledIfFound = userFound ? 'disabled' : ''; %>
+<% var disabledIfEditing = mode == 'edit' ? 'disabled' : ''; %>
+<div class="label">Tipo y nro. de documento</div>
+<div class="type-and-doc">
+  <select class="id-type-select" <%= disabledIfEditing%>>
+    <% var id_type = user.get('id_type'); %>
+    <option value="dni" <%= id_type == 'dni' ? 'selected' : '' %>>DNI</option>
+    <option value="lc" <%= id_type == 'lc' ? 'selected' : '' %>>LC</option>
+    <option value="le" <%= id_type == 'le' ? 'selected' : '' %>>LE</option>
+  </select>
+  <input type="text" class="person-id-input" placeholder="00000000" 
+    value="<%= user.get('person_id') %>" <%= disabledIfEditing%>>
+</div>
+<div class="label">Nombre</div>
+<input type="text" class="name-input" <%= disabledIfFound %> 
+  placeholder="Nombre" value="<%= user.get('name') %>">
+<div class="label">Apellido</div>
+<input type="text" class="surname-input" <%= disabledIfFound %> 
+  placeholder="Apellido" value="<%= user.get('surname') %>">
+<div class="label">Mail</div>
+<input type="text" class="email-input" <%= disabledIfFound %> 
+  placeholder="mail@unmail.com" value="<%= user.get('email') %>">
+<div class="form-actions">
+  <button class="cancel-user">CANCELAR</button>
+  <button class="confirm-user">CONFIRMAR</button>
 </div>

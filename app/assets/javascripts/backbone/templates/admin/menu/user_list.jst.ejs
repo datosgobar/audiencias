@@ -1,6 +1,8 @@
 <div class="user-list-title">
   <%= title %>
-  <img src="/assets/logo-agregar.svg" class="add-user">
+  <% if (!showingForm && !userMode) { %>
+    <img src="/assets/logo-agregar.svg" class="add-user">
+  <% } %>
 </div>
 <div class="users"></div>
 <div class="form"></div>

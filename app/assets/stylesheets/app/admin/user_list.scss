@@ -68,38 +68,39 @@
         }
       }
     }
-    .new-user-form,
-    .edit-user-form {
-      padding: 0 10px 10px 10px;
-      .label {
-        font-size: 13px;
-        margin-top: 5px;
+  }
+}
+
+#side-menu .user-list {
+  .user-form {
+    padding: 0 10px 10px 10px;
+    .label {
+      font-size: 13px;
+      margin-top: 5px;
+    }
+    input {
+      font-size: 14px;
+      width: 100%;
+      padding: 1px 5px;
+    }
+    .type-and-doc {
+      select {
+        font-size: 14px;
+        width: 22%;
       }
       input {
-        font-size: 14px;
-        width: 100%;
-        padding: 1px 5px;
+        width: 75%;
+        float: right;
       }
-      .type-and-doc {
-        select {
-          font-size: 14px;
-          width: 22%;
-        }
-        input {
-          width: 75%;
-          float: right;
-        }
-      }
-      .form-actions {
-        margin-top: 5px;
-        text-align: right; 
-        button {
-          font-size: 11px;
-          padding: 2px 6px;
-          &.cancel-add-new-user,
-          &.cancel-edit-user {
-            background: $grey-300;
-          }
+    }
+    .form-actions {
+      margin-top: 5px;
+      text-align: right; 
+      button {
+        font-size: 11px;
+        padding: 2px 6px;
+        &.cancel-user {
+          background: $grey-300;
         }
       }
     }

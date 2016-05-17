@@ -10,15 +10,35 @@ class audiencias.models.User extends Backbone.Model
   }
 
   initialize: ->
+    @lastSavedAttributes =  jQuery.extend(true, {}, @attributes)
+
+  validate: ->
+    validations = {
+      name: @validateName()
+      surname: @validateSurname(),
+      'person-id': @validatePersonId(),
+      email: @validateEmail()
+    }
+    valid = validations.name and validations.surname and validations['person-id'] and validations.email
+    if valid 
+      undefined 
+    else 
+      validations
+
+  restore: =>
+    @set(@lastSavedAttributes)
 
   validatePersonId: ->
     person_id = @get('person_id')
     !!parseInt(person_id) and parseInt(person_id) > 0
 
-  validateNames: ->
+  validateName: ->
     name = @get('name')
+    name.trim().length > 0 
+
+  validateSurname: ->
     surname = @get('surname')
-    name.trim().length > 0 and surname.trim().length > 0
+    surname.trim().length > 0
 
   validateEmail: ->
     email = @get('email')

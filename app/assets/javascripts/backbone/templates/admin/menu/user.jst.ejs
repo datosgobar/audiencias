@@ -1,18 +1,14 @@
-<div class="user">
-  <span class="user-icon <%= role %>"><%= name[0] + surname[0] %></span> 
+<% var removedClass = get('markedForRemoval') ? 'removed' : '' %>
+<div class="user <%= removedClass %>" data-user-id="<%= get('id') %>">
+  <span class="user-icon <%= get('role') %>"><%= get('name')[0] + get('surname')[0] %></span> 
   <div class="user-fullname">
-    <%= name %> <%= surname %>
+    <%= get('name') %> <%= get('surname') %>
   </div>
-  <% if (role == 'obligee') { %>
-    <div class="user-position">
-      <%= position %>
-    </div>
-  <% } %>
   <div class="user-id">
-    <%= id_type.toUpperCase() %> <%= person_id %>
+    <%= get('id_type').toUpperCase() %> <%= get('person_id') %>
   </div>
   <div class="user-email">
-    <%= email %>
+    <%= get('email') %>
   </div>
   <button class="edit-user">EDITAR</button>
   <button class="remove-user">BAJA</button>

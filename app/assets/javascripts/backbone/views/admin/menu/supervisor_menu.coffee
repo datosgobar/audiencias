@@ -1,6 +1,6 @@
 class audiencias.views.SupervisorMenu extends Backbone.View
   id: 'supervisor-menu'
-  className: 'generic-menu hidden'
+  className: 'generic-menu'
   template: JST["backbone/templates/admin/menu/supervisor_menu"]
   events: 
     'click .toggle-menu-icon': 'toggleTopMenu'
@@ -10,13 +10,13 @@ class audiencias.views.SupervisorMenu extends Backbone.View
     'click #cancel': 'cancelEdition'
     'click #confirm-actions': 'confirmActions'
 
-  initialize: ->
-    @supervisorList = new audiencias.views.SupervisorList
-    @supervisorList.on('form-shown', => @$el.addClass('with-form'))
-    @supervisorList.on('form-hidden', => @$el.removeClass('with-form'))
-
   render: ->
     @$el.html(@template())
+    @$el.toggleClass('modifying', !!@userMode)
+
+    @supervisorList = new audiencias.views.SupervisorList(userMode: @userMode)
+      .on('form-shown', => @$el.addClass('with-form'))
+      .on('form-hidden', => @$el.removeClass('with-form'))
     @supervisorList.render()
     @$el.find('.menu-lists').html(@supervisorList.el)
 
@@ -24,23 +24,22 @@ class audiencias.views.SupervisorMenu extends Backbone.View
     @$el.find('.toggle-menu-icon, .top-menu').toggleClass('hidden')
 
   editSupervisors: =>
-    @$el.addClass('modifying')
-    @supervisorList.editModeOn()
-    @toggleTopMenu()
+    @userMode = 'editable'
+    @render()
 
   removeSupervisors: =>
-    @$el.addClass('modifying')
-    @supervisorList.removeModeOn()
-    @toggleTopMenu()
+    @userMode = 'removable'
+    @render()
 
   addDependency: =>
     $(window).trigger('add-new-dependency')
 
   cancelEdition: =>
-    @$el.removeClass('modifying')
-    @supervisorList.cancelEditMode()
-    @supervisorList.cancelRemoveMode()
+    @userMode = null
+    audiencias.globals.users.cancelChanges()
+    @render()
 
   confirmActions: =>
-    @$el.removeClass('modifying')
+    @userMode = null
     @supervisorList.submitChanges()
+    @render()
