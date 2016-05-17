@@ -3,11 +3,15 @@ class audiencias.views.SupervisorList extends audiencias.views.UserList
   title: 'Supervisores'
 
   initialize: ->
+    audiencias.globals.users.on('add remove change', @render)
     super()
-    $(window).on('globals:users:loaded', @filterUsers)
+    $(window).on('globals:users:loaded', =>
+      @filterUsers()
+    )
 
   filterUsers: =>
-    @users = _.filter(audiencias.globals.users, (u) -> u.role == 'superadmin')
+    @users = audiencias.globals.users.filter((u) -> u.role == 'superadmin')
+    console.log(@users)
     @render()
 
   addUserFromForm: =>

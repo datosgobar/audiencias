@@ -123,15 +123,6 @@ class audiencias.views.UserList extends Backbone.View
     form.find('.email-input').val(user.email)
     form.find('.position-input').val(user.position)
 
-  validatePersonId: (person_id) ->
-    !!parseInt(person_id) and parseInt(person_id) > 0
-
-  validateName: (str) ->
-    str.trim().length > 0
-
-  validateEmail: (str) ->
-    /[\w+\-.]+@[a-z\d\-.]+\.[a-z]+/i.test(str)
-    
   setAutocompleteOptions: =>
     @autocompleteOptions = { dni: [], le: [], lc: [] }
     for user in audiencias.globals.users

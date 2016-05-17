@@ -72,8 +72,8 @@ class audiencias.views.ObligeeList extends audiencias.views.UserList
       success: (response) =>
         if response and response.dependency
           @dependency = response.dependency
-          oldDependency = _.find(audiencias.globals.dependencies.plain, (d) => d.id == @dependency.id)
-          audiencias.globals.dependencies.plain[oldDependency.index] = @dependency
+          oldDependency = _.find(audiencias.globals.userDependencies.plain, (d) => d.id == @dependency.id)
+          audiencias.globals.userDependencies.plain[oldDependency.index] = @dependency
           @setUsers()
           @render()
     )

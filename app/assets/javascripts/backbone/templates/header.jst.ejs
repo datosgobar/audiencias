@@ -1,16 +1,17 @@
 <div id="header-shadow">
   <div id="header-container">
     <div id="header-content">
-      <% if (window.audiencias.globals.currentUser)  { %>
+      <% var currentUser = window.audiencias.globals.users.currentUser(); %>
+      <% if (currentUser)  { %>
         <div id="main-logo">
           <a href="/">
             <img src="/assets/logo-ministerio.svg" id="logo-ministerio">
           </a>  
         </div>
         <div id="user-header">
-          <% var name = window.audiencias.globals.currentUser.name; %>
-          <% var surname = window.audiencias.globals.currentUser.surname; %>
-          <% var role = window.audiencias.globals.currentUser.role %>
+          <% var name = currentUser.get('name'); %>
+          <% var surname = currentUser.get('surname'); %>
+          <% var role = currentUser.get('role') %>
           <span class="user-icon <%= role %>"><%= name[0] + surname[0] %></span> 
           <span id="user-header-name"><%= name %> <%= surname %></span>
           <img src="/assets/icon-flecha-abajo-usuario.svg" id="user-header-icon">
