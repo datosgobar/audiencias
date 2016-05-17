@@ -9,7 +9,8 @@
     <img src="/assets/icon-desplegar.svg" id="expand-all">
     <img src="/assets/icon-colapsar.svg" id="collapse-all">
   </div>
-  <% if (audiencias.globals.currentUser.role == 'superadmin') { %>
+  <% var currentUser = audiencias.globals.users.currentUser(); %>
+  <% if (currentUser && currentUser.get('role') == 'superadmin') { %>
   <div id="vertical-line-spacer">
     <button id="supervisor-menu-button">SUPERVISORES</button>
   </div>

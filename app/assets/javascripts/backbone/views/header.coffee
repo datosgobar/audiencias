@@ -5,7 +5,10 @@ class audiencias.views.Header extends Backbone.View
     'click #user-header': 'toggleShowMenu'
     'click #logout': 'logout'
 
-  render: ->
+  initialize: ->
+    audiencias.globals.users.on('add change', @render)
+
+  render: =>
     @$el.html(@template())
 
   toggleShowMenu: =>

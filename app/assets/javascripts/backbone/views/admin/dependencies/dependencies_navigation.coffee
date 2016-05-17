@@ -8,43 +8,45 @@ class audiencias.views.DependenciesNavigation extends Backbone.View
     'input #dependencies-search-input': 'lunrSearch'
 
   initialize: =>
-    $(window).on('globals:dependencies:loaded', =>
-      @dependencies = audiencias.globals.dependencies.plain
-      @initializeLunr()
-    )
+    audiencias.globals.userDependencies.on('change add remove', @initializeLunr)
+    audiencias.globals.users.on('change add', @render)
 
-  render: ->
+  render: =>
     @$el.html(@template())
 
   triggerShowMenu: ->
     $(window).trigger('menu:show-supervisor')
 
   collapseAll: ->
-    $(window).trigger('collapse-all-dependencies')
+    audiencias.globals.userDependencies.forEach (dependency) ->
+      dependency.collapse()
 
   expandAll: ->
-    $(window).trigger('expand-all-dependencies')
+    audiencias.globals.userDependencies.forEach (dependency) ->
+      dependency.expand()
 
   initializeLunr: =>
     @lunr = lunr( ->
       this.field('lunrName')
-      this.ref('index')
+      this.ref('id')
     )
-    for dependency, index in @dependencies
-      dependency.index = index
-      dependency.lunrName = dependency.name 
-      if dependency.obligee 
-        dependency.lunrName += " #{dependency.obligee.person.name} #{dependency.obligee.person.surname}"
-      @lunr.add(dependency)
+    audiencias.globals.userDependencies.forEach( (dependency) =>
+      indexedDependency = {
+        id: dependency.get('id')
+        lunrName: dependency.get('name')
+      }
+      if dependency.get('obligee')
+        name = dependency.get('obligee').person.name
+        surname = dependency.get('obligee').person.surname
+        indexedDependency.lunrName += " #{name} #{surname}"
+      @lunr.add(indexedDependency)
+    )
 
   lunrSearch: (e) =>
     searchText = $(e.currentTarget).val().trim()
     
     if searchText.length > 0 
       lunrResults = @lunr.search(searchText)
-      results = []
-      for lunrResult in lunrResults
-        results.push(@dependencies[lunrResult.ref])
-      $(window).trigger('search:show-results-list', [results])
+      $(window).trigger('search:show-results-list', [lunrResults])
     else 
       $(window).trigger('search:show-full-list')

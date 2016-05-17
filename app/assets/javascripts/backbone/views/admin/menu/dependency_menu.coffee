@@ -17,11 +17,10 @@ class audiencias.views.DependencyMenu extends Backbone.View
     'click #confirm-edit-dependency': 'confirmEditDependencyName'
 
   initialize: ->
-    $(window).on('globals:dependencies:loaded', @refreshDependency)
 
   refreshDependency: =>
     if @dependency
-      newDependencyInfo = _.find(audiencias.globals.dependencies, (d) => d.id == @dependency.id)
+      newDependencyInfo = _.find(audiencias.globals.userDependencies, (d) => d.id == @dependency.id)
       @setDependency(newDependencyInfo) if newDependencyInfo
 
   setDependency: (@dependency) ->

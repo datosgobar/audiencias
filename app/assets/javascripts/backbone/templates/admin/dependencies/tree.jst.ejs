@@ -1,20 +1,27 @@
 <% for (var i=0; i<nodes.length; i++) { %>
   <% var node = nodes[i]; %>
-  <div class="dependency collapsed" style="padding-left:<%= padding %>%" data-dependency-id="<%= nodes[i].id %>">
+  <% var selectedClass = node.get('selected') ? 'selected' : ''; %>
+  <% var expandedClass = node.get('expanded') ? 'expanded' : 'collapsed'; %>
+  <div class="dependency <%= selectedClass %> <%= expandedClass %>" 
+    style="padding-left:<%= padding %>%" data-dependency-id="<%= node.get('id') %>">
     <img src="/assets/icon-marcador-derecha.svg">
     <span class="dependency-name">
-      <%= node.name %> 
+      <%= node.get('name') %> 
     <span>
-    <% if (node.obligee) { %>
+    <% if (node.get('obligee')) { %>
       <span class="obligee-name">
-        | <%= node.obligee.person.name %> <%= node.obligee.person.surname %>
+        | <%= node.get('obligee').person.name %> <%= node.get('obligee').person.surname %>
       </span>
     <% } %>
   </div>
-  <% var children = node.children; %>
+  <% var children = node.get('direct_sub_dependencies'); %>
   <% if (children && children.length > 0) { %>
+    <% var childrenIds = _.collect(children, function(c) { return c.id }); %>
+    <% var childrenNodes = audiencias.globals.userDependencies.filter(function(d) { 
+      return d.get('parent_id') == node.get('id');
+    }) %>
     <div class="children">
-      <%= template({ nodes: children, padding: padding + 2, template: template}) %>
+      <%= template({ nodes: childrenNodes, padding: padding + 2, template: template}) %>
     </div>
   <% } %>
 <% } %>
