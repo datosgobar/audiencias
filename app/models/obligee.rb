@@ -13,7 +13,7 @@ class Obligee < ActiveRecord::Base
 
   AS_JSON_OPTIONS = {
     only: [:id, :active, :position],
-    include: [{ person: Person::MINIMAL_JSON_OPTIONS }, { users: User::AS_JSON_OPTIONS }]
+    include: [{ person: Person::MINIMAL_JSON_OPTIONS }, { users: { only: [:id] } }]
   }
   def as_json(options={})
     super(AS_JSON_OPTIONS)

@@ -1,6 +1,6 @@
 <%= javascript_tag do %>
   $(function() {
-    audiencias.globals.currentUser = <%= raw @current_user.to_json %>
+    audiencias.globals.currentUser = <%= raw @current_user.id %>;
     audiencias.app.adminLanding();
   });
 <% end %>

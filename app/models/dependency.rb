@@ -19,22 +19,22 @@ class Dependency < ActiveRecord::Base
     else
       dependencies = user.dependencies
     end
-    plain_dependencies = []
+    full_list = []
     tree_dependencies = []
     dependencies.each do |dependency|
-      full_branch = dependency.as_json_with_sub_dependencies
-      plain_dependencies << full_branch
-      tree_dependencies << full_branch
-      plain_dependencies.concat dependency.all_sub_dependencies
+      full_list.concat dependency.as_json_with_all_sub_dependencies({ top: true })
     end
-    { plain: plain_dependencies, tree: tree_dependencies }
+    full_list
   end
 
-  def all_sub_dependencies
-    dependencies = []
+  def as_json_with_all_sub_dependencies(options={})
+    self_json = self.as_json
+    if options[:top]
+      self_json[:top] = true
+    end
+    dependencies = [self_json]
     self.direct_sub_dependencies.each do |sub_dependency|
-      dependencies << sub_dependency.as_json_with_sub_dependencies
-      dependencies.concat sub_dependency.all_sub_dependencies
+      dependencies.concat sub_dependency.as_json_with_all_sub_dependencies
     end
     dependencies
   end
@@ -43,21 +43,11 @@ class Dependency < ActiveRecord::Base
     json = super({
       only: [:id, :name, :active, :parent_id],
       include: { 
-        users: User::AS_JSON_OPTIONS,
-        obligee: Obligee::AS_JSON_OPTIONS
+        users: { only: [:id] },
+        obligee: Obligee::AS_JSON_OPTIONS,
+        direct_sub_dependencies: { only: [:id] }
       }
     })
-    json['obligee'] = nil unless json.key?('obligee')
-    json
-  end
-
-  def as_json_with_sub_dependencies
-    json = self.as_json
-    json[:children] = []
-    self.direct_sub_dependencies.each do |dependency|
-      json[:children] << dependency.as_json_with_sub_dependencies
-    end
-    json
   end
 
   def is_sub_dependency_of(dependencies)
