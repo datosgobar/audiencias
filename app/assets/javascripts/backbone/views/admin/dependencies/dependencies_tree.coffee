@@ -1,5 +1,6 @@
 class audiencias.views.DependenciesTree extends Backbone.View
   id: 'dependencies'
+  containerTemplate: JST["backbone/templates/admin/dependencies/list_container"]
   treeTemplate: JST["backbone/templates/admin/dependencies/tree"]
   resultsTemplate: JST["backbone/templates/admin/dependencies/search_results"]
   events: 
@@ -13,20 +14,20 @@ class audiencias.views.DependenciesTree extends Backbone.View
     @mode = 'tree'
 
   render: =>
-    @$el.html('')
+    @$el.html(@containerTemplate())
     if @mode == 'tree'
       dependenciesTree = @treeTemplate({
-        nodes: audiencias.globals.userDependencies.filter( (d) -> d.get('top') ),
+        nodes: audiencias.globals.userDependencies.filter( (d) -> d.get('top') or not d.get('parent_id') ),
         padding: 12.5,
         template: @treeTemplate
       })
-      @$el.append('<div id="dependencies-tree">')
       @$el.find('#dependencies-tree').html(dependenciesTree)
     else
       resultsEl = @resultsTemplate({ 
         results: @results, 
       })
-      @$el.append(resultsEl)
+      @$el.find('#dependencies-results').html(resultsEl)
+    @$el.find('.list-container').nanoScroller(flash: false)
 
   selectDependency: (event) =>
     id = $(event.currentTarget).data('dependency-id')

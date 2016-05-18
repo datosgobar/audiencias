@@ -1,17 +1,15 @@
-<div id="dependencies-results">
-  <% for (var i=0; i<results.length; i++) { %>
-    <% var result = results[i]; %>
-    <% var selectedClass = result.get('selected') ? 'selected' : ''; %>
-    <div class="dependency collapsed <%= selectedClass %>" data-dependency-id="<%= result.get('id') %>">
-      <img src="/assets/icon-marcador-derecha.svg">
-      <span class="dependency-name">
-        <%= result.get('name') %> 
-      <span>
-      <% if (result.get('obligee')) { %>
-        <span class="obligee-name">
-          | <%= result.get('obligee').person.name %> <%= result.get('obligee').person.surname %>
-        </span>
-      <% } %>
-    </div>
-  <% } %>
-</div>
+<% for (var i=0; i<results.length; i++) { %>
+  <% var result = results[i]; %>
+  <% var selectedClass = result.get('selected') ? 'selected' : ''; %>
+  <div class="dependency collapsed <%= selectedClass %>" data-dependency-id="<%= result.get('id') %>">
+    <img src="/assets/icon-marcador-derecha.svg">
+    <span class="dependency-name">
+      <%= result.get('name') %> 
+    <span>
+    <% if (result.get('obligee')) { %>
+      <span class="obligee-name">
+        | <%= result.get('obligee').person.name %> <%= result.get('obligee').person.surname %>
+      </span>
+    <% } %>
+  </div>
+<% } %>

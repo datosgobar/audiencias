@@ -14,9 +14,7 @@
       </span>
     <% } %>
   </div>
-  <% var children = node.get('direct_sub_dependencies'); %>
-  <% if (children && children.length > 0) { %>
-    <% var childrenIds = _.collect(children, function(c) { return c.id }); %>
+  <% if (node.get('id')) { %>
     <% var childrenNodes = audiencias.globals.userDependencies.filter(function(d) { 
       return d.get('parent_id') == node.get('id');
     }) %>
