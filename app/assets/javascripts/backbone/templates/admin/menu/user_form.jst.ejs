@@ -1,5 +1,6 @@
 <% var disabledIfFound = userFound ? 'disabled' : ''; %>
 <% var disabledIfEditing = mode == 'edit' ? 'disabled' : ''; %>
+<% var validations = user.validate(); %>
 <div class="label">Tipo y nro. de documento</div>
 <div class="type-and-doc">
   <select class="id-type-select" <%= disabledIfEditing%>>
@@ -8,17 +9,17 @@
     <option value="lc" <%= id_type == 'lc' ? 'selected' : '' %>>LC</option>
     <option value="le" <%= id_type == 'le' ? 'selected' : '' %>>LE</option>
   </select>
-  <input type="text" class="person-id-input" placeholder="00000000" 
+  <input type="text" class="person-id-input <%= validations && !validations['person-id'] ? 'invalid' : '' %>" placeholder="00000000" 
     value="<%= user.get('person_id') %>" <%= disabledIfEditing%>>
 </div>
 <div class="label">Nombre</div>
-<input type="text" class="name-input" <%= disabledIfFound %> 
+<input type="text" class="name-input <%= validations && !validations.name ? 'invalid' : '' %>" <%= disabledIfFound %> 
   placeholder="Nombre" value="<%= user.get('name') %>">
 <div class="label">Apellido</div>
-<input type="text" class="surname-input" <%= disabledIfFound %> 
+<input type="text" class="surname-input <%= validations && !validations.surname ? 'invalid' : '' %>" <%= disabledIfFound %> 
   placeholder="Apellido" value="<%= user.get('surname') %>">
 <div class="label">Mail</div>
-<input type="text" class="email-input" <%= disabledIfFound %> 
+<input type="text" class="email-input <%= validations && !validations.email ? 'invalid' : '' %>" <%= disabledIfFound %> 
   placeholder="mail@unmail.com" value="<%= user.get('email') %>">
 <div class="form-actions">
   <button class="cancel-user">CANCELAR</button>

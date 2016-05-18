@@ -6,30 +6,44 @@ class audiencias.views.SideMenu extends Backbone.View
     $(window).on('menu:show-supervisor', @showSupervisorMenu)
     $(window).on('dependency-selected', @showDependencyMenu)
     $(window).on('add-new-dependency', @showNewDependencyMenu)
+    $(window).on('hide-side-menu', @hideSideMenu)
 
   render: ->
-    @$el.html('<div id="side-menu" class="hidden"></div>')
+    @$el.html(@template())
+    @$el.find('#side-menu').on('click', @updateScroll)
+    @cancelAll()
+
+  updateScroll: =>
+    @$el.find('.nano').nanoScroller()
 
   showSupervisorMenu: =>
     @render()
     @supervisorMenu = new audiencias.views.SupervisorMenu
     @supervisorMenu.render()
-    @$el.find('#side-menu')
-      .removeClass('hidden')
-      .html(@supervisorMenu.el)
+    @$el.find('#side-menu').removeClass('hidden')
+    @$el.find('.nano-content').html(@supervisorMenu.el)
+    @updateScroll()
 
   showDependencyMenu: (e, dependencyId) =>
     @render()
     @dependencyMenu = new audiencias.views.DependencyMenu(dependencyId)
     @dependencyMenu.render()
-    @$el.find('#side-menu')
-      .removeClass('hidden')
-      .append(@dependencyMenu.el)
+    @$el.find('#side-menu').removeClass('hidden')
+    @$el.find('.nano-content').append(@dependencyMenu.el)
+    @updateScroll()
 
   showNewDependencyMenu: (e, parentDependencyId) =>
-    @newDependencyMenu = new audiencias.views.NewDependencyMenu(parentDependencyId)
-    @newDependencyMenu.render()
     @render()
-    @$el.find('#side-menu')
-      .removeClass('hidden')
-      .append(@newDependencyMenu.el)
+    @newDependencyMenu = new audiencias.views.NewDependencyMenu(parentId: parentDependencyId)
+    @newDependencyMenu.render()
+    @$el.find('#side-menu').removeClass('hidden')
+    @$el.find('.nano-content').append(@newDependencyMenu.el)
+    @updateScroll()
+
+  hideSideMenu: =>
+    @$el.find('#side-menu').addClass('hidden')
+
+  cancelAll: =>
+    @supervisorMenu.cancelEdition() if @supervisorMenu
+    @dependencyMenu.cancelEdition() if @dependencyMenu
+    @newDependencyMenu.cancelNewDependency() if @newDependencyMenu

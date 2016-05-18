@@ -1,39 +1,69 @@
 class audiencias.views.NewDependencyMenu extends Backbone.View
   id: 'new-dependency-menu'
-  className: 'generic-menu modifying hidden'
+  className: 'generic-menu modifying'
   template: JST["backbone/templates/admin/menu/new_dependency_menu"]
   events: 
-    'click #cancel': 'cancelNewDependency'
     'click #edit-title': 'editTitle'
     'click #confirm-edit-title': 'confirmTitle'
+    'click #cancel': 'cancelNewDependency'
+    'click #confirm-actions': 'submitNewDependency'
+    'keypress .title-input': 'onKeypress'
 
-  render: ->
-    @adminList = new audiencias.views.AdminList({})
-    @obligeeList = new audiencias.views.ObligeeList({})
-    @operatorList = new audiencias.views.OperatorList({obligee:{}})
-    
-    @$el.html(@template())
-    
-    @adminList.render()
+  initialize: (options) ->
+    @initDependency(options)
+    @editingTitle = true
+
+  initDependency: (options) ->
+    audiencias.globals.userDependencies.deselectAll()
+    newDependencyAttributes = { selected: true, top: !options.parentId}
+    newDependencyAttributes.parent_id = options.parentId if options.parentId
+    @dependency = new audiencias.models.Dependency(newDependencyAttributes)
+    @dependency.on('change', @render)
+    audiencias.globals.userDependencies.add(@dependency)
+    audiencias.globals.userDependencies.expandParents(@dependency)
+
+  render: =>
+    @$el.html(@template(
+      dependency: @dependency
+      editingTitle: @editingTitle
+    ))
+
+    userMode = if @dependency.get('obligee') then 'editable' else null
+    @obligeeList = new audiencias.views.NewDependencyObligeeList({ dependency: @dependency, userMode: userMode })
     @obligeeList.render()
-    @operatorList.render()
-    
-    @adminList.$el.removeClass('hidden')
-    @$el.find('.menu-lists').html(@adminList.el)
-      .append(@obligeeList.el)
-      .append(@operatorList.el)
-
-    @editTitle()
+    @$el.find('.menu-lists').html(@obligeeList.el)
+    @$el.find('.title-input').focus() if @editingTitle
 
   cancelNewDependency: =>
-    $(window).trigger('cancel-new-dependency')
+    audiencias.globals.userDependencies.remove(@dependency)
+    $(window).trigger('hide-side-menu')
 
   editTitle: =>
-    @$el.find('.title-name, #edit-title').addClass('hidden')
-    @$el.find('.title-form, #confirm-edit-title').removeClass('hidden')
-    @$el.find('.title-input').focus()
+    @editingTitle = true
+    @render()
 
   confirmTitle: =>
-    @$el.find('.title-name, #edit-title').removeClass('hidden')
-    @$el.find('.title-form, #confirm-edit-title').addClass('hidden')
-    @$el.find('.title-name').text(@$el.find('.title-input').val())
+    @editingTitle = false
+    newTitle = @$el.find('.title-input').val().trim()
+    @dependency.set('name', newTitle)
+    @render()
+
+  onKeypress: (e) =>
+    @confirmTitle() if e.which == 13
+   
+  submitNewDependency: =>
+    data = {
+      dependency: @dependency.attributes, 
+      obligee: @dependency.get('obligee'),
+      person: @dependency.get('obligee').person
+    }
+    $.ajax(
+      url: '/intranet/nueva_dependencia'
+      method: 'POST'
+      data: data
+      success: (response) =>
+        if response and response.dependency
+          audiencias.globals.userDependencies.forceUpdate(response.dependency)
+          @cancelNewDependency()
+          $(window).trigger('dependency-selected', response.dependency.id)
+    )

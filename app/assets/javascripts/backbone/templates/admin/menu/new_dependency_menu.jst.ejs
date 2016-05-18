@@ -3,20 +3,31 @@
 </div>
 
 <div class="title">
-  <div class="title-name hidden">
-    <%= name %>
-  </div>
-  <div class="title-form">
-    <input type="text" class="title-input" value="">
-  </div>
-  <div class="title-buttons">
-    <button id="edit-title" class="hidden">EDITAR</button>
-    <button id="confirm-edit-title" class="">CONFIRMAR</button>
-  </div>
+  
+  <% if (editingTitle) { %> 
+
+    <div class="title-form">
+      <input type="text" class="title-input" value="<%= dependency.get('name') %>">
+    </div>
+    <div class="title-buttons">
+      <button id="confirm-edit-title" class="">CONFIRMAR</button>
+    </div>
+
+  <% } else { %>
+
+    <div class="title-name">
+      <%= dependency.get('name') %>
+    </div>
+    <div class="title-buttons">
+      <button id="edit-title">EDITAR</button>
+    </div>
+
+  <% } %>
+
 </div>
 
 <div class="menu-lists"></div>
-
+<% var submittable = dependency.get('obligee') && !editingTitle %>
 <div class="confirmation-container">
-  <button id="confirm-actions">FINALIZAR</button>
+  <button id="confirm-actions" class="<%= submittable ? '' : 'hidden' %>">FINALIZAR</button>
 </div>

@@ -33,7 +33,7 @@ class audiencias.views.SupervisorMenu extends Backbone.View
     @render()
 
   addDependency: =>
-    $(window).trigger('add-new-dependency')
+    $(window).trigger('add-new-dependency', false)
 
   cancelEdition: =>
     @userMode = null

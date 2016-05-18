@@ -83,8 +83,8 @@ class ManagementController < ApplicationController
   end
 
   def remove_admin
-    user = User.find(params[:user][:id])
-    dependency = Dependency.find(params[:dependency][:id])
+    user = User.find_by_id(params[:user][:id])
+    dependency = Dependency.find_by_id(params[:dependency][:id])
     association = AdminAssociation.where(user: user, dependency: dependency)
     if association.length > 0
       association.destroy_all
@@ -116,13 +116,14 @@ class ManagementController < ApplicationController
   def remove_operator
     dependency = Dependency.find_by_id(params[:dependency][:id])
     obligee = dependency.obligee
-    association = OperatorAssociation.where(user_id: params[:user][:id], obligee_id: obligee.id)
+    user = User.find_by_id(params[:user][:id])
+    association = OperatorAssociation.where(user: user, obligee_id: obligee.id)
     unless association 
       render json: { success: false }
       return
     end
     if association.destroy_all 
-      render json: { success: true }
+      render json: { success: true, dependency: dependency, user: user }
     else
       render json: { success: false }
     end
@@ -171,15 +172,32 @@ class ManagementController < ApplicationController
   end
 
   def new_dependency
-    dependency = Dependency.create(params[:dependency])
-    if dependency.save 
-      render json: { success: true }
+    dependency = Dependency.create(name: params[:dependency][:name], parent_id: params[:dependency][:parent_id])
+    person = Person.find_or_initialize(params[:person])
+    if person.has_active_obligee
+      render json: { success: false }
+      return
+    end
+    obligee = Obligee.new(person: person, dependency: dependency, position: params[:obligee][:position])
+    dependency.obligee = obligee
+    if dependency.save and person.save and obligee.save
+      render json: { success: true, dependency: dependency }
     else
       render json: { success: false }
     end
   end
 
-  def new_sub_dependency
+  def remove_dependency
+    dependency = Dependency.find_by_id(params[:dependency][:id])
+    unless dependency
+      render json: { success: false }
+      return
+    end
+    if dependency.mark_as_not_active 
+      render json: { success: true, dependency: dependency }
+    else
+      render json: { success: false }
+    end
   end
 
   def dependency_list

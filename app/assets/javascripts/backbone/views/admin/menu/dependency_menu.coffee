@@ -18,6 +18,7 @@ class audiencias.views.DependencyMenu extends Backbone.View
     'click #edit-dependency': 'editDependencyName'
     'click #cancel-edit-dependency': 'cancelEditDependencyName'
     'click #confirm-edit-dependency': 'confirmEditDependencyName'
+    'click #remove-dependency': 'removeDependency'
   }
 
   initialize: (dependencyId) ->
@@ -26,6 +27,7 @@ class audiencias.views.DependencyMenu extends Backbone.View
     @renderMode = 'normal'
     @showingAdmins = false
     @editingTitle = false
+    @titleEdited = false
 
   render: =>
     @$el.html(@template({
@@ -38,18 +40,18 @@ class audiencias.views.DependencyMenu extends Backbone.View
 
     userMode = if @renderMode == 'remove' then 'removable' else if @renderMode == 'normal' then '' else 'editable'
     @adminList = new audiencias.views.AdminList({ dependency: @dependency, userMode: userMode })
-    #@obligeeList = new audiencias.views.ObligeeList({ dependency: @dependency })
-    #@operatorList = new audiencias.views.OperatorList({ dependency: @dependency })
+    @obligeeList = new audiencias.views.ObligeeList({ dependency: @dependency, userMode: userMode })
+    @operatorList = new audiencias.views.OperatorList({ dependency: @dependency, userMode: userMode })
     
     @adminList.render()
     @adminList.$el.toggleClass('hidden', !@showingAdmins)
-    #@obligeeList.render()
-    #@operatorList.render()
+    @obligeeList.render()
+    @operatorList.render()
     
     @$el.find('.menu-lists')
       .html(@adminList.el)
-     # .append(@obligeeList.el)
-     # .append(@operatorList.el)
+      .append(@obligeeList.el)
+      .append(@operatorList.el)
 
   toggleTopMenu: =>
     @$el.find('.toggle-menu-icon, .top-menu').toggleClass('hidden')
@@ -64,7 +66,19 @@ class audiencias.views.DependencyMenu extends Backbone.View
     @showingAdmins = true
     @render()
 
+  removeDependency: =>
+    $.ajax(
+      url: '/intranet/eliminar_dependencia'
+      method: 'POST'
+      data: { dependency: @dependency.attributes }
+      success: (response) =>
+        if response and response.success
+          audiencias.globals.userDependencies.remove(@dependency)
+          $(window).trigger('hide-side-menu')
+    )
+
   addSubNewDependency: =>
+    $(window).trigger('add-new-dependency', @dependency.get('id'))
 
   cancelEdition: =>
     @renderMode = 'normal'
@@ -87,6 +101,7 @@ class audiencias.views.DependencyMenu extends Backbone.View
     if newName.length > 0
       @editingTitle = false
       @dependency.set('name', newName)
+      @titleEdited = true
       @render()
     else
       @$el.find('.title-input').addClass('invalid')
@@ -96,12 +111,22 @@ class audiencias.views.DependencyMenu extends Backbone.View
     @showingAdmins = true
     @editingTitle = false
     @adminList.submitChanges()
-    #@obligeeList.submitChanges()
-    #@operatorList.submitChanges()
+    @obligeeList.submitChanges()
+    @operatorList.submitChanges()
     @submitDependencyChanges()
     @render()
 
   submitDependencyChanges: =>
+    if @titleEdited
+      $.ajax(
+        url: '/intranet/actualizar_dependencia'
+        method: 'POST'
+        data: { dependency: @dependency.attributes }
+        success: (response) ->
+          if response and response.dependency
+            audiencias.globals.userDependencies.forceUpdate(response.dependency)
+            @titleEdited = false
+      )
 
   showAdmins: =>
     @showingAdmins = true
@@ -110,9 +135,6 @@ class audiencias.views.DependencyMenu extends Backbone.View
   hideAdmins: =>
     @showingAdmins = false
     @render()
-
-  triggerNewDependency: =>
-    $(window).trigger('add-new-dependency', [@dependency])
 
   goToObligeeAudiences: =>
     window.open('/audiencias/carga/' + @dependency.obligee.id, '_blank')    
