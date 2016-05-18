@@ -9,7 +9,7 @@ class audiencias.views.DependenciesTree extends Backbone.View
   
   initialize: ->
     $(window).on('search:show-full-list', @showFullList)
-    $(window).on('search:show-results-list', @showResultsList)
+      .on('search:show-results-list', @showResultsList)
     audiencias.globals.userDependencies.on('change add remove', @render)
     @mode = 'tree'
 

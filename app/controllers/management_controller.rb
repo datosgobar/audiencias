@@ -27,6 +27,11 @@ class ManagementController < ApplicationController
   def new_admin
     user = User.find_or_initialize(params[:user])
     dependency = Dependency.find_by_id(params[:dependency][:id])
+    if AdminAssociation.where(user: user, dependency: dependency).length > 0
+      render json: { success: true, dependency: dependency, user: user }
+      return
+    end
+
     association = AdminAssociation.new(user: user, dependency: dependency)
     new_user = user.new_record?
 

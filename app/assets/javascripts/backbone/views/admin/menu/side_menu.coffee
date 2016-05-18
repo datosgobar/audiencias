@@ -4,10 +4,10 @@ class audiencias.views.SideMenu extends Backbone.View
 
   initialize: ->
     $(window).on('menu:show-supervisor', @showSupervisorMenu)
-    $(window).on('dependency-selected', @showDependencyMenu)
-    $(window).on('add-new-dependency', @showNewDependencyMenu)
-    $(window).on('hide-side-menu', @hideSideMenu)
-
+      .on('dependency-selected', @showDependencyMenu)
+      .on('add-new-dependency', @showNewDependencyMenu)
+      .on('hide-side-menu', @hideSideMenu)
+      
   render: ->
     @$el.html(@template())
     @$el.find('#side-menu').on('click', @updateScroll)
@@ -23,6 +23,7 @@ class audiencias.views.SideMenu extends Backbone.View
     @$el.find('#side-menu').removeClass('hidden')
     @$el.find('.nano-content').html(@supervisorMenu.el)
     @updateScroll()
+    audiencias.globals.userDependencies.deselectAll()
 
   showDependencyMenu: (e, dependencyId) =>
     @render()

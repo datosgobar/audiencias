@@ -6,7 +6,7 @@ class audiencias.views.NewDependencyMenu extends Backbone.View
     'click #edit-title': 'editTitle'
     'click #confirm-edit-title': 'confirmTitle'
     'click #cancel': 'cancelNewDependency'
-    'click #confirm-actions': 'submitNewDependency'
+    'click #confirm-actions': 'confirmNewDependency'
     'keypress .title-input': 'onKeypress'
 
   initialize: (options) ->
@@ -50,7 +50,21 @@ class audiencias.views.NewDependencyMenu extends Backbone.View
 
   onKeypress: (e) =>
     @confirmTitle() if e.which == 13
-   
+
+  confirmNewDependency: =>
+    messageOptions = {
+      icon: 'alert',
+      confirmation: true,
+      text: {
+        main: '¿Está seguro que desea crear una nueva dependencia?'
+        secondary: 'Esta nueva dependencia quedará registrada en la base de datos y será visible al público.'
+      }
+      callback: {
+        confirm: @submitNewDependency
+      }
+    }
+    message = new audiencias.views.ImportantMessage(messageOptions)
+
   submitNewDependency: =>
     data = {
       dependency: @dependency.attributes, 

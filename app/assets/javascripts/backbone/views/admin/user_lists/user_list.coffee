@@ -60,6 +60,17 @@ class audiencias.views.UserList extends Backbone.View
   updateOrCreateUser: (user) =>
     if @formUser 
       user.set('markedForUpdate', true)
+      @hideForm()
     else 
-      @submitNewUser(user)
-    @hideForm()
+      @confirmNewUser(user)
+
+  confirmNewUser: (user) =>
+    messageOptions = {
+      icon: 'alert',
+      confirmation: true,
+      text: @confirmNewUserText,
+      callback: {
+        confirm: => @submitNewUser(user)
+      }
+    }
+    message = new audiencias.views.ImportantMessage(messageOptions)

@@ -2,6 +2,11 @@
 class audiencias.views.AdminList extends audiencias.views.UserList
   title: 'Administradores'
   iconClass: 'admin'
+  confirmNewUserText:
+    main: '¿Está seguro de que desea dar permisos de administrador al usuario?',
+    secondary: 'El usuario podrá gestionar dependencias, usuarios y audiencias que dependan de esta dependencia.'
+    
+
   initialize: (options) ->
     super(options)
     @dependency = options.dependency

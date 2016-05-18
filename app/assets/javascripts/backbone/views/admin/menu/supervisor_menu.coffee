@@ -41,6 +41,19 @@ class audiencias.views.SupervisorMenu extends Backbone.View
     @render()
 
   confirmActions: =>
+    messageOptions = {
+      icon: 'alert',
+      confirmation: true,
+      text: {
+        main: '¿Está seguro de los cambios que desea realizar?'
+      }
+      callback: {
+        confirm: @submitActions
+      }
+    }
+    message = new audiencias.views.ImportantMessage(messageOptions)
+
+  submitActions: =>
     @userMode = null
     @supervisorList.submitChanges()
     @render()

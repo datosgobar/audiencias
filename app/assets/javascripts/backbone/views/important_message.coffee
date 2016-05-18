@@ -7,6 +7,8 @@ class audiencias.views.ImportantMessage extends Backbone.View
     'click #important-message-confirm': 'confirmCallback'
 
   initialize: (@options)->
+    unless @options.text
+      @options.text = { main: '¿Está seguro de la acción que quiere realizar?' }
     @render()
     $('body').append(@el)
 

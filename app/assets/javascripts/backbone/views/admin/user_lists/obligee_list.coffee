@@ -34,11 +34,23 @@ class audiencias.views.ObligeeList extends Backbone.View
     @showingForm = true
     @render()
 
-  showEditUserForm: (event) =>
-    @showingForm = true
-    @render()
+  showEditUserForm: =>
+    messageOptions = {
+      icon: 'info',
+      confirmation: false,
+      text: {
+        main: '¿Está seguro de que desea editar al sujeto obligado actual?'
+        secondary: 'La edición afectará las audiencas ya cargadas y los cambios serán visibles al público.\nPara cambiar el sujeto obligado asociado a la dependencia debe primero darlo de baja y luego agregar uno nuevo.'
+      }
+      callback: {
+        confirm: =>
+          @showingForm = true
+          @render()
+      }
+    }
+    message = new audiencias.views.ImportantMessage(messageOptions)
 
-  markForRemove: (event) =>
+  markForRemove: =>
     obligeeData = @dependency.get('obligee')
     obligeeData.markedForRemoval = true
     @dependency.set('obligee', obligeeData)
@@ -49,24 +61,36 @@ class audiencias.views.ObligeeList extends Backbone.View
     @render()
 
   updateOrCreateUser: (obligee) =>
-    @dependency.set('obligee', obligee)
     if obligee and not obligee.id
-      @submitNewObligee()
+      @confirmNewObligee(obligee)
     else if obligee
-      obligeeData = @dependency.get('obligee')
-      obligeeData.markedForUpdate = true
-      @dependency.set('obligee', obligeeData)
-    @hideForm()
+      obligee.markedForUpdate = true
+      @dependency.set('obligee', obligee)
+      @hideForm()
 
-  submitNewObligee: =>
-    obligee = @dependency.get('obligee')
+  confirmNewObligee: (obligee) =>
+    messageOptions = {
+      icon: 'alert',
+      confirmation: true,
+      text: {
+        main: '¿Está seguro de que desea dar de alta al sujeto obligado?',
+        secondary: 'El sujeto quedara registrado en la base de datos y será visible al público.'
+      }
+      callback: {
+        confirm: => @submitNewObligee(obligee)
+      }
+    }
+    message = new audiencias.views.ImportantMessage(messageOptions)
+
+  submitNewObligee: (obligee) =>
     $.ajax(
       url: '/intranet/nuevo_sujeto_obligado'
       data: { dependency: @dependency.attributes, person: obligee.person, obligee: { position: obligee.position } }
       method: 'POST'
-      success: (response) ->
+      success: (response) =>
         if response and response.dependency
           audiencias.globals.userDependencies.forceUpdate(response.dependency)
+          @hideForm()
     )
 
   submitChanges: =>

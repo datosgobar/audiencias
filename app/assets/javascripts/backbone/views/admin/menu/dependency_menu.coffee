@@ -11,14 +11,14 @@ class audiencias.views.DependencyMenu extends Backbone.View
     'click #see-dependency-audiencees': 'goToObligeeAudiences'
 
     'click #cancel': 'cancelEdition'
-    'click #confirm-actions': 'submitChanges'
+    'click #confirm-actions': 'confirmChanges'
 
     'click #see-admins': 'showAdmins'
     'click #hide-admins': 'hideAdmins'
     'click #edit-dependency': 'editDependencyName'
     'click #cancel-edit-dependency': 'cancelEditDependencyName'
     'click #confirm-edit-dependency': 'confirmEditDependencyName'
-    'click #remove-dependency': 'removeDependency'
+    'click #remove-dependency': 'confirmRemoveDependency'
   }
 
   initialize: (dependencyId) ->
@@ -66,6 +66,20 @@ class audiencias.views.DependencyMenu extends Backbone.View
     @showingAdmins = true
     @render()
 
+  confirmRemoveDependency: =>
+    messageOptions = {
+      icon: 'alert',
+      confirmation: true,
+      text: {
+        main: '¿Está seguro que desea dar de baja la dependencia?'
+        secondary: 'El sujeto obligado, los usuarios y demas dependencias asociadas tambien seran dados de baja.'
+      }
+      callback: {
+        confirm: @removeDependency
+      }
+    }
+    message = new audiencias.views.ImportantMessage(messageOptions)
+
   removeDependency: =>
     $.ajax(
       url: '/intranet/eliminar_dependencia'
@@ -105,6 +119,19 @@ class audiencias.views.DependencyMenu extends Backbone.View
       @render()
     else
       @$el.find('.title-input').addClass('invalid')
+
+  confirmChanges: =>
+    messageOptions = {
+      icon: 'alert',
+      confirmation: true,
+      text: {
+        main: '¿Está seguro de los cambios que desea realizar?'
+      }
+      callback: {
+        confirm: @submitChanges
+      }
+    }
+    message = new audiencias.views.ImportantMessage(messageOptions)
 
   submitChanges: =>
     @renderMode = 'normal'

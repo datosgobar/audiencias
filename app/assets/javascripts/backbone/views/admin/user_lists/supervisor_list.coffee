@@ -1,18 +1,23 @@
 #= require ./user_list
 class audiencias.views.SupervisorList extends audiencias.views.UserList
   title: 'Supervisores'
-  iconClass: 'superadmin'  
+  iconClass: 'superadmin'
+  confirmNewUserText:
+    main: '¿Está seguro de que desea dar permisos de supervisor al usuario?',
+    secondary: 'El usuario podrá gestionar dependencias, usuarios y audiencias sin restricciones.'
+    
   userFilter: (u) -> 
     u.get('role') == 'superadmin'
 
-  submitNewUser: (user) ->
+  submitNewUser: (user) =>
     $.ajax(
       url: '/intranet/nuevo_supervisor'
       data: { user: user.attributes }
       method: 'POST'
-      success: (response) ->
+      success: (response) =>
         if response and response.user
           audiencias.globals.users.updateUser(response.user)
+          @hideForm()
     )
 
   submitChanges: =>
