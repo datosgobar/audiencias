@@ -7,20 +7,20 @@
     <option value="lc" <%= id_type == 'lc' ? 'selected' : '' %>>LC</option>
     <option value="le" <%= id_type == 'le' ? 'selected' : '' %>>LE</option>
   </select>
-  <input type="text" class="person-id-input <%= validations.personIdValid ? '' : 'invalid' %>" placeholder="00000000" 
+  <input type="text" class="person-id-input <%= validations && !validations.personIdValid ? 'invalid' : '' %>" placeholder="00000000" 
     value="<%= obligee ? obligee.person.person_id : '' %>" <%= disabledIfEditing%>>
 </div>
 <div class="label">Nombre</div>
-<input type="text" class="name-input <%= validations.nameValid ? '' : 'invalid' %>"
+<input type="text" class="name-input <%= validations && !validations.nameValid ? 'invalid' : '' %>"
   placeholder="Nombre" value="<%= obligee ? obligee.person.name : '' %>">
 <div class="label">Apellido</div>
-<input type="text" class="surname-input <%= validations.surnameValid ? '' : 'invalid' %>"
+<input type="text" class="surname-input <%= validations && !validations.surnameValid ? 'invalid' : '' %>"
   placeholder="Apellido" value="<%= obligee ? obligee.person.surname : '' %>">
 <div class="label">Cargo</div>
-<input type="text" class="position-input <%= validations.positionValid ? '' : 'invalid' %>"
+<input type="text" class="position-input <%= validations && !validations.positionValid ? 'invalid' : '' %>"
   placeholder="Cargo" value="<%= obligee ? obligee.position : '' %>">
 <div class="label">Mail</div>
-<input type="text" class="email-input <%= validations.emailValid ? '' : 'invalid' %>"  
+<input type="text" class="email-input <%= validations && !validations.emailValid ? 'invalid' : '' %>"  
   placeholder="mail@unmail.com" value="<%= obligee ? obligee.person.email : '' %>">
 <div class="form-actions">
   <button class="cancel-user">CANCELAR</button>

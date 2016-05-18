@@ -13,6 +13,7 @@ class audiencias.views.ObligeeForm extends Backbone.View
     { 
       position: '', 
       users: [], 
+      skipValidation: true,
       person: { id_tpe: 'dni', person_id: '', name: '', surname: '', email: ''}
     }
 
@@ -20,7 +21,7 @@ class audiencias.views.ObligeeForm extends Backbone.View
     @$el.html(@template(
       newObligee: @newObligee
       obligee: @obligee
-      validations: @validate()
+      validations: if @obligee.skipValidation then null else @validate()
     ))
 
   cancel: =>
@@ -33,6 +34,7 @@ class audiencias.views.ObligeeForm extends Backbone.View
     @obligee.person.email = @$el.find('.email-input').val().trim()
     @obligee.person.id_type = @$el.find('.id-type-select').val().trim()
     @obligee.person.person_id = parseInt(@$el.find('.person-id-input').val().trim())
+    @obligee.skipValidation = false
     validation = @validate()
     if validation.isValid
       @trigger('done', @obligee)

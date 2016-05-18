@@ -8,10 +8,11 @@ class audiencias.views.UserForm extends Backbone.View
 
   initialize: (options={}) ->
     @mode = if options.user then 'edit' else 'new'
-    @user = options.user || new audiencias.models.User
+    @user = options.user || new audiencias.models.User({ skipValidation: true })
+    @user.on('change', @render)
     @userFound = false
 
-  render: ->
+  render: =>
     @$el.html(@template(
       user: @user
       mode: @mode
@@ -24,13 +25,17 @@ class audiencias.views.UserForm extends Backbone.View
     @trigger('cancel')
 
   confirm: =>
+    personIdValue = @$el.find('.person-id-input').val()
+    person_id = parseInt(personIdValue.trim())
     @user.set(
       id_type: @$el.find('.id-type-select').val().trim(),
-      person_id: parseInt(@$el.find('.person-id-input').val().trim()),
+      person_id: if !!person_id then person_id else personIdValue,
       name: @$el.find('.name-input').val().trim(),
       surname: @$el.find('.surname-input').val().trim()
       email: @$el.find('.email-input').val().trim()
     )
+    @user.unset('skipValidation')
+
     if @user.isValid()
       @trigger('done', @user)
 
@@ -56,21 +61,21 @@ class audiencias.views.UserForm extends Backbone.View
     )
   
   autocompleteSelectedChange: (e, ui) =>
+    userQuery = { 
+      id_type: @$el.find('.id-type-select').val().trim()
+    }
     if ui and ui.item
-      userQuery = { 
-        id_type: @$el.find('.id-type-select').val().trim(),
-        person_id: parseInt(ui.item.value)
-      }
+      userQuery.person_id = parseInt(ui.item.value)
     else
-      userQuery = { 
-        id_type: @$el.find('.id-type-select').val().trim(),
-        person_id: parseInt(@$el.find('.person-id-input').val().trim())
-      }
+      userQuery.person_id = parseInt(@$el.find('.person-id-input').val().trim())
+    
     user = audiencias.globals.users.findWhere(userQuery)
     if user 
-      @user = user
+      @user.set(user.attributes)
       @userFound = true
-    else 
+      @render()
+    else if @userFound
       @userFound = false
-      @user = new audiencias.models.User(userQuery)
-    @render()
+      userQuery.skipValidation = true
+      @user.set(userQuery)
+      @render()

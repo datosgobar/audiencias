@@ -1,6 +1,6 @@
 <% var disabledIfFound = userFound ? 'disabled' : ''; %>
 <% var disabledIfEditing = mode == 'edit' ? 'disabled' : ''; %>
-<% var validations = user.validate(); %>
+<% var validations = user.get('skipValidation') ? null : user.validate(); %>
 <div class="label">Tipo y nro. de documento</div>
 <div class="type-and-doc">
   <select class="id-type-select" <%= disabledIfEditing%>>
@@ -9,7 +9,7 @@
     <option value="lc" <%= id_type == 'lc' ? 'selected' : '' %>>LC</option>
     <option value="le" <%= id_type == 'le' ? 'selected' : '' %>>LE</option>
   </select>
-  <input type="text" class="person-id-input <%= validations && !validations['person-id'] ? 'invalid' : '' %>" placeholder="00000000" 
+  <input type="text" class="person-id-input <%= validations && !validations['person-id'] ? 'invalid' : '' %>" placeholder="00000000"
     value="<%= user.get('person_id') %>" <%= disabledIfEditing%>>
 </div>
 <div class="label">Nombre</div>
