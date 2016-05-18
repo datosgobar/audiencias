@@ -78,14 +78,21 @@
   #main-logo {
     float: left;
   }
+  .user-icon {
+    margin-right: 5px;
+  }
+  #user-header-name {
+    font-size: 15px;
+  }
   #user-header {
     float: right;
     height: $header-height;
     line-height: $header-height;
     cursor: pointer;
     font-weight: 500;
+    margin-left: 10px;
     #user-header-icon {
-      height: 15px;
+      height: 12px;
       vertical-align: middle;
       @include transition($user-icon-transition);
       &.user-menu-visible {

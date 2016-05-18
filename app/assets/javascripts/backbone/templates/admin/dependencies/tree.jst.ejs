@@ -4,15 +4,15 @@
   <% var expandedClass = node.get('expanded') ? 'expanded' : 'collapsed'; %>
   <div class="dependency <%= selectedClass %> <%= expandedClass %>" 
     style="padding-left:<%= padding %>%" data-dependency-id="<%= node.get('id') %>">
-    <img src="/assets/icon-marcador-derecha.svg">
     <span class="dependency-name">
-      <%= node.get('name') %> 
-    <span>
-    <% if (node.get('obligee')) { %>
-      <span class="obligee-name">
-        | <%= node.get('obligee').person.name %> <%= node.get('obligee').person.surname %>
-      </span>
-    <% } %>
+      <img src="/assets/icon-marcador-derecha.svg">
+      <%= node.get('name') %> |
+      <% if (node.get('obligee')) { %>
+        <span class="obligee-name">
+           <%= node.get('obligee').person.name %> <%= node.get('obligee').person.surname %>
+        </span>
+      <% } %>
+    </span>
   </div>
   <% if (node.get('id')) { %>
     <% var childrenNodes = audiencias.globals.userDependencies.filter(function(d) { 

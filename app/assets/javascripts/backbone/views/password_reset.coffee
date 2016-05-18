@@ -47,12 +47,12 @@ class audiencias.views.PasswordReset extends Backbone.View
       icon: 'pass',
       confirmation: false,
       text: {
-        main: 'Se envió la recuperación de contraseña a la dirección de correo electronico del usuario.',
-        secondary: 'En caso de no recibir el correo o no poder acceder a la casilla, comunicarse con el respectivo administrador de sistema.'
+        main: 'Se le ha enviado la recuperación de contraseña a su mail.',
+        secondary: 'En caso de no usar el mismo mail o no haber recibido la recuperación de contraseña, verifique en Spam o comuníquese con su administrador.'
       },
       callback: {
         confirm: => 
-          window.location.href = "/ingresar"
+          window.location.href = "/intranet"
       }
     }
     message = new audiencias.views.ImportantMessage(messageOptions)
@@ -86,12 +86,12 @@ class audiencias.views.PasswordReset extends Backbone.View
       icon: 'pass',
       confirmation: false,
       text: {
-        main: 'Se ha actualizado la contraseña del usuario.',
+        main: 'Se ha actualizado la contraseña.',
         secondary: 'Ya puede ingresar usando su nueva contraseña.'
       },
       callback: {
         confirm: => 
-          window.location.href = "/ingresar"
+          window.location.href = "/intranet"
       }
     }
     message = new audiencias.views.ImportantMessage(messageOptions)

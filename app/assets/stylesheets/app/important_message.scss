@@ -14,7 +14,8 @@
     .message-content {
       display: inline-block;
       @include box-shadow(0px 0px 4px 0px rgba(0,0,0,0.4));
-      padding: 40px;  
+      @include border-radius(4px);
+      padding: 30px;  
       background: white;
       max-width: 400px;
     }
@@ -37,15 +38,18 @@
       color: #444;
     }
     .secondary {
-      font-size: 15px;
+      font-size: 13px;
       color: #777;
-      margin-bottom: 10px;
+      margin-bottom: 30px;
     }
   }
-  button.primary {
-    background: $green;
-  }
-  button.cancel {
-    background: $grey-300;
+  button {
+    padding: 8px 12px;
+    &.primary {
+      background: $green;
+    }
+    &.cancel {
+      background: $grey-300;
+    }
   }
 }

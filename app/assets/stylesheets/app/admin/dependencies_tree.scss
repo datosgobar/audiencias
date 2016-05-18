@@ -14,16 +14,26 @@
       padding: 4px 0;
       cursor: pointer;
 
-      &:hover,
+      &:hover {
+        background: $grey-100;
+      }
       &.selected {
         background: $grey-200;
       }
-
-      img {
-        height: 1em;
-        width: 1em;
-        @include transition(transform 100ms ease-in-out 0s);
+      .dependency-name {
+        position: relative;
+        display: inline-block;
+        padding-left: 1em;
+        img {
+          height: 1em;
+          width: 1em;
+          @include transition(transform 100ms ease-in-out 0s);
+          position: absolute;
+          left: -4px;
+          top: 3px;
+        }
       }
+      
 
       &.expanded img {
         @include transform(rotate(90deg) translateX(2px));

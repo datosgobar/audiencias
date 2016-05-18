@@ -7,20 +7,21 @@
   </div>
 
   <div id="login-card">
-    <label for="person-id">Tipo y nro de documento</label>
+    <label for="person-id">Número de documento</label>
     <div class="type-and-doc">
       <select id="id-type">
         <option value="dni">DNI</option>
         <option value="lc">LC</option>
         <option value="le">LE</option>
       </select>
-      <input type="text" id="person-id" placeholder="Introduzca su nro de documento" autofocus>
+      <input type="text" id="person-id" placeholder="Introduce tu número de documento" autofocus>
     </div>
 
     <label for="password">Contraseña</label>
-    <input type="password" id="password" placeholder="Introduzca su contraseña">
+    <input type="password" id="password" placeholder="Introduce tu contraseña">
 
     <div id="remember-me-container">
+      <div id="message"></div>
       <input type="checkbox" id="remember-me" checked>
       <label for="remember-me">
         <img src="/assets/icon-check.svg" id="checked">
@@ -33,7 +34,6 @@
       <button type="primary" id="submit">INGRESAR</button>
     </div>
 
-    <div id="message"></div>
 
     <div id="forgot-password">
       <a href="/resetear_credenciales">Olvidé mi contraseña</a>

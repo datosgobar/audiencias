@@ -2,14 +2,14 @@
   <% var result = results[i]; %>
   <% var selectedClass = result.get('selected') ? 'selected' : ''; %>
   <div class="dependency collapsed <%= selectedClass %>" data-dependency-id="<%= result.get('id') %>">
-    <img src="/assets/icon-marcador-derecha.svg">
     <span class="dependency-name">
+      <img src="/assets/icon-marcador-derecha.svg">
       <%= result.get('name') %> 
+      <% if (result.get('obligee')) { %>
+        <span class="obligee-name">
+          | <%= result.get('obligee').person.name %> <%= result.get('obligee').person.surname %>
+        </span>
+      <% } %>
     <span>
-    <% if (result.get('obligee')) { %>
-      <span class="obligee-name">
-        | <%= result.get('obligee').person.name %> <%= result.get('obligee').person.surname %>
-      </span>
-    <% } %>
   </div>
 <% } %>

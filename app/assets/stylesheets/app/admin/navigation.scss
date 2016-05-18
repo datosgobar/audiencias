@@ -4,6 +4,7 @@ $navigation-height: 150px;
   @include span-columns(8 of 8);
   height: $navigation-height;
   position: relative;
+  z-index: 5;
 
   #dependencies-search {
     @include span-columns(7 of 8);
@@ -15,16 +16,17 @@ $navigation-height: 150px;
       display: inline-block;
 
       #dependencies-search-input {
-        width: 20em;
+        width: 25em;
         max-width: 100%;
-        padding: 2px 24px 2px 10px;
+        padding: 6px 34px 6px 10px;
+        font-size: 17px;
       }  
 
       #search-icon {
         position: absolute;
-        top: 4px;
-        right: 2px;
-        height: 20px;
+        top: 6px;
+        right: 6px;
+        height: 24px;
       }
     }
   }
@@ -55,7 +57,7 @@ $navigation-height: 150px;
 
     #vertical-line-spacer {
       $line-height: 1.4;
-      $font-size: 12px;
+      $font-size: 11px;
       $top-padding: 3px;
       $top-margin: ($section-height - $font-size * $line-height - $top-padding * 2)/4;
       margin: $top-margin 0;
