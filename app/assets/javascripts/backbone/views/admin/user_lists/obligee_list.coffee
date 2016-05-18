@@ -12,7 +12,6 @@ class audiencias.views.ObligeeList extends Backbone.View
     @showingForm = false
     @userMode = options.userMode || ''
     @dependency = options.dependency
-    @newObligee = false
 
   render: =>
     @$el.html(@template({
@@ -21,7 +20,7 @@ class audiencias.views.ObligeeList extends Backbone.View
       userMode: @userMode
     }))
     if @showingForm
-      userForm = new audiencias.views.ObligeeForm({ dependency: @dependency, newObligee: @newObligee })
+      userForm = new audiencias.views.ObligeeForm({ obligee: @dependency.get('obligee') })
       userForm.render()
       userForm.on('cancel', @hideForm)
       userForm.on('done', @updateOrCreateUser)
@@ -33,12 +32,10 @@ class audiencias.views.ObligeeList extends Backbone.View
 
   showAddUserForm: =>
     @showingForm = true
-    @newObligee = true
     @render()
 
   showEditUserForm: (event) =>
     @showingForm = true
-    @newObligee = false
     @render()
 
   markForRemove: (event) =>
@@ -51,20 +48,21 @@ class audiencias.views.ObligeeList extends Backbone.View
     @showingForm = false
     @render()
 
-  updateOrCreateUser: (user) =>
-    if @newObligee
-      @submitNewUser(user)
-    else 
+  updateOrCreateUser: (obligee) =>
+    @dependency.set('obligee', obligee)
+    if obligee and not obligee.id
+      @submitNewObligee()
+    else if obligee
       obligeeData = @dependency.get('obligee')
       obligeeData.markedForUpdate = true
       @dependency.set('obligee', obligeeData)
     @hideForm()
 
-  submitNewUser: (user) =>
+  submitNewObligee: =>
     obligee = @dependency.get('obligee')
     $.ajax(
       url: '/intranet/nuevo_sujeto_obligado'
-      data: { dependency: @dependency.attributes, person: obligee.person }
+      data: { dependency: @dependency.attributes, person: obligee.person, obligee: { position: obligee.position } }
       method: 'POST'
       success: (response) ->
         if response and response.dependency
@@ -73,6 +71,7 @@ class audiencias.views.ObligeeList extends Backbone.View
 
   submitChanges: =>
     obligee = @dependency.get('obligee')
+    return unless obligee
     if obligee.markedForUpdate
       $.ajax(
         url: '/intranet/actualizar_sujeto_obligado'

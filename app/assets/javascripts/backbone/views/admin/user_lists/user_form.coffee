@@ -20,6 +20,7 @@ class audiencias.views.UserForm extends Backbone.View
     @setAutocomplete() if @mode == 'new'
 
   cancel: =>
+    @user.restore()
     @trigger('cancel')
 
   confirm: =>
@@ -32,10 +33,6 @@ class audiencias.views.UserForm extends Backbone.View
     )
     if @user.isValid()
       @trigger('done', @user)
-    else 
-      validations = @user.validate()
-      for attrName of validations 
-        @$el.find(".#{attrName}-input").toggleClass('invalid', !validations[attrName])
 
   idTypeChanged: =>
     if @mode == 'new'

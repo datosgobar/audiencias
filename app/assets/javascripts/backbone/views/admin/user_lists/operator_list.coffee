@@ -2,68 +2,57 @@
 class audiencias.views.OperatorList extends audiencias.views.UserList
   title: 'Operadores'
 
-  initialize: (dependency) ->
+  initialize: (options) ->
+    super(options)
+    @dependency = options.dependency
+
+  render: =>
+    return unless @dependency.get('obligee')
     super()
-    @dependency = dependency
-    @obligee = dependency.obligee
-    if @obligee and @obligee.users
-      @users = @obligee.users
+
+  userFilter: (u) => 
+    obligee = @dependency.get('obligee')
+    if obligee
+      operatorsIds = _.collect(obligee.users, (a) -> a.id)
+      operatorsIds.indexOf(u.get('id')) > -1
     else 
-      @users = []
+      false
 
-  render: ->
-    super() if @obligee
-
-  addUserFromForm: =>
-    validation = @validateUser('.new-user-form')
-    if validation.valid
-      userData = validation.data
-      dependencyData = { id: @dependency.id }
-      messageOptions = {
-        icon: 'alert',
-        confirmation: true,
-        text: {
-          main: '¿Está seguro de que quiere dar permisos de operador al usuario?',
-          secondary: 'El usuario podrá gestionar las audiencias del sujeto obligado de esta dependencia.'
-        },
-        callback: {
-          confirm: => 
-            @submitNew(userData, dependencyData)
-        }
-      }
-      new audiencias.views.ImportantMessage(messageOptions)
-
-  submitNew: (userData, dependencyData) =>
+  submitNewUser: (user) ->
     $.ajax(
-      url: '/administracion/nuevo_operador'
-      data: { user: userData, dependency: dependencyData }
+      url: '/intranet/nuevo_operador'
+      data: { user: user.attributes, dependency: @dependency.attributes }
       method: 'POST'
-      success: (response) =>
-        if response.dependency and response.dependency.obligee and response.dependency.obligee.users
-          @users = response.dependency.obligee.users
-          @render()
+      success: (response) ->
+        if response and response.user
+          audiencias.globals.users.updateUser(response.user)
+        if response and response.dependency
+          audiencias.globals.userDependencies.forceUpdate(response.dependency)
     )
 
-  submitEdit: =>
-    editedUsers = @$el.find('.user.edited')
+  submitChanges: =>
     requests = []
-    for editedUser in editedUsers
-      newData = $(editedUser).data('user')
+    usersForUpdate = audiencias.globals.users.filter( (user) -> user.get('markedForUpdate' ))
+    usersForUpdate.forEach( (user) ->
       requests.push($.ajax(
-        url: '/administracion/actualizar_usuario'
-        data: {user: newData }
+        url: '/intranet/actualizar_usuario'
+        data: { user: user.attributes }
         method: 'POST'
+        success: (response) ->
+          if response and response.user 
+            audiencias.globals.users.updateUser(response.user)
       ))
-    requests
-
-  submitRemove: =>
-    removedUsers = @$el.find('.user.removed')
-    requests = []
-    for user in removedUsers
-      userData = $(user).data('user')
+    )
+    usersForRemoval = audiencias.globals.users.filter( (user) -> user.get('markedForRemoval' ))
+    usersForRemoval.forEach( (user) =>
       requests.push($.ajax(
-        url: '/administracion/eliminar_operador'
-        data: { user: { id: userData.id }, dependency: { id: @dependency.id } } 
+        url: '/intranet/eliminar_operador'
+        data: { user: user.attributes, dependency: @dependency.attributes } 
         method: 'POST'
+        success: (response) ->
+          if response and response.user 
+            audiencias.globals.users.updateUser(response.user)
+          if response and response.dependency
+            audiencias.globals.userDependencies.forceUpdate(response.dependency)
       ))
-    requests
+    )

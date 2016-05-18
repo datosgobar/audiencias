@@ -2,6 +2,7 @@ class audiencias.views.UserList extends Backbone.View
   template: JST["backbone/templates/admin/menu/user_list"]
   userTemplate: JST["backbone/templates/admin/menu/user"]
   className: 'user-list'
+  iconClass: 'operator'
   events:
     'click .add-user': 'showAddUserForm'
     'click .edit-user': 'showEditUserForm'
@@ -31,6 +32,7 @@ class audiencias.views.UserList extends Backbone.View
       userListEl = @$el.find('.users').html('')
       users.forEach( (user) =>
         userEl = $(@userTemplate(user)).addClass(@userMode)
+        userEl.find('.user-icon').addClass(@iconClass)
         userListEl.append(userEl)
       )
 

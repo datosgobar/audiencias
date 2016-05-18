@@ -1,7 +1,7 @@
 #= require ./user_list
 class audiencias.views.SupervisorList extends audiencias.views.UserList
   title: 'Supervisores'
-  
+  iconClass: 'superadmin'  
   userFilter: (u) -> 
     u.get('role') == 'superadmin'
 
@@ -12,7 +12,7 @@ class audiencias.views.SupervisorList extends audiencias.views.UserList
       method: 'POST'
       success: (response) ->
         if response and response.user
-          audiencias.globals.users.add(response.user)
+          audiencias.globals.users.updateUser(response.user)
     )
 
   submitChanges: =>
@@ -25,7 +25,7 @@ class audiencias.views.SupervisorList extends audiencias.views.UserList
         method: 'POST'
         success: (response) ->
           if response and response.user 
-            user.set(response.user)
+            audiencias.globals.users.updateUser(response.user)
       ))
     )
     usersForRemoval = audiencias.globals.users.filter( (user) -> user.get('markedForRemoval' ))
@@ -36,6 +36,6 @@ class audiencias.views.SupervisorList extends audiencias.views.UserList
         method: 'POST'
         success: (response) ->
           if response and response.user 
-            user.set(response.user)
+            audiencias.globals.users.updateUser(response.user)
       ))
     )
