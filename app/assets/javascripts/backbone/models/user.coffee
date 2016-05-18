@@ -10,6 +10,9 @@ class audiencias.models.User extends Backbone.Model
   }
 
   initialize: ->
+    @saveState()
+    
+  saveState: ->
     @lastSavedAttributes =  jQuery.extend(true, {}, @attributes)
 
   validate: ->

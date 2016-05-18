@@ -17,7 +17,7 @@ class Dependency < ActiveRecord::Base
     if role == 'superadmin' 
       dependencies = where(active: true, parent_id: nil)
     else
-      dependencies = user.dependencies
+      dependencies = user.dependencies.where(active: true)
     end
     full_list = []
     tree_dependencies = []
@@ -34,7 +34,9 @@ class Dependency < ActiveRecord::Base
     end
     dependencies = [self_json]
     self.direct_sub_dependencies.each do |sub_dependency|
-      dependencies.concat sub_dependency.as_json_with_all_sub_dependencies
+      if sub_dependency.active
+        dependencies.concat sub_dependency.as_json_with_all_sub_dependencies
+      end
     end
     dependencies
   end
@@ -63,6 +65,14 @@ class Dependency < ActiveRecord::Base
 
   def update_minor_attributes(new_attr)
     self.name = new_attr[:name] if new_attr[:name]
+  end
+
+  def mark_as_not_active
+    self.active = false
+    self.obligee = nil
+    self.admin_associations.destroy_all
+    self.direct_sub_dependencies.each { |d| d.mark_as_not_active }
+    save
   end
 
 end

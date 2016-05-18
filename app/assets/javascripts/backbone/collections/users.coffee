@@ -19,3 +19,12 @@ class audiencias.collections.Users extends Backbone.Collection
 
   cancelRemovals: =>
     @filter( (user) -> user.get('markedForRemoval') ).forEach( (user) -> user.set('markedForRemoval', false))
+
+  updateUser: (newUser) =>
+    savedUser = @get(newUser.id)
+    if savedUser
+      savedUser.set(newUser)
+      savedUser.set('markedForRemoval', false)
+      savedUser.set('markedForUpdate', false)
+    else 
+      @add(newUser)
