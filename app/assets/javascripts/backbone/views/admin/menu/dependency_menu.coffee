@@ -87,7 +87,7 @@ class audiencias.views.DependencyMenu extends Backbone.View
       data: { dependency: @dependency.attributes }
       success: (response) =>
         if response and response.success
-          audiencias.globals.userDependencies.remove(@dependency)
+          audiencias.globals.userDependencies.removeAndUpdateParentOf(@dependency)
           $(window).trigger('hide-side-menu')
     )
 

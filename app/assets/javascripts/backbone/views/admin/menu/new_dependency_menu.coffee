@@ -35,7 +35,7 @@ class audiencias.views.NewDependencyMenu extends Backbone.View
     @$el.find('.title-input').focus() if @editingTitle
 
   cancelNewDependency: =>
-    audiencias.globals.userDependencies.remove(@dependency)
+    audiencias.globals.userDependencies.removeAndUpdateParentOf(@dependency)
     $(window).trigger('hide-side-menu')
 
   editTitle: =>
