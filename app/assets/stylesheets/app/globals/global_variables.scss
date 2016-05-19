@@ -9,7 +9,8 @@ $user-menu-shadow: $login-card-shadow;
 $user-menu-transition: bottom 300ms ease-in-out 0s;
 $user-icon-transition: transform 300ms cubic-bezier(0.43, 0.01, 0.71, 1.35) 0s;
 
-$dependencies-navigation-shadow: $header-shadow;
+$layout-shadow: $header-shadow;
+$dependencies-navigation-shadow: 0px 3px 5px -4px rgba(0, 0, 0, 0.4);
 
 $side-menu-shadow: $header-shadow;
 $top-menu-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.4);;

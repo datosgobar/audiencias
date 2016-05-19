@@ -8,7 +8,10 @@ class audiencias.views.ImportantMessage extends Backbone.View
 
   initialize: (@options)->
     unless @options.text
-      @options.text = { main: '¿Está seguro de la acción que quiere realizar?' }
+      @options.text = { 
+        main: '¿Está seguro del cambio que va a realizar?' 
+        secondary: 'Recuerde que estos cambios afectan a la base de datos del sistema y se muestran públicamente.'
+      }
     @render()
     $('body').append(@el)
 

@@ -2,6 +2,7 @@ $navigation-height: 150px;
 #admin-landing #navigation {
   @include box-shadow($dependencies-navigation-shadow);
   @include span-columns(8 of 8);
+  border-bottom: solid 1px $grey-300;
   height: $navigation-height;
   position: relative;
   z-index: 5;

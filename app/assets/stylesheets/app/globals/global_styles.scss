@@ -29,6 +29,7 @@ button {
   background: $blue-300;
   color: white;
   font-weight: 400;
+  padding: 4px 8px;
   &.disabled {
     background: $grey-300;
     cursor: default;
@@ -53,6 +54,9 @@ input, select {
   }
   &:focus {
     box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+  }
+  &:disabled {
+    color: $grey-300;
   }
 }
 

@@ -180,7 +180,7 @@ class ManagementController < ApplicationController
     dependency = Dependency.create(name: params[:dependency][:name], parent_id: params[:dependency][:parent_id])
     person = Person.find_or_initialize(params[:person])
     if person.has_active_obligee
-      render json: { success: false }
+      render json: { success: false, errors: 'El sujeto obligado está en otra dependencia' }
       return
     end
     obligee = Obligee.new(person: person, dependency: dependency, position: params[:obligee][:position])
@@ -188,7 +188,7 @@ class ManagementController < ApplicationController
     if dependency.save and person.save and obligee.save
       render json: { success: true, dependency: dependency }
     else
-      render json: { success: false }
+      render json: { success: false, errors: { dependency: dependency.errors.full_messages, person: person.errors.full_messages, obligee: obligee.errors.full_messages } }
     end
   end
 

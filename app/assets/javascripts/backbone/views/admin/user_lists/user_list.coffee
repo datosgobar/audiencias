@@ -35,6 +35,8 @@ class audiencias.views.UserList extends Backbone.View
         userEl.find('.user-icon').addClass(@iconClass)
         userListEl.append(userEl)
       )
+      if users.length == 0
+        @$el.addClass('empty')
 
   showAddUserForm: =>
     @showingForm = true

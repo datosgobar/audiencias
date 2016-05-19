@@ -56,8 +56,8 @@ class audiencias.views.NewDependencyMenu extends Backbone.View
       icon: 'alert',
       confirmation: true,
       text: {
-        main: '¿Está seguro que desea crear una nueva dependencia?'
-        secondary: 'Esta nueva dependencia quedará registrada en la base de datos y será visible al público.'
+        main: '¿Está seguro de generar una nueva subdependencia?'
+        secondary: 'Recuerde que estos cambios afectan a la base de datos del sistema y no tienen modificación.'
       }
       callback: {
         confirm: @submitNewDependency

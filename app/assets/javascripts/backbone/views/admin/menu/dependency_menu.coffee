@@ -19,6 +19,7 @@ class audiencias.views.DependencyMenu extends Backbone.View
     'click #cancel-edit-dependency': 'cancelEditDependencyName'
     'click #confirm-edit-dependency': 'confirmEditDependencyName'
     'click #remove-dependency': 'confirmRemoveDependency'
+    'click .title-name': 'clickOnTitle'
   }
 
   initialize: (dependencyId) ->
@@ -89,7 +90,22 @@ class audiencias.views.DependencyMenu extends Backbone.View
         if response and response.success
           audiencias.globals.userDependencies.removeAndUpdateParentOf(@dependency)
           $(window).trigger('hide-side-menu')
+          messageOptions = {
+            icon: 'info',
+            confirmation: false
+            text: {
+              main: "Ha pasado a histórica la dependencia: #{response.dependency.name}"
+              secondary: 'En consecuencia, los perfiles de usuario han sido desvinculados de esta dependencia.'
+            }
+          }
+          message = new audiencias.views.ImportantMessage(messageOptions)
     )
+
+  clickOnTitle: =>
+    if @renderMode == 'edit'
+      @editDependencyName()
+    else if @renderMode == 'remove'
+      @confirmRemoveDependency()
 
   addSubNewDependency: =>
     $(window).trigger('add-new-dependency', @dependency.get('id'))
@@ -124,9 +140,6 @@ class audiencias.views.DependencyMenu extends Backbone.View
     messageOptions = {
       icon: 'alert',
       confirmation: true,
-      text: {
-        main: '¿Está seguro de los cambios que desea realizar?'
-      }
       callback: {
         confirm: @submitChanges
       }
@@ -135,7 +148,7 @@ class audiencias.views.DependencyMenu extends Backbone.View
 
   submitChanges: =>
     @renderMode = 'normal'
-    @showingAdmins = true
+    @showingAdmins = @dependency.get('users').length > 0
     @editingTitle = false
     @adminList.submitChanges()
     @obligeeList.submitChanges()
