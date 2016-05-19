@@ -23,11 +23,12 @@
         @include span-columns(10);
         @include shift(1);
         
-        #logo-ministerio,
-        #logo-subsecretaria {
+        #logo-ministerio {
           height: $header-height;
+          width: 240px;
         }
         #logo-subsecretaria {
+          height: $header-height;
           float: right;
           width: 300px;
         }
