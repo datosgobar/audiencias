@@ -11,9 +11,15 @@
     #right-container {
       @include span-columns(4);
       height: 100%;
-      background: $grey-200;
       position: relative;
       z-index: 6;
+      background-image: url('/assets/background.jpg');
+      background-size: cover;
+      background-position: center center;
+      #background-color-layer {
+        background-color: rgba($grey-100, 0.8);
+        height: 100%;
+      }
     }
   }
 }

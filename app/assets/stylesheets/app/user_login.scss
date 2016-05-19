@@ -15,7 +15,9 @@
       width: 100%;
       height: 50%;
       display: table;
-      background: $blue-300;
+      background-image: url('/assets/background.jpg');
+      background-size: cover;
+      background-position: center center;
 
       #login-title,
       #password-reset-title {
@@ -23,6 +25,7 @@
         vertical-align: middle;
         text-align: center;
         padding: 0 20px $login-card-height/2 20px;
+        background-color: rgba($blue-300, 0.8);
         h1 {
           color: white;
           text-align: center;

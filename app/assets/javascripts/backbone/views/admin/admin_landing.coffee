@@ -16,4 +16,4 @@ class audiencias.views.AdminLanding extends Backbone.View
 
     @$el.find('#left-container').html(@navigation.el)
     @$el.find('#left-container').append(@dependenciesTree.el)
-    @$el.find('#right-container').html(@menu.el)
+    @$el.find('#background-color-layer').html(@menu.el)
