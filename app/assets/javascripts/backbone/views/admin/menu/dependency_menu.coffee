@@ -54,8 +54,12 @@ class audiencias.views.DependencyMenu extends Backbone.View
       .append(@obligeeList.el)
       .append(@operatorList.el)
 
-  toggleTopMenu: =>
+  toggleTopMenu: (e) =>
     @$el.find('.toggle-menu-icon, .top-menu').toggleClass('hidden')
+    e.stopImmediatePropagation()
+    e.preventDefault()
+    if not @$el.find('.top-menu').hasClass('hidden')
+      $(window).one('click', @toggleTopMenu)
 
   editDependencyAndUsers: =>
     @renderMode = 'edit'

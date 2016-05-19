@@ -21,8 +21,12 @@ class audiencias.views.SupervisorMenu extends Backbone.View
     @supervisorList.render()
     @$el.find('.menu-lists').html(@supervisorList.el)
 
-  toggleTopMenu: =>
+  toggleTopMenu: (e) =>
     @$el.find('.toggle-menu-icon, .top-menu').toggleClass('hidden')
+    e.stopImmediatePropagation()
+    e.preventDefault()
+    if not @$el.find('.top-menu').hasClass('hidden')
+      $(window).one('click', @toggleTopMenu)
 
   editSupervisors: =>
     @userMode = 'editable'
