@@ -6,6 +6,7 @@ class audiencias.views.DependenciesTree extends Backbone.View
   events: 
     'click #dependencies-tree .dependency': 'selectDependency'
     'click #dependencies-results .dependency': 'selectDependency'
+    'click #dependencies-tree .new-dependency': 'newDependency'
   
   initialize: ->
     $(window).on('search:show-full-list', @showFullList)
@@ -14,14 +15,14 @@ class audiencias.views.DependenciesTree extends Backbone.View
     @mode = 'tree'
 
   render: =>
-    @$el.html(@containerTemplate())
+    @$el.html(@containerTemplate(mode: @mode))
     if @mode == 'tree'
       dependenciesTree = @treeTemplate({
         nodes: audiencias.globals.userDependencies.filter( (d) -> d.get('top') or not d.get('parent_id') ),
         padding: 12.5,
         template: @treeTemplate
       })
-      @$el.find('#dependencies-tree').html(dependenciesTree)
+      @$el.find('#dependencies-tree').prepend(dependenciesTree)
     else
       resultsEl = @resultsTemplate({ 
         results: @results, 
@@ -45,3 +46,6 @@ class audiencias.views.DependenciesTree extends Backbone.View
       resultsIds.indexOf(d.get('id')) > -1 
     )
     @render()
+
+  newDependency: =>
+    $(window).trigger('add-new-dependency')

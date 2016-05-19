@@ -9,8 +9,9 @@
 
   #dependencies-tree,
   #dependencies-results {
-    
-    .dependency {
+
+    .dependency,
+    .new-dependency {
       padding: 4px 0;
       cursor: pointer;
 
@@ -41,6 +42,16 @@
       
       .obligee-name {
         font-size: 13px;
+      }
+    }
+
+    .new-dependency {
+      padding-left: 12.5%;
+      .dependency-name img {
+        width: 24px;
+        height: 24px;
+        left: -8px;
+        top: -1px;
       }
     }
 

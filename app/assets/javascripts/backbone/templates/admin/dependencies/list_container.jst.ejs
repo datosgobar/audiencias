@@ -1,6 +1,15 @@
 <div class="list-container nano">
   <div class="nano-content">
-    <div id="dependencies-tree"></div>
+    <div id="dependencies-tree">
+      <% if (mode == 'tree') { %>
+        <div class="new-dependency">
+          <span class="dependency-name">
+            <img src="/assets/logo-agregar-azul.svg">
+            Agregar dependencia
+          </span>
+        </div>
+      <% } %>
+    </div>
     <div id="dependencies-results"></div>
   </div>
 </div>
