@@ -32,6 +32,7 @@ class audiencias.collections.UserDependencies extends Backbone.Collection
   removeAndUpdateParentOf: (dependency) =>
     @remove(dependency)
     parent = @get(dependency.get('parent_id'))
-    siblings = @filter( (d) -> d.get('parent_id') == parent.get('id') )
-    if siblings.length == 0
-      parent.set('expanded', false)
+    if parent 
+      siblings = @filter( (d) -> d.get('parent_id') == parent.get('id') )
+      if siblings.length == 0
+        parent.set('expanded', false)
