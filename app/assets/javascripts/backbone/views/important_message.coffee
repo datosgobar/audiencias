@@ -22,8 +22,11 @@ class audiencias.views.ImportantMessage extends Backbone.View
     @$el.addClass('hidden')
     if @options.callback and @options.callback.cancel
       @options.callback.cancel()
+    @$el.remove()
 
   confirmCallback: =>
     @$el.addClass('hidden')
     if @options.callback and @options.callback.confirm
       @options.callback.confirm()
+    @$el.remove()
+      
