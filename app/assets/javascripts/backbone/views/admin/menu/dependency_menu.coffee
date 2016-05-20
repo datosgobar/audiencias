@@ -3,7 +3,8 @@ class audiencias.views.DependencyMenu extends Backbone.View
   className: 'generic-menu'
   template: JST["backbone/templates/admin/menu/dependency_menu"]
   events: {
-    'click .toggle-menu-icon': 'toggleTopMenu'
+    'click .show-top-menu': 'showTopMenu'
+    'click .hide-top-menu': 'hideTopMenu'
 
     'click #add-sub-dependency': 'addSubNewDependency'
     'click #edit-users': 'editDependencyAndUsers'
@@ -54,12 +55,21 @@ class audiencias.views.DependencyMenu extends Backbone.View
       .append(@obligeeList.el)
       .append(@operatorList.el)
 
-  toggleTopMenu: (e) =>
-    @$el.find('.toggle-menu-icon, .top-menu').toggleClass('hidden')
-    e.stopImmediatePropagation()
+  showTopMenu: (e) =>
+    @$el.find('.show-top-menu').addClass('hidden')
+    @$el.find('.hide-top-menu').removeClass('hidden')
+    @$el.find('.top-menu').removeClass('hidden')
     e.preventDefault()
-    if not @$el.find('.top-menu').hasClass('hidden')
-      $(window).one('click', @toggleTopMenu)
+    e.stopImmediatePropagation()
+    $(window).one('click', (e) =>
+      unless $(e.target).hasClass('show-top-menu')
+        @hideTopMenu()
+    )
+
+  hideTopMenu: (e) =>
+    @$el.find('.show-top-menu').removeClass('hidden')
+    @$el.find('.hide-top-menu').addClass('hidden')
+    @$el.find('.top-menu').addClass('hidden')
 
   editDependencyAndUsers: =>
     @renderMode = 'edit'
