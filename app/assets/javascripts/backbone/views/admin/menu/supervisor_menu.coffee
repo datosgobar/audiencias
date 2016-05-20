@@ -16,6 +16,7 @@ class audiencias.views.SupervisorMenu extends Backbone.View
   render: ->
     @$el.html(@template())
     @$el.toggleClass('modifying', !!@userMode)
+    @$el.find('.edit-veil').toggleClass('hidden', !@userMode)
 
     @supervisorList = new audiencias.views.SupervisorList(userMode: @userMode)
     @supervisorList.render()
