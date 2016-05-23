@@ -58,5 +58,6 @@
     @include box-shadow($operator-side-shadow);
     @include span-columns(10);
     @include shift(1);
+    padding: 50px;
   }
 }

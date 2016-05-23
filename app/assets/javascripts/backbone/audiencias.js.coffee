@@ -78,6 +78,5 @@ window.audiencias =
       audiencias.app.init()
       @renderHeader()
       audienceEditor = new audiencias.views.AudienceEditor
-      audienceEditor.render()
       $('body').append(audienceEditor.el)
   }
