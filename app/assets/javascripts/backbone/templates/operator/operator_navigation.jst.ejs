@@ -5,7 +5,7 @@
       <p>Estas viendo las audiencias de</p>
       <% var obligees = audiencias.globals.obligees.toJSON() %>
       <% var currentObligee = audiencias.globals.currentObligee %>
-      <select>
+      <select id="current-obligee-select">
         <% for (var i=0; i<obligees.length; i++) { %>
           <% var obligee = obligees[i]; %>
             <option value="<%= obligee.id %>" <%= currentObligee == obligee.id ? 'selected': '' %>>
@@ -20,22 +20,9 @@
   </div>
 
   <div id="navigation-right">
-    <div id="audience-text-search-container" class="<%= searchType != 'text' ? 'hidden': '' %>">
+    <div id="audience-text-search-container">
       <input type="text" placeholder="Buscar por palabra clave">
       <img src="/assets/icon-search.svg" id="search-icon">
-    </div>
-
-    <div id="audience-date-search-container" class="<%= searchType != 'date' ? 'hidden': '' %>">
-      Date search
-    </div>
-
-    <div id="search-type-selection">
-      <label for="search-by-text">Palabra clave</label>
-      <input type="radio" name="search-type" id="search-by-text" class="search-type-radio"
-        <%= searchType == 'text' ? 'checked' : '' %> value="text">
-      <label for="search-by-date">Rango de fecha</label>
-      <input type="radio" name="search-type" id="search-by-date" class="search-type-radio"
-        <%= searchType == 'date' ? 'checked' : '' %> value="date">
     </div>
   </div>
 

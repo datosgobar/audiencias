@@ -2,17 +2,14 @@ class audiencias.views.OperatorNavigation extends Backbone.View
   id: 'operator-navigation'
   template: JST["backbone/templates/operator/operator_navigation"]
   events:
-    'change .search-type-radio': 'searchTypeChange'
+    'change #current-obligee-select': 'changeCurrentObligee'
 
   initialize: ->
-    @searchType = 'text'
     audiencias.globals.obligees.on('add change remove', @render)
 
   render: =>
-    @$el.html(@template(
-      searchType: @searchType
-    ))
+    @$el.html(@template())
 
-  searchTypeChange: (e) =>
-    @searchType = @$el.find('.search-type-radio:checked').val()
-    @render()
+  changeCurrentObligee: ->
+    obligeeId = @$el.find('#current-obligee-select option:selected').val()
+    window.location.href = "/intranet/audiencias/#{obligeeId}"
