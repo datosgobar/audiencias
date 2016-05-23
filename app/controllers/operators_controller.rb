@@ -1,5 +1,7 @@
 class OperatorsController < ApplicationController
 
+  before_action :require_login, :authorize_user
+
   def operator_landing
     obligees = @current_user.obligees
     if obligees.length > 0
@@ -10,6 +12,15 @@ class OperatorsController < ApplicationController
   end
 
   def audience_list
+    @obligees = @current_user.obligees
+    @current_obligee = @obligees.find(params[:obligee_id])
+    unless @current_obligee or ['superadmin', 'admin'].include?(@current_user.role)
+      raise CanCan::AccessDenied.new
+      return
+    end
+  end
+
+  def audience_editor
     @obligees = @current_user.obligees
     @current_obligee = @obligees.find(params[:obligee_id])
     unless @current_obligee or ['superadmin', 'admin'].include?(@current_user.role)

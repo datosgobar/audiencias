@@ -73,4 +73,11 @@ window.audiencias =
       operatorLanding = new audiencias.views.OperatorLanding 
       operatorLanding.render()
       $('body').append(operatorLanding.el)
+
+    audienceEditor: ->
+      audiencias.app.init()
+      @renderHeader()
+      audienceEditor = new audiencias.views.AudienceEditor
+      audienceEditor.render()
+      $('body').append(audienceEditor.el)
   }

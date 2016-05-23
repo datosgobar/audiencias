@@ -8,6 +8,7 @@ class Ability
 
       if role == 'superadmin'
         can :manage, ManagementController
+        can :manage, OperatorsController
       elsif role == 'admin'
         can :admin_landing, ManagementController
         can :dependency_list, ManagementController
