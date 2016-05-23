@@ -32,6 +32,6 @@ Rails.application.routes.draw do
   get '/intranet/listar_dependencias', to: 'management#dependency_list'
   get '/intranet/listar_usuarios', to: 'management#user_list'
 
-  get '/audiencias/carga', to: 'operators#operator_landing', as: 'operator_landing'
-  get '/audiencias/carga/:obligee_id', to: 'operators#audience_list', as: 'audience_list'
+  get '/intranet/audiencias', to: 'operators#operator_landing', as: 'operator_landing'
+  get '/intranet/audiencias/:obligee_id', to: 'operators#audience_list', as: 'audience_list'
 end

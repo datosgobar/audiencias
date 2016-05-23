@@ -9,8 +9,10 @@
     <div class="top-menu-action" id="add-sub-dependency">Agregar subdependencia</div>
     <div class="top-menu-action" id="edit-users">Editar dependencia y/o usuarios</div>
     <div class="top-menu-action" id="remove-users">Dar de baja dependencia y/o usuarios</div>
-    <% if (dependency.get('obligee_id')) { %> 
-      <div class="top-menu-action" id="see-dependency-audiencees">Ver audiencias</div>
+    <% if (dependency.get('obligee')) { %> 
+      <a href="/intranet/audiencias/<%= dependency.get('obligee').id %>">
+        <div class="top-menu-action" id="see-dependency-audiencees">Ver audiencias</div>
+      </a>
     <% } %>
   </div>
 </div>

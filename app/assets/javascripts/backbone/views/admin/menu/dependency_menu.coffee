@@ -9,7 +9,6 @@ class audiencias.views.DependencyMenu extends Backbone.View
     'click #add-sub-dependency': 'addSubNewDependency'
     'click #edit-users': 'editDependencyAndUsers'
     'click #remove-users': 'removeDependencyOrUsers'
-    'click #see-dependency-audiencees': 'goToObligeeAudiences'
 
     'click #cancel': 'cancelEdition'
     'click #confirm-actions': 'confirmChanges'
@@ -189,6 +188,4 @@ class audiencias.views.DependencyMenu extends Backbone.View
   hideAdmins: =>
     @showingAdmins = false
     @render()
-
-  goToObligeeAudiences: =>
-    window.open('/audiencias/carga/' + @dependency.obligee.id, '_blank')    
+    

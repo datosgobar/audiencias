@@ -36,7 +36,9 @@
       background: white;
       @include box-shadow($top-menu-shadow);
       border: solid 1px $grey-100;
-
+      a {
+        color: inherit;
+      }
       .top-menu-action {
         font-size: 12px;
         padding: 8px 20px 8px 8px;
