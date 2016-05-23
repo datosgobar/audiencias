@@ -13,6 +13,7 @@ window.audiencias =
     init: ->
       audiencias.globals.userDependencies = new audiencias.collections.UserDependencies
       audiencias.globals.users = new audiencias.collections.Users
+      audiencias.globals.obligees = new audiencias.collections.Obligees
 
     loadDependencies: ->
       $.ajax(
@@ -67,6 +68,7 @@ window.audiencias =
       $('body').append(adminLanding.el)
 
     operatorLanding: ->
+      audiencias.app.init()
       @renderHeader()
       operatorLanding = new audiencias.views.OperatorLanding 
       operatorLanding.render()
