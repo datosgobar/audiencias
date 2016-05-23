@@ -24,3 +24,27 @@
   }
 }
 
+
+#operator-landing {
+  height: 100%;
+  padding-top: $header-height;
+  @include outer-container();
+  #operator-landing-container {
+    height: 100%;
+    position: relative;
+    @include box-shadow($operator-side-shadow);
+    #operator-navigation-container {
+      height: $operator-navigation-height;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-bottom: solid 1px $grey-300;
+    }
+    #operator-audiences-container {
+      height: 100%;
+      padding-top: $operator-navigation-height;
+    }
+  }
+}
+

@@ -1,0 +1,65 @@
+#operator-landing #operator-navigation {
+  height: 100%;
+  padding: 15px 0;
+  #navigation-spacer {
+    width: 83.33333%;
+    margin: auto;
+    height: 100%;
+    display: table;
+    #navigation-left,
+    #navigation-right {
+      display: table-cell;
+      vertical-align: middle;
+      width: 50%;
+      height: 100%;
+    }
+  }
+}
+
+#operator-landing #navigation-left {
+  p {
+    margin: 0 0 5px 0;
+  }
+  select {
+    width: 14em;
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+  button {
+    font-size: 13px;
+  }
+}
+
+#operator-landing #navigation-right {
+  text-align: right;
+  #audience-text-search-container {
+    width: 20em;
+    max-width: 100%;
+    margin: 0 0 0 auto;
+    position: relative;
+    margin-bottom: 15px;
+    input {
+      width: 100%;
+      padding: 4px 30px 4px 8px;
+    }
+    img {
+      position: absolute;
+      height: 24px;
+      top: 4px;
+      right: 2px;
+    }
+  }
+  #search-type-selection {
+    font-size: 14px;
+    label {
+      cursor: pointer;
+      padding-right: 5px;
+    }
+    input {
+      cursor: pointer;
+      &#search-by-text {
+        margin-right: 15px;
+      }
+    }
+  }
+}
