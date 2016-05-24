@@ -3,12 +3,20 @@ class audiencias.views.AudienceEditor extends Backbone.View
   template: JST["backbone/templates/operator/audience_editor"]
 
   initialize: ->
-    @currentStep = 'participants'
-    audiencias.globals.obligees.on('change add', @render)
+    @audience = new audiencias.models.Audience
+    @audience.set('currentStep', 'participants')
+    @audience.set('obligee', audiencias.globals.obligees.currentObligee())
+    @audience.on('change', @render)
 
   render: =>
-    @currentObligee = audiencias.globals.obligees.currentObligee()
     @$el.html(@template(
-      currentStep: @currentStep
-      obligee: @currentObligee
+      audience: @audience
     ))
+
+    obligeeSection = new audiencias.views.AudienceObligeeSection(@audience)
+    obligeeSection.render()
+    @$el.find('#editor-sections').append(obligeeSection.el)
+
+    applicantSection = new audiencias.views.AudienceApplicantSection(@audience)
+    applicantSection.render()
+    @$el.find('#editor-sections').append(applicantSection.el)
