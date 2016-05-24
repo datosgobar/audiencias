@@ -69,6 +69,23 @@
         background: $grey-200;
       }
     }
+    .participant-card {
+      padding-right: 6em;
+      .edit-applicant,
+      .remove-applicant {
+        position: absolute;
+        right: 0;
+        font-size: 11px;
+        width: 6em;
+      }
+      .edit-applicant {
+        top: 2em;
+      }
+      .remove-applicant {
+        top: 4.5em;
+        background-color: $grey-300;
+      }
+    }
   }
 
   #participants {

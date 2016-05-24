@@ -2,6 +2,8 @@ class audiencias.views.AudienceApplicantSection extends Backbone.View
   template: JST["backbone/templates/operator/audience/applicant"]
   events:
     'change .represented-radio': 'representedChanged'
+    'click .edit-applicant': 'editApplicant'
+    'click .remove-applicant': 'removeApplicant'
 
   initialize: (@audience) ->
     @audience.get('applicant').on('change', @render)
@@ -22,3 +24,21 @@ class audiencias.views.AudienceApplicantSection extends Backbone.View
       @audience.set('represented', {})
     else
       @audience.unset('represented')
+
+  editApplicant: =>
+    @audience.get('applicant').set('confirmed', false)
+
+  removeApplicant: =>
+    newAttributes = {
+      name: ''
+      surname: ''
+      position: ''
+      id_type: 'dni'
+      person_id: ''
+      email: ''
+      telephone: ''
+      country: 'Argentina'
+      absent: false
+      confirmed: false
+    }
+    @audience.get('applicant').set(newAttributes)
