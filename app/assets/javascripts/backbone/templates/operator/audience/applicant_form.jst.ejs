@@ -1,0 +1,86 @@
+<% var applicant = audience.get('applicant'); %>
+<% var applicantCountry = applicant.get('country'); %>
+<div class="person-form">
+  <div class="nationality-container">
+    <input type="radio" name="nationality" id="nationality-argentine" 
+      value="Argentina" class="nationality-radio" <%= applicantCountry == 'Argentina' ? 'checked' : '' %>>
+    <label for="nationality-argentine" class="nationality-label">Argentino</label>
+    <input type="radio" name="nationality" id="nationality-foreign" 
+      value="" class="nationality-radio" <%= applicantCountry != 'Argentina' ? 'checked' : '' %>>
+    <label for="nationality-foreign" class="nationality-label">Extranjero</label>
+  </div>
+  <div class="field-table">
+
+    <% if (applicantCountry != 'Argentina') { %>
+      <div class="row">
+        <div class="cell">
+          <div class="field-label">País</div>
+          <% var countries = applicant.possibleCountries(); %>
+          <select class="countries-select">
+            <option selected="true" disabled="disabled">Seleccione país...</option>    
+            <% for (var i=0; i<countries.length; i++) { %>
+              <option value="<%= countries[i] %>"><%= countries[i] %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+      </div>
+    <% } %>
+
+    <div class="row">
+      <div class="cell">
+        <% if (applicantCountry == 'Argentina') { %>
+          <div class="field-label">Tipo de nro. de documento</div>
+          <div class="id-joint-field">
+            <% var idType = applicant.get('id_type') %>
+            <select class="id-type-input">
+              <option value="dni" <%= idType == 'dni' ? 'selected' : '' %>>DNI</option>
+              <option value="lc" <%= idType == 'lc' ? 'selected' : '' %>>LC</option>
+              <option value="le" <%= idType == 'le' ? 'selected' : '' %>>LE</option>
+            </select>
+            <input type="text" placeholder="00000000" value="<%= applicant.get('person_id') %>" class="field-input person-id-input">
+          </div>
+        <% } else { %>
+          <div class="field-label">Identificación</div>
+          <input type="text" placeholder="00000000" value="<%= applicant.get('person_id') %>" class="field-input person-id-input">
+        <% } %>
+      </div>
+      <div class="cell">
+        <div class="field-label">Nombre</div>
+        <input type="text" placeholder="Nombre" value="<%= applicant.get('name') %>" class="field-input name-input">
+      </div>
+      <div class="cell">
+        <div class="field-label">Apellido</div>
+        <input type="text" placeholder="Apellido" value="<%= applicant.get('surname') %>" class="field-input surname-input">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell"> 
+        <div class="field-label">Ocupación</div>
+        <input type="text" placeholder="Ocupación" value="<%= applicant.get('position') %>" class="field-input position-input">
+      </div>
+      <div class="cell"> 
+        <div class="field-label">Mail</div>
+        <input type="text" placeholder="mail@unmail.com" value="<%= applicant.get('email') %>" class="field-input email-input">
+      </div>
+      <div class="cell"> 
+        <div class="field-label">Teléfono</div>
+        <input type="text" placeholder="Teléfono" value="<%= applicant.get('telephone') %>" class="field-input telephone-input">
+      </div>
+    </div>
+
+  </div>
+  <div class="form-actions">
+    <span>¿El solicitante participó de la audiencia?</span>
+    <% var applicantParticipated = !applicant.get('absent') %>
+    <label class="participation-label" for="applicant-participated">Si</label>
+    <input type="radio" name="participation" id="applicant-participated" 
+      value="true" <%= applicantParticipated ? 'checked' : '' %>>
+    <label class="participation-label" for="applicant-didnt-participated">No</label>
+    <input type="radio" name="participation" id="applicant-didnt-participated" 
+      value="false" <%= !applicantParticipated ? 'checked' : '' %>>
+    <button class="confirm-save">GUARDAR</button>
+  </div>
+</div>
