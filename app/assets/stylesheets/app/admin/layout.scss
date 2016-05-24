@@ -53,7 +53,7 @@
   padding-top: $header-height;
   @include outer-container();
   #audience-editor-container {
-    height: 100%;
+    min-height: 100%;
     position: relative;
     @include box-shadow($operator-side-shadow);
     @include span-columns(10);

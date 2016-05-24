@@ -15,6 +15,7 @@
         <div class="step">
           SOLICITANTE
         </div>
+        <% var currentStep = audience.get('currentStep'); %>
         <div class="step <%= currentStep == 'participants' ? 'incomplete' : '' %>">
           AUDIENCIA
         </div>
@@ -25,30 +26,7 @@
     </div>
   </div>
 
-  <div id="obligee-and-applicant" class="">
-    <div class="left-column">
-      Sujeto obligado
-    </div>
-    <div class="right-column">
-      <div class="participant-card">
-        <span class="user-icon obligee">
-          <%= obligee.get('person').name[0] %><%= obligee.get('person').surname[0] %>
-        </span>
-        <div class="participant-name">
-          <%= obligee.get('person').name %> <%= obligee.get('person').surname %>
-        </div>
-        <div class="participant-position">
-          <%= obligee.get('position') %>
-        </div>
-        <div class="participant-id">
-          <%= obligee.get('person').id_type.toUpperCase() %> <%= obligee.get('person').person_id %>
-        </div>
-        <div class="participant-email">
-          <%= obligee.get('person').email %>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div id="editor-sections"></div>
 
   <div id="audience-editor-actions">
     <button id="previous-step">VOLVER</button>

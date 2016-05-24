@@ -11,13 +11,75 @@
     }
   }
 
-  #obligee-and-applicant {
-    @include span-columns(10 of 10);
+  $left-column: 6;
+  $right-column: 4;
+  $total-columns: $left-column + $right-column;
+
+  .editor-section,
+  .editor-section-collapsed,
+  .editor-section-expanded {
+    @include span-columns($total-columns of $total-columns);
+  }
+  .left-column {
+    @include span-columns($left-column of $total-columns);
+  }
+  .right-column {
+    @include span-columns($right-column of $total-columns);
+  }
+  .arrow {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+  }
+  .editor-section {
+    padding: 10px;
     border-bottom: solid 1px $grey-300;
+  }
+
+  #obligee {
     .left-column {
-      padding: 10px;
       color: $grey-300;
     }
+  }
+
+  #applicant, 
+  #represented {
+    .section-title {
+      color: $blue-300;
+    }
+    .represented-radio-container {
+      display: inline-block;
+      position: relative;
+      background: $grey-100;
+      border: solid 1px $grey-200;
+      @include border-radius(4px);
+      margin-left: 15px;
+      .represented-radio {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+      .represented-label {
+        padding: 4px 8px;
+        display: inline-block;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .represented-radio:checked + .represented-label {
+        background: $grey-200;
+      }
+    }
+  }
+
+  #participants {
+
+  }
+
+  #audience-main {
+
+  }
+
+  #audience-theme {
   }
 
   #audience-editor-actions {
@@ -26,14 +88,6 @@
     margin-top: 20px;
     font-size: 12px;
   }
-
-  .left-column {
-    @include span-columns(6 of 10);
-  }
-  .right-column {
-    @include span-columns(4 of 10);
-  }
-
 
 }
 
@@ -53,5 +107,83 @@
   }
   .participant-position {
     margin-bottom: 5px;
+  }
+}
+
+#audience-editor  .person-form {
+  padding: 15px 30px;
+  .nationality-container {
+    background: $grey-100;
+    border: solid 1px $grey-200;
+    @include border-radius(4px);
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+  .nationality-radio {
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+  }
+  .nationality-label {
+    display: inline-block;
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  .nationality-radio:checked + .nationality-label {
+    background: $grey-200;
+  }
+
+  .field-table {
+    display: table;
+    width: 100%;
+    .row {
+      display: table-row;
+      width: 100%;
+      .cell {
+        display: table-cell;
+        width: 33.3333%;
+        padding: 10px 0;
+        .field-label {
+          font-size: 13px;
+          margin-bottom: 4px;
+        }
+        .field-input,
+        .countries-select {
+          padding: 3px 8px;
+          width: 85%;
+        }
+
+        .id-joint-field {
+          position: relative;
+          width: 85%;
+          .id-type-input {
+            height: 30px;
+            width: 30%;
+          }
+          .field-input {
+            width: 68%;
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .form-actions {
+    margin-top: 10px;
+    .confirm-save {
+      float: right;
+      margin-right: 5%;
+      font-size: 13px;
+    }
+
+    .participation-label {
+      &:first-of-type {
+        margin-left: 20px;
+      }
+      margin-left: 10px;
+    }  
   }
 }
