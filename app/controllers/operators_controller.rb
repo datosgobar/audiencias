@@ -13,8 +13,8 @@ class OperatorsController < ApplicationController
 
   def audience_list
     @obligees = @current_user.obligees
-    @current_obligee = @obligees.find(params[:obligee_id])
-    unless @current_obligee or ['superadmin', 'admin'].include?(@current_user.role)
+    @current_obligee = @obligees.find_by_id(params[:obligee_id])
+    unless @current_obligee
       raise CanCan::AccessDenied.new
       return
     end
@@ -22,8 +22,8 @@ class OperatorsController < ApplicationController
 
   def audience_editor
     @obligees = @current_user.obligees
-    @current_obligee = @obligees.find(params[:obligee_id])
-    unless @current_obligee or ['superadmin', 'admin'].include?(@current_user.role)
+    @current_obligee = @obligees.find_by_id(params[:obligee_id])
+    unless @current_obligee
       raise CanCan::AccessDenied.new
       return
     end
