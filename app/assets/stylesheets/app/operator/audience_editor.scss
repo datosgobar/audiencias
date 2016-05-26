@@ -56,7 +56,6 @@
       margin-left: 15px;
       .represented-radio {
         position: absolute;
-        top: -9999px;
         left: -9999px;
       }
       .represented-label {
@@ -89,14 +88,96 @@
   }
 
   #participants {
+    .section-title {
+      color: $blue-300;
+    }
+    .participants-radio-container {
+      display: inline-block;
+      position: relative;
+      background: $grey-100;
+      border: solid 1px $grey-200;
+      @include border-radius(4px);
+      margin-left: 15px;
+      .participants-radio {
+        position: absolute;
+        left: -9999px;
+      }
+      .participants-label {
+        padding: 4px 8px;
+        display: inline-block;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .participants-radio:checked + .participants-label {
+        background: $grey-200;
+      }
+    }
 
   }
 
   #audience-main {
-
+    .section-title {
+      color: $blue-300;
+      @include span-columns(10 of 10);
+    }
+    .left-column {
+      padding-left: 25px;
+      font-size: 13px;
+      margin-bottom: 10px;
+      p {
+        margin: 0;
+        &.subsection-title {
+          margin-top: 10px;
+          font-size: 15px;
+        }
+      }
+      #motif {
+        width: 100%;
+        max-width: 100%;
+        height: 5em;
+        resize: none;
+        margin: 5px 0;
+        padding: 5px;
+      }
+      .invoked-interest-container {
+        text-align: right;
+      }
+    }
+    .right-column {
+      padding: 0 15px;
+      #address-label {
+        display: block;
+        margin: 5px 0;
+      }
+      #address {
+        display: block;
+        width: 100%;
+        padding: 3px 8px;
+      }
+    }
   }
 
   #audience-theme {
+    padding: 10px 25px;
+    font-size: 13px;
+    p {
+      margin: 0;
+      &.subsection-title {
+        margin-top: 10px;
+        font-size: 15px;
+      }
+    }
+    textarea {
+      width: 100%;
+      max-width: 100%;
+      resize: none;
+      height: 6em;
+      margin: 5px 0;
+      padding: 5px;
+    }
+    .confirm-main-info-container {
+      text-align: right;
+    }
   }
 
   #audience-editor-actions {
@@ -139,7 +220,6 @@
   .nationality-radio {
     position: absolute;
     left: -9999px;
-    top: -9999px;
   }
   .nationality-label {
     display: inline-block;

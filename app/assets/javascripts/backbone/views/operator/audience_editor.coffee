@@ -9,6 +9,7 @@ class audiencias.views.AudienceEditor extends Backbone.View
     @audience.on('change', @render)
 
   render: =>
+    console.log('render editor')
     @$el.html(@template(
       audience: @audience
     ))
@@ -20,3 +21,11 @@ class audiencias.views.AudienceEditor extends Backbone.View
     applicantSection = new audiencias.views.AudienceApplicantSection(@audience)
     applicantSection.render()
     @$el.find('#editor-sections').append(applicantSection.el)
+
+    participantsSection = new audiencias.views.AudienceParticipantsSection(@audience)
+    participantsSection.render()
+    @$el.find('#editor-sections').append(participantsSection.el)
+
+    mainInfoSection = new audiencias.views.AudienceInfoSection(@audience)
+    mainInfoSection.render()
+    @$el.find('#editor-sections').append(mainInfoSection.el)
