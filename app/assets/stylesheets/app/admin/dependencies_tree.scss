@@ -11,7 +11,8 @@
   #dependencies-results {
 
     .dependency,
-    .new-dependency {
+    .new-dependency,
+    .no-results {
       padding: 4px 0;
       cursor: pointer;
 
@@ -45,7 +46,8 @@
       }
     }
 
-    .new-dependency {
+    .new-dependency,
+    .no-results {
       padding-left: 12.5%;
       .dependency-name img {
         width: 24px;
@@ -53,6 +55,10 @@
         left: -8px;
         top: -1px;
       }
+    }
+
+    .no-results {
+      cursor: default;
     }
 
     .dependency.collapsed + .children {

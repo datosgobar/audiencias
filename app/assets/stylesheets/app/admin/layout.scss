@@ -5,6 +5,7 @@
     @include outer-container();
     height: 100%;
     #left-container {
+      @include box-shadow($layout-shadow);
       @include span-columns(8);
       height: 100%;
     }
