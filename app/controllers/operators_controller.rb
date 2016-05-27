@@ -29,4 +29,27 @@ class OperatorsController < ApplicationController
       return
     end
   end
+
+  def edit_applicant
+    # crear si no existe, editar sino
+  end
+
+  def edit_represented
+    # crear si no existe, editar sino
+  end
+
+  def edit_participant
+    # crear si no existe, editar sino
+  end
+
+  def remove_participant
+  end
+
+  def edit_main_info
+  end
+
+  def delete_audience
+    # crear si no existe, editar sino
+  end
+
 end

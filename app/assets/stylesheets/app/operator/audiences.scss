@@ -80,6 +80,24 @@
     .table-cell {
       height: 100px;
       padding: 10px;
+
+      &.status {
+        vertical-align: middle;
+        text-align: center;
+        .edit-audience {
+          display: block;
+          margin: 5px auto;
+          font-size: 12px;
+          width: 5.5em;
+        }
+        .delete-audience {
+          display: block;
+          width: 5.5em;
+          margin: auto;
+          font-size: 12px;
+          background: $grey-300;
+        }
+      }
     }
   }
 }

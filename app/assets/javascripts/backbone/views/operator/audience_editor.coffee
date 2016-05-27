@@ -9,7 +9,6 @@ class audiencias.views.AudienceEditor extends Backbone.View
     @audience.on('change', @render)
 
   render: =>
-    console.log('render editor')
     @$el.html(@template(
       audience: @audience
     ))

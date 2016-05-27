@@ -39,7 +39,11 @@
         <%= audience.motif %>
       </div>
       <div class="table-cell status">
-        <%= audience.published ? 'Publicada' : 'No publicada' %>
+        <% if (audience.published) { %>
+        <% } else { %>
+          <button class="edit-audience">EDITAR</button>
+          <button class="delete-audience">BORRAR</button>
+        <% } %>
       </div>
       <div class="table-cell spacer"></div>
     </div>
