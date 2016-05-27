@@ -1,3 +1,7 @@
+body.showing-error-bar #header {
+  top: $error-bar-height;
+}
+
 #header {
   position: fixed;
   top: 0;

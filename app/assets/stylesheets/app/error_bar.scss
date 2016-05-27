@@ -1,0 +1,22 @@
+#error-bar {
+  position: fixed;
+  width: 100%;
+  height: $error-bar-height;
+  font-size: 14px;
+  line-height: $error-bar-height;
+  top: 0;
+  left: 0;
+  background: $blue-200;
+  color: white;
+  z-index: 20;
+  #error-bar-content {
+    max-width: 1920px;
+    margin: auto;
+  }
+  img {
+    cursor: pointer;
+    height: 25px;
+    width: 20px;
+    vertical-align: bottom;
+  }
+}
