@@ -1,5 +1,5 @@
 class audiencias.views.UserLogin extends Backbone.View
-  template: JST["backbone/templates/user_login"]
+  template: JST["backbone/templates/users/user_login"]
   id: 'login'
   events: 
     'keyup #person-id': 'submitIfEnter'

@@ -1,7 +1,7 @@
 class audiencias.views.PasswordReset extends Backbone.View
-  template: JST["backbone/templates/password_reset/password_reset"]
-  sendResetLink: JST["backbone/templates/password_reset/send_reset_link"]
-  changePassword: JST["backbone/templates/password_reset/change_password"]
+  template: JST["backbone/templates/users/password_reset"]
+  sendResetLink: JST["backbone/templates/users/send_reset_link"]
+  changePassword: JST["backbone/templates/users/change_password"]
   id: 'password-reset'
 
   events: 
