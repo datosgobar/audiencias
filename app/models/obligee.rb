@@ -5,6 +5,7 @@ class Obligee < ActiveRecord::Base
 
   has_many :operator_associations
   has_many :users, through: :operator_associations
+  has_many :audiences
 
 	validates :person, presence: true
 	validates :dependency, presence: true

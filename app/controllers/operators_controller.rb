@@ -12,18 +12,19 @@ class OperatorsController < ApplicationController
   end
 
   def audience_list
+    @current_obligee = Obligee.find_by_id(params[:obligee_id])
     @obligees = @current_user.obligees
-    @current_obligee = @obligees.find_by_id(params[:obligee_id])
-    unless @current_obligee
+    unless @current_obligee and @current_user.has_permission_for(@current_obligee)
       raise CanCan::AccessDenied.new
       return
     end
+    @audiences = @current_obligee.audiences
   end
 
   def audience_editor
-    @obligees = @current_user.obligees
     @current_obligee = @obligees.find_by_id(params[:obligee_id])
-    unless @current_obligee
+    @obligees = @current_user.obligees
+    unless @current_obligee and @current_user.has_permission_for(@current_obligee)
       raise CanCan::AccessDenied.new
       return
     end

@@ -35,6 +35,14 @@ class User < ActiveRecord::Base
 		is_superadmin or dependencies.length > 0 or obligees.length > 0
 	end
 
+  def has_permission_for(obligee)
+    if role == 'superadmin' or role == 'admin'
+      true
+    else
+      self.obligees.include?(obligee)
+    end
+  end
+
 
   AS_JSON_OPTIONS = {
     only: [:person_id, :id_type, :email, :id, :name, :surname, :telephone],
