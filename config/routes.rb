@@ -34,5 +34,6 @@ Rails.application.routes.draw do
 
   get '/intranet/audiencias', to: 'operators#operator_landing', as: 'operator_landing'
   get '/intranet/audiencias/:obligee_id', to: 'operators#audience_list', as: 'audience_list'
-  get '/intranet/audiencias/:obligee_id/carga', to: 'operators#audience_editor', as: 'audience_editor'
+  get '/intranet/audiencias/:obligee_id/carga', to: 'operators#audience_editor', as: 'new_audience'
+  get '/intranet/audiencias/:obligee_id/carga/:audience_id', to: 'operators#audience_editor', as: 'edit_audience'
 end

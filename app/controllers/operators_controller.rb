@@ -5,7 +5,7 @@ class OperatorsController < ApplicationController
   def operator_landing
     obligees = @current_user.obligees
     if obligees.length > 0
-      redirect_to audience_list_path(id: obligees.first.id)
+      redirect_to audience_list_path(obligee_id: obligees.first.id)
     else
       raise CanCan::AccessDenied.new
     end
@@ -22,7 +22,7 @@ class OperatorsController < ApplicationController
   end
 
   def audience_editor
-    @current_obligee = @obligees.find_by_id(params[:obligee_id])
+    @current_obligee = Obligee.find_by_id(params[:obligee_id])
     @obligees = @current_user.obligees
     unless @current_obligee and @current_user.has_permission_for(@current_obligee)
       raise CanCan::AccessDenied.new
