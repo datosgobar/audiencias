@@ -14,6 +14,7 @@ window.audiencias =
       audiencias.globals.userDependencies = new audiencias.collections.UserDependencies
       audiencias.globals.users = new audiencias.collections.Users
       audiencias.globals.obligees = new audiencias.collections.Obligees
+      audiencias.globals.audiences = new audiencias.collections.Audiences
 
     loadDependencies: ->
       $.ajax(

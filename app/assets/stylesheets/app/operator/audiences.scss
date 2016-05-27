@@ -1,0 +1,19 @@
+#operator-landing #operator-audiences {
+  display: table;
+  width: 100%;
+  .table-row {
+    display: table-row;
+  }
+  .table-cell {
+    display: table-cell;
+    border-right: solid 1px $grey-300;
+    border-bottom: solid 1px $grey-300;
+    padding: 0 10px;
+    &.spacer {
+      width: 8.3333333%;
+    }
+    &:last-child {
+      border-right: none;
+    }
+  }
+}

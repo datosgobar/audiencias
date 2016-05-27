@@ -7,5 +7,6 @@
 
     audiencias.globals.currentUser = <%= raw @current_user.id %>;
     audiencias.globals.users.add(<%= raw @current_user.to_json %>)
+    audiencias.globals.audiences.add(<%= raw @audiences.to_json %>)
   });
 <% end %>
