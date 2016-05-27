@@ -81,4 +81,10 @@ window.audiencias =
       audienceEditor = new audiencias.views.AudienceEditor
       audienceEditor.render()
       $('body').append(audienceEditor.el)
+
+    userConfig: ->
+      audiencias.app.init()
+      @renderHeader()
+      userConfig = new audiencias.views.UserConfig
+      $('body').append(userConfig.el)
   }

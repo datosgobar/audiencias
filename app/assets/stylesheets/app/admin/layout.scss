@@ -1,7 +1,8 @@
 body.showing-error-bar {
   #admin-landing,
   #operator-landing,
-  #audience-editor {
+  #audience-editor,
+  #user-config {
     padding-top: $header-height + $error-bar-height;
   }
 }
@@ -65,6 +66,20 @@ body.showing-error-bar {
   padding-top: $header-height;
   @include outer-container();
   #audience-editor-container {
+    min-height: 100%;
+    position: relative;
+    @include box-shadow($operator-side-shadow);
+    @include span-columns(10);
+    @include shift(1);
+    padding: 50px;
+  }
+}
+
+#user-config {
+  height: 100%;
+  padding-top: $header-height;
+  @include outer-container();
+  #user-config-container {
     min-height: 100%;
     position: relative;
     @include box-shadow($operator-side-shadow);

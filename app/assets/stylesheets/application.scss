@@ -14,8 +14,11 @@
 
 @import 'app/error_bar';
 @import 'app/header';
-@import 'app/user_login';
 @import 'app/important_message';
+
+@import 'app/users/user_login';
+@import 'app/users/user_config';
+
 @import 'app/admin/layout';
 @import 'app/admin/navigation';
 @import 'app/admin/dependencies_tree';

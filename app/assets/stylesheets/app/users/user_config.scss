@@ -1,0 +1,83 @@
+#user-config #user-config-content {
+  @include span-columns(10);
+  @include shift(1);
+  
+  .title {
+    font-size: 30px;
+    font-weight: 500;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    border-bottom: solid 1px $grey-300;
+  }
+
+  .config-section {
+    @include span-columns(10 of 10);
+    padding: 10px 0;
+    border-bottom: solid 1px $grey-300;
+    &:last-of-type {
+      margin-bottom: 10px;
+    }
+
+    .left-column {
+      @include span-columns(6 of 10);
+      .section-title {
+        line-height: 20px;
+        color: $blue-300;
+        &.grey {
+          color: $grey-300;
+        }
+        img {
+          width: 20px;
+          height: 20px;
+          vertical-align: bottom;
+        }
+      }
+      .section-subtitle {
+        font-size: 14px;
+        padding-left: 24px;
+      }
+    }
+    .right-column {
+      @include span-columns(4 of 10);
+      .user-card {
+        position: relative;
+        padding: 10px 10px 10px 3em;
+        display: inline-block;
+        font-size: 14px;
+        .user-icon {
+          position: absolute;
+          top: 12px;
+          left: 0;
+        }
+        .user-name {
+          font-weight: 500;
+        }
+        .user-id {
+          font-size: 13px;
+        }
+      }
+      label {
+        display: block;
+        font-size: 14px;
+      }
+      input {
+        display: block;
+        padding: 2px 6px;
+        margin-bottom: 10px;
+        width: 100%;
+        max-width: 20em;
+        &#current-email {
+          color: $grey-400!important;
+        }
+      }
+    }
+  }
+
+  #save-user-config {
+    display: block;
+    margin: 10px auto;
+    font-size: 14px;
+  }
+}
