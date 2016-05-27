@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_login, only: [:user_config]
+  before_action :require_login, only: [:user_config, :change_user_config]
 
   def login
     redirect_to root_url if @current_user
@@ -68,6 +68,16 @@ class UsersController < ApplicationController
   end
 
   def user_config
+  end
+
+  def change_user_config
+    @current_user.email = params[:user][:email] if params[:user][:email]
+    @current_user.password = params[:user][:password] if params[:user][:password]
+    if @current_user.save 
+      render json: { success: true, user: @current_user }
+    else 
+      render json: { success: false, erros: @current_user.errors }
+    end
   end
 
 end

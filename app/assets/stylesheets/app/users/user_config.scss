@@ -74,7 +74,12 @@
       }
     }
   }
-
+  .successfull-update {
+    @include span-columns(10 of 10);
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
   #save-user-config {
     display: block;
     margin: 10px auto;

@@ -36,4 +36,7 @@ Rails.application.routes.draw do
   get '/intranet/audiencias/:obligee_id', to: 'operators#audience_list', as: 'audience_list'
   get '/intranet/audiencias/:obligee_id/carga', to: 'operators#audience_editor', as: 'new_audience'
   get '/intranet/audiencias/:obligee_id/carga/:audience_id', to: 'operators#audience_editor', as: 'edit_audience'
+
+  get '/intranet/configuracion', to: 'users#user_config', as: 'user_config'
+  post '/intranet/configuracion', to: 'users#change_user_config', as: 'change_user_config'
 end
