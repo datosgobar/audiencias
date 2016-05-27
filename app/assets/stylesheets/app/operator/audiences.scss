@@ -1,19 +1,85 @@
 #operator-landing #operator-audiences {
-  display: table;
-  width: 100%;
+  $table-header-height: 2.5em;
+  height: 100%;
+  overflow-y: auto;
+  padding-top: $table-header-height;
+
   .table-row {
     display: table-row;
   }
+
   .table-cell {
     display: table-cell;
     border-right: solid 1px $grey-300;
-    border-bottom: solid 1px $grey-300;
-    padding: 0 10px;
     &.spacer {
       width: 8.3333333%;
     }
     &:last-child {
       border-right: none;
+    }
+
+    $creation-date: 20;
+    $author: 20;
+    $applicant: 20;
+    $represented: 20;
+    $audience-date: 20;
+    $motif: 20;
+    $status: 20;
+    @function column-width($relative-width) {
+      $remaining-space: 100% / 12 * 10;
+      $absolute-width: $creation-date + $author + $applicant + $represented + $audience-date + $motif + $status;
+      @return $remaining-space * $relative-width / $absolute-width;
+    }
+    &.creation-date {
+      width: column-width($creation-date)
+    }
+    &.author {
+      width: column-width($author);
+    }
+    &.applicant {
+      width: column-width($applicant);
+    }
+    &.represented {
+      width: column-width($represented);
+    }
+    &.audience-date {
+      width: column-width($audience-date);
+    }
+    &.motif {
+      width: column-width($motif);
+    }
+    &.status {
+      width: column-width($status);
+    }
+  }
+
+  .header-table {
+    display: table;
+    width: 100%;
+    height: $table-header-height;
+    position: absolute;
+    top: $operator-navigation-height;
+    left: 0;
+    background: white;
+
+    .table-cell {
+      border-bottom: solid 1px $grey-300;
+      vertical-align: middle;
+      padding: 0 10px;
+    }
+  }
+
+  .audience-table {
+    display: table;
+    width: 100%;
+
+    .table-row:nth-child(odd) {
+      background: $grey-200;
+    }
+
+    .table-cell {
+      height: 100px;
+      padding: 10px;
     }
   }
 }

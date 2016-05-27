@@ -1,43 +1,47 @@
-<div class="table-row">
-  <div class="table-cell spacer"></div>
-  <div class="table-cell">Fecha de creación</div>
-  <div class="table-cell">Usuario</div>
-  <div class="table-cell">Solicitante</div>
-  <div class="table-cell">Se presentó como</div>
-  <div class="table-cell">Fecha - Hora</div>
-  <div class="table-cell">Motivo</div>
-  <div class="table-cell">Estado</div>
-  <div class="table-cell spacer"></div>
-</div>
-
-<% for (var i=0; i<audiences.length; i++) { %>
-  <% var audience = audiences[i]; %>
+<div class="header-table">
   <div class="table-row">
     <div class="table-cell spacer"></div>
-    
-    <% var creationDate = new Date(audience.created_at); %>
-    <div class="table-cell"> 
-      <%= creationDate.getFullYear() %>-<%= creationDate.getMonth() + 1 %>-<%= creationDate.getDate() %> 
-    </div>
-    
-    <div class="table-cell">
-      <%= audience.author.name %> <%= audience.author.surname %>
-    </div>
-    <div class="table-cell">
-      <%= audience.applicant.name %> <%= audience.applicant.surname %>
-    </div>
-    <div class="table-cell">
-      <%= audience.applicant.role %>
-    </div>
-    <div class="table-cell">
-      <%= audience.date %>
-    </div>
-    <div class="table-cell">
-      <%= audience.motif %>
-    </div>
-    <div class="table-cell">
-      <%= audience.published ? 'Publicada' : 'No publicada' %>
-    </div>
+    <div class="table-cell creation-date">Fecha de creación</div>
+    <div class="table-cell author">Usuario</div>
+    <div class="table-cell applicant">Solicitante</div>
+    <div class="table-cell represented">Se presentó como</div>
+    <div class="table-cell audience-date">Fecha - Hora</div>
+    <div class="table-cell motif">Motivo</div>
+    <div class="table-cell status">Estado</div>
     <div class="table-cell spacer"></div>
   </div>
-<% } %>
+</div>
+
+<div class="audience-table">
+  <% for (var i=0; i<audiences.length; i++) { %>
+    <% var audience = audiences[i]; %>
+    <div class="table-row">
+      <div class="table-cell spacer"></div>
+      
+      <% var creationDate = new Date(audience.created_at); %>
+      <div class="table-cell creation-date"> 
+        <%= creationDate.getFullYear() %>-<%= creationDate.getMonth() + 1 %>-<%= creationDate.getDate() %> 
+      </div>
+      
+      <div class="table-cell author">
+        <%= audience.author.name %> <%= audience.author.surname %>
+      </div>
+      <div class="table-cell applicant">
+        <%= audience.applicant.name %> <%= audience.applicant.surname %>
+      </div>
+      <div class="table-cell represented">
+        <%= audience.applicant.role %>
+      </div>
+      <div class="table-cell audience-date">
+        <%= audience.date %>
+      </div>
+      <div class="table-cell motif">
+        <%= audience.motif %>
+      </div>
+      <div class="table-cell status">
+        <%= audience.published ? 'Publicada' : 'No publicada' %>
+      </div>
+      <div class="table-cell spacer"></div>
+    </div>
+  <% } %>
+</div>
