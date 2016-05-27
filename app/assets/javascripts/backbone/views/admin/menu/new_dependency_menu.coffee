@@ -32,7 +32,9 @@ class audiencias.views.NewDependencyMenu extends Backbone.View
     @obligeeList = new audiencias.views.NewDependencyObligeeList({ dependency: @dependency, userMode: userMode })
     @obligeeList.render()
     @$el.find('.menu-lists').html(@obligeeList.el)
-    @$el.find('.title-input').focus() if @editingTitle
+    if @editingTitle
+      @setAutocomplete()
+      @$el.find('.title-input').focus() 
 
   cancelNewDependency: =>
     audiencias.globals.userDependencies.removeAndUpdateParentOf(@dependency)
@@ -80,4 +82,10 @@ class audiencias.views.NewDependencyMenu extends Backbone.View
           audiencias.globals.userDependencies.forceUpdate(response.dependency)
           @cancelNewDependency()
           $(window).trigger('dependency-selected', response.dependency.id)
+    )
+
+  setAutocomplete: =>
+    @$el.find('.title-input').autocomplete(
+      source: audiencias.globals.dependencyAutocomplete, 
+      appendTo: @$el.find('.title-form')
     )

@@ -4,7 +4,7 @@ class audiencias.models.Dependency extends Backbone.Model
     active: true,
     direct_sub_dependencies: [],
     expanded: false,
-    name: 'Nueva dependencia'
+    name: ''
     obligee: null,
     parent_id: null,
     selected: false,
