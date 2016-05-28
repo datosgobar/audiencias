@@ -12,6 +12,7 @@ class audiencias.views.DependenciesTree extends Backbone.View
     $(window).on('search:show-full-list', @showFullList)
       .on('search:show-results-list', @showResultsList)
     audiencias.globals.userDependencies.on('change add remove', @render)
+    audiencias.globals.users.on('change add', @toggleAddDependencyButton)
     @mode = 'tree'
 
   render: =>
@@ -22,7 +23,7 @@ class audiencias.views.DependenciesTree extends Backbone.View
         padding: 12.5,
         template: @treeTemplate
       })
-      @$el.find('#dependencies-tree').prepend(dependenciesTree)
+      @$el.find('#dependencies-tree').append(dependenciesTree)
     else
       resultsEl = @resultsTemplate({ 
         results: @results, 
@@ -49,3 +50,8 @@ class audiencias.views.DependenciesTree extends Backbone.View
 
   newDependency: =>
     $(window).trigger('add-new-dependency')
+
+  toggleAddDependencyButton: =>
+    currentUser = audiencias.globals.users.currentUser()
+    if currentUser and currentUser.get('role') == 'superadmin'
+      @$el.find('.new-dependency').removeClass('hidden')

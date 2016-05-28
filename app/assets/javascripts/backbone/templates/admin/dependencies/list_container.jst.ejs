@@ -1,14 +1,14 @@
 <div class="list-container nano">
   <div class="nano-content">
     <div id="dependencies-tree">
-      <% if (mode == 'tree') { %>
-        <div class="new-dependency">
-          <span class="dependency-name">
-            <img src="/assets/logo-agregar-azul.svg">
-            Agregar dependencia
-          </span>
-        </div>
-      <% } %>
+      <% var currentUser = audiencias.globals.users.currentUser() %>
+      <% var showNewDependency = mode == 'tree' && currentUser && currentUser.get('role') == 'superadmin' %>
+      <div class="new-dependency <%= showNewDependency ? '' : 'hidden' %>">
+        <span class="dependency-name">
+          <img src="/assets/logo-agregar-azul.svg">
+          Agregar dependencia
+        </span>
+      </div>
     </div>
     <div id="dependencies-results"></div>
   </div>
