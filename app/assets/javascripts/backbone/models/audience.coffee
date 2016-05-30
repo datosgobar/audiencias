@@ -14,6 +14,7 @@ class audiencias.models.Audience extends Backbone.Model
     lat: null,
     lng: null,
     motif: ''
+    editingApplicant: true
     editingInfo: true
   }
 

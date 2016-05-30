@@ -145,10 +145,19 @@
     }
     .right-column {
       padding: 0 15px;
+      #date-label,
+      #place-label,
       #address-label {
         display: block;
         margin: 5px 0;
       }
+      #date {
+        display: block;
+        max-width: 100%;
+        width: 10em;
+        padding: 3px 8px;
+      }
+      #place,
       #address {
         display: block;
         width: 100%;

@@ -24,4 +24,5 @@ class audiencias.collections.Audiences extends Backbone.Collection
         delete newAudience.author
       savedAudience.set(newAudience)
     else 
-      @add(newAudience)
+      @add({id: newAudience.id})
+      @updateAudience(newAudience)

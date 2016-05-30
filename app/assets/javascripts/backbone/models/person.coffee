@@ -1,5 +1,6 @@
 class audiencias.models.Person extends Backbone.Model
-  defaults: 
+  defaults: {
     country: 'Argentina'
+  }
 
   initialize: ->

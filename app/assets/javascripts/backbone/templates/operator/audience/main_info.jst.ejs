@@ -14,13 +14,36 @@
     <div class="invoked-interest-container">
       <label for="invoked-interest-select">Interés invocado</label>
       <select id="invoked-interest-select" <%= disabledIfNotEditing %>>
-        <option value="particular">Particular</option>
-        <option value="colectivo">Colectivo</option>
-        <option value="difuso">Difuso</option>
+        <% var interest = audience.get('interest_invoked'); %>
+        <option value="" disabled>Seleccionar</option>
+        <option value="particular" <%= interest == 'particular' ? 'selected' : '' %>>Particular</option>
+        <option value="colectivo" <%= interest == 'colectivo' ? 'selected' : '' %>>Colectivo</option>
+        <option value="difuso" <%= interest == 'difuso' ? 'selected' : '' %>>Difuso</option>
       </select>
     </div>
   </div>
   <div class="right-column">
+    <label for="date">Fecha</label> 
+    <% 
+    var date = new Date(audience.get('date'))
+    var dateString = ''
+    var dateIsValid = !isNaN(date.getTime())
+    if (audience.get('date') && dateIsValid) {
+      var year = date.getFullYear();
+      var month = (date.getMonth() + 1).toString();
+      month = month.length > 1 ? month : '0' + month;
+      var day = date.getDate().toString();
+      day = day.length > 1 ? day : '0' + day;
+      var hour = date.getHours().toString();
+      hour = hour.length > 1 ? hour : '0' + hour;
+      var minutes = date.getMinutes().toString();
+      minutes = minutes.length > 1 ? minutes : '0' + minutes;
+      dateString = hour + ':' + minutes + ' ' + day + '/' + month + '/' + year;
+    }
+    %>
+    <input type="text" id="date" <%= disabledIfNotEditing %> value="<%= dateString %>">
+    <label id="place-label" for="place">Lugar</label>
+    <input type="text" id="place" placeholder="Ej. Despacho, Ministerio de Educación" <%= disabledIfNotEditing %> value="<%= audience.get('place') %>">
     <label id="address-label" for="address">Dirección</label>
     <input type="text" id="address" placeholder="Ej. Av. Roque Saenz Peña 768, Ciudad Autonoma de Buenos Aires" <%= disabledIfNotEditing %>>
   </div>

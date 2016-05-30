@@ -1,3 +1,5 @@
+#= require ./person
 class audiencias.models.Applicant extends Backbone.Model
-
-  initialize: ->
+  defaults: {
+    person: (new audiencias.models.Person).defaults
+  }

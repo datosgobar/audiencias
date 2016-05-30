@@ -4,35 +4,68 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
     'click #edit-main-info': 'enableEdit'
     'click #confirm-main-info': 'submitChanges'
 
-  initialize: (@audience) ->
+  initialize: (@options) ->
+    @audience = @options.audience
     @audience.on('change', @render)
 
   render: =>
     @$el.html(@template(
       audience: @audience
     ))
+    if @audience.get('editingInfo')
+      @setDatePicker()
+
+  setDatePicker: =>
+    @$el.find('#date').datetimepicker(
+      format: 'H:i d/m/Y'
+      lazyInit: true
+    )
 
   enableEdit: =>
     @audience.set('editingInfo', true)
 
   submitChanges: =>
     data = { id: @audience.get('id') }
+    someThingChanged = false
 
     newSummary = @$el.find('#summary').val()
-    data.summary = newSummary if newSummary != @audience.get('summary')
+    if newSummary != @audience.get('summary')
+      data.summary = newSummary 
+      someThingChanged = true
 
     newInterestInvoked = @$el.find('#invoked-interest-select').val()
-    data.interest_invoked = newInterestInvoked if newInterestInvoked != @audience.get('interest_invoked')
+    if newInterestInvoked != @audience.get('interest_invoked')
+      data.interest_invoked = newInterestInvoked 
+      someThingChanged = true
 
     newMotif = @$el.find('#motif').val()
-    data.motif = newMotif if newMotif != @audience.get('motif')
+    if newMotif != @audience.get('motif')
+      data.motif = newMotif 
+      someThingChanged = true
 
-    $.ajax(
-      url: '/intranet/editar_audiencia'
-      method: 'POST'
-      data: { audience: data }
-      success: (response) =>
-        if response.success and response.audience
-          response.audience.editingInfo = false
-          audiencias.globals.audiences.updateAudience(response.audience)
-    )
+    newDate = @$el.find('#date').datetimepicker('getValue')
+    if @isDate(newDate)
+      newDate = newDate.toISOString()
+      data.date = newDate if newDate != @audience.get('date')
+      someThingChanged = true
+
+    newPlace = @$el.find('#place').val().trim()
+    if newPlace != @audience.get('place')
+      data.place = newPlace
+      someThingChanged = true
+
+    if someThingChanged
+      $.ajax(
+        url: '/intranet/editar_audiencia'
+        method: 'POST'
+        data: { audience: data }
+        success: (response) =>
+          if response.success and response.audience
+            response.audience.editingInfo = false
+            audiencias.globals.audiences.updateAudience(response.audience)
+      )
+    else
+      @audience.set('editingInfo', false)
+
+  isDate: (date) ->
+    Object.prototype.toString.call(date) == "[object Date]" 
