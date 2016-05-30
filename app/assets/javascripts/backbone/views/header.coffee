@@ -30,9 +30,11 @@ class audiencias.views.Header extends Backbone.View
       @listenForOneOutsideClick()
       
   logout: ->
+    NProgress.start()
     window.location.replace('/salir')
 
   settings: ->
+    NProgress.start()
     window.location.replace('/intranet/configuracion')
 
   listenForOneOutsideClick: =>

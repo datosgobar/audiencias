@@ -52,6 +52,7 @@ class audiencias.views.PasswordReset extends Backbone.View
       },
       callback: {
         confirm: => 
+          NProgress.start()
           window.location.href = "/intranet"
       }
     }
@@ -91,6 +92,7 @@ class audiencias.views.PasswordReset extends Backbone.View
       },
       callback: {
         confirm: => 
+          NProgress.start()
           window.location.href = "/intranet"
       }
     }

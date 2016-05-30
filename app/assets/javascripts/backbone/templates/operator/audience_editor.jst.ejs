@@ -2,7 +2,8 @@
   
   <div id="audience-editor-navigation">
     <div id="go-back">
-      <a href="/intranet/audiencias/<%= audiencias.globals.currentObligee %>">
+      <% var obligee = audiencias.globals.obligees.currentObligee() %>
+      <a href="/intranet/audiencias?sujeto_obligado=<%= obligee.get('id') %>">
         VOLVER
       </a>
     </div>

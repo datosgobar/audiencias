@@ -41,7 +41,9 @@
       <div class="table-cell status">
         <% if (audience.published) { %>
         <% } else { %>
-          <button class="edit-audience">EDITAR</button>
+          <a href="/intranet/editar_audiencia?audiencia=<%= audience.id %>">
+            <button class="edit-audience">EDITAR</button>
+          </a>
           <button class="delete-audience">BORRAR</button>
         <% } %>
       </div>

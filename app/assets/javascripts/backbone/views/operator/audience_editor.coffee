@@ -3,7 +3,7 @@ class audiencias.views.AudienceEditor extends Backbone.View
   template: JST["backbone/templates/operator/audience_editor"]
 
   initialize: ->
-    @audience = new audiencias.models.Audience
+    @audience = audiencias.globals.audiences.currentAudience() || new audiencias.models.Audience
     @audience.set('currentStep', 'participants')
     @audience.set('obligee', audiencias.globals.obligees.currentObligee())
     @audience.on('change', @render)

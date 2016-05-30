@@ -1,4 +1,4 @@
-<% var obligee = audience.get('obligee') %>
+<% var obligee = audience.get('obligee').toJSON() %>
 <div class="editor-section" id="obligee">
   <div class="left-column">
     <img src="/assets/icon-marcador-derecha-gris.svg" class="arrow grey-arrow">
@@ -7,19 +7,19 @@
   <div class="right-column">
     <div class="participant-card">
       <span class="user-icon obligee">
-        <%= obligee.get('person').name[0] %><%= obligee.get('person').surname[0] %>
+        <%= obligee.person.name[0] %><%= obligee.person.surname[0] %>
       </span>
       <div class="participant-name">
-        <%= obligee.get('person').name %> <%= obligee.get('person').surname %>
+        <%= obligee.person.name %> <%= obligee.person.surname %>
       </div>
       <div class="participant-position">
-        <%= obligee.get('position') %>
+        <%= obligee.position %>
       </div>
       <div class="participant-id">
-        <%= obligee.get('person').id_type.toUpperCase() %> <%= obligee.get('person').person_id %>
+        <%= obligee.person.id_type.toUpperCase() %> <%= obligee.person.person_id %>
       </div>
       <div class="participant-email">
-        <%= obligee.get('person').email %>
+        <%= obligee.person.email %>
       </div>
     </div>
   </div>

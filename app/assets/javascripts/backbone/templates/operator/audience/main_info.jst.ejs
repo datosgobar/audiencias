@@ -1,3 +1,5 @@
+<% var editing = !!audience.get('editingInfo') %>
+<% var disabledIfNotEditing = editing ? '' : 'disabled' %>
 <div class="editor-section" id="audience-main">
   <span class="section-title">
     <img src="/assets/icon-marcador-abajo.svg" class="arrow">
@@ -7,27 +9,32 @@
     <p class="subsection-title">Motivo</p>
     <p class="subsection-description">Describa en una oración el motivo o razón de la solicitud de audiencia.</p>
     <p class="subsection-description">Máximo 200 caracteres</p>
-    <textarea id="motif" placeholder="Ej. Hablar sobre la posibilidad de subsidiar un proyecto civil."></textarea>
+    <textarea id="motif" placeholder="Ej. Hablar sobre la posibilidad de subsidiar un proyecto civil."
+      <%= disabledIfNotEditing %>><%= audience.get('motif') %></textarea>
     <div class="invoked-interest-container">
       <label for="invoked-interest-select">Interés invocado</label>
-      <select id="invoked-interest-select">
-        <option>Particular</option>
-        <option>Colectivo</option>
-        <option>Difuso</option>
+      <select id="invoked-interest-select" <%= disabledIfNotEditing %>>
+        <option value="particular">Particular</option>
+        <option value="colectivo">Colectivo</option>
+        <option value="difuso">Difuso</option>
       </select>
     </div>
   </div>
   <div class="right-column">
     <label id="address-label" for="address">Dirección</label>
-    <input type="text" id="address" placeholder="Ej. Av. Roque Saenz Peña 768, Ciudad Autonoma de Buenos Aires">
+    <input type="text" id="address" placeholder="Ej. Av. Roque Saenz Peña 768, Ciudad Autonoma de Buenos Aires" <%= disabledIfNotEditing %>>
   </div>
 </div>
 
 <div class="editor-section" id="audience-theme">
   <p class="subsection-title">Síntesis</p>
   <p class="subsection-description">Describa de manera concisa lo sucedido en la audiencia, lo resuelto y el seguimiento del tema, de corresponder.</p>
-  <textarea id="summary" placeholder="Ej: En el encuentro se acercaron posiciones entre el pedido de los participantes de regular los aumentos de precios del huevo y lo que actualmente ya está haciendo el ministerio al respecto. Se acordó quedar en contacto para hacer un seguimiento bimestral del tema."></textarea>
+  <textarea id="summary" placeholder="Ej: En el encuentro se acercaron posiciones entre el pedido de los participantes de regular los aumentos de precios del huevo y lo que actualmente ya está haciendo el ministerio al respecto. Se acordó quedar en contacto para hacer un seguimiento bimestral del tema." <%= disabledIfNotEditing %>><%= audience.get('summary') %></textarea>
   <div class="confirm-main-info-container">
-    <button id="confirm-main-info">GUARDAR</button>
+    <% if (editing) { %>
+      <button id="confirm-main-info">GUARDAR</button>
+    <% } else { %>
+      <button id="edit-main-info">EDITAR</button>
+    <% } %>
   </div>
 </div>

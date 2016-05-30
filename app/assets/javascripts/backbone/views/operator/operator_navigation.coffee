@@ -12,4 +12,5 @@ class audiencias.views.OperatorNavigation extends Backbone.View
 
   changeCurrentObligee: ->
     obligeeId = @$el.find('#current-obligee-select option:selected').val()
-    window.location.href = "/intranet/audiencias/#{obligeeId}"
+    NProgress.start()
+    window.location.href = "/intranet/audiencias?sujeto_obligado=#{obligeeId}"
