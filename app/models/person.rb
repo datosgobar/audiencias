@@ -7,6 +7,7 @@ class Person < ActiveRecord::Base
   validates :country, presence: true
   validates :email, format: { with: GLOBALS::EMAIL_REGEX }
   has_many :obligees
+  has_many :applicants
   after_initialize :set_default_country
 
   def self.find_by_document(id_type, person_id)

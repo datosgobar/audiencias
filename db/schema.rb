@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160527140001) do
+ActiveRecord::Schema.define(version: 20160530123000) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -33,7 +33,11 @@ ActiveRecord::Schema.define(version: 20160527140001) do
     t.integer  "represented_people_group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "person_id"
+    t.boolean  "absent"
   end
+
+  add_index "applicants", ["person_id"], name: "index_applicants_on_person_id"
 
   create_table "audiences", force: :cascade do |t|
     t.datetime "date"
