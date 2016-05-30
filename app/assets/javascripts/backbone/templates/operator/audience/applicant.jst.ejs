@@ -1,6 +1,6 @@
 <div class="editor-section" id="applicant">
   <% var applicant = audience.get('applicant'); %>
-  <% if (!audience.get('editingApplicant')) { %>
+  <% if (applicant && !audience.get('editingApplicant')) { %>
     <div class="editor-section-collapsed">
       <div class="left-column">
         <span class="section-title collapsed-section-title">

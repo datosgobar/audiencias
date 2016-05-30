@@ -2,22 +2,28 @@
 #= require ./person
 #= require ./user
 class audiencias.models.Audience extends Backbone.Model
-  defaults: {
-    obligee: new audiencias.models.Obligee
-    applicant: new audiencias.models.Applicant
-    author: new audiencias.models.User
-    participants: []
-    date: null,
-    summary: ''
-    interest_invoked: null,
-    published: false,
-    lat: null,
-    lng: null,
-    motif: ''
-    editingApplicant: true
-    editingInfo: true
-  }
 
   initialize: ->
     author = new audiencias.models.User(@get('author'))
     @set('author', author)
+
+  forceUpdate: (newAudience) =>
+    if newAudience.obligee and @get('obligee')
+      @get('obligee').set(newAudience.obligee)
+    else if newAudience.obligee
+      @set('obligee', new audiencias.models.Obligee(newAudience.obligee))
+    delete newAudience.obligee
+
+    if newAudience.applicant and @get('applicant')
+      @get('applicant').set(newAudience.applicant)
+    else if newAudience.applicant
+      @set('applicant', new audiencias.models.Applicant(newAudience.applicant))
+    delete newAudience.applicant
+
+    if newAudience.author and @get('author')
+      @get('author').set(newAudience.author)
+    else if newAudience.author
+      @set('author', new audiencias.models.User, newAudience.author)
+    delete newAudience.author
+
+    @set(newAudience)

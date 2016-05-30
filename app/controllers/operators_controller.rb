@@ -47,8 +47,13 @@ class OperatorsController < ApplicationController
   end
 
   def edit_audience
-    if params[:audience]
+    if params[:audience] and params[:audience][:id]
       @current_audience = Audience.find_by_id(params[:audience][:id])
+    elsif params[:audience] and params[:audience][:new]
+      @current_audience = Audience.new(
+        obligee_id: params[:audience][:obligee_id], 
+        author_id: params[:audience][:author_id]
+      )
     end
 
     unless @current_audience

@@ -71,7 +71,16 @@ class audiencias.views.AudienceApplicantForm extends Backbone.View
       @updateApplicant(applicantAttr)
 
   updateApplicant: (applicantData) =>
-    data = { audience: { id: @audience.get('id'), applicant: applicantData } }
+    data = { 
+      audience: { 
+        id: @audience.get('id'),
+        new: !!@audience.get('new')
+        applicant: applicantData 
+      } 
+    }
+    if data.audience.new 
+      data.audience.obligee_id = audiencias.globals.obligees.currentObligee().get('id')
+      data.audience.author_id = audiencias.globals.users.currentUser().get('id')
     $.ajax(
       url: '/intranet/editar_audiencia'
       method: 'POST'
@@ -79,7 +88,11 @@ class audiencias.views.AudienceApplicantForm extends Backbone.View
       success: (response) =>
         if response.success and response.audience
             response.audience.editingApplicant = false
-            audiencias.globals.audiences.updateAudience(response.audience)
+            response.audience.new = false
+            if data.audience.new 
+              @audience.forceUpdate(response.audience)
+            else
+              audiencias.globals.audiences.updateAudience(response.audience)
     )
 
   validatePersonId: (person_id, country) ->

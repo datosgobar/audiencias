@@ -38,7 +38,7 @@
         <% } %>
       </div>
       <div class="table-cell represented">
-        <%= audience.applicant.role %>
+        <%= audience.applicant ? audience.applicant.role : '' %>
       </div>
       <div class="table-cell audience-date">
         <%     

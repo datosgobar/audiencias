@@ -55,6 +55,10 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
       someThingChanged = true
 
     if someThingChanged
+      data.new = !!@audience.get('new')
+      if data.new 
+        data.obligee_id = audiencias.globals.obligees.currentObligee().get('id')
+        data.author_id = audiencias.globals.users.currentUser().get('id')
       $.ajax(
         url: '/intranet/editar_audiencia'
         method: 'POST'
@@ -62,7 +66,11 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
         success: (response) =>
           if response.success and response.audience
             response.audience.editingInfo = false
-            audiencias.globals.audiences.updateAudience(response.audience)
+            response.audience.new = false
+            if data.new 
+              @audience.forceUpdate(response.audience)
+            else
+              audiencias.globals.audiences.updateAudience(response.audience)
       )
     else
       @audience.set('editingInfo', false)
