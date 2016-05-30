@@ -33,9 +33,10 @@ Rails.application.routes.draw do
   get '/intranet/listar_usuarios', to: 'management#user_list'
 
   get '/intranet/audiencias', to: 'operators#operator_landing', as: 'operator_landing'
-  get '/intranet/audiencias/:obligee_id', to: 'operators#audience_list', as: 'audience_list'
-  get '/intranet/audiencias/:obligee_id/carga', to: 'operators#audience_editor', as: 'new_audience'
-  get '/intranet/audiencias/:obligee_id/carga/:audience_id', to: 'operators#audience_editor', as: 'edit_audience'
+  get '/intranet/nueva_audiencia', to: 'operators#new_audience', as: 'new_audience'
+  get '/intranet/editar_audiencia', to: 'operators#audience_editor', as: 'audience_editor'
+  post '/intranet/editar_audiencia', to: 'operators#edit_audience', as: 'edit_audience'
+  post '/intranet/eliminar_audiencia', to: 'operators#remove_audience', as: 'remove_audience'
 
   get '/intranet/configuracion', to: 'users#user_config', as: 'user_config'
   post '/intranet/configuracion', to: 'users#change_user_config', as: 'change_user_config'

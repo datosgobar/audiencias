@@ -10,7 +10,7 @@ class Audience < ActiveRecord::Base
 
   AS_JSON_OPTIONS =  {
     only: [ :date, :publish_date, :summary, :interest_invoked, 
-      :published, :place, :created_at, :lat, :lng, :id ],
+      :published, :place, :created_at, :lat, :lng, :id, :motif ],
     include: { 
       author: User::AS_JSON_OPTIONS,
       applicant: Applicant::AS_JSON_OPTIONS,
@@ -19,5 +19,15 @@ class Audience < ActiveRecord::Base
   }
   def as_json(options={})
     super(AS_JSON_OPTIONS)
+  end
+
+  def updateMinorAttributes(params)
+    self.date = params[:date] if params[:date]
+    self.summary = params[:summary] if params[:summary]
+    self.interest_invoked = params[:interest_invoked] if params[:interest_invoked]
+    self.place = params[:place] if params[:place]
+    self.lat = params[:lat] if params[:lat]
+    self.lng = params[:lng] if params[:lng]
+    self.motif = params[:motif] if params[:motif]
   end
 end

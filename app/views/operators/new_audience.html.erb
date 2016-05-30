@@ -3,12 +3,8 @@
     audiencias.app.init();
     audiencias.globals.currentObligee = <%= raw @current_obligee.id %>;
     audiencias.globals.currentUser = <%= raw @current_user.id %>;
-    audiencias.globals.currentAudience = <%= raw @current_audience.id %>;
-    audiencias.globals.obligees.add(<%= raw @current_obligee.to_json %>);
+    audiencias.globals.obligees.add(<%= raw @obligees.to_json %>);
     audiencias.globals.users.add(<%= raw @current_user.to_json %>)
-    var currentAudience = <%= raw @current_audience.to_json %>;
-    currentAudience.editingInfo = false;
-    audiencias.globals.audiences.add(currentAudience);
     audiencias.app.audienceEditor();
   });
 <% end %>

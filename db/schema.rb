@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160526140001) do
+ActiveRecord::Schema.define(version: 20160527140001) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -39,7 +39,6 @@ ActiveRecord::Schema.define(version: 20160526140001) do
     t.datetime "date"
     t.datetime "publish_date"
     t.string   "summary"
-    t.integer  "interest_invoked"
     t.boolean  "published"
     t.string   "place"
     t.datetime "created_at"
@@ -50,6 +49,7 @@ ActiveRecord::Schema.define(version: 20160526140001) do
     t.decimal  "lng",              precision: 10, scale: 6
     t.string   "motif"
     t.integer  "author_id"
+    t.string   "interest_invoked"
   end
 
   add_index "audiences", ["applicant_id"], name: "index_audiences_on_applicant_id"
