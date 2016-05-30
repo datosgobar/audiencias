@@ -14,7 +14,8 @@ class Audience < ActiveRecord::Base
     include: { 
       author: User::AS_JSON_OPTIONS,
       applicant: Applicant::AS_JSON_OPTIONS,
-      obligee: Obligee::AS_JSON_OPTIONS 
+      obligee: Obligee::AS_JSON_OPTIONS,
+      participants: Participant::AS_JSON_OPTIONS
     }
   }
   def as_json(options={})

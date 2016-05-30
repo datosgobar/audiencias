@@ -1,11 +1,17 @@
 class Participant < ActiveRecord::Base
 
-  has_one :audience
-  has_one :dependency
-  has_one :person
-  has_one :represented
-  has_one :company
+  belongs_to :audience
+  belongs_to :person
 
   validates :audience, presence: true
+  validates :person, presence: true
+  validates :ocupation, presence: true
+
+  AS_JSON_OPTIONS = {
+    only: [:ocupation],
+    include: {
+      person: Person::AS_JSON_OPTIONS
+    }
+  }
 
 end
