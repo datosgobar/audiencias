@@ -7,7 +7,7 @@ class Applicant < ActiveRecord::Base
   belongs_to :represented_people_group, foreign_key: 'represented_people_group_id', class_name: 'PeopĺeGroup'
 
   AS_JSON_OPTIONS = {
-    only: [ :ocupation, :represented_person_ocupation ],
+    only: [ :ocupation, :represented_person_ocupation, :absent ],
     include: {
       person: Person::AS_JSON_OPTIONS,
       represented_person: Person::AS_JSON_OPTIONS,
@@ -18,5 +18,16 @@ class Applicant < ActiveRecord::Base
   }
   def as_json(options={})
     super(AS_JSON_OPTIONS)
+  end
+
+  def update_minor_attributes(params)
+    self.ocupation = params[:ocupation] if params.include?(:ocupation)
+    self.absent = params[:absent] if params.include?(:absent)
+
+    if params[:person]
+      self.person = Person.find_or_initialize(params[:person])
+      self.person.update_minor_attributes(params[:person])
+      self.person.save
+    end
   end
 end

@@ -1,5 +1,5 @@
 <% var applicant = audience.get('applicant'); %>
-<% var applicantCountry = applicant.get('country'); %>
+<% var applicantCountry = applicant.get('person').country; %>
 <div class="person-form">
   <div class="nationality-container">
     <input type="radio" name="nationality" id="nationality-argentine" 
@@ -10,7 +10,6 @@
     <label for="nationality-foreign" class="nationality-label">Extranjero</label>
   </div>
   <div class="field-table">
-
     <% if (applicantCountry != 'Argentina') { %>
       <div class="row">
         <div class="cell">
@@ -33,41 +32,41 @@
         <% if (applicantCountry == 'Argentina') { %>
           <div class="field-label">Tipo de nro. de documento</div>
           <div class="id-joint-field">
-            <% var idType = applicant.get('id_type') %>
+            <% var idType = applicant.get('person').id_type %>
             <select class="id-type-input">
               <option value="dni" <%= idType == 'dni' ? 'selected' : '' %>>DNI</option>
               <option value="lc" <%= idType == 'lc' ? 'selected' : '' %>>LC</option>
               <option value="le" <%= idType == 'le' ? 'selected' : '' %>>LE</option>
             </select>
-            <input type="text" placeholder="00000000" value="<%= applicant.get('person_id') %>" class="field-input person-id-input">
+            <input type="text" placeholder="00000000" value="<%= applicant.get('person').person_id %>" class="field-input person-id-input">
           </div>
         <% } else { %>
           <div class="field-label">Identificación</div>
-          <input type="text" placeholder="00000000" value="<%= applicant.get('person_id') %>" class="field-input person-id-input">
+          <input type="text" placeholder="00000000" value="<%= applicant.get('person').person_id %>" class="field-input person-id-input">
         <% } %>
       </div>
       <div class="cell">
         <div class="field-label">Nombre</div>
-        <input type="text" placeholder="Nombre" value="<%= applicant.get('name') %>" class="field-input name-input">
+        <input type="text" placeholder="Nombre" value="<%= applicant.get('person').name %>" class="field-input name-input">
       </div>
       <div class="cell">
         <div class="field-label">Apellido</div>
-        <input type="text" placeholder="Apellido" value="<%= applicant.get('surname') %>" class="field-input surname-input">
+        <input type="text" placeholder="Apellido" value="<%= applicant.get('person').surname %>" class="field-input surname-input">
       </div>
     </div>
 
     <div class="row">
       <div class="cell"> 
         <div class="field-label">Ocupación</div>
-        <input type="text" placeholder="Ocupación" value="<%= applicant.get('position') %>" class="field-input position-input">
+        <input type="text" placeholder="Ocupación" value="<%= applicant.get('ocupation') %>" class="field-input position-input">
       </div>
       <div class="cell"> 
         <div class="field-label">Mail</div>
-        <input type="text" placeholder="mail@unmail.com" value="<%= applicant.get('email') %>" class="field-input email-input">
+        <input type="text" placeholder="mail@unmail.com" value="<%= applicant.get('person').email %>" class="field-input email-input">
       </div>
       <div class="cell"> 
-        <div class="field-label">Teléfono</div>
-        <input type="text" placeholder="Teléfono" value="<%= applicant.get('telephone') %>" class="field-input telephone-input">
+        <div class="field-label">Teléfono (opcional)</div>
+        <input type="text" placeholder="Teléfono" value="<%= applicant.get('person').telephone %>" class="field-input telephone-input">
       </div>
     </div>
 

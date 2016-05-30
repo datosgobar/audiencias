@@ -24,6 +24,7 @@ class Person < ActiveRecord::Base
       person.name = params[:name]
       person.surname = params[:surname]
       person.email = params[:email]
+      person.country = params[:country]
     end
 
     person
@@ -55,6 +56,7 @@ class Person < ActiveRecord::Base
     self.surname = new_attr[:surname] if new_attr[:surname]
     self.telephone = new_attr[:telephone] if new_attr[:telephone]
     self.email = new_attr[:email] if new_attr[:email]
+    self.country = new_attr[:country] if new_attr[:country]
   end
 
   private

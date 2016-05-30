@@ -5,16 +5,17 @@ class audiencias.views.AudienceApplicantSection extends Backbone.View
     'click .edit-applicant': 'editApplicant'
     'click .remove-applicant': 'removeApplicant'
 
-  initialize: (@audience) ->
-    @audience.get('applicant').on('change', @render)
+  initialize: (@options) ->
+    @audience = @options.audience
+    @audience.on('change', @render)
 
   render: =>
     @$el.html(@template(
       audience: @audience
     ))
 
-    if not @audience.get('applicant').get('confirmed')
-      applicantForm = new audiencias.views.AudienceApplicantForm(@audience)
+    if @audience.get('editingApplicant')
+      applicantForm = new audiencias.views.AudienceApplicantForm(audience: @audience)
       applicantForm.render()
       @$el.find('#applicant-form').append(applicantForm.el)
 
@@ -26,19 +27,8 @@ class audiencias.views.AudienceApplicantSection extends Backbone.View
       @audience.unset('represented')
 
   editApplicant: =>
-    @audience.get('applicant').set('confirmed', false)
+    @audience.set('editingApplicant', true)
 
   removeApplicant: =>
-    newAttributes = {
-      name: ''
-      surname: ''
-      position: ''
-      id_type: 'dni'
-      person_id: ''
-      email: ''
-      telephone: ''
-      country: 'Argentina'
-      absent: false
-      confirmed: false
-    }
-    @audience.get('applicant').set(newAttributes)
+    @audience.set('editingApplicant', true)
+    @audience.set('applicant', new audiencias.models.Applicant)

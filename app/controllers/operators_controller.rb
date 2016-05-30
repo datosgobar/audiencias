@@ -56,7 +56,7 @@ class OperatorsController < ApplicationController
       return
     end
 
-    @current_audience.updateMinorAttributes(params[:audience])
+    @current_audience.update_minor_attributes(params[:audience])
     if @current_audience.save 
       render json: { success: true, audience: @current_audience }
     else

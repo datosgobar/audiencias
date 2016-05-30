@@ -1,6 +1,6 @@
 <div class="editor-section" id="applicant">
   <% var applicant = audience.get('applicant'); %>
-  <% if (applicant.get('confirmed')) { %>
+  <% if (!audience.get('editingApplicant')) { %>
     <div class="editor-section-collapsed">
       <div class="left-column">
         <span class="section-title collapsed-section-title">
@@ -11,28 +11,31 @@
       <div class="right-column">
         <div class="participant-card">
           <div class="participant-name">
-            <%= applicant.get('name') %> <%= applicant.get('surname') %>
+            <%= applicant.get('person').name %> <%= applicant.get('person').surname %>
           </div>
           <div class="participant-position">
-            <%= applicant.get('position') %>
+            <%= applicant.get('ocupation') %>
           </div>
-          <% var country = applicant.get('country') %>
+          <% var country = applicant.get('person').country %>
           <div class="participant-country">
             <%= country %>
           </div>
           <div class="participant-id">
-            <%= country == 'Argentina' ? applicant.get('id_type').toUpperCase() : 'ID' %> 
-            <%= applicant.get('person_id') %>
+            <%= country == 'Argentina' ? applicant.get('person').id_type.toUpperCase() : 'ID' %> 
+            <%= applicant.get('person').person_id %>
           </div>
           <div class="participant-email">
-            <%= applicant.get('email') %>
+            <%= applicant.get('person').email %>
           </div>
-          <% var telephone = applicant.get('telephone'); %>
+          <% var telephone = applicant.get('person').telephone; %>
           <% if (telephone && telephone.length > 0) { %>
             <div class="participant-telephone">
-              <%= applicant.get('telephone') %>
+              <%= telephone %>
             </div>
           <% } %>
+          <div class="participant-absent">
+            <%= applicant.get('absent') ? 'El solicitante no participó de la audiencia' : 'El solicitante participió de la audiencia' %>
+          </div>
           <button class="edit-applicant">EDITAR</button>
           <button class="remove-applicant">BORRAR</button>
         </div>
@@ -52,7 +55,7 @@
 
 <div class="editor-section" id="represented">
   <% var representsSomeone = !!audience.get('represented') %>
-  <div>
+  <div class="represented-or-not">
     <span class="section-title">
       <% if (representsSomeone) { %>
         <img src="/assets/icon-marcador-abajo.svg" class="arrow">
@@ -70,4 +73,5 @@
       <label class="represented-label" for="is-represented">En representación</label>
     </div>
   </div>
+  <div id="represented-form"></div>
 </div>

@@ -21,7 +21,7 @@ class Audience < ActiveRecord::Base
     super(AS_JSON_OPTIONS)
   end
 
-  def updateMinorAttributes(params)
+  def update_minor_attributes(params)
     self.date = params[:date] if params[:date]
     self.summary = params[:summary] if params[:summary]
     self.interest_invoked = params[:interest_invoked] if params[:interest_invoked]
@@ -29,5 +29,11 @@ class Audience < ActiveRecord::Base
     self.lat = params[:lat] if params[:lat]
     self.lng = params[:lng] if params[:lng]
     self.motif = params[:motif] if params[:motif]
+
+    if params[:applicant]
+      self.applicant = Applicant.new unless self.applicant
+      self.applicant.update_minor_attributes(params[:applicant])
+      self.applicant.save
+    end
   end
 end
