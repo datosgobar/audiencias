@@ -31,6 +31,7 @@
       @return $remaining-space * $relative-width / $absolute-width;
     }
     &.creation-date {
+      text-align: center;
       width: column-width($creation-date)
     }
     &.author {
@@ -43,6 +44,7 @@
       width: column-width($represented);
     }
     &.audience-date {
+      text-align: center;
       width: column-width($audience-date);
     }
     &.motif {
@@ -72,6 +74,8 @@
   .audience-table {
     display: table;
     width: 100%;
+    min-height: 100%;
+    background: $grey-100; 
 
     .table-row:nth-child(odd) {
       background: $grey-200;
@@ -80,6 +84,21 @@
     .table-cell {
       height: 100px;
       padding: 10px;
+
+      &.author {
+        font-weight: 500;
+      }
+
+      &.applicant {
+        .applicant-name {
+          margin: 0;
+          font-weight: 500;
+        }
+        .applicant-email {
+          margin: 0;
+          font-size: 14px;
+        }
+      }
 
       &.status {
         vertical-align: middle;
@@ -98,6 +117,9 @@
           background: $grey-300;
         }
       }
+    }
+    .table-row:last-child .table-cell {
+      height: auto;
     }
   }
 }

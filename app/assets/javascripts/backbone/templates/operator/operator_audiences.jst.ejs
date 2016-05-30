@@ -19,21 +19,46 @@
       <div class="table-cell spacer"></div>
       
       <% var creationDate = new Date(audience.created_at); %>
+      <% var year = creationDate.getFullYear().toString(); %>
+      <% var month = (creationDate.getMonth() + 1).toString() %>
+      <% month = month.length > 1 ? month : '0' + month %>
+      <% var day = creationDate.getDate().toString() %>
+      <% day = day.length > 1 ? day : '0' + day %>
       <div class="table-cell creation-date"> 
-        <%= creationDate.getFullYear() %>-<%= creationDate.getMonth() + 1 %>-<%= creationDate.getDate() %> 
+        <%= day %>-<%= month %>-<%= year %>
       </div>
       
       <div class="table-cell author">
         <%= audience.author.name %> <%= audience.author.surname %>
       </div>
       <div class="table-cell applicant">
-        <%= audience.applicant.name %> <%= audience.applicant.surname %>
+        <% if (audience.applicant && audience.applicant.person) { %>
+          <p class="applicant-name"><%= audience.applicant.person.name %> <%= audience.applicant.person.surname %></p>
+          <p class="applicant-email"><%= audience.applicant.person.email %></p>
+        <% } %>
       </div>
       <div class="table-cell represented">
         <%= audience.applicant.role %>
       </div>
       <div class="table-cell audience-date">
-        <%= audience.date %>
+        <%     
+        var dateString = '';
+        var date = new Date(audience.date);
+        var dateIsValid = !isNaN(date.getTime());
+        if (audience.date && dateIsValid) {
+          var year = date.getFullYear();
+          var month = (date.getMonth() + 1).toString();
+          month = month.length > 1 ? month : '0' + month;
+          var day = date.getDate().toString();
+          day = day.length > 1 ? day : '0' + day;
+          var hour = date.getHours().toString();
+          hour = hour.length > 1 ? hour : '0' + hour;
+          var minutes = date.getMinutes().toString();
+          minutes = minutes.length > 1 ? minutes : '0' + minutes;
+          dateString = day + '/' + month + '/' + year + ' ' + hour + ':' + minutes;
+        }
+        %>
+        <%= dateString %>
       </div>
       <div class="table-cell motif">
         <%= audience.motif %>
@@ -50,4 +75,15 @@
       <div class="table-cell spacer"></div>
     </div>
   <% } %>
+    <div class="table-row">
+      <div class="table-cell spacer"></div>
+      <div class="table-cell creation-date"></div>
+      <div class="table-cell author"></div>
+      <div class="table-cell applicant"></div>
+      <div class="table-cell represented"></div>
+      <div class="table-cell audience-date"></div>
+      <div class="table-cell motif"></div>
+      <div class="table-cell status"></div>
+      <div class="table-cell spacer"></div>
+    </div>
 </div>

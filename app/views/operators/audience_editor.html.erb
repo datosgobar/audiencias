@@ -7,8 +7,9 @@
     audiencias.globals.obligees.add(<%= raw @current_obligee.to_json %>);
     audiencias.globals.users.add(<%= raw @current_user.to_json %>)
     var currentAudience = <%= raw @current_audience.to_json %>;
+    currentAudience.editingApplicant = false;
     currentAudience.editingInfo = false;
-    audiencias.globals.audiences.add(currentAudience);
+    audiencias.globals.audiences.updateAudience(currentAudience);
     audiencias.app.audienceEditor();
   });
 <% end %>
