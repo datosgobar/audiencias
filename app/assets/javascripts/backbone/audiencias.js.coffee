@@ -11,6 +11,7 @@ window.audiencias =
   globals: {}
   app: {
     init: ->
+      jQuery.datetimepicker.setLocale('es')
       $(document).ajaxStart(NProgress.start)
       $(document).ajaxStop(NProgress.done)
       audiencias.globals.userDependencies = new audiencias.collections.UserDependencies
