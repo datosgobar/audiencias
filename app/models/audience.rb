@@ -36,5 +36,15 @@ class Audience < ActiveRecord::Base
       self.applicant.update_minor_attributes(params[:applicant])
       self.applicant.save
     end
+
+    if params[:participant]
+      id_type = params[:participant][:person][:id_type]
+      person_id = params[:participant][:person][:person_id]
+      participant = self.participants.find { |p| p.person.id_type == id_type and p.person.person_id == person_id }
+      participant = Participant.new(audience: self) unless participant
+      participant.update_minor_attributes(params[:participant])
+      participant.save
+      self.participants << participant
+    end
   end
 end

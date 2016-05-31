@@ -9,8 +9,10 @@ class audiencias.views.AudienceApplicantSection extends Backbone.View
     @audience = @options.audience
     @audience.on('change', @render)
     unless @audience.get('applicant')
-      @audience.set('editingApplicant', true)
-      @audience.set('applicant', new audiencias.models.Applicant)
+      @audience.set({
+        editingApplicant: true,
+        applicant: new audiencias.models.Applicant
+      })
 
   render: =>
     @$el.html(@template(

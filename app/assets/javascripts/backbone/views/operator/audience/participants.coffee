@@ -19,10 +19,14 @@ class audiencias.views.AudienceParticipantsSection extends Backbone.View
 
     if @audience.get('editingParticipants')
       participantsForm = new audiencias.views.AudienceParticipantsForm(
+        audience: @audience
         participantBeingEdited: @participantBeingEdited
       )
       participantsForm.render()
       @$el.find('.participant-form').append(participantsForm.el)
+      participantsForm.on('participantSubmitted', =>
+        @participantBeingEdited = @newParticipant()
+      )
 
   toggleParticipantsForm: =>
     editingParticipants = @$el.find('#yes-participants').is(':checked')
@@ -33,7 +37,19 @@ class audiencias.views.AudienceParticipantsSection extends Backbone.View
 
   editParticipant: (e) =>
     participantId = $(e.currentTarget).data('participant-id')
+    participantToEdit = _.find(@audience.get('participants'), (p) -> p.id == participantId )
+    if participantToEdit
+      @participantBeingEdited = participantToEdit
+      @render()
 
-  removeParticipant: =>
+  removeParticipant: (e) =>
     participantId = $(e.currentTarget).data('participant-id')
-    
+    data = { audience: { id: @audience.get('id') }, participant: { id: participantId } }
+    $.ajax(
+      url: '/intranet/eliminar_participante'
+      method: 'POST'
+      data: data
+      success: (response) =>
+        if response and response.success 
+          @audience.set('participants', response.participants)
+    )

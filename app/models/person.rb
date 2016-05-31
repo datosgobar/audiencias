@@ -5,7 +5,7 @@ class Person < ActiveRecord::Base
   validates :person_id, presence: true
   validates :id_type, presence: true
   validates :country, presence: true
-  validates :email, format: { with: GLOBALS::EMAIL_REGEX }
+  validates :email, format: { with: GLOBALS::EMAIL_REGEX }, allow_blank: true
   has_many :obligees
   has_many :applicants
   after_initialize :set_default_country

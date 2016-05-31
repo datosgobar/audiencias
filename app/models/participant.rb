@@ -17,4 +17,13 @@ class Participant < ActiveRecord::Base
     super(AS_JSON_OPTIONS)
   end
 
+  def update_minor_attributes(params)
+    self.ocupation = params[:ocupation] if params[:ocupation]
+    if params[:person]
+      self.person = Person.find_or_initialize(params[:person])
+      self.person.update_minor_attributes(params[:person])
+      self.person.save
+    end
+  end
+
 end
