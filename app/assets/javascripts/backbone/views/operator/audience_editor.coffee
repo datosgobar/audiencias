@@ -14,7 +14,6 @@ class audiencias.views.AudienceEditor extends Backbone.View
       editingInfo: true 
       editingApplicant: true
     })
-    audience.set('applicant', new audiencias.models.Applicant)
 
   render: =>
     @$el.html(@template(
