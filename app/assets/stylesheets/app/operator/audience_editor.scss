@@ -74,6 +74,24 @@
         background: $grey-200;
       }
     }
+    .represented-or-not.disabled {
+      .section-title {
+        color: $grey-300;
+      }
+      .represented-label {
+        color: $grey-300;
+        cursor: default;
+      }
+    }
+    #represented-form {
+      padding: 5px 25px;
+      .representation-type {
+        font-size: 14px;
+        input {
+          margin: 0 20px 0 5px;
+        }
+      }
+    }
   }
 
   #applicant,
@@ -82,21 +100,27 @@
     .participant-card {
       padding-right: 6em;
       width: 100%;
+      min-height: 7em;
       .edit-applicant,
       .remove-applicant,
       .edit-participant,
-      .remove-participant {
+      .remove-participant,
+      .edit-represented,
+      .remove-represented {
         position: absolute;
         right: 0;
         font-size: 11px;
         width: 6em;
       }
       .edit-applicant,
-      .edit-participant {
+      .edit-participant,
+      .edit-represented,
+      .remove-represented {
         top: 2em;
       }
       .remove-applicant,
-      .remove-participant {
+      .remove-participant,
+      .remove-represented {
         top: 4.5em;
         background-color: $grey-300;
       }

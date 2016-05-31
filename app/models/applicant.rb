@@ -4,10 +4,10 @@ class Applicant < ActiveRecord::Base
   belongs_to :represented_person, foreign_key: 'represented_person_id', class_name: 'Person'
   belongs_to :represented_legal_entity, foreign_key: 'represented_legal_entity_id', class_name: 'LegalEntity'
   belongs_to :represented_state_organism, foreign_key: 'represented_state_organism_id', class_name: 'StateOrganism'
-  belongs_to :represented_people_group, foreign_key: 'represented_people_group_id', class_name: 'PeopĺeGroup'
+  belongs_to :represented_people_group, foreign_key: 'represented_people_group_id', class_name: 'PeopleGroup'
 
   AS_JSON_OPTIONS = {
-    only: [ :ocupation, :represented_person_ocupation, :absent ],
+    only: [ :id, :ocupation, :represented_person_ocupation, :absent ],
     include: {
       person: Person::AS_JSON_OPTIONS,
       represented_person: Person::AS_JSON_OPTIONS,

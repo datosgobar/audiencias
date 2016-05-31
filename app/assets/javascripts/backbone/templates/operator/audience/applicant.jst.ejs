@@ -1,5 +1,5 @@
+<% var applicant = audience.get('applicant'); %>
 <div class="editor-section" id="applicant">
-  <% var applicant = audience.get('applicant'); %>
   <% if (applicant && !audience.get('editingApplicant')) { %>
     <div class="editor-section-collapsed">
       <div class="left-column">
@@ -53,25 +53,135 @@
   <% } %>
 </div>
 
+<% var represented = applicant && (applicant.get('represented_person') || applicant.get('represented_legal_entity') || applicant.get('represented_state_organism') || applicant.get('represented_people_group')) %>
+<% var editingRepresented = !!audience.get('editingRepresented') %>
 <div class="editor-section" id="represented">
-  <% var representsSomeone = !!audience.get('represented') %>
-  <div class="represented-or-not">
-    <span class="section-title">
-      <% if (representsSomeone) { %>
+  
+  <% if (editingRepresented) { %>
+    <div class="represented-or-not">
+      <span class="section-title">
         <img src="/assets/icon-marcador-abajo.svg" class="arrow">
-      <% } else { %>
-        <img src="/assets/icon-marcador-derecha.svg" class="arrow">
-      <% } %>
-      ¿Se presentó como particular interesado o en representación?
-    </span>
-    <div class="represented-radio-container">
-      <input type="radio" class="represented-radio" id="not-represented" 
-        name="representation-radio" <%= !representsSomeone ? 'checked' : '' %>>
-      <label class="represented-label" for="not-represented">Particular interesado</label>
-      <input type="radio" class="represented-radio" id="is-represented" 
-        name="representation-radio" <%= representsSomeone ? 'checked' : '' %>>
-      <label class="represented-label" for="is-represented">En representación</label>
+        ¿Se presentó como particular interesado o en representación?
+      </span>
+      <div class="represented-radio-container">
+        <input type="radio" class="represented-radio" id="not-represented" 
+          name="representation-radio" <%= !editingRepresented ? 'checked' : '' %>>
+        <label class="represented-label" for="not-represented">Particular interesado</label>
+        <input type="radio" class="represented-radio" id="is-represented" 
+          name="representation-radio" <%= editingRepresented ? 'checked' : '' %>>
+        <label class="represented-label" for="is-represented">En representación</label>
+      </div>
     </div>
-  </div>
-  <div id="represented-form"></div>
+    <div id="represented-form"></div>
+
+  <% } else if (represented) { %>
+  
+    <div class="represented-or-not left-column">
+      <span class="section-title">
+        <img src="/assets/icon-marcador-derecha.svg" class="arrow">
+        ¿Se presentó como particular interesado o en representación?
+      </span>
+    </div>
+    <div class="right-column">
+      <div class="participant-card">
+          <% if (applicant.get('represented_person')) { %>
+            <div class="representation-type">EN REPRESENTACIÓN - PERSONA FÍSICA</div>
+            <div class="participant-name">
+              <%= applicant.get('represented_person').name %> <%= applicant.get('represented_person').surname %>
+            </div>
+            <div class="participant-position">
+              <%= applicant.get('represented_person_ocupation') %>
+            </div>
+            <% var country = applicant.get('represented_person').country %>
+            <div class="participant-country">
+              <%= country %>
+            </div>
+            <div class="participant-id">
+              <%= country == 'Argentina' ? applicant.get('represented_person').id_type.toUpperCase() : 'ID' %> 
+              <%= applicant.get('represented_person').person_id %>
+            </div>
+            <div class="participant-email">
+              <%= applicant.get('represented_person').email %>
+            </div>
+            <% var telephone = applicant.get('represented_person').telephone; %>
+            <% if (telephone && telephone.length > 0) { %>
+              <div class="participant-telephone">
+                <%= telephone %>
+              </div>
+            <% } %>            
+          <% } else if (applicant.get('represented_legal_entity')) { %>
+            <div class="representation-type">EN REPRESENTACIÓN - PERSONA JURÍDICA</div>
+            <div class="participant-name">
+              <%= applicant.get('represented_legal_entity').name %>
+            </div>
+            <% var country = applicant.get('represented_legal_entity').country %>
+            <div class="participant-country">
+              <%= country %>
+            </div>
+            <div class="participant-cuil">
+              <%= applicant.get('represented_legal_entity').cuil %>
+            </div>
+            <div class="participant-email">
+              <%= applicant.get('represented_legal_entity').email %>
+            </div>
+            <% var telephone = applicant.get('represented_legal_entity').telephone; %>
+            <% if (telephone && telephone.length > 0) { %>
+              <div class="participant-telephone">
+                <%= telephone %>
+              </div>
+            <% } %>                   
+          <% } else if (applicant.get('represented_state_organism')) { %>
+            <div class="representation-type">EN REPRESENTACIÓN - ORGANISMO ESTATAL</div>
+            <div class="participant-name">
+              <%= applicant.get('represented_state_organism').name %>
+            </div>
+            <% var country = applicant.get('represented_state_organism').country %>
+            <div class="participant-country">
+              <%= country %>
+            </div>            
+          <% } else { %>
+            <div class="representation-type">EN REPRESENTACIÓN - GRUPO DE PERSONAS</div>
+            <div class="participant-name">
+              <%= applicant.get('represented_people_group').name %>
+            </div>
+            <% var country = applicant.get('represented_people_group').country %>
+            <div class="participant-country">
+              <%= country %>
+            </div>
+            <div class="participant-email">
+              <%= applicant.get('represented_people_group').email %>
+            </div>
+            <% var telephone = applicant.get('represented_people_group').telephone; %>
+            <% if (telephone && telephone.length > 0) { %>
+              <div class="participant-telephone">
+                <%= telephone %>
+              </div>
+            <% } %> 
+            <div class="participant-description">
+              <%= applicant.get('represented_people_group').description %>
+            </div>
+          <% } %>
+          <button class="edit-represented">EDITAR</button>
+          <button class="remove-represented">BORRAR</button>
+        </div>
+    </div>
+
+  <% } else { %>
+    <% var canAddRepresented = applicant && !!applicant.get('id'); %>
+    <div class="represented-or-not <%= canAddRepresented ? '' : 'disabled' %>">
+      <span class="section-title">
+        <img src="/assets/icon-marcador-derecha<%= canAddRepresented ? '' : '-gris' %>.svg" class="arrow">
+        ¿Se presentó como particular interesado o en representación?
+      </span>
+      <div class="represented-radio-container">
+        <input type="radio" class="represented-radio" id="not-represented" 
+          name="representation-radio" <%= !editingRepresented ? 'checked' : '' %> <%= canAddRepresented ? '' : 'disabled' %>>
+        <label class="represented-label" for="not-represented">Particular interesado</label>
+        <input type="radio" class="represented-radio" id="is-represented" 
+          name="representation-radio" <%= editingRepresented ? 'checked' : '' %> <%= canAddRepresented ? '' : 'disabled' %>>
+        <label class="represented-label" for="is-represented">En representación</label>
+      </div>
+    </div>
+
+  <% } %>
 </div>

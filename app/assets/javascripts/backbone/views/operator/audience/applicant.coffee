@@ -24,12 +24,17 @@ class audiencias.views.AudienceApplicantSection extends Backbone.View
       applicantForm.render()
       @$el.find('#applicant-form').append(applicantForm.el)
 
+    if @audience.get('editingRepresented')
+      representedForm = new audiencias.views.AudienceRepresentedForm(audience: @audience)
+      representedForm.render()
+      @$el.find('#represented-form').append(representedForm.el)
+
   representedChanged: =>
     representedState = @$el.find('.represented-radio:checked').attr('id')
     if representedState == 'is-represented'
-      @audience.set('represented', {})
+      @audience.set('editingRepresented', true)
     else
-      @audience.unset('represented')
+      @audience.unset('editingRepresented')
 
   editApplicant: =>
     @audience.set('editingApplicant', true)

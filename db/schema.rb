@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160531120500) do
+ActiveRecord::Schema.define(version: 20160531180500) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -74,14 +74,14 @@ ActiveRecord::Schema.define(version: 20160531120500) do
   add_index "dependencies", ["obligee_id"], name: "index_dependencies_on_obligee_id"
   add_index "dependencies", ["parent_id"], name: "index_dependencies_on_parent_id"
 
-  create_table "legan_entities", force: :cascade do |t|
+  create_table "legal_entities", force: :cascade do |t|
     t.string   "country"
-    t.integer  "cuil"
     t.string   "name"
     t.string   "email"
     t.string   "telephone"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "cuil"
   end
 
   create_table "obligees", force: :cascade do |t|

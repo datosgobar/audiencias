@@ -1,0 +1,91 @@
+<div class="representation-type">
+  <label for="represented-person">Persona física</label>
+  <input type="radio" name="representation" id="represented-person">
+  <label for="represented-entity">Persona jurídica</label>
+  <input type="radio" name="representation" id="represented-entity">
+  <label for="represented-organism">Organismo estatal</label>
+  <input type="radio" name="representation" id="represented-organism">
+  <label for="represented-group">Grupo de personas</label>
+  <input type="radio" name="representation" id="represented-group">
+</div>
+
+<% var applicant = audience.get('applicant'); %>
+
+<% if (applicant.get('represented_person')) { %>
+  <% var represented = applicant.get('represented_person'); %>
+  <div class="person-form">
+    <div class="nationality-container">
+      <input type="radio" name="represented-nationality" id="represented-nationality-argentine" 
+        value="Argentina" class="nationality-radio" <%= represented.country == 'Argentina' ? 'checked' : '' %>>
+      <label for="represented-nationality-argentine" class="nationality-label">Argentino</label>
+      <input type="radio" name="represented-nationality" id="represented-nationality-foreign" 
+        value="" class="nationality-radio" <%= represented.country != 'Argentina' ? 'checked' : '' %>>
+      <label for="represented-nationality-foreign" class="nationality-label">Extranjero</label>
+    </div>
+    <div class="field-table">
+      <% if (represented.country != 'Argentina') { %>
+        <div class="row">
+          <div class="cell">
+            <div class="field-label">País</div>
+            <% var countries = audiencias.globals.countries; %>
+            <select class="countries-select">
+              <option selected="true" disabled="disabled">Seleccione país...</option>    
+              <% for (var i=0; i<countries.length; i++) { %>
+                <option value="<%= countries[i] %>" <%= countries[i] == represented.country ? 'selected' : '' %>><%= countries[i] %></option>
+              <% } %>
+            </select>
+          </div>
+          <div class="cell"></div>
+          <div class="cell"></div>
+        </div>
+      <% } %>
+
+      <div class="row">
+        <div class="cell">
+          <% if (represented.country == 'Argentina') { %>
+            <div class="field-label">Tipo de nro. de documento</div>
+            <div class="id-joint-field">
+              <% var idType = represented.id_type %>
+              <select class="id-type-input">
+                <option value="dni" <%= idType == 'dni' ? 'selected' : '' %>>DNI</option>
+                <option value="lc" <%= idType == 'lc' ? 'selected' : '' %>>LC</option>
+                <option value="le" <%= idType == 'le' ? 'selected' : '' %>>LE</option>
+              </select>
+              <input type="text" placeholder="00000000" value="<%= represented.person_id %>" class="field-input person-id-input">
+            </div>
+          <% } else { %>
+            <div class="field-label">Identificación</div>
+            <input type="text" placeholder="00000000" value="<%= represented.person_id %>" class="field-input person-id-input">
+          <% } %>
+        </div>
+        <div class="cell">
+          <div class="field-label">Nombre</div>
+          <input type="text" placeholder="Nombre" value="<%= represented.name %>" class="field-input name-input">
+        </div>
+        <div class="cell">
+          <div class="field-label">Apellido</div>
+          <input type="text" placeholder="Apellido" value="<%= represented.surname %>" class="field-input surname-input">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="cell"> 
+          <div class="field-label">Ocupación</div>
+          <input type="text" placeholder="Ocupación" value="<%= applicant.get('represented_person_ocupation') %>" class="field-input position-input">
+        </div>
+        <div class="cell"> 
+          <div class="field-label">Mail</div>
+          <input type="text" placeholder="mail@unmail.com" value="<%= represented.email %>" class="field-input email-input">
+        </div>
+        <div class="cell"> 
+          <div class="field-label">Teléfono (opcional)</div>
+          <input type="text" placeholder="Teléfono" value="<%= represented.telephone %>" class="field-input telephone-input">
+        </div>
+      </div>
+
+    </div>
+    <div class="form-actions">
+      <button class="confirm-save">GUARDAR</button>
+    </div>
+  </div>
+<% } %>
