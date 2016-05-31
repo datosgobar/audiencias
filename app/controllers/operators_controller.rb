@@ -16,7 +16,7 @@ class OperatorsController < ApplicationController
 
     @obligees = @current_user.obligees.as_json
     @obligees << @current_obligee.as_json unless @current_user.obligees.include?(@current_obligee)
-    @audiences = @current_obligee.audiences
+    @audiences = @current_obligee.audiences.where(deleted: false)
   end
 
   def new_audience
@@ -70,6 +70,25 @@ class OperatorsController < ApplicationController
   end
 
   def delete_audience
+    unless params[:audience] and params[:audience][:id]
+      render json: { success: false }
+      return
+    end
+
+    audience = Audience.find_by_id(params[:audience][:id])
+    unless audience
+      render json: { success: false }
+      return
+    end
+
+    audience.deleted = true
+    audience.deleted_at = DateTime.now
+
+    if audience.save 
+      render json: { success: true }
+    else
+      render json: { success: false }
+    end
   end
 
 end

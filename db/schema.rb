@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160530123000) do
+ActiveRecord::Schema.define(version: 20160531120500) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 20160530123000) do
     t.string   "motif"
     t.integer  "author_id"
     t.string   "interest_invoked"
+    t.boolean  "deleted",                                   default: false
+    t.date     "deleted_at"
   end
 
   add_index "audiences", ["applicant_id"], name: "index_audiences_on_applicant_id"
