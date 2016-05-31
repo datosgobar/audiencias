@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   get '/intranet/nueva_audiencia', to: 'operators#new_audience', as: 'new_audience'
   get '/intranet/editar_audiencia', to: 'operators#audience_editor', as: 'audience_editor'
   post '/intranet/editar_audiencia', to: 'operators#edit_audience', as: 'edit_audience'
+  post '/intranet/eliminar_participante', to: 'operators#delete_participant', as: 'remove_participant'
   post '/intranet/eliminar_audiencia', to: 'operators#delete_audience', as: 'remove_audience'
 
   get '/intranet/configuracion', to: 'users#user_config', as: 'user_config'

@@ -91,4 +91,24 @@ class OperatorsController < ApplicationController
     end
   end
 
+  def delete_participant
+    unless params[:audience] and params[:audience][:id]
+      render json: { success: false }
+      return
+    end
+
+    audience = Audience.find_by_id(params[:audience][:id])
+    unless audience 
+      render json: { success: false }
+      return
+    end
+
+    participant = audience.participants.find_by_id(params[:participant][:id])
+    if participant and participant.destroy
+      render json: { success: true, participants: audience.participants }
+    else
+      render json: { success: false }
+    end
+  end
+
 end

@@ -1,16 +1,49 @@
 <div class="editor-section" id="participants">
-  <div>
+  <% var participants = audience.get('participants'); %>
+  <% var editingParticipants = audience.get('editingParticipants'); %>
+  <div class="section-wide">
     <span class="section-title">
-      <img src="/assets/icon-marcador-derecha.svg" class="arrow">
+      <img src="/assets/icon-marcador-<%= participants && participants.length > 0 || editingParticipants ? 'abajo' : 'derecha' %>.svg" class="arrow">
       ¿Participaron otras personas en la audiencia?
     </span>
-    <div class="participants-radio-container">
-      <input type="radio" class="participants-radio" id="no-participants" 
-        name="participants-radio" checked>
-      <label class="participants-label" for="no-participants">No</label>
-      <input type="radio" class="participants-radio" id="yes-participants" 
-        name="participants-radio">
-      <label class="participants-label" for="yes-participants">Si</label>
-    </div>
+    <% if (!participants || participants.length == 0) { %>
+      <div class="participants-radio-container">
+        <input type="radio" class="participants-radio" id="no-participants" 
+          name="participants-radio" <%= editingParticipants ? '' : 'checked' %>>
+        <label class="participants-label" for="no-participants">No</label>
+        <input type="radio" class="participants-radio" id="yes-participants" 
+          name="participants-radio" <%= editingParticipants ? 'checked' : '' %>>
+        <label class="participants-label" for="yes-participants">Si</label>
+      </div>
+    <% } %>
   </div>
+
+  <% if (participants && participants.length > 0 || editingParticipants) { %>
+    <div class="left-column">
+      <div class="participant-form"></div>
+    </div>
+    <div class="right-column">
+      <% if (participants && participants.length > 0) { %>
+        <% for (var i=0; i<participants.length; i++) { %> 
+          <% var participant = participants[i]; %>
+          <div class="participant-card">
+            <div class="participant-name">
+              <%= participant.person.name %> <%= participant.person.surname %>
+            </div>
+            <div class="participant-position">
+              <%= participant.ocupation %>
+            </div>
+            <div class="participant-id">
+              <% var country = participant.person.country %>
+              <%= country == 'Argentina' ? participant.person.id_type.toUpperCase() : 'ID' %> 
+              <%= participant.person.person_id %>
+            </div>
+            <button class="edit-participant" data-participant-id="<%= participant.id %>">EDITAR</button>
+            <button class="remove-participant" data-participant-id="<%= participant.id %>">BORRAR</button>
+          </div>
+        <% } %>
+      <% } %>
+    </div>
+  <% } %>
+
 </div>

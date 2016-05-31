@@ -74,19 +74,28 @@
         background: $grey-200;
       }
     }
+  }
+
+  #applicant,
+  #represented,
+  #participants {
     .participant-card {
       padding-right: 6em;
       .edit-applicant,
-      .remove-applicant {
+      .remove-applicant,
+      .edit-participant,
+      .remove-participant {
         position: absolute;
         right: 0;
         font-size: 11px;
         width: 6em;
       }
-      .edit-applicant {
+      .edit-applicant,
+      .edit-participant {
         top: 2em;
       }
-      .remove-applicant {
+      .remove-applicant,
+      .remove-participant {
         top: 4.5em;
         background-color: $grey-300;
       }
@@ -94,6 +103,9 @@
   }
 
   #participants {
+    .section-wide {
+      @include span-columns(10 of 10);
+    }
     .section-title {
       color: $blue-300;
     }
@@ -118,7 +130,9 @@
         background: $grey-200;
       }
     }
-
+    .participant-form {
+      padding: 10px;
+    }
   }
 
   #audience-main {

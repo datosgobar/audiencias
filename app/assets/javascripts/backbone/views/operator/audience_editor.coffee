@@ -6,7 +6,6 @@ class audiencias.views.AudienceEditor extends Backbone.View
     @audience = audiencias.globals.audiences.currentAudience() || @newAudience()
     @audience.set('currentStep', 'participants')
     @audience.set('obligee', audiencias.globals.obligees.currentObligee())
-    @audience.on('change', @render)
 
   newAudience: ->
     audience = new audiencias.models.Audience({
