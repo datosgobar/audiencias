@@ -4,7 +4,7 @@
   <div class="section-wide">
     <span class="section-title">
       <img src="/assets/icon-marcador-<%= participants && participants.length > 0 || editingParticipants ? 'abajo' : 'derecha' %>.svg" class="arrow">
-      ¿Participaron otras personas en la audiencia?
+      ¿Participaron otras personas en la audiencia? <img src="/assets/logo-question.svg" class="participants-tooltip tooltip">
     </span>
     <% if (!participants || participants.length == 0) { %>
       <div class="participants-radio-container">

@@ -12,6 +12,8 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
     @$el.html(@template(
       audience: @audience
     ))
+    @setTooltip()
+
     if @audience.get('editingInfo')
       @setDatePicker()
       @setMotifMaxLength()
@@ -29,6 +31,19 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
       if motifTextarea.val().length > maxLength
         cuttedText = motifTextarea.val().substring(0, maxLength)
         motifTextarea.val(cuttedText)
+    )
+
+  setTooltip: =>
+    content = '<p style="margin:0;font-weight: bold;">Tipo de interes</p>'
+    content += '<p style="margin:0"><span style="font-weight: bold">Colectivo</span>: Se pretende influir en una decisión que afecta los derechos e intereses de un grupo de personas determinable. <span style="font-style: italic;">Ej: Modificar la normativa que regula ciertos procedimientos en el Colegio de Escribanos de CABA.</span></p>'
+    content += '<p style="margin:0"><span style="font-weight: bold">Particular</span>: Se pretende influir en una decisión que afecta los derechos e intereses de una persona en particular. <span style="font-style: italic;">Ej: Conseguir fondos para la intervención quirúrgica de alta complejidad de un individuo.</span></p>'
+    content += '<p style="margin:0"><span style="font-weight: bold">Difuso</span>: Se pretende influir en una decisión que afecta los derechos e intereses de un grupo de personas indeterminable. <span style="font-style: italic;">Ej: Regular los aumentos de precios del huevo, una materia prima utilizada por la industria y toda la ciudadanía. </span></p>'
+    @$el.find('.interest-tooltip').tooltipster(
+      content: content
+      maxWidth: 400
+      position: 'right'
+      theme: 'tooltipster-light'
+      contentAsHTML: true
     )
 
   enableEdit: =>

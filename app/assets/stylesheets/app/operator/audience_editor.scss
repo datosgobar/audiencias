@@ -133,6 +133,10 @@
     }
     .section-title {
       color: $blue-300;
+      .participants-tooltip {
+        height: 24px;
+        vertical-align: bottom;
+      }
     }
     .participants-radio-container {
       display: inline-block;
@@ -185,7 +189,13 @@
         padding: 5px;
       }
       .invoked-interest-container {
-        text-align: right;
+        .invoked-interest-description {
+          margin: 0;
+        }
+        .interest-tooltip {
+          height: 24px;
+          vertical-align: bottom;
+        }
       }
     }
     .right-column {
@@ -277,6 +287,10 @@
 
 #audience-editor  .person-form {
   padding: 15px 30px;
+  .id-tooltip {
+    height: 24px;
+    vertical-align: bottom;
+  }
   .nationality-container {
     background: $grey-100;
     border: solid 1px $grey-200;

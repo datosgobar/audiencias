@@ -13,13 +13,15 @@
       <%= disabledIfNotEditing %>><%= audience.get('motif') %></textarea>
     <div class="invoked-interest-container">
       <label for="invoked-interest-select">Interés invocado</label>
+      <p class="invoked-interest-description">Determine a partir del motivo de la audiencia qué tipo de interés se invoca.</p>
       <select id="invoked-interest-select" <%= disabledIfNotEditing %>>
         <% var interest = audience.get('interest_invoked'); %>
         <option value="" disabled>Seleccionar</option>
         <option value="particular" <%= interest == 'particular' ? 'selected' : '' %>>Particular</option>
         <option value="colectivo" <%= interest == 'colectivo' ? 'selected' : '' %>>Colectivo</option>
         <option value="difuso" <%= interest == 'difuso' ? 'selected' : '' %>>Difuso</option>
-      </select>
+      </select> 
+      <img src="/assets/logo-question.svg" class="interest-tooltip tooltip">
     </div>
   </div>
   <div class="right-column">

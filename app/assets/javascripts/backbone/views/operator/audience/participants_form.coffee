@@ -13,6 +13,15 @@ class audiencias.views.AudienceParticipantsForm extends Backbone.View
     @$el.html(@template(
       participant: @participant
     ))
+    @setTooltip()
+
+  setTooltip: =>
+    @$el.find('.id-tooltip').tooltipster(
+      content: "Solicite primero el pasaporte, de no contar con este solicite id."
+      maxWidth: 250
+      position: 'right'
+      theme: 'tooltipster-light'
+    )
 
   nationalityChanged: =>
     newCountry = @$el.find('.nationality-radio:checked').val()

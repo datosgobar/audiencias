@@ -9,6 +9,15 @@ class audiencias.views.AudienceApplicantForm extends Backbone.View
 
   render: =>
     @$el.html(@template(audience: @audience))
+    @setTooltip()
+
+  setTooltip: =>
+    @$el.find('.tooltip').tooltipster(
+      content: "Solicite primero el pasaporte, de no contar con este solicite id."
+      maxWidth: 250
+      position: 'right'
+      theme: 'tooltipster-light'
+    )
 
   nationalityChanged: =>
     newCountry = @$el.find('.nationality-radio:checked').val()
