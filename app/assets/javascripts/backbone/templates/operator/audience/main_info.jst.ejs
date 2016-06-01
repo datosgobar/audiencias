@@ -9,7 +9,7 @@
     <p class="subsection-title">Motivo</p>
     <p class="subsection-description">Describa en una oración el motivo o razón de la solicitud de audiencia.</p>
     <p class="subsection-description">Máximo 200 caracteres</p>
-    <textarea id="motif" placeholder="Ej. Hablar sobre la posibilidad de subsidiar un proyecto civil."
+    <textarea maxlength="200" id="motif" placeholder="Ej. Hablar sobre la posibilidad de subsidiar un proyecto civil."
       <%= disabledIfNotEditing %>><%= audience.get('motif') %></textarea>
     <div class="invoked-interest-container">
       <label for="invoked-interest-select">Interés invocado</label>

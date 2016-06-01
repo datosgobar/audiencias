@@ -14,11 +14,21 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
     ))
     if @audience.get('editingInfo')
       @setDatePicker()
+      @setMotifMaxLength()
 
   setDatePicker: =>
     @$el.find('#date').datetimepicker(
       format: 'H:i d/m/Y'
       lazyInit: true
+    )
+
+  setMotifMaxLength: =>
+    motifTextarea = @$el.find('#motif')
+    motifTextarea.bind('input propertychange', =>
+      maxLength = motifTextarea.attr('maxlength')
+      if motifTextarea.val().length > maxLength
+        cuttedText = motifTextarea.val().substring(0, maxLength)
+        motifTextarea.val(cuttedText)
     )
 
   enableEdit: =>
