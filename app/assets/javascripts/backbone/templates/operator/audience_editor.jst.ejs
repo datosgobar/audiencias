@@ -1,3 +1,6 @@
+<% var audienceIsSaved = !!audience.get('id'); %>
+<% var currentStep = audience.get('currentStep'); %>
+
 <div id="audience-editor-container">
   
   <div id="audience-editor-navigation">
@@ -17,11 +20,20 @@
         <div class="step">
           SOLICITANTE
         </div>
-        <% var currentStep = audience.get('currentStep'); %>
-        <div class="step <%= currentStep == 'participants' ? 'incomplete' : '' %>">
+        <% 
+          var audienceClass; var previewClass;
+          if (audienceIsSaved) {
+            audienceClass = currentStep == 'applicant' ? 'incomplete' : '';
+            previewClass = currentStep == 'preview' ? '' : 'incomplete';
+          } else {
+            audienceClass = 'inactive';
+            previewClass = 'inactive';
+          } 
+        %>
+        <div class="step <%= audienceClass %>">
           AUDIENCIA
         </div>
-        <div class="step <%= currentStep == 'participants' ? 'inactive' : currentStep == 'audience' ? 'incomplete' : '' %>">
+        <div class="step <%= previewClass %>">
           PREVISUALIZACIÓN
         </div>
       </div>
@@ -31,10 +43,25 @@
   <div id="editor-sections"></div>
 
   <div id="audience-editor-actions">
-    <button id="previous-step">VOLVER</button>
-    <button id="back-to-list">DEJAR EN PROCESO</button>
-    <button id="next-step" class="<%= currentStep != 'participants' ? 'hidden' : '' %>">SIGUIENTE</button>
-    <button id="preview-audience" class="<%= currentStep != 'audience' ? 'hidden' : '' %>">PREVISUALIZAR</button>
-    <button id="publish-audience" class="<%= currentStep != 'preview' ? 'hidden' : '' %>">PUBLICAR</button>
+  <% if (audienceIsSaved) { %>
+    <% if (currentStep == 'applicant') { %> 
+      <button id="back-to-list">DEJAR EN PROCESO</button>
+      <button id="go-to-info">IR A DATOS AUDIENCIA</button>
+    <% } else if (currentStep == 'info') { %>
+      <button id="go-to-applicant" class="">VOLVER AL SOLICITANTE</button>
+      <button id="back-to-list">DEJAR EN PROCESO</button>
+      <button id="preview-audience" class="">PREVISUALIZAR</button>
+    <% } else { %>
+      <button id="modify-audience" class="">MODIFICAR</button>
+      <button id="back-to-list">DEJAR EN PROCESO</button>
+      <button id="publish-audience" class="">PUBLICAR</button>
+    <% } %>
+  <% } else { %>
+    <button id="cancel-audience">CANCELAR</button>
+    <button id="back-to-list" class="disabled" disabled>DEJAR EN PROCESO</button>
+    <button id="go-to-info" class="disabled" disabled>IR A DATOS AUDIENCIA</button>
+  <% } %>
+
+    
   </div>
 </div>

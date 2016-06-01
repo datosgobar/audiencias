@@ -1,10 +1,18 @@
 class audiencias.views.AudienceEditor extends Backbone.View
   id: 'audience-editor'
   template: JST["backbone/templates/operator/audience_editor"]
+  events: 
+    'click #cancel-audience': 'backToList'
+    'click #back-to-list': 'backToList'
+    'click #go-to-info': 'goToInfo'
+    'click #go-to-applicant': 'goToApplicant'
+    'click #preview-audience': 'goToPreview'
+    'click #modify-audience': 'goToApplicant'
+    'click #publish-audience': 'publishAudience'
 
   initialize: ->
     @audience = audiencias.globals.audiences.currentAudience() || @newAudience()
-    @audience.set('currentStep', 'participants')
+    @audience.set('currentStep', 'applicant')
     @audience.set('obligee', audiencias.globals.obligees.currentObligee())
 
   newAudience: ->
@@ -19,18 +27,42 @@ class audiencias.views.AudienceEditor extends Backbone.View
       audience: @audience
     ))
 
-    obligeeSection = new audiencias.views.AudienceObligeeSection(audience: @audience)
-    obligeeSection.render()
-    @$el.find('#editor-sections').append(obligeeSection.el)
+    if @audience.get('currentStep') == 'applicant'
+      obligeeSection = new audiencias.views.AudienceObligeeSection(audience: @audience)
+      obligeeSection.render()
+      @$el.find('#editor-sections').append(obligeeSection.el)
 
-    applicantSection = new audiencias.views.AudienceApplicantSection(audience: @audience)
-    applicantSection.render()
-    @$el.find('#editor-sections').append(applicantSection.el)
+      applicantSection = new audiencias.views.AudienceApplicantSection(audience: @audience)
+      applicantSection.render()
+      @$el.find('#editor-sections').append(applicantSection.el)
 
-    participantsSection = new audiencias.views.AudienceParticipantsSection(audience: @audience)
-    participantsSection.render()
-    @$el.find('#editor-sections').append(participantsSection.el)
+      participantsSection = new audiencias.views.AudienceParticipantsSection(audience: @audience)
+      participantsSection.render()
+      @$el.find('#editor-sections').append(participantsSection.el)
 
-    mainInfoSection = new audiencias.views.AudienceInfoSection(audience: @audience)
-    mainInfoSection.render()
-    @$el.find('#editor-sections').append(mainInfoSection.el)
+    else if @audience.get('currentStep') == 'info'
+
+      mainInfoSection = new audiencias.views.AudienceInfoSection(audience: @audience)
+      mainInfoSection.render()
+      @$el.find('#editor-sections').append(mainInfoSection.el)
+
+    else if @audience.get('currentStep') == 'preview'
+      console.log('falta preview')
+
+  backToList: =>
+    obligeeId = audiencias.globals.currentObligee
+    window.location.href = "/intranet/audiencias?sujeto_obligado=#{obligeeId}"
+
+  goToInfo: =>
+    @audience.set('currentStep', 'info')
+    @render()
+
+  goToApplicant: =>
+    @audience.set('currentStep', 'applicant')
+    @render()
+
+  goToPreview: =>
+    @audience.set('currentStep', 'preview')
+    @render()    
+
+  publishAudience: =>
