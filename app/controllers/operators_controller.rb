@@ -126,4 +126,25 @@ class OperatorsController < ApplicationController
     end
   end
 
+  def delete_represented
+    unless params[:audience] and params[:audience][:id]
+      render json: { success: false }
+      return
+    end
+
+    audience = Audience.find_by_id(params[:audience][:id])
+    unless audience 
+      render json: { success: false }
+      return
+    end
+
+    applicant = audience.applicant
+    applicant.remove_represented
+    if applicant.save 
+      render json: { success: true, applicant: applicant }
+    else
+      render json: { success: false }
+    end
+  end
+
 end

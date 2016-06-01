@@ -1,0 +1,1 @@
+class audiencias.views.AudienceRepresentedOrganismForm extends audiencias.views.AudienceApplicantForm

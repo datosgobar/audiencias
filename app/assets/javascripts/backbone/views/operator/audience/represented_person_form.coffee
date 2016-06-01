@@ -1,0 +1,1 @@
+class audiencias.views.AudienceRepresentedApplicantForm extends Backbone.View

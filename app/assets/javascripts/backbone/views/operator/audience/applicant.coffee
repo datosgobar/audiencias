@@ -4,6 +4,8 @@ class audiencias.views.AudienceApplicantSection extends Backbone.View
     'change .represented-radio': 'representedChanged'
     'click .edit-applicant': 'editApplicant'
     'click .remove-applicant': 'removeApplicant'
+    'click .edit-represented': 'editRepresented'
+    'click .remove-represented': 'removeRepresented'
 
   initialize: (@options) ->
     @audience = @options.audience
@@ -42,3 +44,17 @@ class audiencias.views.AudienceApplicantSection extends Backbone.View
   removeApplicant: =>
     @audience.set('editingApplicant', true)
     @audience.set('applicant', new audiencias.models.Applicant)
+
+  editRepresented: =>
+
+  removeRepresented: =>
+    data = { audience: { id: @audience.get('id') } }
+    $.ajax(
+      url: '/intranet/eliminar_representacion'
+      method: 'POST'
+      data: data
+      success: (response) =>
+        if response and response.success
+          @audience.get('applicant').set(response.applicant)
+          @render()
+    )

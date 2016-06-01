@@ -30,4 +30,12 @@ class Applicant < ActiveRecord::Base
       self.person.save
     end
   end
+
+  def remove_represented
+    self.represented_person = nil
+    self.represented_person_ocupation = nil
+    self.represented_legal_entity = nil
+    self.represented_state_organism = nil
+    self.represented_people_group = nil
+  end
 end

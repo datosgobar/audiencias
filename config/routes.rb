@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   post '/intranet/editar_audiencia', to: 'operators#edit_audience', as: 'edit_audience'
   post '/intranet/eliminar_participante', to: 'operators#delete_participant', as: 'remove_participant'
   post '/intranet/eliminar_audiencia', to: 'operators#delete_audience', as: 'remove_audience'
+  post '/intranet/eliminar_representacion', to: 'operators#delete_represented', as: 'remove_represented'
 
   get '/intranet/configuracion', to: 'users#user_config', as: 'user_config'
   post '/intranet/configuracion', to: 'users#change_user_config', as: 'change_user_config'
