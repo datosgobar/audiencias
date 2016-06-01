@@ -38,7 +38,22 @@
         <% } %>
       </div>
       <div class="table-cell represented">
-        <%= audience.applicant ? audience.applicant.role : '' %>
+        <% if (audience.applicant && audience.applicant.represented_person) { %>
+          <p class="represented-name"><%= audience.applicant.represented_person.name %> <%= audience.applicant.represented_person.surname %></p>
+          <p class="represented-type">REPRESENTANTE DE PERSONA FÍSICA</p>
+
+        <% } else if (audience.applicant && audience.applicant.represented_legal_entity) { %>
+          <p class="represented-name"><%= audience.applicant.represented_legal_entity.name %></p>
+          <p class="represented-type">REPRESENTANTE DE PERSONA JURÍDICA</p>
+
+        <% } else if (audience.applicant && audience.applicant.represented_state_organism) { %>
+          <p class="represented-name"><%= audience.applicant.represented_state_organism.name %></p>
+          <p class="represented-type">REPRESENTANTE DE ORGANISMO ESTATAL</p>
+
+        <% } else if (audience.applicant && audience.applicant.represented_people_group) { %>
+          <p class="represented-name"><%= audience.applicant.represented_people_group.name %></p>
+          <p class="represented-type">REPRESENTANTE DE GRUPO DE PERSONAS</p>
+        <% } %>
       </div>
       <div class="table-cell audience-date">
         <%     
@@ -75,15 +90,38 @@
       <div class="table-cell spacer"></div>
     </div>
   <% } %>
-    <div class="table-row">
-      <div class="table-cell spacer"></div>
-      <div class="table-cell creation-date"></div>
-      <div class="table-cell author"></div>
-      <div class="table-cell applicant"></div>
-      <div class="table-cell represented"></div>
-      <div class="table-cell audience-date"></div>
-      <div class="table-cell motif"></div>
-      <div class="table-cell status"></div>
-      <div class="table-cell spacer"></div>
-    </div>
 </div>
+
+<% var pagination = audiencias.globals.pagination; %>
+<% if (pagination.total_audiences > pagination.per_page) { %>
+  <div class="pagination">
+    <% var current_page = pagination.current_page %>
+    <% var total_pages = pagination.total_pages %>
+    <% var minPage = current_page - 4 > 1 ? current_page - 4 : 1%>
+    <% var maxPage = current_page + 5 <= total_pages ? current_page + 5 : total_pages + 1 %>
+    <% var obligee = audiencias.globals.currentObligee %>
+    
+    <% if (current_page > 1) { %>
+      <a href="/intranet/audiencias?sujeto_obligado=<%= obligee %>&pagina=<%= current_page - 1 %>">
+        <span class="pagination-link">«</span>
+      </a>
+    <% } %>
+    
+    <% for (var i=minPage; i<maxPage; i++) { %>
+      <% if (i != current_page) { %>
+        <a href="/intranet/audiencias?sujeto_obligado=<%= obligee %>&pagina=<%= i %>">
+          <span class="pagination-link"><%= i %></span>
+        </a>
+      <% } else { %>
+        <span class="pagination-link current-page"><%= i %></span>
+      <% } %>
+    <% } %>
+
+    <% if (current_page < total_pages) { %>
+      <a href="/intranet/audiencias?sujeto_obligado=<%= obligee %>&pagina=<%= current_page + 1 %>">
+        <span class="pagination-link">»</span>
+      </a>
+    <% } %>
+
+  </div>
+<% } %>

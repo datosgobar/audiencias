@@ -16,7 +16,20 @@ class OperatorsController < ApplicationController
 
     @obligees = @current_user.obligees.as_json
     @obligees << @current_obligee.as_json unless @current_user.obligees.include?(@current_obligee)
-    @audiences = @current_obligee.audiences.where(deleted: false)
+    
+    page = (params[:pagina] || 1).to_i
+    per_page = 10
+    total_audiences = @current_obligee.audiences.where(deleted: false)
+    @audiences = total_audiences.paginate({
+      page: page,
+      per_page: per_page
+    }).order('created_at DESC')
+    @pagination = {
+      total_audiences: total_audiences.length,
+      total_pages: (total_audiences.length / per_page.to_f).ceil,
+      current_page: page,
+      per_page: per_page
+    }
   end
 
   def new_audience
@@ -37,7 +50,9 @@ class OperatorsController < ApplicationController
     if params[:audiencia]
       @current_audience = Audience.find_by_id(params[:audiencia])
     end
-    redirect_to operator_landing_path unless @current_audience
+    if not @current_audience or @current_audience.deleted 
+      redirect_to operator_landing_path(sujeto_obligado: @current_audience.obligee.id)
+    end
 
     @current_obligee = @current_audience.obligee
     unless @current_user.has_permission_for(@current_obligee)

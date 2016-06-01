@@ -4,6 +4,22 @@
   overflow-y: auto;
   padding-top: $table-header-height;
 
+  .pagination {
+    text-align: center;
+    padding: 20px 0 50px 0;
+    .pagination-link {
+      padding: 6px 11px;
+      @include border-radius(2px);
+      &:hover {
+        background: $grey-200;
+      }
+      &.current-page {
+        background: $grey-400;
+        color: white;
+      }
+    }
+  }
+
   .table-row {
     display: table-row;
   }
@@ -74,7 +90,6 @@
   .audience-table {
     display: table;
     width: 100%;
-    min-height: 100%;
     background: $grey-100; 
 
     .table-row:nth-child(odd) {
@@ -100,6 +115,17 @@
         }
       }
 
+      &.represented {
+        .represented-name {
+          margin: 0;
+          font-weight: 500;
+        }
+        .represented-type {
+          margin: 0;
+          font-size: 13px;
+        }
+      }
+
       &.status {
         vertical-align: middle;
         text-align: center;
@@ -118,8 +144,6 @@
         }
       }
     }
-    .table-row:last-child .table-cell {
-      height: auto;
-    }
+
   }
 }

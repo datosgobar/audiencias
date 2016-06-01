@@ -36,6 +36,8 @@ gem 'normalize-rails'
 gem 'underscore-rails'
 # https://github.com/codebrew/backbone-rails
 gem "rails-backbone"
+# https://github.com/mislav/will_paginate
+gem 'will_paginate', '~> 3.1.0'
 
 gem 'mysql2', '~> 0.3.18' 
 
