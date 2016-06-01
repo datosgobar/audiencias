@@ -94,6 +94,15 @@
     }
   }
 
+  #represented {
+    .entity-tooltip,
+    .organism-tooltip,
+    .group-tooltip {
+      height: 24px;
+      vertical-align: middle;
+    }
+  }
+
   #applicant,
   #represented,
   #participants {
