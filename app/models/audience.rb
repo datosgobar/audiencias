@@ -45,7 +45,7 @@ class Audience < ActiveRecord::Base
       participant = Participant.new(audience: self) unless participant
       participant.update_minor_attributes(params[:participant])
       participant.save
-      self.participants << participant
+      self.participants << participant unless self.participants.include?(participant)
     end
   end
 
