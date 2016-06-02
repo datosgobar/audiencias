@@ -5,7 +5,7 @@ class OperatorsController < ApplicationController
   def operator_landing
     if params[:sujeto_obligado]
       @current_obligee = Obligee.find_by_id(params[:sujeto_obligado])
-    else @current_user.obligees.length > 0
+    elsif @current_user.obligees.length > 0
       redirect_to operator_landing_path(sujeto_obligado: @current_user.obligees.first.id)
       return
     end
