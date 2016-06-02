@@ -17,6 +17,10 @@
     }
   }
 
+  #editor-sections {
+    @include span-columns(10 of 10);
+  }
+
   $left-column: 6;
   $right-column: 4;
   $total-columns: $left-column + $right-column;

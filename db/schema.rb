@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160531180500) do
+ActiveRecord::Schema.define(version: 20160601084700) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 20160531180500) do
     t.string   "telephone"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "cuil"
+    t.string   "cuit"
   end
 
   create_table "obligees", force: :cascade do |t|

@@ -47,7 +47,9 @@ class audiencias.views.AudienceEditor extends Backbone.View
       @$el.find('#editor-sections').append(mainInfoSection.el)
 
     else if @audience.get('currentStep') == 'preview'
-      console.log('falta preview')
+      audiencePreview = new audiencias.views.AudiencePreview(audience: @audience)
+      audiencePreview.render()
+      @$el.find('#editor-sections').append(audiencePreview.el)
 
   backToList: =>
     obligeeId = audiencias.globals.currentObligee

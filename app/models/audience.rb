@@ -16,7 +16,8 @@ class Audience < ActiveRecord::Base
       applicant: Applicant::AS_JSON_OPTIONS,
       obligee: Obligee::AS_JSON_OPTIONS,
       participants: Participant::AS_JSON_OPTIONS
-    }
+    },
+    methods: [ :state ]
   }
   def as_json(options={})
     super(AS_JSON_OPTIONS)
@@ -45,6 +46,16 @@ class Audience < ActiveRecord::Base
       participant.update_minor_attributes(params[:participant])
       participant.save
       self.participants << participant
+    end
+  end
+
+  def state
+    valid = (self.date and self.summary and self.interest_invoked and self.place and 
+      self.motif and self.author and self.obligee and self.date < DateTime.now)
+    if valid 
+      'valid'
+    else
+      'incomplete'
     end
   end
 end

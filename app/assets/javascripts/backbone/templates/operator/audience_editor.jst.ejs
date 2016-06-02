@@ -54,7 +54,8 @@
     <% } else { %>
       <button id="modify-audience" class="">MODIFICAR</button>
       <button id="back-to-list">DEJAR EN PROCESO</button>
-      <button id="publish-audience" class="">PUBLICAR</button>
+      <% var publishClass = audience.get('state') == 'valid' ? '': 'disabled' %>
+      <button id="publish-audience" class="<%= publishClass %>" <%= publishClass %> >PUBLICAR</button>
     <% } %>
   <% } else { %>
     <button id="cancel-audience">CANCELAR</button>

@@ -1,0 +1,275 @@
+<div class="preview-table">
+
+  <div class="preview-section">
+    <div class="preview-section-title">
+      <img src="/assets/icon-marcador-derecha-gris.svg" class="arrow grey-arrow">
+      Sujeto Obligado
+    </div>
+    <div class="section-content">
+      <div class="content-left empty"></div>
+      <div class="content-right">
+        <% var obligee = audience.get('obligee') %>
+        <div class="participant-card">
+          <span class="user-icon obligee">
+            <%= obligee.get('person').name[0] %><%= obligee.get('person').surname[0] %>
+          </span>
+          <div class="participant-name">
+            <%= obligee.get('person').name %> <%= obligee.get('person').surname %>
+          </div>
+          <div class="participant-position">
+            <%= obligee.get('position') %>
+          </div>
+          <div class="participant-id">
+            <%= obligee.get('person').id_type.toUpperCase() %> <%= obligee.get('person').person_id %>
+          </div>
+          <div class="participant-email">
+            <%= obligee.get('person').email %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="preview-section">
+    <div class="preview-section-title">
+      <img src="/assets/icon-marcador-derecha-gris.svg" class="arrow grey-arrow">
+      Solicitante
+    </div>
+    <div class="section-content">
+      <div class="content-left">
+
+        <% var applicant = audience.get('applicant'); %>
+        <% if (applicant && applicant.get('id')) { %>
+          <div class="participant-card">
+            <div class="participant-name">
+              <%= applicant.get('person').name %> <%= applicant.get('person').surname %>
+            </div>
+            <div class="participant-position">
+              <%= applicant.get('ocupation') %>
+            </div>
+            <% var country = applicant.get('person').country %>
+            <div class="participant-country">
+              <%= country %>
+            </div>
+            <div class="participant-id">
+              <%= country == 'Argentina' ? applicant.get('person').id_type.toUpperCase() : 'ID' %> 
+              <%= applicant.get('person').person_id %>
+            </div>
+            <div class="participant-email">
+              <%= applicant.get('person').email %>
+            </div>
+            <% var telephone = applicant.get('person').telephone; %>
+            <% if (telephone && telephone.length > 0) { %>
+              <div class="participant-telephone">
+                <%= telephone %>
+              </div>
+            <% } %>
+            <div class="participant-absent">
+              <%= applicant.get('absent') ? 'El solicitante no participó de la audiencia' : 'El solicitante participió de la audiencia' %>
+            </div>
+          </div>
+          <% } else { %>
+            <div class="missing-field">Solicitante</div>
+          <% } %>
+
+      </div>
+
+      <div class="content-right">
+
+        <% if (applicant.get('represented_person')) { %>
+          <div class="participant-card">
+            <div class="representation-type">EN REPRESENTACIÓN - PERSONA FÍSICA</div>
+            <div class="participant-name">
+              <%= applicant.get('represented_person').name %> <%= applicant.get('represented_person').surname %>
+            </div>
+            <div class="participant-position">
+              <%= applicant.get('represented_person_ocupation') %>
+            </div>
+            <% var country = applicant.get('represented_person').country %>
+            <div class="participant-country">
+              <%= country %>
+            </div>
+            <div class="participant-id">
+              <%= country == 'Argentina' ? applicant.get('represented_person').id_type.toUpperCase() : 'ID' %> 
+              <%= applicant.get('represented_person').person_id %>
+            </div>
+            <div class="participant-email">
+              <%= applicant.get('represented_person').email %>
+            </div>
+            <% var telephone = applicant.get('represented_person').telephone; %>
+            <% if (telephone && telephone.length > 0) { %>
+              <div class="participant-telephone">
+                <%= telephone %>
+              </div>
+            <% } %>            
+          </div>
+        <% } else if (applicant.get('represented_legal_entity')) { %>
+          <div class="participant-card">
+            <div class="representation-type">EN REPRESENTACIÓN - PERSONA JURÍDICA</div>
+            <div class="participant-name">
+              <%= applicant.get('represented_legal_entity').name %>
+            </div>
+            <% var country = applicant.get('represented_legal_entity').country %>
+            <div class="participant-country">
+              <%= country %>
+            </div>
+            <% if (applicant.get('represented_legal_entity').cuit) { %>
+              <div class="participant-cuit">
+                CUIT <%= applicant.get('represented_legal_entity').cuit %>
+              </div>
+            <% } %>
+            <div class="participant-email">
+              <%= applicant.get('represented_legal_entity').email %>
+            </div>
+            <% var telephone = applicant.get('represented_legal_entity').telephone; %>
+            <% if (telephone && telephone.length > 0) { %>
+              <div class="participant-telephone">
+                <%= telephone %>
+              </div>
+            <% } %>                   
+          </div>
+        <% } else if (applicant.get('represented_state_organism')) { %>
+          <div class="participant-card">
+            <div class="representation-type">EN REPRESENTACIÓN - ORGANISMO ESTATAL</div>
+            <div class="participant-name">
+              <%= applicant.get('represented_state_organism').name %>
+            </div>
+            <% var country = applicant.get('represented_state_organism').country %>
+            <div class="participant-country">
+              <%= country %>
+            </div>            
+          </div>            
+        <% } else if (applicant.get('represented_people_group')) { %>
+          <div class="participant-card">
+            <div class="representation-type">EN REPRESENTACIÓN - GRUPO DE PERSONAS</div>
+            <div class="participant-name">
+              <%= applicant.get('represented_people_group').name %>
+            </div>
+            <% var country = applicant.get('represented_people_group').country %>
+            <div class="participant-country">
+              <%= country %>
+            </div>
+            <div class="participant-email">
+              <%= applicant.get('represented_people_group').email %>
+            </div>
+            <% var telephone = applicant.get('represented_people_group').telephone; %>
+            <% if (telephone && telephone.length > 0) { %>
+              <div class="participant-telephone">
+                <%= telephone %>
+              </div>
+            <% } %> 
+            <div class="participant-description">
+              <%= applicant.get('represented_people_group').description %>
+            </div>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="preview-section">
+    <div class="preview-section-title">
+      <img src="/assets/icon-marcador-derecha-gris.svg" class="arrow grey-arrow">
+      Participantes
+    </div>
+    <div class="section-content">
+      <% var participants = audience.get('participants') %>
+      <% if (participants && participants.length > 0 ) { %> 
+      <% for (var i=0; i<participants.length; i++) { %> 
+        <% var participant = participants[i]; %>
+          <div class="content-<%= i%2 == 0 ? 'left' : 'right' %>">
+            <div class="participant-card">
+              <div class="participant-name">
+                <%= participant.person.name %> <%= participant.person.surname %>
+              </div>
+              <div class="participant-position">
+                <%= participant.ocupation %>
+              </div>
+              <div class="participant-id">
+                <% var country = participant.person.country %>
+                <%= country == 'Argentina' ? participant.person.id_type.toUpperCase() : 'ID' %> 
+                <%= participant.person.person_id %>
+              </div>
+            </div>
+          </div>
+        <% } %>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="preview-section">
+    <div class="preview-section-title">
+      <img src="/assets/icon-marcador-derecha-gris.svg" class="arrow grey-arrow">
+      Datos Audiencia
+    </div>
+    <div class="section-content info-section">
+      <div class="content-left">
+        
+        <% var motif = audience.get('motif'); %>
+        <% if (motif && motif.length > 0) { %>
+          <div class="info-label">Motivo</div>
+          <div class="info-content"><%= motif %></div>
+        <% } else { %>
+          <div class="missing-field">Motivo</div>
+        <% } %>
+
+        <% var interest_invoked = audience.get('interest_invoked'); %>
+        <% if (interest_invoked && interest_invoked.length > 0) { %>
+          <div class="info-label">Interés invocado</div>
+          <div class="info-content"><%= interest_invoked.toUpperCase() %></div>
+        <% } else { %>
+          <div class="missing-field">Interés invocado</div>
+        <% } %>
+
+      </div>
+      <div class="content-right">
+        <% 
+        var date = new Date(audience.get('date'))
+        var dateString = ''
+        var dateIsValid = !isNaN(date.getTime())
+        if (audience.get('date') && dateIsValid) {
+          var year = date.getFullYear();
+          var month = (date.getMonth() + 1).toString();
+          month = month.length > 1 ? month : '0' + month;
+          var day = date.getDate().toString();
+          day = day.length > 1 ? day : '0' + day;
+          var hour = date.getHours().toString();
+          hour = hour.length > 1 ? hour : '0' + hour;
+          var minutes = date.getMinutes().toString();
+          minutes = minutes.length > 1 ? minutes : '0' + minutes;
+          dateString = hour + ':' + minutes + ' ' + day + '/' + month + '/' + year; %>
+          <div class="info-label">Fecha y hora</div>
+          <div class="info-content"><%= day %>/<%= month %>/<%= year %> <%= minutes%>:<%= hour %></div>
+        <% } else { %>
+          <div class="missing-field">Fecha y hora</div>
+        <% } %>
+
+        <% var place = audience.get('place') %>
+        <% if (place && place.length > 0) { %>
+          <div class="info-label">Lugar</div>
+          <div class="info-content"><%= place %></div>
+        <% } else { %>
+          <div class="missing-field">Lugar</div>
+        <% } %>
+      </div>
+
+      <div class="content-wide">
+        <% var summary = audience.get('summary') %>
+        <% if (summary && summary.length) { %>
+          <div class="info-label">Síntesis</div>
+          <div class="info-content"><%= summary %></div>
+        <% } else { %>
+          <div class="missing-field">Síntesis</div>
+        <% } %>
+      </div>
+    </div>
+
+    <% if (audience.get('state') == 'incomplete') { %> 
+    <div class="section-content ">
+      <div class="missing-field">*No has completado todos los campos requeridos para publicar la audiencia.</div>
+    </div>
+    <% } %>
+  </div>  
+
+</div>
