@@ -8,7 +8,7 @@ class audiencias.views.AudienceEditor extends Backbone.View
     'click #go-to-applicant': 'goToApplicant'
     'click #preview-audience': 'goToPreview'
     'click #modify-audience': 'goToApplicant'
-    'click #publish-audience': 'publishAudience'
+    'click #publish-audience': 'confirmPublishAudience'
 
   initialize: ->
     @audience = audiencias.globals.audiences.currentAudience() || @newAudience()
@@ -67,4 +67,28 @@ class audiencias.views.AudienceEditor extends Backbone.View
     @audience.set('currentStep', 'preview')
     @render()    
 
+  confirmPublishAudience: =>
+    messageOptions = {
+      icon: 'alert',
+      confirmation: true,
+      text: {
+        main: '¿Está seguro de la audiencia que va a publicar?'
+        secondary: 'Recuerde que si publica esta audiencia no hay forma de modificarla. Esta informacion reviste carácter de Declaración Jurada y es de acceso público.'
+      }
+      callback: {
+        confirm: @publishAudience
+      }
+    }
+    message = new audiencias.views.ImportantMessage(messageOptions)
+
   publishAudience: =>
+    data = { audience: { id: @audience.get('id') } }
+    $.ajax(
+      url: '/intranet/publicar_audiencia'
+      data: data
+      method: 'POST'
+      success: (response) =>
+        if response and response.success 
+          obligeeId = audiencias.globals.currentObligee
+          window.location.href = "/intranet/audiencias?sujeto_obligado=#{obligeeId}"     
+    )

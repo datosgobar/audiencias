@@ -147,4 +147,24 @@ class OperatorsController < ApplicationController
     end
   end
 
+  def publish_audience
+    unless params[:audience] and params[:audience][:id]
+      render json: { success: false }
+      return
+    end
+
+    audience = Audience.find_by_id(params[:audience][:id])
+    unless audience 
+      render json: { success: false }
+      return
+    end
+
+    audience.published = true
+    if audience.save 
+      render json: { success: true }
+    else
+      render json: { success: false }
+    end
+  end
+
 end

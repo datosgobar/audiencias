@@ -22,6 +22,9 @@
 
   .table-row {
     display: table-row;
+    &.published {
+      opacity: 0.6;
+    }
   }
 
   .table-cell {
@@ -141,6 +144,10 @@
           margin: auto;
           font-size: 12px;
           background: $grey-300;
+        }
+        .published-checked {
+          margin-top: 5px;
+          height: 25px;
         }
       }
     }

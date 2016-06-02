@@ -15,7 +15,7 @@
 <div class="audience-table">
   <% for (var i=0; i<audiences.length; i++) { %>
     <% var audience = audiences[i]; %>
-    <div class="table-row">
+    <div class="table-row <%= audience.published ? 'published' : '' %>">
       <div class="table-cell spacer"></div>
       
       <% var creationDate = new Date(audience.created_at); %>
@@ -80,6 +80,8 @@
       </div>
       <div class="table-cell status">
         <% if (audience.published) { %>
+          Audiencia Publicada
+          <img src="/assets/icon-check-audiencia-oscuro.svg" class="published-checked">
         <% } else { %>
           <a href="/intranet/editar_audiencia?audiencia=<%= audience.id %>">
             <button class="edit-audience">EDITAR</button>
