@@ -63,7 +63,7 @@
         <img src="/assets/icon-marcador-abajo.svg" class="arrow">
         ¿Se presentó como particular interesado o en representación?
       </span>
-      <% if (!represented.id) { %>
+      <% if (represented && !represented.id) { %>
         <div class="represented-radio-container">
           <input type="radio" class="represented-radio" id="not-represented" 
             name="representation-radio" <%= !editingRepresented ? 'checked' : '' %>>

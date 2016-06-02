@@ -31,7 +31,6 @@ class audiencias.views.AudienceRepresentedGroupForm extends Backbone.View
         descriptionTextarea.val(cuttedText)
     )
 
-
   validateForm: =>
     if @$el.find('#represented-nationality-argentine').is(':checked')
       country = 'Argentina'
