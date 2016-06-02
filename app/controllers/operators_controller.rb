@@ -158,8 +158,14 @@ class OperatorsController < ApplicationController
       render json: { success: false }
       return
     end
+    
+    if audience.state == 'valid'
+      audience.published = true
+    else 
+      render json: { success: false }
+      return
+    end 
 
-    audience.published = true
     if audience.save 
       render json: { success: true }
     else

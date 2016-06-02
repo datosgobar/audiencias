@@ -14,11 +14,18 @@
       @include span-columns(3 of 10);
       font-size: 18px;
       color: $grey-300;
+
+      .arrow {
+        width: 20px;
+        height: 20px;
+        vertical-align: middle;
+      }
     }
 
     .section-content {
       padding: 10px 0;
       @include span-columns(7 of 10);
+
 
       .content-left {
         @include span-columns(3 of 7);
@@ -26,6 +33,10 @@
 
       .content-right {
         @include span-columns(4 of 7);
+      }
+
+      .content-wide {
+        @include span-columns(7 of 7);
       }
 
       .empty {

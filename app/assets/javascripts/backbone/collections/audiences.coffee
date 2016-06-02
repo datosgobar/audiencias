@@ -17,3 +17,7 @@ class audiencias.collections.Audiences extends Backbone.Collection
     else 
       @add({id: newAudience.id})
       @updateAudience(newAudience)
+
+  addAudiences: (audiences) =>
+    for audience in audiences
+      @updateAudience(audience)

@@ -3,6 +3,8 @@ class audiencias.views.OperatorAudiences extends Backbone.View
   template: JST["backbone/templates/operator/operator_audiences"]
   events: 
     'click .delete-audience': 'confirmDeleteAudience'
+    'click .published': 'showPreview'
+    'click .close-preview': 'closePreview'
 
   initialize: ->
     audiencias.globals.audiences.on('add change', @render)
@@ -38,3 +40,16 @@ class audiencias.views.OperatorAudiences extends Backbone.View
           NProgress.start()
           location.reload()
     )
+
+  showPreview: (e) =>
+    audienceId = $(e.currentTarget).data('audience-id')
+    audience = audiencias.globals.audiences.get(audienceId)
+    clonedAudience = new audiencias.models.Audience 
+    clonedAudience.forceUpdate
+    audiencePreview = new audiencias.views.AudiencePreview(audience: audience)
+    audiencePreview.render()
+    @$el.find('.preview').removeClass('hidden')
+    @$el.find('.preview-container').html(audiencePreview.el)
+
+  closePreview: =>
+    @$el.find('.preview').addClass('hidden')

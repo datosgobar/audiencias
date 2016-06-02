@@ -15,7 +15,7 @@
 <div class="audience-table">
   <% for (var i=0; i<audiences.length; i++) { %>
     <% var audience = audiences[i]; %>
-    <div class="table-row <%= audience.published ? 'published' : '' %>">
+    <div class="table-row <%= audience.published ? 'published' : '' %>" data-audience-id="<%= audience.id %>">
       <div class="table-cell spacer"></div>
       
       <% var creationDate = new Date(audience.created_at); %>
@@ -127,3 +127,13 @@
 
   </div>
 <% } %>
+
+<div class="preview hidden">
+  <div class="preview-content">
+    <div class="preview-container"></div>
+    <img src="/assets/icon-cancelar.svg" class="close-img close-preview">
+    <div class="close-button-container">
+      <button class="close-preview close-button">CERRAR</button>
+    </div>  
+  </div>
+</div>
