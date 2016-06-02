@@ -22,7 +22,20 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
     @$el.find('#date').datetimepicker(
       format: 'H:i d/m/Y'
       lazyInit: true
+      minDate: '10/12/2015'
+      formatDate:'d/m/Y'
+      yearStart: 2015
+      yearEnd: (new Date()).getFullYear()
+      onClose: @validateDate
     )
+
+  validateDate: =>
+    newDate = @$el.find('#date').datetimepicker('getValue')
+    year = newDate.getFullYear()
+    month = newDate.getMonth() + 1
+    day = newDate.getDate()
+    if year < 2015 or (year == 2015 and (month < 12 or day < 10))
+      @$el.find('#date').datetimepicker('reset')
 
   setMotifMaxLength: =>
     motifTextarea = @$el.find('#motif')
