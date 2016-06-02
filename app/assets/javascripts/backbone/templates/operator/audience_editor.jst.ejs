@@ -14,10 +14,10 @@
 
     <div id="steps-container">
       <div id="audience-editor-steps">
-        <div class="step">
+        <div class="step" data-step="applicant">
           SUJETO OBLIGADO
         </div>
-        <div class="step">
+        <div class="step" data-step="applicant">
           SOLICITANTE
         </div>
         <% 
@@ -30,10 +30,10 @@
             previewClass = 'inactive';
           } 
         %>
-        <div class="step <%= audienceClass %>">
+        <div class="step <%= audienceClass %>" data-step="info">
           AUDIENCIA
         </div>
-        <div class="step <%= previewClass %>">
+        <div class="step <%= previewClass %>" data-step="preview">
           PREVISUALIZACIÓN
         </div>
       </div>

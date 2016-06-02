@@ -9,6 +9,7 @@ class audiencias.views.AudienceEditor extends Backbone.View
     'click #preview-audience': 'goToPreview'
     'click #modify-audience': 'goToApplicant'
     'click #publish-audience': 'confirmPublishAudience'
+    'click .step': 'goToStep'
 
   initialize: ->
     @audience = audiencias.globals.audiences.currentAudience() || @newAudience()
@@ -66,7 +67,13 @@ class audiencias.views.AudienceEditor extends Backbone.View
 
   goToPreview: =>
     @audience.set('currentStep', 'preview')
-    @render()    
+    @render()
+
+  goToStep: (e) =>
+    stepTarget = $(e.currentTarget).data('step')
+    unless $(e.currentTarget).hasClass('inactive')
+      @audience.set('currentStep', stepTarget)
+      @render()
 
   confirmPublishAudience: =>
     messageOptions = {

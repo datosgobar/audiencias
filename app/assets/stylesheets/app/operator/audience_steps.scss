@@ -37,11 +37,18 @@
       }
     }
 
+    &:hover {
+      cursor: pointer;
+    }
+
     &.inactive {
       background: $grey-100;
       color: $grey-300;
       &:after {
         border-left-color: $grey-100;
+      }
+      &:hover {
+        cursor: default;
       }
     }
 
