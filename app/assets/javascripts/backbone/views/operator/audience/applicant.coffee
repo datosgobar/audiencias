@@ -52,6 +52,7 @@ class audiencias.views.AudienceApplicantSection extends Backbone.View
     @audience.set('applicant', new audiencias.models.Applicant)
 
   editRepresented: =>
+    @audience.set('editingRepresented', true)
 
   removeRepresented: =>
     data = { audience: { id: @audience.get('id') } }
@@ -61,6 +62,11 @@ class audiencias.views.AudienceApplicantSection extends Backbone.View
       data: data
       success: (response) =>
         if response and response.success
-          @audience.get('applicant').set(response.applicant)
+          applicant = @audience.get('applicant')
+          applicant.unset('represented_person')
+          applicant.unset('represented_legal_entity')
+          applicant.unset('represented_state_organism')
+          applicant.unset('represented_people_group')
+          applicant.set(response.applicant)
           @render()
     )

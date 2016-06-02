@@ -29,6 +29,16 @@ class Applicant < ActiveRecord::Base
       self.person.update_minor_attributes(params[:person])
       self.person.save
     end
+
+    if params[:represented_people_group]
+      self.represented_person = nil
+      self.represented_person_ocupation = nil
+      self.represented_legal_entity = nil
+      self.represented_state_organism = nil
+      self.represented_people_group = PeopleGroup.new() unless self.represented_people_group
+      self.represented_people_group.update_minor_attributes(params[:represented_people_group])
+      self.represented_people_group.save
+    end
   end
 
   def remove_represented
