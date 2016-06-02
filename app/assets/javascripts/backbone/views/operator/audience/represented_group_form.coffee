@@ -21,7 +21,6 @@ class audiencias.views.AudienceRepresentedGroupForm extends Backbone.View
     @applicant.set('represented_people_group', represented)
     @render()
 
-
   setDescriptionfMaxLength: =>
     descriptionTextarea = @$el.find('#group-description')
     descriptionTextarea.bind('input propertychange', =>

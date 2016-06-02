@@ -120,9 +120,11 @@
             <div class="participant-country">
               <%= country %>
             </div>
-            <div class="participant-cuil">
-              <%= applicant.get('represented_legal_entity').cuil %>
-            </div>
+            <% if (applicant.get('represented_legal_entity').cuit) { %>
+              <div class="participant-cuit">
+                CUIT <%= applicant.get('represented_legal_entity').cuit %>
+              </div>
+            <% } %>
             <div class="participant-email">
               <%= applicant.get('represented_legal_entity').email %>
             </div>
