@@ -89,10 +89,7 @@ class audiencias.views.AudienceParticipantsForm extends Backbone.View
         if response.success and response.audience
           response.audience.new = false
           @trigger('participantSubmitted')
-          if data.audience.new 
-            @audience.forceUpdate(response.audience)
-          else
-            audiencias.globals.audiences.updateAudience(response.audience)
+          @audience.forceUpdate(response.audience)
     )
 
   validatePersonId: (person_id, country) ->

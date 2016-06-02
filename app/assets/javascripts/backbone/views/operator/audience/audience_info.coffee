@@ -105,10 +105,7 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
           if response.success and response.audience
             response.audience.editingInfo = false
             response.audience.new = false
-            if data.new 
-              @audience.forceUpdate(response.audience)
-            else
-              audiencias.globals.audiences.updateAudience(response.audience)
+            @audience.forceUpdate(response.audience)
       )
     else
       @audience.set('editingInfo', false)

@@ -98,10 +98,7 @@ class audiencias.views.AudienceApplicantForm extends Backbone.View
         if response.success and response.audience
             response.audience.editingApplicant = false
             response.audience.new = false
-            if data.audience.new 
-              @audience.forceUpdate(response.audience)
-            else
-              audiencias.globals.audiences.updateAudience(response.audience)
+            @audience.forceUpdate(response.audience)
     )
 
   validatePersonId: (person_id, country) ->
