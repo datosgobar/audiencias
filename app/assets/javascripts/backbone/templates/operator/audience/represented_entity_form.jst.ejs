@@ -1,0 +1,54 @@
+<% var representedEntity = audience.get('applicant').get('represented_legal_entity'); %>
+<% var country = representedEntity.country %>
+<div class="person-form">
+  <div class="nationality-container">
+    <input type="radio" name="represented-nationality" id="represented-nationality-argentine" 
+      value="Argentina" class="nationality-radio" <%= country == 'Argentina' ? 'checked' : '' %>>
+    <label for="represented-nationality-argentine" class="nationality-label">Argentino</label>
+    <input type="radio" name="represented-nationality" id="represented-nationality-foreign" 
+      value="" class="nationality-radio" <%= country != 'Argentina' ? 'checked' : '' %>>
+    <label for="represented-nationality-foreign" class="nationality-label">Extranjero</label>
+  </div>
+
+  <div class="field-table">
+
+    <div class="row">
+      <% if (country == 'Argentina') { %>
+        <div class="cell">
+          <div class="field-label">CUIT</div>
+          <input type="text" placeholder="0000000000" value="<%= representedEntity.cuit %>" class="field-input cuit-input">      
+        </div>
+      <% } else { %>
+        <div class="cell">
+          <div class="field-label">País</div>
+          <% var countries = audiencias.globals.countries; %>
+          <select class="countries-select">
+            <option selected="true" disabled="disabled">Seleccione país...</option>    
+            <% for (var i=0; i<countries.length; i++) { %>
+              <option value="<%= countries[i] %>" <%= countries[i] == country ? 'selected' : '' %>><%= countries[i] %></option>
+            <% } %>
+          </select>
+        </div>
+      <% } %>
+      <div class="cell">
+        <div class="field-label">Razon social</div>
+        <input type="text" placeholder="Razon social" value="<%= representedEntity.name %>" class="field-input name-input">      
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="cell"> 
+        <div class="field-label">Mail</div>
+        <input type="text" placeholder="mail@unmail.com" value="<%= representedEntity.email %>" class="field-input email-input">
+      </div>
+      <div class="cell"> 
+        <div class="field-label">Teléfono (opcional)</div>
+        <input type="text" placeholder="Teléfono" value="<%= representedEntity.telephone %>" class="field-input telephone-input">
+      </div>
+      <div class="cell button-cell">
+        <button class="confirm-save">GUARDAR</button>
+      </div>
+    </div>
+
+  </div>  
+</div>

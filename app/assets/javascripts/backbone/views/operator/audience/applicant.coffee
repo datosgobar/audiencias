@@ -37,6 +37,12 @@ class audiencias.views.AudienceApplicantSection extends Backbone.View
       @audience.set('editingRepresented', true)
     else
       @audience.unset('editingRepresented')
+      applicant = @audience.get('applicant')
+      applicant.unset('represented_person')
+      applicant.unset('represented_legal_entity')
+      applicant.unset('represented_state_organism')
+      applicant.unset('represented_people_group')
+      @render()
 
   editApplicant: =>
     @audience.set('editingApplicant', true)

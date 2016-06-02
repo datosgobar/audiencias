@@ -1,16 +1,17 @@
 <% var applicant = audience.get('applicant'); %>
 <% var represented = applicant.get('represented_person'); %>
+<% var country = represented.country %>
 <div class="person-form">
   <div class="nationality-container">
     <input type="radio" name="represented-nationality" id="represented-nationality-argentine" 
-      value="Argentina" class="nationality-radio" <%= represented.country == 'Argentina' ? 'checked' : '' %>>
+      value="Argentina" class="nationality-radio" <%= country == 'Argentina' ? 'checked' : '' %>>
     <label for="represented-nationality-argentine" class="nationality-label">Argentino</label>
     <input type="radio" name="represented-nationality" id="represented-nationality-foreign" 
-      value="" class="nationality-radio" <%= represented.country != 'Argentina' ? 'checked' : '' %>>
+      value="" class="nationality-radio" <%= country != 'Argentina' ? 'checked' : '' %>>
     <label for="represented-nationality-foreign" class="nationality-label">Extranjero</label>
   </div>
   <div class="field-table">
-    <% if (represented.country != 'Argentina') { %>
+    <% if (country != 'Argentina') { %>
       <div class="row">
         <div class="cell">
           <div class="field-label">País</div>
@@ -18,7 +19,7 @@
           <select class="countries-select">
             <option selected="true" disabled="disabled">Seleccione país...</option>    
             <% for (var i=0; i<countries.length; i++) { %>
-              <option value="<%= countries[i] %>" <%= countries[i] == represented.country ? 'selected' : '' %>><%= countries[i] %></option>
+              <option value="<%= countries[i] %>" <%= countries[i] == country ? 'selected' : '' %>><%= countries[i] %></option>
             <% } %>
           </select>
         </div>
@@ -29,7 +30,7 @@
 
     <div class="row">
       <div class="cell">
-        <% if (represented.country == 'Argentina') { %>
+        <% if (country == 'Argentina') { %>
           <div class="field-label">Tipo de nro. de documento</div>
           <div class="id-joint-field">
             <% var idType = represented.id_type %>

@@ -65,31 +65,31 @@ class audiencias.views.AudienceRepresentedForm extends Backbone.View
     applicant = @audience.get('applicant')
     hasRepresented = applicant.get('represented_person') || applicant.get('represented_legal_entity') || applicant.get('represented_state_organism') || applicant.get('represented_people_group')
     unless hasRepresented
-      applicant.set('represented_person', new audiencias.models.Person) 
+      applicant.set('represented_person', { country: 'Argentina' }) 
 
   representedTypeChanged: =>
     applicant = @audience.get('applicant')
 
     if @$el.find('#represented-person').is(':checked')
-      applicant.set('represented_person', new audiencias.models.Person) 
+      applicant.set('represented_person', { country: 'Argentina' }) 
       applicant.unset('represented_legal_entity')
       applicant.unset('represented_state_organism')
       applicant.unset('represented_people_group')
 
     else if @$el.find('#represented-entity').is(':checked')
       applicant.unset('represented_person') 
-      applicant.set('represented_legal_entity', {})
+      applicant.set('represented_legal_entity', { country: 'Argentina' })
       applicant.unset('represented_state_organism')
       applicant.unset('represented_people_group')
 
     else if @$el.find('#represented-organism').is(':checked')
       applicant.unset('represented_person') 
       applicant.unset('represented_legal_entity')
-      applicant.set('represented_state_organism', {})
+      applicant.set('represented_state_organism', { country: 'Argentina' })
       applicant.unset('represented_people_group')
 
     else if @$el.find('#represented-group').is(':checked')
       applicant.unset('represented_person') 
       applicant.unset('represented_legal_entity')
       applicant.unset('represented_state_organism')
-      applicant.set('represented_people_group', {})
+      applicant.set('represented_people_group', { country: 'Argentina' })

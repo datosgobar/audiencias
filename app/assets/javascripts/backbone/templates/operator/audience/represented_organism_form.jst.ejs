@@ -1,0 +1,37 @@
+<% var representedOrganism = audience.get('applicant').get('represented_state_organism'); %>
+<% var country = representedOrganism.country %>
+<div class="person-form">
+  <div class="nationality-container">
+    <input type="radio" name="represented-nationality" id="represented-nationality-argentine" 
+      value="Argentina" class="nationality-radio" <%= country == 'Argentina' ? 'checked' : '' %>>
+    <label for="represented-nationality-argentine" class="nationality-label">Argentino</label>
+    <input type="radio" name="represented-nationality" id="represented-nationality-foreign" 
+      value="" class="nationality-radio" <%= country != 'Argentina' ? 'checked' : '' %>>
+    <label for="represented-nationality-foreign" class="nationality-label">Extranjero</label>
+  </div>
+
+  <div class="field-table">
+    <div class="row">
+      <% if (country != 'Argentina') { %>
+        <div class="cell">
+          <div class="field-label">País</div>
+          <% var countries = audiencias.globals.countries; %>
+          <select class="countries-select">
+            <option selected="true" disabled="disabled">Seleccione país...</option>    
+            <% for (var i=0; i<countries.length; i++) { %>
+              <option value="<%= countries[i] %>" <%= countries[i] == country ? 'selected' : '' %>><%= countries[i] %></option>
+            <% } %>
+          </select>
+        </div>
+      <% } %>
+      <div class="cell">
+        <div class="field-label">Nombre</div>
+        <input type="text" placeholder="Nombre" value="<%= representedOrganism.name %>" class="field-input name-input">      
+      </div>
+      <div class="cell button-cell">
+        <button class="confirm-save">GUARDAR</button>
+      </div>
+      
+    </div>
+  </div>  
+</div>

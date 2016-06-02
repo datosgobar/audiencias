@@ -5,14 +5,20 @@
       <p>Estas viendo las audiencias de</p>
       <% var obligees = audiencias.globals.obligees.toJSON() %>
       <% var currentObligee = audiencias.globals.currentObligee %>
-      <select id="current-obligee-select">
-        <% for (var i=0; i<obligees.length; i++) { %>
-          <% var obligee = obligees[i]; %>
-            <option value="<%= obligee.id %>" <%= currentObligee == obligee.id ? 'selected': '' %>>
-              <%= obligee.person.name %> <%= obligee.person.surname %>
-            </option>
-        <% } %>
-      </select>
+      <% if (obligees.length > 1) { %>
+        <select id="current-obligee-select">
+          <% for (var i=0; i<obligees.length; i++) { %>
+            <% var obligee = obligees[i]; %>
+              <option value="<%= obligee.id %>" <%= currentObligee == obligee.id ? 'selected': '' %>>
+                <%= obligee.person.name %> <%= obligee.person.surname %>
+              </option>
+          <% } %>
+        </select>
+      <% } else if (obligees.length == 1) { %>
+        <span class="unique-current-obligee">
+          <%= obligees[0].person.name %> <%= obligees[0].person.surname %>
+        </span>
+      <% } %>
     </div>
     <a href="/intranet/nueva_audiencia?sujeto_obligado=<%= currentObligee %>">
       <button>CARGAR AUDIENCIA</button>
