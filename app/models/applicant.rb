@@ -38,6 +38,33 @@ class Applicant < ActiveRecord::Base
       self.represented_people_group = PeopleGroup.new() unless self.represented_people_group
       self.represented_people_group.update_minor_attributes(params[:represented_people_group])
       self.represented_people_group.save
+
+    elsif params[:represented_state_organism]
+      self.represented_person = nil
+      self.represented_person_ocupation = nil
+      self.represented_legal_entity = nil
+      self.represented_people_group = nil
+      self.represented_state_organism = StateOrganism.new unless self.represented_state_organism
+      self.represented_state_organism.update_minor_attributes(params[:represented_state_organism])
+      self.represented_state_organism.save
+
+    elsif params[:represented_legal_entity]
+      self.represented_person = nil
+      self.represented_person_ocupation = nil
+      self.represented_state_organism = nil
+      self.represented_people_group = nil
+      self.represented_legal_entity = LegalEntity.new unless self.represented_legal_entity
+      self.represented_legal_entity.update_minor_attributes(params[:represented_legal_entity])
+      self.represented_legal_entity.save
+
+    elsif params[:represented_person]
+      self.represented_legal_entity = nil
+      self.represented_state_organism = nil
+      self.represented_people_group = nil
+      self.represented_person_ocupation = params[:represented_person][:ocupation] if params[:represented_person].include?(:ocupation)
+      self.represented_person = Person.find_or_initialize(params[:represented_person])
+      self.represented_person.update_minor_attributes(params[:represented_person])
+      self.represented_person.save
     end
   end
 
