@@ -50,8 +50,9 @@ class Audience < ActiveRecord::Base
   end
 
   def state
-    valid = (self.date and self.summary and self.interest_invoked and self.place and 
-      self.motif and self.author and self.obligee and self.date < DateTime.now)
+    valid = (self.date && self.date < DateTime.now && self.summary && self.summary.length > 0 && 
+      self.interest_invoked && ['particular', 'difuso', 'colectivo'].include?(self.interest_invoked) && 
+      self.place && self.place.length > 0 && self.author && self.obligee && self.motif && self.motif.length > 0)
     if valid 
       'valid'
     else
