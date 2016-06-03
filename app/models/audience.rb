@@ -17,7 +17,7 @@ class Audience < ActiveRecord::Base
       obligee: Obligee::AS_JSON_OPTIONS,
       participants: Participant::AS_JSON_OPTIONS
     },
-    methods: [ :state ]
+    methods: [ :state, :publish_validations ]
   }
   def as_json(options={})
     super(AS_JSON_OPTIONS)
@@ -50,11 +50,17 @@ class Audience < ActiveRecord::Base
     end
   end
 
-  def state
-    valid = (self.date && self.date < DateTime.now && self.summary && self.summary.length > 0 && 
-      self.interest_invoked && ['particular', 'difuso', 'colectivo'].include?(self.interest_invoked) && 
-      self.place && self.place.length > 0 && self.author && self.obligee && self.motif && self.motif.length > 0)
-    if valid 
+  def publish_validations
+    date = if !!(self.date && self.date < DateTime.now) then 'valid' else 'not_yet_valid' end
+    fields = if (self.date && self.summary && self.summary.length > 0 && self.interest_invoked && 
+      ['particular', 'difuso', 'colectivo'].include?(self.interest_invoked) && self.place && self.place.length > 0 && 
+      self.author && self.obligee && self.motif && self.motif.length > 0) then 'valid' else 'incomplete' end
+    { date: date, fields: fields }
+  end
+
+  def state 
+    validations = publish_validations
+    if validations[:date] == 'valid' && validations[:fields] == 'valid'
       'valid'
     else
       'incomplete'

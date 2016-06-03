@@ -267,7 +267,13 @@
 
     <% if (audience.get('state') == 'incomplete') { %> 
     <div class="section-content ">
+      <% var publish_validations = audience.get('publish_validations') %>
+      <% if (publish_validations && publish_validations.fields != 'valid') { %>
       <div class="missing-field">*No has completado todos los campos requeridos para publicar la audiencia.</div>
+      <% } %>
+      <% if (publish_validations && publish_validations.date != 'valid') { %> 
+        <div class="missing-field">*No es posible publicar una audiencia con fecha futura.</div>
+      <% } %>
     </div>
     <% } %>
   </div>  

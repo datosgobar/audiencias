@@ -80,7 +80,7 @@
   </div>
 
   <% var missingAnyField = !hasMotif || !hasInterest || !dateIsValid || !hasPlace || !hasAddress || !hasSummary %>
-  <% if (missingAnyField) { %>
+  <% if (!editing && missingAnyField) { %>
     <div class="red">*No has completado todos los campos requeridos para publicar la audiencia</div>
   <% } %>
 </div>
