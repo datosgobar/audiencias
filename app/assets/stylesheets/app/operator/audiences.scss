@@ -77,6 +77,7 @@
 
   .header-table {
     display: table;
+    table-layout: fixed;
     width: 100%;
     height: $table-header-height;
     position: absolute;
@@ -93,6 +94,7 @@
 
   .audience-table {
     display: table;
+    table-layout: fixed;
     width: 100%;
     background: $grey-100; 
 
@@ -103,6 +105,10 @@
     .table-cell {
       height: 100px;
       padding: 10px;
+
+      .cell-content {
+        overflow: hidden;
+      }
 
       &.author {
         font-weight: 500;

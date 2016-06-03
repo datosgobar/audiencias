@@ -235,7 +235,7 @@
   }
 
   #audience-theme {
-    padding: 10px 25px;
+    padding: 10px 25px 10px 35px;
     font-size: 13px;
     p {
       margin: 0;
@@ -262,7 +262,7 @@
     textarea:disabled,
     input:disabled,
     select:disabled {
-      border: solid 1px $grey-100;
+      border: none;
       color: $grey-500;
     }
   }
