@@ -1,12 +1,14 @@
 <% var editing = !!audience.get('editingInfo') %>
 <% var disabledIfNotEditing = editing ? '' : 'disabled' %>
+<% var missingAnyField = false %>
 <div class="editor-section" id="audience-main">
   <span class="section-title">
     <img src="/assets/icon-marcador-abajo.svg" class="arrow">
     Datos de la audiencia
   </span>
   <div class="left-column">
-    <p class="subsection-title">Motivo</p>
+    <% var hasMotif = audience.get('motif') && audience.get('motif').length > 0 %>
+    <p class="subsection-title <%= !hasMotif && !editing ? 'red' : '' %>">Motivo</p>
     <% if (editing) { %>
       <p class="subsection-description">Describa en una oración el motivo o razón de la solicitud de audiencia.</p>
       <p class="subsection-description">Máximo 200 caracteres</p>
@@ -14,29 +16,29 @@
     <textarea maxlength="200" id="motif" placeholder="<%= editing ? 'Ej. Hablar sobre la posibilidad de subsidiar un proyecto civil.' : '' %>"
       <%= disabledIfNotEditing %>><%= audience.get('motif') %></textarea>
     <div class="invoked-interest-container">
-      <p class="subsection-title">Interés invocado</p>
+      <% var interest = audience.get('interest_invoked'); %>
+      <% var hasInterest = interest && interest.length > 0 %>
+      <p class="subsection-title <%= !hasInterest && !editing ? 'red' : '' %>">Interés invocado</p>
       <% if (editing) { %>
         <p class="invoked-interest-description">Determine a partir del motivo de la audiencia qué tipo de interés se invoca.</p>
-      <% } %>
-      <select id="invoked-interest-select" <%= disabledIfNotEditing %>>
-        <% var interest = audience.get('interest_invoked'); %>
-        <option value="" disabled>Seleccionar</option>
-        <option value="particular" <%= interest == 'particular' ? 'selected' : '' %>>Particular</option>
-        <option value="colectivo" <%= interest == 'colectivo' ? 'selected' : '' %>>Colectivo</option>
-        <option value="difuso" <%= interest == 'difuso' ? 'selected' : '' %>>Difuso</option>
-      </select> 
-      <% if (editing) { %>
+        <select id="invoked-interest-select" <%= disabledIfNotEditing %>>
+          <option disabled="disabled" <%= !interest || interest.length == 0 ? 'selected' : '' %>>Seleccionar</option>
+          <option value="particular" <%= interest == 'particular' ? 'selected' : '' %>>Particular</option>
+          <option value="colectivo" <%= interest == 'colectivo' ? 'selected' : '' %>>Colectivo</option>
+          <option value="difuso" <%= interest == 'difuso' ? 'selected' : '' %>>Difuso</option>
+        </select> 
         <img src="/assets/logo-question.svg" class="interest-tooltip tooltip">
+      <% } else { %>
+        <p class="subsection-title"><%= (interest || '').toUpperCase() %></p>
       <% } %>
     </div>
   </div>
   <div class="right-column">
-    <label for="date">Fecha</label> 
     <% 
-    var date = new Date(audience.get('date'))
-    var dateString = ''
-    var dateIsValid = !isNaN(date.getTime())
-    if (audience.get('date') && dateIsValid) {
+    var date = new Date(audience.get('date') || '');
+    var dateString = '';
+    var dateIsValid = !isNaN(date.getTime());
+    if (dateIsValid) {
       var year = date.getFullYear();
       var month = (date.getMonth() + 1).toString();
       month = month.length > 1 ? month : '0' + month;
@@ -49,16 +51,22 @@
       dateString = hour + ':' + minutes + ' ' + day + '/' + month + '/' + year;
     }
     %>
+    <label for="date" class="<%= !dateIsValid && !editing ? 'red' : '' %>">Fecha</label> 
     <input type="text" id="date" <%= disabledIfNotEditing %> value="<%= dateString %>">
-    <label id="place-label" for="place">Lugar</label>
+    
+    <% var hasPlace = audience.get('place') && audience.get('place').length > 0 %>
+    <label id="place-label" for="place" class="<%= !hasPlace && !editing ? 'red' : '' %>">Lugar</label>
     <input type="text" id="place" placeholder="<%= editing ? 'Ej. Despacho, Ministerio de Educación' : '' %>" <%= disabledIfNotEditing %> value="<%= audience.get('place') %>">
-    <label id="address-label" for="address">Dirección</label>
-    <input type="text" id="address" placeholder="<%= editing ? 'Ej. Av. Roque Saenz Peña 768, Ciudad Autonoma de Buenos Aires' : '' %>" <%= disabledIfNotEditing %>>
+    
+    <% var hasAddress = audience.get('address') && audience.get('address').length > 0 %>
+    <label id="address-label" for="address" class="<%= !hasAddress && !editing ? 'red' : '' %>">Dirección</label>
+    <input type="text" id="address" placeholder="<%= editing ? 'Ej. Av. Roque Saenz Peña 768, Ciudad Autonoma de Buenos Aires' : '' %>" <%= disabledIfNotEditing %> value="<%= audience.get('address') %>">
   </div>
 </div>
 
 <div class="editor-section" id="audience-theme">
-  <p class="subsection-title">Síntesis</p>
+  <% var hasSummary = audience.get('summary') && audience.get('summary').length > 0 %>
+  <p class="subsection-title <%= !hasSummary && !editing ? 'red' : '' %>">Síntesis</p>
   <% if (editing) { %>
     <p class="subsection-description">Describa de manera concisa lo sucedido en la audiencia, lo resuelto y el seguimiento del tema, de corresponder.</p>
   <% } %>
@@ -70,4 +78,9 @@
       <button id="edit-main-info">EDITAR</button>
     <% } %>
   </div>
+
+  <% var missingAnyField = !hasMotif || !hasInterest || !dateIsValid || !hasPlace || !hasAddress || !hasSummary %>
+  <% if (missingAnyField) { %>
+    <div class="red">*No has completado todos los campos requeridos para publicar la audiencia</div>
+  <% } %>
 </div>

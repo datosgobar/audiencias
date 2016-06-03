@@ -209,6 +209,10 @@
           height: 24px;
           vertical-align: bottom;
         }
+        #invoked-interest-select {
+          width: 10em;
+          max-width: 100%;
+        }
       }
     }
     .right-column {
@@ -264,6 +268,9 @@
     select:disabled {
       border: none;
       color: $grey-500;
+    }
+    .red {
+      color: $red;
     }
   }
 

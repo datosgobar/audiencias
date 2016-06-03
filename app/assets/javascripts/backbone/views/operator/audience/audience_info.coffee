@@ -92,6 +92,11 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
       data.place = newPlace
       someThingChanged = true
 
+    newAddress = @$el.find('#address').val().trim()
+    if newAddress != @audience.get('address')
+      data.address = newAddress
+      someThingChanged = true
+
     if someThingChanged
       data.new = !!@audience.get('new')
       if data.new 
