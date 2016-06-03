@@ -14,7 +14,12 @@
             <%= applicant.get('person').name %> <%= applicant.get('person').surname %>
           </div>
           <div class="participant-position">
-            <%= applicant.get('ocupation') %>
+            <% var applicantOcupation = applicant.get('ocupation') %>
+            <% if (typeof(applicantOcupation) == 'string' && applicantOcupation.length > 0) { %>
+              <%= applicantOcupation %>
+            <% } else { %>
+              <span class="red">Ocupación</span>
+            <% } %>
           </div>
           <% var country = applicant.get('person').country %>
           <div class="participant-country">
@@ -25,7 +30,12 @@
             <%= applicant.get('person').person_id %>
           </div>
           <div class="participant-email">
-            <%= applicant.get('person').email %>
+            <% var applicantEmail = applicant.get('person').email %>
+            <% if (typeof(applicantEmail) == 'string' && applicantEmail.length > 0) { %>
+              <%= applicantEmail %>
+            <% } else { %>
+              <span class="red">Mail</span>
+            <% } %>
           </div>
           <% var telephone = applicant.get('person').telephone; %>
           <% if (telephone && telephone.length > 0) { %>
@@ -34,7 +44,11 @@
             </div>
           <% } %>
           <div class="participant-absent">
-            <%= applicant.get('absent') ? 'El solicitante no participó de la audiencia' : 'El solicitante participió de la audiencia' %>
+            <% if (typeof applicant.get('absent') == 'boolean') { %>
+              <%= applicant.get('absent') ? 'El solicitante no participó de la audiencia' : 'El solicitante participió de la audiencia' %>
+            <% } else { %> 
+              <span class="red">Participación</span>
+            <% } %>
           </div>
           <button class="edit-applicant">EDITAR</button>
           <button class="remove-applicant">BORRAR</button>

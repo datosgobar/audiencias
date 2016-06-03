@@ -46,9 +46,13 @@ class audiencias.views.AudienceApplicantForm extends Backbone.View
     }
     applicantAttr = {
       ocupation: @$el.find('.position-input').val().trim()
-      absent: @$el.find('#applicant-didnt-participated').is(':checked')
       person: personAttr
     }
+
+    if @$el.find('#applicant-didnt-participated').is(':checked')
+      applicantAttr.absent = true
+    else if @$el.find('#applicant-participated').is(':checked') 
+      applicantAttr.absent = false
 
     valid = true
     
@@ -64,17 +68,19 @@ class audiencias.views.AudienceApplicantForm extends Backbone.View
     valid = valid and personIdValid
     @$el.find('.person-id-input').toggleClass('invalid', !personIdValid)
     
-    personEmailValid = @validateEmail(personAttr.email)
-    valid = valid and personEmailValid
-    @$el.find('.email-input').toggleClass('invalid', !personEmailValid)
+    if personAttr.email && personAttr.email.length > 0
+      personEmailValid = @validateEmail(personAttr.email)
+      valid = valid and personEmailValid
+      @$el.find('.email-input').toggleClass('invalid', !personEmailValid)
 
     personCountryValid = @validateCountry(personAttr.country)
     valid = valid and personCountryValid
     @$el.find('.countries-select').toggleClass('invalid', !personCountryValid)
     
-    applicantOcupationValid = @validateName(applicantAttr.ocupation)
-    valid = valid and applicantOcupationValid
-    @$el.find('.position-input').toggleClass('invalid', !applicantOcupationValid)
+    if personAttr.ocupation && personAttr.ocupation.length > 0
+      applicantOcupationValid = @validateName(applicantAttr.ocupation)
+      valid = valid and applicantOcupationValid
+      @$el.find('.position-input').toggleClass('invalid', !applicantOcupationValid)
 
     if valid
       @updateApplicant(applicantAttr)

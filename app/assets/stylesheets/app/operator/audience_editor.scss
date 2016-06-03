@@ -52,6 +52,10 @@
     }
   }
 
+  .red {
+    color: $red;
+  }
+
   #applicant, 
   #represented {
     .section-title {
@@ -268,9 +272,6 @@
     select:disabled {
       border: none;
       color: $grey-500;
-    }
-    .red {
-      color: $red;
     }
   }
 

@@ -73,13 +73,14 @@
   </div>
   <div class="form-actions">
     <span>¿El solicitante participó de la audiencia?</span>
+    <% var participationIsSet = typeof(applicant.get('absent')) == 'boolean'; %>
     <% var applicantParticipated = !applicant.get('absent') %>
     <label class="participation-label" for="applicant-participated">Si</label>
     <input type="radio" name="participation" id="applicant-participated" 
-      value="true" <%= applicantParticipated ? 'checked' : '' %>>
+      value="true" <%= participationIsSet && applicantParticipated ? 'checked' : '' %>>
     <label class="participation-label" for="applicant-didnt-participated">No</label>
     <input type="radio" name="participation" id="applicant-didnt-participated" 
-      value="false" <%= !applicantParticipated ? 'checked' : '' %>>
+      value="false" <%= participationIsSet && !applicantParticipated ? 'checked' : '' %>>
     <button class="confirm-save">GUARDAR</button>
   </div>
 </div>

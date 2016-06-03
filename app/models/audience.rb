@@ -51,10 +51,18 @@ class Audience < ActiveRecord::Base
   end
 
   def publish_validations
-    date = if !!(self.date && self.date < DateTime.now) then 'valid' else 'not_yet_valid' end
+    if self.date && self.date < DateTime.now
+      date = 'valid'
+    elsif self.date 
+      date = 'not_yet_valid'
+    else 
+      date = 'incomplete'
+    end
     fields = if (self.date && self.summary && self.summary.length > 0 && self.interest_invoked && 
       ['particular', 'difuso', 'colectivo'].include?(self.interest_invoked) && self.place && self.place.length > 0 && 
-      self.author && self.obligee && self.motif && self.motif.length > 0) then 'valid' else 'incomplete' end
+      self.author && self.obligee && self.motif && self.motif.length > 0 && self.applicant.ocupation &&
+      self.applicant.ocupation.length > 0 && self.applicant.person.email && self.applicant.person.email.length > 0 &&
+      [false, true].include?(self.applicant.absent)) then 'valid' else 'incomplete' end
     { date: date, fields: fields }
   end
 

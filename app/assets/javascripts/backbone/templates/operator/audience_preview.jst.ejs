@@ -46,7 +46,12 @@
               <%= applicant.get('person').name %> <%= applicant.get('person').surname %>
             </div>
             <div class="participant-position">
-              <%= applicant.get('ocupation') %>
+              <% var applicantOcupation = applicant.get('ocupation') %>
+              <% if (typeof(applicantOcupation) == 'string' && applicantOcupation.length > 0) { %>
+                <%= applicantOcupation %>
+              <% } else { %>
+                <span class="red">Ocupación</span>
+              <% } %>            
             </div>
             <% var country = applicant.get('person').country %>
             <div class="participant-country">
@@ -57,7 +62,12 @@
               <%= applicant.get('person').person_id %>
             </div>
             <div class="participant-email">
-              <%= applicant.get('person').email %>
+              <% var applicantEmail = applicant.get('person').email %>
+              <% if (typeof(applicantEmail) == 'string' && applicantEmail.length > 0) { %>
+                <%= applicantEmail %>
+              <% } else { %>
+                <span class="red">Mail</span>
+              <% } %>
             </div>
             <% var telephone = applicant.get('person').telephone; %>
             <% if (telephone && telephone.length > 0) { %>
@@ -66,7 +76,11 @@
               </div>
             <% } %>
             <div class="participant-absent">
-              <%= applicant.get('absent') ? 'El solicitante no participó de la audiencia' : 'El solicitante participió de la audiencia' %>
+              <% if (typeof applicant.get('absent') == 'boolean') { %>
+                <%= applicant.get('absent') ? 'El solicitante no participó de la audiencia' : 'El solicitante participió de la audiencia' %>
+              <% } else { %> 
+                <span class="red">Participación</span>
+              <% } %>
             </div>
           </div>
           <% } else { %>
@@ -240,7 +254,7 @@
           minutes = minutes.length > 1 ? minutes : '0' + minutes;
           dateString = hour + ':' + minutes + ' ' + day + '/' + month + '/' + year; %>
           <div class="info-label">Fecha y hora</div>
-          <div class="info-content"><%= day %>/<%= month %>/<%= year %> <%= minutes%>:<%= hour %></div>
+          <div class="info-content"><%= day %>/<%= month %>/<%= year %> <%= hour %>:<%= minutes %></div>
         <% } else { %>
           <div class="missing-field">Fecha y hora</div>
         <% } %>
@@ -271,7 +285,7 @@
       <% if (publish_validations && publish_validations.fields != 'valid') { %>
       <div class="missing-field">*No has completado todos los campos requeridos para publicar la audiencia.</div>
       <% } %>
-      <% if (publish_validations && publish_validations.date != 'valid') { %> 
+      <% if (publish_validations && publish_validations.date == 'not_yet_valid') { %> 
         <div class="missing-field">*No es posible publicar una audiencia con fecha futura.</div>
       <% } %>
     </div>
