@@ -19,3 +19,5 @@
 .idea
 TODO
 invision
+/private
+config/sintys.yml
