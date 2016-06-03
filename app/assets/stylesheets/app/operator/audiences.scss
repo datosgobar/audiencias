@@ -1,5 +1,5 @@
 #operator-landing #operator-audiences {
-  $table-header-height: 2.5em;
+  $table-header-height: 40px;
   height: 100%;
   overflow-y: auto;
   padding-top: $table-header-height;
@@ -84,11 +84,14 @@
     top: $operator-navigation-height;
     left: 0;
     background: white;
+    font-size: 14px;
 
     .table-cell {
       border-bottom: solid 1px $grey-300;
       vertical-align: middle;
       padding: 0 10px;
+      overflow: hidden;
+      white-space: nowrap;
     }
   }
 
@@ -154,7 +157,7 @@
         }
         .published-checked {
           margin-top: 5px;
-          height: 25px;
+          height: 20px;
         }
       }
     }
