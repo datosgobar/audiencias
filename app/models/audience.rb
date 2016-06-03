@@ -9,7 +9,7 @@ class Audience < ActiveRecord::Base
   validates :obligee, presence: true
 
   AS_JSON_OPTIONS =  {
-    only: [ :date, :publish_date, :summary, :interest_invoked, 
+    only: [ :date, :publish_date, :summary, :interest_invoked, :address,
       :published, :place, :created_at, :lat, :lng, :id, :motif ],
     include: { 
       author: User::AS_JSON_OPTIONS,
@@ -30,6 +30,7 @@ class Audience < ActiveRecord::Base
     self.place = params[:place] if params[:place]
     self.lat = params[:lat] if params[:lat]
     self.lng = params[:lng] if params[:lng]
+    self.address = params[:address] if params[:address]
     self.motif = params[:motif] if params[:motif]
 
     if params[:applicant]
