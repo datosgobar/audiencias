@@ -173,4 +173,49 @@ class OperatorsController < ApplicationController
     end
   end
 
+  def person_autocomplete
+    people = [{
+      label: '11478800',
+      person: { id_type: 'dni', person_id: '11478800', name: 'Catalina', surname: 'Nosiglia' }
+    }, {
+      label: '11198258',
+      person: { id_type: 'dni', person_id: '11198258', name: 'Luis', surname: 'Quevedo' }
+    }, {
+      label: '22293105',
+      person: { id_type: 'dni', person_id: '22293105', name: 'Maria Julieta', surname: 'García Lenzi' }
+    }, {
+      label: '28750416',
+      person: { id_type: 'dni', person_id: '28750416', name: 'Hernan Daniel', surname: 'Muñoz' }
+    }, {
+      label: '31422861',
+      person: { id_type: 'dni', person_id: '31422861', name: 'Nicolas', surname: 'Roibas' }
+    }, {
+      label: '23327604',
+      person: { id_type: 'dni', person_id: '23327604', name: 'Martin', surname: 'Chojo' }
+    }, {
+      label: '17605003',
+      person: { id_type: 'dni', person_id: '17605003', name: 'Patricia', surname: 'Holzman' }
+    }, {
+      label: '22678667',
+      person: { id_type: 'dni', person_id: '22678667', name: 'Carlos', surname: 'Verna' }
+    }, {
+      label: '20026746',
+      person: { id_type: 'dni', person_id: '20026746', name: 'Domingo', surname: 'Amaya' }
+    }, {
+      label: '22653243',
+      person: { id_type: 'dni', person_id: '22653243', name: 'Marina', surname: 'Klemensiewicz' }
+    }, {
+      label: '13753135',
+      person: { id_type: 'dni', person_id: '13753135', name: 'Manuel', surname: 'Sobrado' }
+    }]
+    id_type = params[:id_type]
+    person_id = params[:person_id]
+    if id_type and person_id
+      filteredPeople = people.select { |p| p[:label].include?(person_id) && p[:person][:id_type] == id_type }
+    else 
+      filteredPeople = [] 
+    end
+    render json: filteredPeople 
+  end
+
 end

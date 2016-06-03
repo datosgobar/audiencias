@@ -12,6 +12,30 @@ class audiencias.views.AudienceRepresentedApplicantForm extends Backbone.View
     @$el.html(@template(
       audience: @audience
     )) 
+    @setAutoComplete()
+
+  setAutoComplete: =>
+    if @$el.find('#represented-nationality-argentine').is(':checked')
+      @$el.find('.person-id-input').autocomplete(
+        source: @searchPerson
+        select: @autocompleteSelect
+      )
+
+  searchPerson: (request, response) =>
+    id_type = @$el.find('.id-type-input').val()
+    person_id = request.term
+    $.ajax(
+      url: '/intranet/autocomplete_persona'
+      method: 'GET'
+      data: { id_type: id_type, person_id: person_id }
+      success: response
+    )
+
+  autocompleteSelect: (e, ui) =>
+    if ui and ui.item and ui.item.person
+      person = ui.item.person
+      @$el.find('.name-input').val(person.name)
+      @$el.find('.surname-input').val(person.surname)
 
   nationalityChange: =>
     newCountry = @$el.find('.nationality-radio:checked').val()

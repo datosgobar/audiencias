@@ -10,6 +10,7 @@ class audiencias.views.AudienceApplicantForm extends Backbone.View
   render: =>
     @$el.html(@template(audience: @audience))
     @setTooltip()
+    @setAutoComplete()
 
   setTooltip: =>
     @$el.find('.tooltip').tooltipster(
@@ -18,6 +19,29 @@ class audiencias.views.AudienceApplicantForm extends Backbone.View
       position: 'right'
       theme: 'tooltipster-light'
     )
+
+  setAutoComplete: =>
+    if @$el.find('#nationality-argentine').is(':checked')
+      @$el.find('.person-id-input').autocomplete(
+        source: @searchPerson
+        select: @autocompleteSelect
+      )
+
+  searchPerson: (request, response) =>
+    id_type = @$el.find('.id-type-input').val()
+    person_id = request.term
+    $.ajax(
+      url: '/intranet/autocomplete_persona'
+      method: 'GET'
+      data: { id_type: id_type, person_id: person_id }
+      success: response
+    )
+
+  autocompleteSelect: (e, ui) =>
+    if ui and ui.item and ui.item.person
+      person = ui.item.person
+      @$el.find('.name-input').val(person.name)
+      @$el.find('.surname-input').val(person.surname)
 
   nationalityChanged: =>
     newCountry = @$el.find('.nationality-radio:checked').val()

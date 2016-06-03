@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   post '/intranet/eliminar_audiencia', to: 'operators#delete_audience', as: 'remove_audience'
   post '/intranet/eliminar_representacion', to: 'operators#delete_represented', as: 'remove_represented'
   post '/intranet/publicar_audiencia', to: 'operators#publish_audience', as: 'publish_audience'
+  get '/intranet/autocomplete_persona', to: 'operators#person_autocomplete', as: 'person_autocomplete'
 
   get '/intranet/configuracion', to: 'users#user_config', as: 'user_config'
   post '/intranet/configuracion', to: 'users#change_user_config', as: 'change_user_config'
