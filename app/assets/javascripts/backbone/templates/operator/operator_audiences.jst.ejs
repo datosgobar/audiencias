@@ -25,69 +25,83 @@
       <% var day = creationDate.getDate().toString() %>
       <% day = day.length > 1 ? day : '0' + day %>
       <div class="table-cell creation-date"> 
-        <%= day %>-<%= month %>-<%= year %>
+        <div class="cell-content">
+          <%= day %>-<%= month %>-<%= year %>
+        </div>
       </div>
       
       <div class="table-cell author">
-        <%= audience.author.name %> <%= audience.author.surname %>
+        <div class="cell-content">
+          <%= audience.author.name %> <%= audience.author.surname %>
+        </div>
       </div>
       <div class="table-cell applicant">
+        <div class="cell-content">
         <% if (audience.applicant && audience.applicant.person) { %>
           <p class="applicant-name"><%= audience.applicant.person.name %> <%= audience.applicant.person.surname %></p>
           <p class="applicant-email"><%= audience.applicant.person.email %></p>
         <% } %>
+        </div>
       </div>
       <div class="table-cell represented">
-        <% if (audience.applicant && audience.applicant.represented_person) { %>
-          <p class="represented-name"><%= audience.applicant.represented_person.name %> <%= audience.applicant.represented_person.surname %></p>
-          <p class="represented-type">REPRESENTANTE DE PERSONA FÍSICA</p>
+        <div class="cell-content">
+          <% if (audience.applicant && audience.applicant.represented_person) { %>
+            <p class="represented-name"><%= audience.applicant.represented_person.name %> <%= audience.applicant.represented_person.surname %></p>
+            <p class="represented-type">REPRESENTANTE DE PERSONA FÍSICA</p>
 
-        <% } else if (audience.applicant && audience.applicant.represented_legal_entity) { %>
-          <p class="represented-name"><%= audience.applicant.represented_legal_entity.name %></p>
-          <p class="represented-type">REPRESENTANTE DE PERSONA JURÍDICA</p>
+          <% } else if (audience.applicant && audience.applicant.represented_legal_entity) { %>
+            <p class="represented-name"><%= audience.applicant.represented_legal_entity.name %></p>
+            <p class="represented-type">REPRESENTANTE DE PERSONA JURÍDICA</p>
 
-        <% } else if (audience.applicant && audience.applicant.represented_state_organism) { %>
-          <p class="represented-name"><%= audience.applicant.represented_state_organism.name %></p>
-          <p class="represented-type">REPRESENTANTE DE ORGANISMO ESTATAL</p>
+          <% } else if (audience.applicant && audience.applicant.represented_state_organism) { %>
+            <p class="represented-name"><%= audience.applicant.represented_state_organism.name %></p>
+            <p class="represented-type">REPRESENTANTE DE ORGANISMO ESTATAL</p>
 
-        <% } else if (audience.applicant && audience.applicant.represented_people_group) { %>
-          <p class="represented-name"><%= audience.applicant.represented_people_group.name %></p>
-          <p class="represented-type">REPRESENTANTE DE GRUPO DE PERSONAS</p>
-        <% } %>
+          <% } else if (audience.applicant && audience.applicant.represented_people_group) { %>
+            <p class="represented-name"><%= audience.applicant.represented_people_group.name %></p>
+            <p class="represented-type">REPRESENTANTE DE GRUPO DE PERSONAS</p>
+          <% } %>
+        </div>
       </div>
       <div class="table-cell audience-date">
-        <%     
-        var dateString = '';
-        var date = new Date(audience.date);
-        var dateIsValid = !isNaN(date.getTime());
-        if (audience.date && dateIsValid) {
-          var year = date.getFullYear();
-          var month = (date.getMonth() + 1).toString();
-          month = month.length > 1 ? month : '0' + month;
-          var day = date.getDate().toString();
-          day = day.length > 1 ? day : '0' + day;
-          var hour = date.getHours().toString();
-          hour = hour.length > 1 ? hour : '0' + hour;
-          var minutes = date.getMinutes().toString();
-          minutes = minutes.length > 1 ? minutes : '0' + minutes;
-          dateString = day + '/' + month + '/' + year + ' ' + hour + ':' + minutes;
-        }
-        %>
-        <%= dateString %>
+        <div class="cell-content">
+          <%     
+          var dateString = '';
+          var date = new Date(audience.date);
+          var dateIsValid = !isNaN(date.getTime());
+          if (audience.date && dateIsValid) {
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString();
+            month = month.length > 1 ? month : '0' + month;
+            var day = date.getDate().toString();
+            day = day.length > 1 ? day : '0' + day;
+            var hour = date.getHours().toString();
+            hour = hour.length > 1 ? hour : '0' + hour;
+            var minutes = date.getMinutes().toString();
+            minutes = minutes.length > 1 ? minutes : '0' + minutes;
+            dateString = day + '/' + month + '/' + year + ' ' + hour + ':' + minutes;
+          }
+          %>
+          <%= dateString %>
+        </div>
       </div>
       <div class="table-cell motif">
-        <%= audience.motif %>
+        <div class="cell-content">
+          <%= audience.motif %>
+        </div>
       </div>
       <div class="table-cell status">
-        <% if (audience.published) { %>
-          Audiencia Publicada
-          <img src="/assets/icon-check-audiencia-oscuro.svg" class="published-checked">
-        <% } else { %>
-          <a href="/intranet/editar_audiencia?audiencia=<%= audience.id %>">
-            <button class="edit-audience">EDITAR</button>
-          </a>
-          <button class="delete-audience" data-audience-id="<%= audience.id %>">BORRAR</button>
-        <% } %>
+        <div class="cell-content">
+          <% if (audience.published) { %>
+            Audiencia Publicada
+            <img src="/assets/icon-check-audiencia-oscuro.svg" class="published-checked">
+          <% } else { %>
+            <a href="/intranet/editar_audiencia?audiencia=<%= audience.id %>">
+              <button class="edit-audience">EDITAR</button>
+            </a>
+            <button class="delete-audience" data-audience-id="<%= audience.id %>">BORRAR</button>
+          <% } %>
+        </div>
       </div>
       <div class="table-cell spacer"></div>
     </div>

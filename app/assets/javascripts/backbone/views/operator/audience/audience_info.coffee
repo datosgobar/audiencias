@@ -12,9 +12,9 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
     @$el.html(@template(
       audience: @audience
     ))
-    @setTooltip()
 
     if @audience.get('editingInfo')
+      @setTooltip()
       @setDatePicker()
       @setMotifMaxLength()
 
