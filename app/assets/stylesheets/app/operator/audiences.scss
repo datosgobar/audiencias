@@ -125,6 +125,7 @@
         .applicant-email {
           margin: 0;
           font-size: 14px;
+          white-space: nowrap;
         }
       }
 
@@ -159,6 +160,11 @@
           margin-top: 5px;
           height: 20px;
         }
+      }
+
+      .overflow-ellipsis {
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }

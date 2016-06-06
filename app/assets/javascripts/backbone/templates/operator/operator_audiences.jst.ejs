@@ -28,13 +28,13 @@
           <% var day = creationDate.getDate().toString() %>
           <% day = day.length > 1 ? day : '0' + day %>
           <div class="table-cell creation-date"> 
-            <div class="cell-content">
+            <div class="cell-content overflow-ellipsis">
               <%= day %>-<%= month %>-<%= year %>
             </div>
           </div>
           
           <div class="table-cell author">
-            <div class="cell-content">
+            <div class="cell-content overflow-ellipsis">
               <% if (audience.obligee && audience.obligee.id == audiencias.globals.currentObligee) { %>
                 <%= audience.author.name %>
               <% } else { %> 
@@ -45,33 +45,33 @@
           <div class="table-cell applicant">
             <div class="cell-content">
             <% if (audience.applicant && audience.applicant.person) { %>
-              <p class="applicant-name"><%= audience.applicant.person.name %></p>
-              <p class="applicant-email"><%= audience.applicant.person.email %></p>
+              <p class="applicant-name overflow-ellipsis"><%= audience.applicant.person.name %></p>
+              <p class="applicant-email overflow-ellipsis"><%= audience.applicant.person.email %></p>
             <% } %>
             </div>
           </div>
           <div class="table-cell represented">
             <div class="cell-content">
               <% if (audience.applicant && audience.applicant.represented_person) { %>
-                <p class="represented-name"><%= audience.applicant.represented_person.name %></p>
-                <p class="represented-type">REPRESENTANTE DE PERSONA FÍSICA</p>
+                <p class="represented-name overflow-ellipsis"><%= audience.applicant.represented_person.name %></p>
+                <p class="represented-type overflow-ellipsis">REPRESENTANTE DE PERSONA FÍSICA</p>
 
               <% } else if (audience.applicant && audience.applicant.represented_legal_entity) { %>
-                <p class="represented-name"><%= audience.applicant.represented_legal_entity.name %></p>
-                <p class="represented-type">REPRESENTANTE DE PERSONA JURÍDICA</p>
+                <p class="represented-name overflow-ellipsis"><%= audience.applicant.represented_legal_entity.name %></p>
+                <p class="represented-type overflow-ellipsis">REPRESENTANTE DE PERSONA JURÍDICA</p>
 
               <% } else if (audience.applicant && audience.applicant.represented_state_organism) { %>
-                <p class="represented-name"><%= audience.applicant.represented_state_organism.name %></p>
-                <p class="represented-type">REPRESENTANTE DE ORGANISMO ESTATAL</p>
+                <p class="represented-name overflow-ellipsis"><%= audience.applicant.represented_state_organism.name %></p>
+                <p class="represented-type overflow-ellipsis">REPRESENTANTE DE ORGANISMO ESTATAL</p>
 
               <% } else if (audience.applicant && audience.applicant.represented_people_group) { %>
-                <p class="represented-name"><%= audience.applicant.represented_people_group.name %></p>
-                <p class="represented-type">REPRESENTANTE DE GRUPO DE PERSONAS</p>
+                <p class="represented-name overflow-ellipsis"><%= audience.applicant.represented_people_group.name %></p>
+                <p class="represented-type overflow-ellipsis">REPRESENTANTE DE GRUPO DE PERSONAS</p>
               <% } %>
             </div>
           </div>
           <div class="table-cell audience-date">
-            <div class="cell-content">
+            <div class="cell-content overflow-ellipsis">
               <%     
               var dateString = '';
               var date = new Date(audience.date);
@@ -93,7 +93,7 @@
             </div>
           </div>
           <div class="table-cell motif">
-            <div class="cell-content">
+            <div class="cell-content overflow-ellipsis">
               <%= audience.motif %>
             </div>
           </div>

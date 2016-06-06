@@ -1,0 +1,121 @@
+#audience-editor {
+
+  #audience-main,
+  #audience-theme  {
+    textarea:disabled,
+    input:disabled,
+    select:disabled {
+      border: none;
+      color: $grey-500;
+    }
+    .with-buttons {
+      position: relative;
+      padding-right: 7em;
+      min-height: 50px;
+      .editing-buttons {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: 7em;
+        font-size: 12px;
+        margin-top: -25px;
+        button {
+          width: 6em;
+          &.grey {
+            background: $grey-300;
+            margin-top: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  #audience-theme {
+    padding: 10px 25px 10px 35px;
+    font-size: 13px;
+    p {
+      margin: 0;
+      &.subsection-title {
+        margin-top: 10px;
+        font-size: 15px;
+      }
+    }
+    textarea {
+      width: 100%;
+      max-width: 100%;
+      resize: none;
+      height: 6em;
+      margin: 5px 0;
+      padding: 5px;
+    }
+    .confirm-main-info-container {
+      text-align: right;
+    }
+    .missing-fields {
+      margin-top: 30px;
+    }
+  }
+
+
+  #audience-main {
+    .section-title {
+      color: $blue-300;
+      @include span-columns(10 of 10);
+    }
+    .left-column {
+      padding-left: 25px;
+      font-size: 13px;
+      margin-bottom: 10px;
+      p {
+        margin: 0;
+        &.subsection-title {
+          margin-top: 10px;
+          font-size: 15px;
+        }
+      }
+      #motif {
+        width: 100%;
+        max-width: 100%;
+        height: 5em;
+        resize: none;
+        margin: 5px 0;
+        padding: 5px;
+      }
+      .invoked-interest-container {
+        .invoked-interest-description {
+          margin: 0;
+        }
+        .interest-tooltip {
+          height: 24px;
+          vertical-align: bottom;
+        }
+        #invoked-interest-select {
+          width: 10em;
+          max-width: 100%;
+        }
+      }
+    }
+    .right-column {
+      padding: 0 15px;
+      #date-label,
+      #place-label,
+      #address-label {
+        display: block;
+        margin: 5px 0;
+      }
+      #date {
+        display: block;
+        max-width: 100%;
+        width: 10em;
+        padding: 3px 8px;
+      }
+      #place,
+      #address {
+        display: block;
+        width: 100%;
+        padding: 3px 8px;
+      }
+    }
+  }
+
+}
