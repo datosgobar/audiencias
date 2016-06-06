@@ -31,7 +31,11 @@
               <%= participant.person.name %>
             </div>
             <div class="participant-position">
-              <%= participant.ocupation %>
+              <% if (participant.ocupation && participant.ocupation.length > 0 ) { %>
+                <%= participant.ocupation %>
+              <% } else { %>
+                <span class="red">Ocupación</span>
+              <% } %>
             </div>
             <div class="participant-id">
               <% var country = participant.person.country %>

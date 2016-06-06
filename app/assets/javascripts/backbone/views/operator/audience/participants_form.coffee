@@ -62,10 +62,6 @@ class audiencias.views.AudienceParticipantsForm extends audiencias.views.Form
     personCountryValid = @validateCountry(personAttr.country)
     valid = valid and personCountryValid
     @$el.find('.countries-select').toggleClass('invalid', !personCountryValid)
-    
-    applicantOcupationValid = @validateName(participantAttr.ocupation)
-    valid = valid and applicantOcupationValid
-    @$el.find('.position-input').toggleClass('invalid', !applicantOcupationValid)
 
     @submitParticipant(participantAttr) if valid
 

@@ -30,6 +30,7 @@ class audiencias.views.AudienceParticipantsSection extends Backbone.View
       @$el.find('.participant-form').append(participantsForm.el)
       participantsForm.on('participantSubmitted', =>
         @participantBeingEdited = @newParticipant()
+        @render()
       )
 
   toggleParticipantsForm: =>

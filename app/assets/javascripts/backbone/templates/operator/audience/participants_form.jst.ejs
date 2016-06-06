@@ -45,15 +45,16 @@
       <% } %>
     </div>
     <div class="cell"> 
-      <div class="field-label">Ocupación</div>
-      <input type="text" placeholder="Ocupación" value="<%= participant.ocupation %>" class="field-input position-input">
+      <% var disabledIfPersonSelected = participant.person && participant.person.person_id ? 'disabled' : '' %>
+      <div class="field-label">Apellido y nombre</div>
+      <input type="text" placeholder="Apellido y nombre" value="<%= participant.person.name %>" class="field-input name-input" <%= disabledIfPersonSelected %>>
     </div>
   </div>
 
   <div class="row">
     <div class="cell">
-      <div class="field-label">Apellido y nombre</div>
-      <input type="text" placeholder="Apellido y nombre" value="<%= participant.person.name %>" class="field-input name-input">
+      <div class="field-label">Ocupación</div>
+      <input type="text" placeholder="Ocupación" value="<%= participant.ocupation %>" class="field-input position-input">
     </div>
     <div class="cell">
     </div>

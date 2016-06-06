@@ -198,7 +198,11 @@
                 <%= participant.person.name %>
               </div>
               <div class="participant-position">
-                <%= participant.ocupation %>
+                <% if (participant.ocupation && participant.ocupation.length > 0) { %>
+                  <%= participant.ocupation %>
+                <% } else { %> 
+                  <span class="red">Ocupación</span>
+                <% } %>
               </div>
               <div class="participant-id">
                 <% var country = participant.person.country %>
@@ -265,6 +269,14 @@
           <div class="info-content"><%= place %></div>
         <% } else { %>
           <div class="missing-field">Lugar</div>
+        <% } %>
+
+        <% var address = audience.get('address') %>
+        <% if (address && address.length > 0) { %>
+          <div class="info-label">Dirección</div>
+          <div class="info-content"><%= address %></div>
+        <% } else { %>
+          <div class="missing-field">Dirección</div>
         <% } %>
       </div>
 
