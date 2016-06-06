@@ -17,13 +17,16 @@ class OperatorsController < ApplicationController
     @obligees = @current_user.obligees.as_json
     @obligees << @current_obligee.as_json unless @current_user.obligees.include?(@current_obligee)
     
+    if params[:q]
+      total_audiences = @current_obligee.search_audiences(params[:q])
+    else
+      total_audiences = @current_obligee.all_audiences
+    end
+    
     page = (params[:pagina] || 1).to_i
-    per_page = 10
-    total_audiences = @current_obligee.audiences.where(deleted: false)
-    @audiences = total_audiences.paginate({
-      page: page,
-      per_page: per_page
-    }).order('created_at DESC')
+    per_page = 15
+    page_start = (page-1)*per_page
+    @audiences = total_audiences[page_start, per_page]
     @pagination = {
       total_audiences: total_audiences.length,
       total_pages: (total_audiences.length / per_page.to_f).ceil,
@@ -171,51 +174,6 @@ class OperatorsController < ApplicationController
     else
       render json: { success: false }
     end
-  end
-
-  def person_autocomplete
-    people = [{
-      label: '11478800',
-      person: { id_type: 'dni', person_id: '11478800', name: 'Catalina', surname: 'Nosiglia' }
-    }, {
-      label: '11198258',
-      person: { id_type: 'dni', person_id: '11198258', name: 'Luis', surname: 'Quevedo' }
-    }, {
-      label: '22293105',
-      person: { id_type: 'dni', person_id: '22293105', name: 'Maria Julieta', surname: 'García Lenzi' }
-    }, {
-      label: '28750416',
-      person: { id_type: 'dni', person_id: '28750416', name: 'Hernan Daniel', surname: 'Muñoz' }
-    }, {
-      label: '31422861',
-      person: { id_type: 'dni', person_id: '31422861', name: 'Nicolas', surname: 'Roibas' }
-    }, {
-      label: '23327604',
-      person: { id_type: 'dni', person_id: '23327604', name: 'Martin', surname: 'Chojo' }
-    }, {
-      label: '17605003',
-      person: { id_type: 'dni', person_id: '17605003', name: 'Patricia', surname: 'Holzman' }
-    }, {
-      label: '22678667',
-      person: { id_type: 'dni', person_id: '22678667', name: 'Carlos', surname: 'Verna' }
-    }, {
-      label: '20026746',
-      person: { id_type: 'dni', person_id: '20026746', name: 'Domingo', surname: 'Amaya' }
-    }, {
-      label: '22653243',
-      person: { id_type: 'dni', person_id: '22653243', name: 'Marina', surname: 'Klemensiewicz' }
-    }, {
-      label: '13753135',
-      person: { id_type: 'dni', person_id: '13753135', name: 'Manuel', surname: 'Sobrado' }
-    }]
-    id_type = params[:id_type]
-    person_id = params[:person_id]
-    if id_type and person_id
-      filteredPeople = people.select { |p| p[:label].include?(person_id) && p[:person][:id_type] == id_type }
-    else 
-      filteredPeople = [] 
-    end
-    render json: filteredPeople 
   end
 
 end

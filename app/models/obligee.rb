@@ -23,4 +23,15 @@ class Obligee < ActiveRecord::Base
   def update_minor_attributes(new_attr)
     self.position = new_attr[:position] if new_attr[:position]
   end
+
+  def search_audiences(query)
+    all_audiences.select { |audience| audience.includes_query?(query) }
+  end
+
+  def all_audiences
+    proper_audiences = audiences.where(deleted: false)
+    as_applicant_audiences = Audience.joins(:applicant).where('person_id = ?', person.id)
+    as_participant_audiences = Audience.joins(:participants).where('person_id = ?', person.id)
+    (proper_audiences | as_applicant_audiences | as_participant_audiences).sort_by(&:created_at).reverse
+  end
 end

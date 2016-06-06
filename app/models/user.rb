@@ -1,7 +1,6 @@
 class User < ActiveRecord::Base
 
 	validates :name, presence: true
-	validates :surname, presence: true
 	validates :email, format: { with: GLOBALS::EMAIL_REGEX }, uniqueness: { case_sensitive: false }
 	validates_inclusion_of :id_type, :in => %w(dni lc le)
 	validates :person_id, presence: true, uniqueness: true
@@ -45,7 +44,8 @@ class User < ActiveRecord::Base
 
 
   AS_JSON_OPTIONS = {
-    only: [:person_id, :id_type, :email, :id, :name, :surname, :telephone],
+    only: [:person_id, :id_type, :email, :id, :name, :telephone],
+    include: { obligees: Obligee::AS_JSON_OPTIONS },
     methods: [:role]
   }
 	def as_json(options={})
@@ -76,7 +76,6 @@ class User < ActiveRecord::Base
       user.id_type = params[:id_type]
       user.person_id = params[:person_id]
       user.name = params[:name]
-      user.surname = params[:surname]
       user.email = params[:email]
       require 'securerandom'
       user.password = SecureRandom.urlsafe_base64(8)
@@ -87,7 +86,6 @@ class User < ActiveRecord::Base
 
   def update_minor_attributes(new_attr)
     self.name = new_attr[:name] if new_attr[:name]
-    self.surname = new_attr[:surname] if new_attr[:surname]
     self.email = new_attr[:email] if new_attr[:email]
   end
 end

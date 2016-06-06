@@ -5,6 +5,7 @@ class Ability
     
     if user 
       role = user.role
+      can :manage, UtilsController
 
       if role == 'superadmin'
         can :manage, ManagementController

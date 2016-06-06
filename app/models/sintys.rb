@@ -8,7 +8,7 @@ class Sintys
 
   def initialize
     @key_path = File.join(Rails.root, 'private', 'key.pem')
-    @key_password = SINTYS_CONFIG['key_password']
+    @key_password = CREDENTIALS[:sintys_key_password]
     @cert_path = File.join(Rails.root, 'private', 'cert.pem')
     @cacert_path = File.join(Rails.root, 'private', 'cacert.pem')
     @port = 20010
@@ -16,7 +16,7 @@ class Sintys
 
     @organismo = "SRIFDNAC"
     @usuario_organismo = "CHADAD"
-    @password = SINTYS_CONFIG['user_password']
+    @password = CREDENTIALS[:sintys_user_password]
     @post_url_sintys = "https://sews.sintys.gov.ar/controlador/POST.server.php"
 
     @http = Net::HTTP.new(@url, @port)
@@ -127,85 +127,3 @@ class Sintys
   end
 
 end
-
-=begin
-sintis = Sintys.new()
-puts "Identificar con DNI anda bien"
-puts %{sintis.identificar_persona_fisica(:dni, "34321017")}
-puts sintis.identificar_persona_fisica(:dni, "34321017")
-puts sintis.data_error
-puts
-
-puts "Tambien funciona aunque no se especifique el tipo"
-puts %{sintis.identificar_persona_fisica("", "32648724")}
-puts sintis.identificar_persona_fisica("", "32648724")
-puts sintis.data_error
-puts
-
-puts "Si no encuentra el dni devuelve arreglo vacio"
-puts %{sintis.identificar_persona_fisica("", "1092732648724")}
-puts sintis.identificar_persona_fisica("", "1092732648724")
-puts sintis.data_error
-puts
-
-puts "Este es el pasaporte de pili, tira error, no acepta letras"
-puts %{sintis.identificar_persona_fisica("", "Aaa060656")}
-puts sintis.identificar_persona_fisica("", "Aaa060656")
-puts sintis.data_error
-puts
-
-puts "Este no tira error pero no encuentra a Pili, Pasaporte parece poco confiable, asi que no pondria la opcion"
-puts %{sintis.identificar_persona_fisica("", "060656")}
-puts sintis.identificar_persona_fisica("", "060656")
-puts sintis.data_error
-puts
-
-puts "Prueba mecha"
-puts %{sintis.identificar_persona_fisica("", "35056714")}
-puts sintis.identificar_persona_fisica("", "35056714")
-puts sintis.data_error
-puts
-
-puts "Prueba Nacho L."
-puts %{sintis.identificar_persona_fisica("", "34506128")}
-puts sintis.identificar_persona_fisica("", "34506128")
-puts sintis.data_error
-puts
-
-
-puts "Prueba Jose"
-puts %{sintis.identificar_persona_fisica("", "29520353")}
-puts sintis.identificar_persona_fisica("", "29520353")
-puts sintis.data_error
-puts
-
-puts "Prueba Vlada"
-puts %{sintis.identificar_persona_fisica("", "19007186")}
-puts sintis.identificar_persona_fisica("", "19007186")
-puts sintis.data_error
-puts
-
-puts "Vlada con su documento viejo"
-puts %{sintis.identificar_persona_fisica("", "93655582")}
-puts sintis.identificar_persona_fisica("", "93655582")
-puts sintis.data_error
-puts
-
-puts "Prueba Nacho H"
-puts %{sintis.identificar_persona_fisica("", "35368168")}
-puts sintis.identificar_persona_fisica("", "35368168")
-puts sintis.data_error
-puts
-
-puts "Encuentra los dnis por texto completo, una parte del de nacho no lo encuentra"
-puts %{sintis.identificar_persona_fisica("", "3450612")}
-puts sintis.identificar_persona_fisica("", "3450612")
-puts sintis.data_error
-puts
-
-puts "Este es el ciut de coca cola"
-puts %{sintis.identificar_persona_juridica("30525390086")}
-puts sintis.identificar_persona_juridica("30525390086")
-puts sintis.data_error
-puts
-=end
