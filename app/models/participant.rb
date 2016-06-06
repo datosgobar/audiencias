@@ -5,7 +5,6 @@ class Participant < ActiveRecord::Base
 
   validates :audience, presence: true
   validates :person, presence: true, uniqueness: { scope: :audience }
-  validates :ocupation, presence: true
 
   AS_JSON_OPTIONS = {
     only: [:id, :ocupation],
@@ -26,4 +25,11 @@ class Participant < ActiveRecord::Base
     end
   end
 
+  def publish_validations
+    if self.audience and self.person and self.ocupation and self.ocupation.length > 0
+      'valid'
+    else
+      'incomplete'
+    end
+  end
 end

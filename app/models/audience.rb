@@ -58,11 +58,31 @@ class Audience < ActiveRecord::Base
     else 
       date = 'incomplete'
     end
-    fields = if (self.date && self.summary && self.summary.length > 0 && self.interest_invoked && 
-      ['particular', 'difuso', 'colectivo'].include?(self.interest_invoked) && self.place && self.place.length > 0 && 
-      self.author && self.obligee && self.motif && self.motif.length > 0 && self.applicant && self.applicant.ocupation &&
-      self.applicant.ocupation.length > 0 && self.applicant.person.email && self.applicant.person.email.length > 0 &&
-      [false, true].include?(self.applicant.absent)) then 'valid' else 'incomplete' end
+
+    proper_fields_validation = if (
+      self.date && 
+      self.summary && 
+      self.summary.length > 0 && 
+      self.interest_invoked && 
+      ['particular', 'difuso', 'colectivo'].include?(self.interest_invoked) && 
+      self.place && 
+      self.place.length > 0 && 
+      self.address && 
+      self.address.length > 0 &&
+      self.author && 
+      self.obligee && 
+      self.motif && 
+      self.motif.length > 0) then 'valid' else 'incomplete' end
+
+    applicant_validation = if self.applicant then self.applicant.publish_validations else 'incomplete' end
+    participants_validations = self.participants.collect(&:publish_validations)
+    fields_validations = [proper_fields_validation, applicant_validation] + participants_validations
+
+    if fields_validations.all? { |validation| validation == 'valid' }
+      fields = 'valid'
+    else
+      fields = 'incomplete'
+    end
     { date: date, fields: fields }
   end
 

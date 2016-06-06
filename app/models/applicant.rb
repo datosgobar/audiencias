@@ -75,4 +75,13 @@ class Applicant < ActiveRecord::Base
     self.represented_state_organism = nil
     self.represented_people_group = nil
   end
+
+  def publish_validations
+    if (self.ocupation && self.ocupation.length > 0 && self.person && self.person.email && 
+      self.person.email.length > 0 && [false, true].include?(self.absent)) 
+      'valid' 
+    else 
+      'incomplete' 
+    end
+  end
 end
