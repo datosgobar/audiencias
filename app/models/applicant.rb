@@ -77,11 +77,26 @@ class Applicant < ActiveRecord::Base
   end
 
   def publish_validations
-    if (self.ocupation && self.ocupation.length > 0 && self.person && self.person.email && 
-      self.person.email.length > 0 && [false, true].include?(self.absent)) 
-      'valid' 
+    proper_validation = if (
+      self.ocupation and
+      self.ocupation.length > 0 and
+      self.person and
+      self.person.email and
+      self.person.email.length > 0 and
+      [false, true].include?(self.absent)) then 'valid' else  'incomplete'  end
+    
+    if self.represented_person
+      represented_validation = if (
+        self.represented_person_ocupation and 
+        self.represented_person_ocupation.length > 0) then 'valid' else 'incomplete' end
     else 
-      'incomplete' 
+      represented_validation = 'valid'
+    end
+
+    if proper_validation == 'valid' and represented_validation == 'valid'
+      'valid'
+    else
+      'incomplete'
     end
   end
 end

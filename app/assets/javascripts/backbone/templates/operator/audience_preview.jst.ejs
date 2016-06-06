@@ -98,7 +98,12 @@
               <%= applicant.get('represented_person').name %>
             </div>
             <div class="participant-position">
-              <%= applicant.get('represented_person_ocupation') %>
+              <% var ocupation = applicant.get('represented_person_ocupation') %>
+              <% if (ocupation && ocupation.length > 0) { %> 
+                <%= ocupation %>
+              <% } else { %> 
+                <span class="red">Ocupación</span>
+              <% } %>
             </div>
             <% var country = applicant.get('represented_person').country %>
             <div class="participant-country">

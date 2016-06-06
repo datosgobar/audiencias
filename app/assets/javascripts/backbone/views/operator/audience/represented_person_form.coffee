@@ -63,10 +63,6 @@ class audiencias.views.AudienceRepresentedApplicantForm extends audiencias.views
     personCountryValid = @validateCountry(personAttr.country)
     valid = valid and personCountryValid
     @$el.find('.countries-select').toggleClass('invalid', !personCountryValid)
-    
-    personOcupationValid = @validateName(personAttr.ocupation)
-    valid = valid and personOcupationValid
-    @$el.find('.position-input').toggleClass('invalid', !personOcupationValid)
 
     if valid
       @updateRepresented(personAttr)
