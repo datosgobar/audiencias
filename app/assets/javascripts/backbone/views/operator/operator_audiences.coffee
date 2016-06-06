@@ -13,6 +13,7 @@ class audiencias.views.OperatorAudiences extends Backbone.View
     @$el.html(@template(
       audiences: JSON.parse(JSON.stringify(audiencias.globals.audiences))
     ))
+    @$el.find(".nano").nanoScroller()
 
   confirmDeleteAudience: (e) =>
     audienceId = $(e.currentTarget).data('audience-id')
