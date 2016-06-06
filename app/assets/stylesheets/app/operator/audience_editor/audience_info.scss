@@ -115,6 +115,10 @@
         width: 100%;
         padding: 3px 8px;
       }
+
+      &.with-buttons .editing-buttons {
+        margin-top: -48px;
+      }
     }
   }
 

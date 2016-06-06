@@ -64,9 +64,11 @@
     <label id="place-label" for="place" class="<%= !hasPlace && !editing ? 'red' : '' %>">Lugar</label>
     <input type="text" id="place" placeholder="<%= editing ? 'Ej. Despacho, Ministerio de Educación' : '' %>" <%= disabledIfNotEditing %> value="<%= audience.get('place') %>">
     
-    <% var hasAddress = audience.get('address') && audience.get('address').length > 0 %>
+    <% var address = audience.get('address') %>
+    <% var hasAddress =  address && audience.get('address').length > 0 %>
+    <% var hasCoordinates = !!(hasAddress && audience.get('lat') && audience.get('lng')) %>
     <label id="address-label" for="address" class="<%= !hasAddress && !editing ? 'red' : '' %>">Dirección</label>
-    <input type="text" id="address" placeholder="<%= editing ? 'Ej. Av. Roque Saenz Peña 768, Ciudad Autonoma de Buenos Aires' : '' %>" <%= disabledIfNotEditing %> value="<%= audience.get('address') %>">
+    <input type="text" id="address" placeholder="<%= editing ? 'Ej. Av. Roque Saenz Peña 768, CABA' : '' %>" <%= disabledIfNotEditing %> value="<%= address %>" data-coordinates="<%= hasCoordinates %>">
 
     <% if (!editing) { %>
       <div class="editing-buttons">

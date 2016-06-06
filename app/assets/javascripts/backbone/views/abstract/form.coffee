@@ -1,4 +1,5 @@
 class audiencias.views.Form extends Backbone.View
+  autocompeteWrapper: JST["backbone/templates/operator/audience/autocomplete_wrapper"]
 
   setPersonAutoComplete: (inputSelector, optionSelectCallback) =>
     input = @$el.find(inputSelector)
@@ -19,7 +20,11 @@ class audiencias.views.Form extends Backbone.View
     return unless @_doSearch
     @_doSearch = false
 
-    id_type = @$el.find('.id-type-input').val() # todo: tomar como parametro el selector
+    # todo: tomar como parametro los selectores
+    if @$el.find('.id-type-input').length > 0
+      id_type = @$el.find('.id-type-input').val() 
+    else 
+      id_type = @$el.find('.countries-select').val()
     person_id = autocompleteRequest.term
     
     $.ajax(
@@ -27,8 +32,9 @@ class audiencias.views.Form extends Backbone.View
       method: 'GET'
       data: { id_type: id_type, person_id: person_id }
       success: (response) =>
-        wrappedPeople = @people2autocomplete(response)
-        autocompleteCallback(wrappedPeople)
+        if response and response.success
+          wrappedPeople = @people2autocomplete(response.results)
+          autocompleteCallback(wrappedPeople)
     )
 
   people2autocomplete: (peopleList) ->
@@ -40,14 +46,16 @@ class audiencias.views.Form extends Backbone.View
       }
     )
 
-  setAddressAutocomplete: (inputSelector, optionSelectCallback) =>
+  setAddressAutocomplete: (inputSelector) =>
     input = @$el.find(inputSelector)
+    @wrapAutocompleteInput(input)
     input.autocomplete(
       source: @searchAddress
       select: (e, ui) ->
         if ui and ui.item and ui.item.address
           address = ui.item.address
-          optionSelectCallback(address)
+          input.parent().addClass('value-selected').find('.selected-value').text(address.full_address)
+          input.trigger('autocompleteaddress', [address])
     )
     input.on('keyup', (e) =>
       if e.keyCode == 13
@@ -64,11 +72,28 @@ class audiencias.views.Form extends Backbone.View
       method: 'GET'
       data: { address: addressQuery }
       success: (response) =>
-        wrappedAddress = _.collect(response.results, (a) -> 
-          { label: a.full_address, address: a }
-        )
-        autocompleteCallback(wrappedAddress)
+        if response and response.success
+          wrappedAddress = _.collect(response.results, (a) -> 
+            { label: a.full_address, address: a }
+          )
+          console.log('calling callback')
+          autocompleteCallback(wrappedAddress)
     )
+
+  wrapAutocompleteInput: (input) =>
+    wrapper = $(@autocompeteWrapper())
+    input.after(wrapper)
+    wrapper.append(input)
+    wrapper.on('click', '.search-icon', => 
+      @_doSearch = true
+      input.autocomplete('search') 
+    ).on('click', '.remove-icon', =>
+      input.parent().removeClass('value-selected')
+      input.val('')
+      input.trigger('autocompleteremoved')
+    )
+    if input.data('coordinates')
+      input.parent().addClass('value-selected').find('.selected-value').text(input.val())
 
   validatePersonId: (person_id, country) ->
     if country == 'Argentina'

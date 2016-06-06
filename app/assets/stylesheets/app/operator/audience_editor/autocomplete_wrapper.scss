@@ -1,0 +1,47 @@
+#audience-editor .autocomplete-wrapper {
+  position: relative;
+
+  .search-icon {
+    position: absolute;
+    font-size: 10px;
+    height: 22px;
+    width: 6em;
+    top: 4px;
+    right: 4px;
+  }
+
+  .remove-icon {
+    position: absolute;
+    display: none;
+    height: 24px;
+    width: 24px;
+    cursor: pointer;
+    right: 0;
+    top: 2px;
+  }
+
+  input {
+    padding-right: 70px!important;
+  }
+
+  .selected-value {
+    display: none;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: solid 1px $grey-300;
+    @include border-radius(4px);
+    padding: 2px 26px 2px 4px;
+  }
+
+  &.value-selected {
+
+    input, .search-icon {
+      display: none!important;
+    }
+    .selected-value,
+    .remove-icon {
+      display: block;
+    }
+  }
+}

@@ -20,7 +20,7 @@ class UtilsController < ApplicationController
       response = sintis.identificar_persona_fisica(id_type.to_sym, person_id)
       responsePeople = parse_sintys_people(response[:results]) if response[:results].length > 0
     end
-    render json: responsePeople
+    render json: { success: true, results: responsePeople }
   end
 
   def address_autocomplete
@@ -32,7 +32,7 @@ class UtilsController < ApplicationController
     google_geocoding = GoogleGeocoding.new
     google_response = google_geocoding.search_address(address)
     response_address = parse_google_address(google_response)
-    render json: { results: response_address }
+    render json: { success: true, results: response_address }
   end
 
   private

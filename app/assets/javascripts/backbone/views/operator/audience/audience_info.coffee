@@ -6,6 +6,8 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
     'click #remove-main-info': 'removeMainInfo'
     'click #remove-summary-info': 'removeSummaryInfo'
     'click #confirm-main-info': 'submitChanges'
+    'autocompleteaddress #address': 'onAddressAutocompleteSelected'
+    'autocompleteremoved #address': 'onAddressAutocompleteRemoved'
 
   initialize: (@options) ->
     @audience = @options.audience
@@ -25,10 +27,13 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
       )
       @setDatePicker()
       @setMotifMaxLength()
-      @setAddressAutocomplete('#address', @onAddressAutocompleteSelected)
+      @setAddressAutocomplete('#address')
 
-  onAddressAutocompleteSelected: (address) =>
+  onAddressAutocompleteSelected: (e, address) =>
     @$el.find('#address').data('coordinates', true).data('lat', address.lat).data('lng', address.lng)
+
+  onAddressAutocompleteRemoved: (e) =>
+    @$el.find('#address').data('coordinates', false)
 
   setDatePicker: =>
     @$el.find('#date').datetimepicker(
@@ -103,11 +108,15 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
       someThingChanged = true
 
     newAddress = @$el.find('#address').val().trim()
-    if newAddress != @audience.get('address') and @$el.find('#address').data('coordinates')
-      data.address = newAddress
-      data.lat = @$el.find('#address').data('lat')
-      data.lng = @$el.find('#address').data('lng')
+    if newAddress != @audience.get('address') 
       someThingChanged = true
+      data.address = newAddress
+      if @$el.find('#address').data('coordinates')
+        data.lat = @$el.find('#address').data('lat')
+        data.lng = @$el.find('#address').data('lng')
+      else
+        data.lat = null
+        data.lng = null
 
     if someThingChanged
       callback = => @audience.set('editingInfo', false)
