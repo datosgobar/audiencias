@@ -1,4 +1,4 @@
-class audiencias.views.AudienceRepresentedGroupForm extends Backbone.View
+class audiencias.views.AudienceRepresentedGroupForm extends audiencias.views.Form
   template: JST["backbone/templates/operator/audience/represented_group_form"]
   events:
     'change .nationality-radio': 'nationalityChange'
@@ -62,27 +62,6 @@ class audiencias.views.AudienceRepresentedGroupForm extends Backbone.View
       @updateRepresented(groupAttrs)
 
   updateRepresented: (groupData) =>
-    data = { 
-      audience: { 
-        id: @audience.get('id'),
-        applicant: { represented_people_group: groupData } 
-      } 
-    }
-    $.ajax(
-      url: '/intranet/editar_audiencia'
-      method: 'POST'
-      data: data
-      success: (response) =>
-        if response.success and response.audience
-            response.audience.editingRepresented = false
-            @audience.forceUpdate(response.audience)
-    )
-
-  validateCountry: (country) ->
-    country == 'Argentina' or audiencias.globals.countries.indexOf(country) > -1
-
-  validateName: (name) ->
-    name.trim().length > 0 
-
-  validateEmail: (email) ->
-    /[\w+\-.]+@[a-z\d\-.]+\.[a-z]+/i.test(email)
+    data = { applicant: { represented_people_group: groupData } }
+    callback = => @audience.set('editingRepresented', false)
+    @audience.submitEdition(data, callback)

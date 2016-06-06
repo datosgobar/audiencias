@@ -1,4 +1,4 @@
-class audiencias.views.AudienceParticipantsForm extends Backbone.View
+class audiencias.views.AudienceParticipantsForm extends audiencias.views.Form
   template: JST["backbone/templates/operator/audience/participants_form"]
   className: 'person-form'
   events:
@@ -13,39 +13,14 @@ class audiencias.views.AudienceParticipantsForm extends Backbone.View
     @$el.html(@template(
       participant: @participant
     ))
-    @setTooltip()
-    @setAutoComplete()
-
-  setAutoComplete: =>
-    if @$el.find('#participant-nationality-argentine').is(':checked')
-      @$el.find('.person-id-input').autocomplete(
-        source: @searchPerson
-        select: @autocompleteSelect
-      )
-
-  searchPerson: (request, response) =>
-    id_type = @$el.find('.id-type-input').val()
-    person_id = request.term
-    $.ajax(
-      url: '/intranet/autocomplete_persona'
-      method: 'GET'
-      data: { id_type: id_type, person_id: person_id }
-      success: response
-    )
-
-  autocompleteSelect: (e, ui) =>
-    if ui and ui.item and ui.item.person
-      person = ui.item.person
-      @$el.find('.name-input').val(person.name)
-      @$el.find('.surname-input').val(person.surname)
-
-  setTooltip: =>
-    @$el.find('.id-tooltip').tooltipster(
+    new audiencias.views.Tooltip({
+      el: @$el.find('.id-tooltip')
       content: "Solicite primero el pasaporte, de no contar con este solicite id."
-      maxWidth: 250
-      position: 'right'
-      theme: 'tooltipster-light'
-    )
+    })
+    @setPersonAutoComplete('.person-id-input', @personAutocompleteSelected)
+
+  personAutocompleteSelected: (person) =>
+    @$el.find('.name-input').val(person.name)
 
   nationalityChanged: =>
     newCountry = @$el.find('.nationality-radio:checked').val()
@@ -61,7 +36,6 @@ class audiencias.views.AudienceParticipantsForm extends Backbone.View
     personAttr = {
       person_id: @$el.find('.person-id-input').val().trim()
       name: @$el.find('.name-input').val().trim()
-      surname: @$el.find('.surname-input').val().trim()
       country: country
       id_type: if country == 'Argentina' then @$el.find('.id-type-input').val() else country
     }
@@ -75,10 +49,6 @@ class audiencias.views.AudienceParticipantsForm extends Backbone.View
     personNameValid = @validateName(personAttr.name)
     valid = valid and personNameValid
     @$el.find('.name-input').toggleClass('invalid', !personNameValid)
-    
-    personSurnameValid = @validateName(personAttr.surname)
-    valid = valid and personSurnameValid
-    @$el.find('.surname-input').toggleClass('invalid', !personSurnameValid)
     
     personIdValid = @validatePersonId(personAttr.person_id, personAttr.country)
     valid = valid and personIdValid
@@ -95,38 +65,6 @@ class audiencias.views.AudienceParticipantsForm extends Backbone.View
     @submitParticipant(participantAttr) if valid
 
   submitParticipant: (participantData) =>
-    data = { 
-      audience: { 
-        id: @audience.get('id'),
-        new: !!@audience.get('new')
-        participant: participantData
-      },
-    }
-    if data.audience.new 
-      data.audience.obligee_id = audiencias.globals.obligees.currentObligee().get('id')
-      data.audience.author_id = audiencias.globals.users.currentUser().get('id')
-    $.ajax(
-      url: '/intranet/editar_audiencia'
-      method: 'POST'
-      data: data 
-      success: (response) =>
-        if response.success and response.audience
-          response.audience.new = false
-          @trigger('participantSubmitted')
-          @audience.forceUpdate(response.audience)
-    )
-
-  validatePersonId: (person_id, country) ->
-    if country == 'Argentina'
-      !!parseInt(person_id) and parseInt(person_id) > 0
-    else
-      person_id.length > 0
-
-  validateName: (name) ->
-    name.trim().length > 0 
-
-  validateEmail: (email) ->
-    /[\w+\-.]+@[a-z\d\-.]+\.[a-z]+/i.test(email)
-
-  validateCountry: (country) ->
-    country == 'Argentina' or audiencias.globals.countries.indexOf(country) > -1
+    data = { participant: participantData }
+    callback = => @trigger('participantSubmitted')
+    @audience.submitEdition(data, callback)

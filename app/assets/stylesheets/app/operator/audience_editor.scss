@@ -263,6 +263,9 @@
     .confirm-main-info-container {
       text-align: right;
     }
+    .missing-fields {
+      margin-top: 30px;
+    }
   }
 
   #audience-main,
@@ -272,6 +275,26 @@
     select:disabled {
       border: none;
       color: $grey-500;
+    }
+    .with-buttons {
+      position: relative;
+      padding-right: 7em;
+      min-height: 50px;
+      .editing-buttons {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: 7em;
+        font-size: 12px;
+        margin-top: -25px;
+        button {
+          width: 6em;
+          &.grey {
+            background: $grey-300;
+            margin-top: 5px;
+          }
+        }
+      }
     }
   }
 

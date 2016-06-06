@@ -1,4 +1,4 @@
-class audiencias.views.AudienceRepresentedOrganismForm extends Backbone.View
+class audiencias.views.AudienceRepresentedOrganismForm extends audiencias.views.Form
   template: JST["backbone/templates/operator/audience/represented_organism_form"]
   events:
     'change .nationality-radio': 'nationalityChange'
@@ -44,24 +44,6 @@ class audiencias.views.AudienceRepresentedOrganismForm extends Backbone.View
       @updateRepresented(organismAttrs)
 
   updateRepresented: (organismData) =>
-    data = { 
-      audience: { 
-        id: @audience.get('id'),
-        applicant: { represented_state_organism: organismData } 
-      } 
-    }
-    $.ajax(
-      url: '/intranet/editar_audiencia'
-      method: 'POST'
-      data: data
-      success: (response) =>
-        if response.success and response.audience
-            response.audience.editingRepresented = false
-            @audience.forceUpdate(response.audience)
-    )
-
-  validateCountry: (country) ->
-    country == 'Argentina' or audiencias.globals.countries.indexOf(country) > -1
-
-  validateName: (name) ->
-    name.trim().length > 0 
+    data = { applicant: { represented_state_organism: organismData } }
+    callback = => @audience.set('editingRepresented', false)
+    @audience.submitEdition(data, callback)

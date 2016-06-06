@@ -27,3 +27,24 @@ class audiencias.models.Audience extends Backbone.Model
     delete newAudience.author
 
     @set(newAudience)
+
+
+  submitEdition: (newData, callback) =>
+    if @get('id')
+      newData.id = @get('id')
+    else
+      newData.new = true
+      newData.obligee_id = audiencias.globals.obligees.currentObligee().get('id')
+      newData.author_id = audiencias.globals.users.currentUser().get('id')
+
+    $.ajax(
+      url: '/intranet/editar_audiencia'
+      method: 'POST'
+      data: { audience: newData }
+      success: (response) =>
+        if response.success and response.audience
+          unless @get('id')
+            window.location.hash = "audiencia=#{response.audience.id}"
+          @forceUpdate(response.audience)
+          callback() if callback
+    )

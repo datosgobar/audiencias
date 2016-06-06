@@ -28,12 +28,18 @@
           <option value="difuso" <%= interest == 'difuso' ? 'selected' : '' %>>Difuso</option>
         </select> 
         <img src="/assets/logo-question.svg" class="interest-tooltip tooltip">
+        <div class="interest-tooltip-content hidden">
+          <p style="margin:0;font-weight: bold;">Tipo de interes</p>
+          <p style="margin:0"><span style="font-weight: bold">Colectivo</span>: Se pretende influir en una decisión que afecta los derechos e intereses de un grupo de personas determinable. <span style="font-style: italic;">Ej: Modificar la normativa que regula ciertos procedimientos en el Colegio de Escribanos de CABA.</span></p>
+          <p style="margin:0"><span style="font-weight: bold">Particular</span>: Se pretende influir en una decisión que afecta los derechos e intereses de una persona en particular. <span style="font-style: italic;">Ej: Conseguir fondos para la intervención quirúrgica de alta complejidad de un individuo.</span></p>
+          <p style="margin:0"><span style="font-weight: bold">Difuso</span>: Se pretende influir en una decisión que afecta los derechos e intereses de un grupo de personas indeterminable. <span style="font-style: italic;">Ej: Regular los aumentos de precios del huevo, una materia prima utilizada por la industria y toda la ciudadanía. </span></p>
+        </div>
       <% } else { %>
         <p class="subsection-title"><%= (interest || '').toUpperCase() %></p>
       <% } %>
     </div>
   </div>
-  <div class="right-column">
+  <div class="right-column <%= editing ? '' : 'with-buttons' %>">
     <% 
     var date = new Date(audience.get('date') || '');
     var dateString = '';
@@ -61,26 +67,40 @@
     <% var hasAddress = audience.get('address') && audience.get('address').length > 0 %>
     <label id="address-label" for="address" class="<%= !hasAddress && !editing ? 'red' : '' %>">Dirección</label>
     <input type="text" id="address" placeholder="<%= editing ? 'Ej. Av. Roque Saenz Peña 768, Ciudad Autonoma de Buenos Aires' : '' %>" <%= disabledIfNotEditing %> value="<%= audience.get('address') %>">
+
+    <% if (!editing) { %>
+      <div class="editing-buttons">
+        <button id="edit-main-info">EDITAR</button>
+        <button id="remove-main-info" class="grey">BORRAR</button>
+      </div>
+    <% } %>
   </div>
 </div>
 
 <div class="editor-section" id="audience-theme">
-  <% var hasSummary = audience.get('summary') && audience.get('summary').length > 0 %>
-  <p class="subsection-title <%= !hasSummary && !editing ? 'red' : '' %>">Síntesis</p>
-  <% if (editing) { %>
-    <p class="subsection-description">Describa de manera concisa lo sucedido en la audiencia, lo resuelto y el seguimiento del tema, de corresponder.</p>
-  <% } %>
-  <textarea id="summary" placeholder="<%= editing ? 'Ej: En el encuentro se acercaron posiciones entre el pedido de los participantes de regular los aumentos de precios del huevo y lo que actualmente ya está haciendo el ministerio al respecto. Se acordó quedar en contacto para hacer un seguimiento bimestral del tema.' : '' %>" <%= disabledIfNotEditing %>><%= audience.get('summary') %></textarea>
-  <div class="confirm-main-info-container">
+  <div class="<%= editing ? '' : 'with-buttons' %>">
+    <% var hasSummary = audience.get('summary') && audience.get('summary').length > 0 %>
+    <p class="subsection-title <%= !hasSummary && !editing ? 'red' : '' %>">Síntesis</p>
     <% if (editing) { %>
-      <button id="confirm-main-info">GUARDAR</button>
+      <p class="subsection-description">Describa de manera concisa lo sucedido en la audiencia, lo resuelto y el seguimiento del tema, de corresponder.</p>
+      <textarea id="summary" placeholder="<%= editing ? 'Ej: En el encuentro se acercaron posiciones entre el pedido de los participantes de regular los aumentos de precios del huevo y lo que actualmente ya está haciendo el ministerio al respecto. Se acordó quedar en contacto para hacer un seguimiento bimestral del tema.' : '' %>" <%= disabledIfNotEditing %>><%= audience.get('summary') %></textarea>
     <% } else { %>
-      <button id="edit-main-info">EDITAR</button>
+      <p class="full-summary"><%= audience.get('summary') %></p>
+    <% } %>
+    <div class="confirm-main-info-container">
+      <% if (editing) { %>
+        <button id="confirm-main-info">GUARDAR</button>
+      <% } else { %>
+        <div class="editing-buttons">
+          <button id="edit-summary-info">EDITAR</button>
+          <button id="remove-summary-info" class="grey">BORRAR</button>
+        </div>
+      <% } %>
+    </div>
+
+    <% var missingAnyField = !hasMotif || !hasInterest || !dateIsValid || !hasPlace || !hasAddress || !hasSummary %>
+    <% if (!editing && missingAnyField) { %>
+      <div class="red missing-fields">*No has completado todos los campos requeridos para publicar la audiencia</div>
     <% } %>
   </div>
-
-  <% var missingAnyField = !hasMotif || !hasInterest || !dateIsValid || !hasPlace || !hasAddress || !hasSummary %>
-  <% if (!editing && missingAnyField) { %>
-    <div class="red">*No has completado todos los campos requeridos para publicar la audiencia</div>
-  <% } %>
 </div>

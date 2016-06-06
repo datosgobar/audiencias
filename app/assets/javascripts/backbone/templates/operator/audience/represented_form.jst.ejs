@@ -2,13 +2,46 @@
 
 <div class="representation-type">
   <label for="represented-person">Persona física</label>
-  <input type="radio" name="representation" id="represented-person" <%= applicant.get('represented_person') ? 'checked' : '' %> class="represented-type-radio">
-  <label for="represented-entity">Persona jurídica <img src="/assets/logo-question.svg" class="entity-tooltip tooltip"></label>
-  <input type="radio" name="representation" id="represented-entity" <%= applicant.get('represented_legal_entity') ? 'checked' : '' %> class="represented-type-radio">
-  <label for="represented-organism">Organismo estatal <img src="/assets/logo-question.svg" class="organism-tooltip tooltip"></label>
-  <input type="radio" name="representation" id="represented-organism" <%= applicant.get('represented_state_organism') ? 'checked' : '' %> class="represented-type-radio">
-  <label for="represented-group">Grupo de personas <img src="/assets/logo-question.svg" class="group-tooltip tooltip"></label>
-  <input type="radio" name="representation" id="represented-group" <%= applicant.get('represented_people_group') ? 'checked' : '' %> class="represented-type-radio">
+  <input type="radio" name="representation" id="represented-person" 
+    <%= applicant.get('represented_person') ? 'checked' : '' %> class="represented-type-radio">
+  
+  <label for="represented-entity">
+    Persona jurídica 
+    <img src="/assets/logo-question.svg" class="entity-tooltip tooltip">
+  </label>
+  <input type="radio" name="representation" id="represented-entity" 
+    <%= applicant.get('represented_legal_entity') ? 'checked' : '' %> class="represented-type-radio">
+  <div class="entity-tooltip-content hidden">
+    <p style="margin: 0">
+      Un organismo, organización, asociación, empresa o institución que posea personería jurídica. 
+      <span style="font-style: italic">Ej: Fundación Greenpeace Argentina.</span>
+    </p>
+  </div>
+
+  <label for="represented-organism">
+    Organismo estatal 
+    <img src="/assets/logo-question.svg" class="organism-tooltip tooltip">
+  </label>
+  <input type="radio" name="representation" id="represented-organism" 
+    <%= applicant.get('represented_state_organism') ? 'checked' : '' %> class="represented-type-radio">
+  <div class="organism-tooltip-content hidden">
+    <p style="margin: 0">
+      Organismo, entidad, empresa, sociedad, dependencia u otro ente dentro del Estado.
+    </p>
+  </div>
+
+  <label for="represented-group">
+    Grupo de personas 
+    <img src="/assets/logo-question.svg" class="group-tooltip tooltip">
+  </label>
+  <input type="radio" name="representation" id="represented-group" 
+    <%= applicant.get('represented_people_group') ? 'checked' : '' %> class="represented-type-radio">
+  <div class="group-tooltip-content hidden">
+    <p style="margin: 0">
+      Colectivo o grupo de personas físicas que no poseen personería jurídica. 
+      <span style="font-style: italic">Ej: Un grupo de vecinos.</span>
+    </p>
+  </div>
 </div>
 
 <div class="inner-form"></div>

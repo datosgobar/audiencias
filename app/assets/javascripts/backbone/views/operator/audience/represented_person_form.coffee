@@ -1,4 +1,4 @@
-class audiencias.views.AudienceRepresentedApplicantForm extends Backbone.View
+class audiencias.views.AudienceRepresentedApplicantForm extends audiencias.views.Form
   template: JST["backbone/templates/operator/audience/represented_person_form"]
   events:
     'change .nationality-radio': 'nationalityChange'
@@ -12,30 +12,10 @@ class audiencias.views.AudienceRepresentedApplicantForm extends Backbone.View
     @$el.html(@template(
       audience: @audience
     )) 
-    @setAutoComplete()
+    @setPersonAutoComplete('.person-id-input', @personAutocompleteSelected)
 
-  setAutoComplete: =>
-    if @$el.find('#represented-nationality-argentine').is(':checked')
-      @$el.find('.person-id-input').autocomplete(
-        source: @searchPerson
-        select: @autocompleteSelect
-      )
-
-  searchPerson: (request, response) =>
-    id_type = @$el.find('.id-type-input').val()
-    person_id = request.term
-    $.ajax(
-      url: '/intranet/autocomplete_persona'
-      method: 'GET'
-      data: { id_type: id_type, person_id: person_id }
-      success: response
-    )
-
-  autocompleteSelect: (e, ui) =>
-    if ui and ui.item and ui.item.person
-      person = ui.item.person
-      @$el.find('.name-input').val(person.name)
-      @$el.find('.surname-input').val(person.surname)
+  personAutocompleteSelected: (person) =>
+    @$el.find('.name-input').val(person.name)
 
   nationalityChange: =>
     newCountry = @$el.find('.nationality-radio:checked').val()
@@ -53,7 +33,6 @@ class audiencias.views.AudienceRepresentedApplicantForm extends Backbone.View
     personAttr = {
       person_id: @$el.find('.person-id-input').val().trim()
       name: @$el.find('.name-input').val().trim()
-      surname: @$el.find('.surname-input').val().trim()
       email: @$el.find('.email-input').val().trim()
       telephone: @$el.find('.telephone-input').val().trim()
       country: country
@@ -66,10 +45,6 @@ class audiencias.views.AudienceRepresentedApplicantForm extends Backbone.View
     personNameValid = @validateName(personAttr.name)
     valid = valid and personNameValid
     @$el.find('.name-input').toggleClass('invalid', !personNameValid)
-    
-    personSurnameValid = @validateName(personAttr.surname)
-    valid = valid and personSurnameValid
-    @$el.find('.surname-input').toggleClass('invalid', !personSurnameValid)
     
     personIdValid = @validatePersonId(personAttr.person_id, personAttr.country)
     valid = valid and personIdValid
@@ -92,33 +67,6 @@ class audiencias.views.AudienceRepresentedApplicantForm extends Backbone.View
       @updateRepresented(personAttr)
 
   updateRepresented: (personData) =>
-    data = { 
-      audience: { 
-        id: @audience.get('id'),
-        applicant: { represented_person: personData } 
-      } 
-    }
-    $.ajax(
-      url: '/intranet/editar_audiencia'
-      method: 'POST'
-      data: data
-      success: (response) =>
-        if response.success and response.audience
-            response.audience.editingRepresented = false
-            @audience.forceUpdate(response.audience)
-    )
-
-  validatePersonId: (person_id, country) ->
-    if country == 'Argentina'
-      !!parseInt(person_id) and parseInt(person_id) > 0
-    else
-      person_id.length > 0
-
-  validateName: (name) ->
-    name.trim().length > 0 
-
-  validateEmail: (email) ->
-    /[\w+\-.]+@[a-z\d\-.]+\.[a-z]+/i.test(email)
-
-  validateCountry: (country) ->
-    country == 'Argentina' or audiencias.globals.countries.indexOf(country) > -1
+    data = { applicant: { represented_person: personData } }
+    callback = => @audience.set('editingRepresented', false)
+    @audience.submitEdition(data, callback)

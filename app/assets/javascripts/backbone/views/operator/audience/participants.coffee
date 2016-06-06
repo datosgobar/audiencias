@@ -16,7 +16,10 @@ class audiencias.views.AudienceParticipantsSection extends Backbone.View
     @$el.html(@template(
       audience: @audience
     ))
-    @setTooltips()
+    new audiencias.views.Tooltip({
+      el: @$el.find('.participants-tooltip')
+      content: "Si han participado de la audiencia más personas, debe aclararlo aquí."
+    })
 
     if @audience.get('editingParticipants')
       participantsForm = new audiencias.views.AudienceParticipantsForm(
@@ -28,14 +31,6 @@ class audiencias.views.AudienceParticipantsSection extends Backbone.View
       participantsForm.on('participantSubmitted', =>
         @participantBeingEdited = @newParticipant()
       )
-
-  setTooltips: =>
-    @$el.find('.participants-tooltip').tooltipster(
-      content: "Si han participado de la audiencia más personas, debe aclararlo aquí."
-      maxWidth: 250
-      position: 'right'
-      theme: 'tooltipster-light'
-    )
 
   toggleParticipantsForm: =>
     editingParticipants = @$el.find('#yes-participants').is(':checked')

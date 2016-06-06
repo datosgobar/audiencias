@@ -34,30 +34,22 @@ class audiencias.views.AudienceRepresentedForm extends Backbone.View
       @$el.find('.inner-form').append(groupForm.el)
 
   setTooltips: =>
-    entityContent = '<p style="margin: 0">Un organismo, organización, asociación, empresa o institución que posea personería jurídica. <span style="font-style: italic">Ej: Fundación Greenpeace Argentina.</span></p>'
-    @$el.find('.entity-tooltip').tooltipster(
-      content: entityContent
-      maxWidth: 250
-      position: 'right'
-      theme: 'tooltipster-light'
+    new audiencias.views.Tooltip(
+      el: @$el.find('.entity-tooltip')
+      content: @$el.find('.entity-tooltip-content').html()
       contentAsHTML: true
     )
 
-    organismContent = '<p style="margin: 0">Organismo, entidad, empresa, sociedad, dependencia u otro ente dentro del Estado.</p>'
-    @$el.find('.organism-tooltip').tooltipster(
-      content: organismContent
-      maxWidth: 250
-      position: 'right'
-      theme: 'tooltipster-light'
+    new audiencias.views.Tooltip(
+      el: @$el.find('.organism-tooltip')
+      content: @$el.find('.organism-tooltip-content').html()
       contentAsHTML: true
     )
 
-    groupContent = '<p style="margin: 0">Colectivo o grupo de personas físicas que no poseen personería jurídica. <span style="font-style: italic">Ej: Un grupo de vecinos.</span></p>'
-    @$el.find('.group-tooltip').tooltipster(
-      content: groupContent
-      maxWidth: 250
+    new audiencias.views.Tooltip(
+      el: @$el.find('.group-tooltip')
+      content: @$el.find('.group-tooltip-content').html()
       position: 'left'
-      theme: 'tooltipster-light'
       contentAsHTML: true
     )    
 

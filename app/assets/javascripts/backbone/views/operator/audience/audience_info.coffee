@@ -1,7 +1,10 @@
-class audiencias.views.AudienceInfoSection extends Backbone.View
+class audiencias.views.AudienceInfoSection extends audiencias.views.Form
   template: JST["backbone/templates/operator/audience/main_info"]
   events:
-    'click #edit-main-info': 'enableEdit'
+    'click #edit-main-info': 'enableMainEdit'
+    'click #edit-summary-info': 'enableSummaryEdit'
+    'click #remove-main-info': 'removeMainInfo'
+    'click #remove-summary-info': 'removeSummaryInfo'
     'click #confirm-main-info': 'submitChanges'
 
   initialize: (@options) ->
@@ -14,9 +17,18 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
     ))
 
     if @audience.get('editingInfo')
-      @setTooltip()
+      new audiencias.views.Tooltip(
+        el: @$el.find('.interest-tooltip')
+        contentAsHTML: true
+        content: @$el.find('.interest-tooltip-content').html()
+        maxWidth: 400
+      )
       @setDatePicker()
       @setMotifMaxLength()
+      @setAddressAutocomplete('#address', @onAddressAutocompleteSelected)
+
+  onAddressAutocompleteSelected: (address) =>
+    @$el.find('#address').data('coordinates', true).data('lat', address.lat).data('lng', address.lng)
 
   setDatePicker: =>
     @$el.find('#date').datetimepicker(
@@ -46,21 +58,19 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
         motifTextarea.val(cuttedText)
     )
 
-  setTooltip: =>
-    content = '<p style="margin:0;font-weight: bold;">Tipo de interes</p>'
-    content += '<p style="margin:0"><span style="font-weight: bold">Colectivo</span>: Se pretende influir en una decisión que afecta los derechos e intereses de un grupo de personas determinable. <span style="font-style: italic;">Ej: Modificar la normativa que regula ciertos procedimientos en el Colegio de Escribanos de CABA.</span></p>'
-    content += '<p style="margin:0"><span style="font-weight: bold">Particular</span>: Se pretende influir en una decisión que afecta los derechos e intereses de una persona en particular. <span style="font-style: italic;">Ej: Conseguir fondos para la intervención quirúrgica de alta complejidad de un individuo.</span></p>'
-    content += '<p style="margin:0"><span style="font-weight: bold">Difuso</span>: Se pretende influir en una decisión que afecta los derechos e intereses de un grupo de personas indeterminable. <span style="font-style: italic;">Ej: Regular los aumentos de precios del huevo, una materia prima utilizada por la industria y toda la ciudadanía. </span></p>'
-    @$el.find('.interest-tooltip').tooltipster(
-      content: content
-      maxWidth: 400
-      position: 'right'
-      theme: 'tooltipster-light'
-      contentAsHTML: true
-    )
-
-  enableEdit: =>
+  enableMainEdit: =>
     @audience.set('editingInfo', true)
+
+  enableSummaryEdit: =>
+    @audience.set('editingInfo', true)
+
+  removeMainInfo: =>
+    data = { interest_invoked: '', motif: '', date: '', place: '', address: '' }
+    @audience.submitEdition(data)
+
+  removeSummaryInfo: =>
+    data = { summary: '' }
+    @audience.submitEdition(data)
 
   submitChanges: =>
     data = { id: @audience.get('id') }
@@ -93,25 +103,15 @@ class audiencias.views.AudienceInfoSection extends Backbone.View
       someThingChanged = true
 
     newAddress = @$el.find('#address').val().trim()
-    if newAddress != @audience.get('address')
+    if newAddress != @audience.get('address') and @$el.find('#address').data('coordinates')
       data.address = newAddress
+      data.lat = @$el.find('#address').data('lat')
+      data.lng = @$el.find('#address').data('lng')
       someThingChanged = true
 
     if someThingChanged
-      data.new = !!@audience.get('new')
-      if data.new 
-        data.obligee_id = audiencias.globals.obligees.currentObligee().get('id')
-        data.author_id = audiencias.globals.users.currentUser().get('id')
-      $.ajax(
-        url: '/intranet/editar_audiencia'
-        method: 'POST'
-        data: { audience: data }
-        success: (response) =>
-          if response.success and response.audience
-            response.audience.editingInfo = false
-            response.audience.new = false
-            @audience.forceUpdate(response.audience)
-      )
+      callback = => @audience.set('editingInfo', false)
+      @audience.submitEdition(data, callback)
     else
       @audience.set('editingInfo', false)
 
