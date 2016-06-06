@@ -20,4 +20,4 @@
 TODO
 invision
 /private
-config/sintys.yml
+config/initializers/passwords.rb
