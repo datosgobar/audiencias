@@ -10,13 +10,13 @@
           <% for (var i=0; i<obligees.length; i++) { %>
             <% var obligee = obligees[i]; %>
               <option value="<%= obligee.id %>" <%= currentObligee == obligee.id ? 'selected': '' %>>
-                <%= obligee.person.name %> <%= obligee.person.surname %>
+                <%= obligee.person.name %>
               </option>
           <% } %>
         </select>
       <% } else if (obligees.length == 1) { %>
         <span class="unique-current-obligee">
-          <%= obligees[0].person.name %> <%= obligees[0].person.surname %>
+          <%= obligees[0].person.name %>
         </span>
       <% } %>
     </div>
@@ -27,8 +27,8 @@
 
   <div id="navigation-right">
     <div id="audience-text-search-container">
-      <!--<input type="text" placeholder="Buscar por palabra clave">
-      <img src="/assets/icon-search.svg" id="search-icon">-->
+      <input type="text" placeholder="Buscar por palabra clave" id="search">
+      <img src="/assets/icon-search.svg" id="search-icon">
     </div>
   </div>
 

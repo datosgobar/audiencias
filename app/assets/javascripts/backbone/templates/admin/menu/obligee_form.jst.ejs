@@ -10,12 +10,9 @@
   <input type="text" class="person-id-input <%= validations && !validations.personIdValid ? 'invalid' : '' %>" placeholder="00000000" 
     value="<%= obligee ? obligee.person.person_id : '' %>" <%= disabledIfEditing%>>
 </div>
-<div class="label">Nombre</div>
+<div class="label">Apellido y nombre</div>
 <input type="text" class="name-input <%= validations && !validations.nameValid ? 'invalid' : '' %>"
   placeholder="Nombre" value="<%= obligee ? obligee.person.name : '' %>">
-<div class="label">Apellido</div>
-<input type="text" class="surname-input <%= validations && !validations.surnameValid ? 'invalid' : '' %>"
-  placeholder="Apellido" value="<%= obligee ? obligee.person.surname : '' %>">
 <div class="label">Cargo</div>
 <input type="text" class="position-input <%= validations && !validations.positionValid ? 'invalid' : '' %>"
   placeholder="Cargo" value="<%= obligee ? obligee.position : '' %>">

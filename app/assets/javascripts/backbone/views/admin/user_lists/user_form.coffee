@@ -31,7 +31,6 @@ class audiencias.views.UserForm extends Backbone.View
       id_type: @$el.find('.id-type-select').val().trim(),
       person_id: if !!person_id then person_id else personIdValue,
       name: @$el.find('.name-input').val().trim(),
-      surname: @$el.find('.surname-input').val().trim()
       email: @$el.find('.email-input').val().trim()
     )
     @user.unset('skipValidation')

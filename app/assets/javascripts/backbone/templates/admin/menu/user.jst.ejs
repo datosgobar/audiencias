@@ -1,8 +1,8 @@
 <% var removedClass = get('markedForRemoval') ? 'removed' : '' %>
 <div class="user <%= removedClass %>" data-user-id="<%= get('id') %>">
-  <span class="user-icon"><%= get('name')[0] + get('surname')[0] %></span> 
+  <span class="user-icon"><%= get('name')[0] + get('name')[1] %></span> 
   <div class="user-fullname">
-    <%= get('name') %> <%= get('surname') %>
+    <%= get('name') %>
   </div>
   <div class="user-id">
     <%= get('id_type').toUpperCase() %> <%= get('person_id') %>

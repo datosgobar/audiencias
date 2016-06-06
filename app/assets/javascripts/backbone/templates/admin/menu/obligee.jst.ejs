@@ -2,9 +2,9 @@
 <% var removedClass = obligee.markedForRemoval ? 'removed' : '' %>
 <div class="user <%= removedClass %>">
   <% var person = obligee.person %>
-  <span class="user-icon obligee"><%= person.name[0] + person.surname[0] %></span> 
+  <span class="user-icon obligee"><%= person.name[0] + person.name[1] %></span> 
   <div class="user-fullname">
-    <%= person.name %> <%= person.surname %>
+    <%= person.name %>
   </div>
   <div class="user-position">
     <%= obligee.position %>

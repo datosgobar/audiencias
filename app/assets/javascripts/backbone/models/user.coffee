@@ -2,7 +2,6 @@ class audiencias.models.User extends Backbone.Model
   defaults: {
     id: null,
     name: '',
-    surname: '',
     id_type: 'dni',
     person_id: null,
     email: '',
@@ -18,11 +17,10 @@ class audiencias.models.User extends Backbone.Model
   validate: ->
     validations = {
       name: @validateName()
-      surname: @validateSurname(),
       'person-id': @validatePersonId(),
       email: @validateEmail()
     }
-    valid = validations.name and validations.surname and validations['person-id'] and validations.email
+    valid = validations.name and validations['person-id'] and validations.email
     if valid 
       undefined 
     else 
@@ -38,10 +36,6 @@ class audiencias.models.User extends Backbone.Model
   validateName: ->
     name = @get('name')
     name.trim().length > 0 
-
-  validateSurname: ->
-    surname = @get('surname')
-    surname.trim().length > 0
 
   validateEmail: ->
     email = @get('email')

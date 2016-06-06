@@ -12,12 +12,9 @@
   <input type="text" class="person-id-input <%= validations && !validations['person-id'] ? 'invalid' : '' %>" placeholder="00000000"
     value="<%= user.get('person_id') %>" <%= disabledIfEditing%>>
 </div>
-<div class="label">Nombre</div>
+<div class="label">Apellido y nombre</div>
 <input type="text" class="name-input <%= validations && !validations.name ? 'invalid' : '' %>" <%= disabledIfFound %> 
   placeholder="Nombre" value="<%= user.get('name') %>">
-<div class="label">Apellido</div>
-<input type="text" class="surname-input <%= validations && !validations.surname ? 'invalid' : '' %>" <%= disabledIfFound %> 
-  placeholder="Apellido" value="<%= user.get('surname') %>">
 <div class="label">Mail</div>
 <input type="text" class="email-input <%= validations && !validations.email ? 'invalid' : '' %>" <%= disabledIfFound %> 
   placeholder="mail@unmail.com" value="<%= user.get('email') %>">

@@ -37,8 +37,7 @@ class audiencias.views.DependenciesNavigation extends Backbone.View
       }
       if dependency.get('obligee')
         name = dependency.get('obligee').person.name
-        surname = dependency.get('obligee').person.surname
-        indexedDependency.lunrName += " #{name} #{surname}"
+        indexedDependency.lunrName += " #{name}"
       @lunr.add(indexedDependency)
     )
 

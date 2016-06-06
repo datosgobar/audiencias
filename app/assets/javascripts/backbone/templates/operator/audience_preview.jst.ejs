@@ -11,10 +11,10 @@
         <% var obligee = audience.get('obligee') %>
         <div class="participant-card">
           <span class="user-icon obligee">
-            <%= obligee.get('person').name[0] %><%= obligee.get('person').surname[0] %>
+            <%= obligee.get('person').name[0] %><%= obligee.get('person').name[1] %>
           </span>
           <div class="participant-name">
-            <%= obligee.get('person').name %> <%= obligee.get('person').surname %>
+            <%= obligee.get('person').name %>
           </div>
           <div class="participant-position">
             <%= obligee.get('position') %>
@@ -43,7 +43,7 @@
         <% if (applicant && applicant.get('id')) { %>
           <div class="participant-card">
             <div class="participant-name">
-              <%= applicant.get('person').name %> <%= applicant.get('person').surname %>
+              <%= applicant.get('person').name %>
             </div>
             <div class="participant-position">
               <% var applicantOcupation = applicant.get('ocupation') %>
@@ -95,7 +95,7 @@
           <div class="participant-card">
             <div class="representation-type">EN REPRESENTACIÓN - PERSONA FÍSICA</div>
             <div class="participant-name">
-              <%= applicant.get('represented_person').name %> <%= applicant.get('represented_person').surname %>
+              <%= applicant.get('represented_person').name %>
             </div>
             <div class="participant-position">
               <%= applicant.get('represented_person_ocupation') %>
@@ -195,7 +195,7 @@
           <div class="content-<%= i%2 == 0 ? 'left' : 'right' %>">
             <div class="participant-card">
               <div class="participant-name">
-                <%= participant.person.name %> <%= participant.person.surname %>
+                <%= participant.person.name %>
               </div>
               <div class="participant-position">
                 <%= participant.ocupation %>

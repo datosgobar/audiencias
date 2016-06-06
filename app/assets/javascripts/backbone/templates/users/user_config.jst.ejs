@@ -15,10 +15,10 @@
       <div class="right-column">
         <div class="user-card">
           <span class="user-icon obligee">
-            <%= user.get('name')[0] %><%= user.get('surname')[0] %>
+            <%= user.get('name')[0] %><%= user.get('name')[1] %>
           </span>
           <div class="user-name">
-            <%= user.get('name') %> <%= user.get('surname') %>
+            <%= user.get('name') %>
           </div>
           <div class="user-id">
             <%= user.get('id_type').toUpperCase() %> <%= user.get('person_id') %>
