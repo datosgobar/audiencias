@@ -1,10 +1,23 @@
 <%= javascript_tag do %>
   $(function() {
-    audiencias.app.init();
-    audiencias.globals.currentObligee = <%= raw @current_obligee.id %>;
-    audiencias.globals.currentUser = <%= raw @current_user.id %>;
-    audiencias.globals.obligees.add(<%= raw @obligees.to_json %>);
-    audiencias.globals.users.add(<%= raw @current_user.to_json %>)
-    audiencias.app.audienceEditor();
+    var stripped_url = document.location.toString().split("#");
+    var redirect = false;
+    if (stripped_url.length > 1) {
+      var anchor_value = stripped_url[1];
+      if (anchor_value.length > 0 && anchor_value.indexOf('audiencia=') > -1) {
+        redirect = '/intranet/editar_audiencia?' + anchor_value
+      }
+    } 
+
+    if (redirect) {
+      window.location.replace(redirect)
+    } else {
+      audiencias.app.init();
+      audiencias.globals.currentObligee = <%= raw @current_obligee.id %>;
+      audiencias.globals.currentUser = <%= raw @current_user.id %>;
+      audiencias.globals.obligees.add(<%= raw @obligees.to_json %>);
+      audiencias.globals.users.add(<%= raw @current_user.to_json %>)
+      audiencias.app.audienceEditor();
+    }
   });
 <% end %>
