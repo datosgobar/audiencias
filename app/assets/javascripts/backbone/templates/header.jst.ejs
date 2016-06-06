@@ -1,7 +1,7 @@
+<% var currentUser = window.audiencias.globals.users.currentUser(); %>
 <div id="header-shadow">
   <div id="header-container">
     <div id="header-content">
-      <% var currentUser = window.audiencias.globals.users.currentUser(); %>
       <% if (currentUser)  { %>
         <div id="main-logo">
           <a href="/">
@@ -10,10 +10,9 @@
         </div>
         <div id="user-header">
           <% var name = currentUser.get('name'); %>
-          <% var surname = currentUser.get('surname'); %>
           <% var role = currentUser.get('role') %>
-          <span class="user-icon <%= role %>"><%= name[0] + surname[0] %></span> 
-          <span id="user-header-name"><%= name %> <%= surname %></span>
+          <span class="user-icon <%= role %>"><%= name[0] + name[1] %></span> 
+          <span id="user-header-name"><%= name %></span>
           <img src="/assets/icon-flecha-abajo-usuario.svg" id="user-header-icon">
         </div>
       <% } else { %>
@@ -30,9 +29,24 @@
 
 <div id="user-menu-container">
   <div id="user-menu">
-    <div class="user-menu-action" id="profile">
-      Perfil
-    </div>
+    <% if (currentUser) { %>
+      <% var location = window.location.pathname %>
+      <% var role = currentUser.get('role') %>
+      <% var obligees = currentUser.get('obligees') %>
+      <% if ((role == 'admin' || role == 'superadmin') && location != '/intranet/dependencias') { %> 
+        <a href="/intranet/dependencias">
+          <div class="user-menu-action" id="profile">
+            Perfil <span>ADMINISTRADOR</span>
+          </div>
+        </a>
+      <% } else if (obligees.length > 0 && location != '/intranet/audiencias') { %>
+        <a href="/intranet/audiencias">
+          <div class="user-menu-action" id="profile">
+            Perfil <span>OPERADOR</span>
+          </div>
+        </a>
+      <% } %>
+    <% } %>
     <div class="user-menu-action" id="settings">
       Configuración
     </div>

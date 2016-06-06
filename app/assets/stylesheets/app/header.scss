@@ -60,19 +60,31 @@ body.showing-error-bar #header {
       @include box-shadow($user-menu-shadow);
       @include transition($user-menu-transition);
 
+      a {
+        color: inherit;
+      }
+      
       .user-menu-action {
         padding: 5px 15px;
         border-bottom: solid 1px $grey-200;
         cursor: pointer;
+
         &:first-child {
           padding-top: 10px;
         }
         &:last-child {
-          border-bottom: none;
           padding-bottom: 10px;
         }
         &:hover {
           background: $grey-200;
+        }
+      }
+
+      #profile {
+        span {
+          float: right;
+          font-size: 11px;
+          line-height: 20px;
         }
       }
     }
