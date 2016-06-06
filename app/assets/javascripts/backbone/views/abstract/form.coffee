@@ -1,14 +1,16 @@
 class audiencias.views.Form extends Backbone.View
   autocompeteWrapper: JST["backbone/templates/operator/audience/autocomplete_wrapper"]
 
-  setPersonAutoComplete: (inputSelector, optionSelectCallback) =>
+  setPersonAutoComplete: (inputSelector) =>
     input = @$el.find(inputSelector)
+    @wrapAutocompleteInput(input, 'person')
     input.autocomplete(
       source: @searchPerson
       select: (e, ui) ->
         if ui and ui.item and ui.item.person
           person = ui.item.person
-          optionSelectCallback(person)
+          input.parent().addClass('value-selected').find('.selected-value').text(person.person_id)
+          input.trigger('autocompleteperson', [person])
     )
     input.on('keyup', (e) =>
       if e.keyCode == 13
@@ -48,7 +50,7 @@ class audiencias.views.Form extends Backbone.View
 
   setAddressAutocomplete: (inputSelector) =>
     input = @$el.find(inputSelector)
-    @wrapAutocompleteInput(input)
+    @wrapAutocompleteInput(input, 'address')
     input.autocomplete(
       source: @searchAddress
       select: (e, ui) ->
@@ -80,7 +82,7 @@ class audiencias.views.Form extends Backbone.View
           autocompleteCallback(wrappedAddress)
     )
 
-  wrapAutocompleteInput: (input) =>
+  wrapAutocompleteInput: (input, target) =>
     wrapper = $(@autocompeteWrapper())
     input.after(wrapper)
     wrapper.append(input)
@@ -92,7 +94,9 @@ class audiencias.views.Form extends Backbone.View
       input.val('')
       input.trigger('autocompleteremoved')
     )
-    if input.data('coordinates')
+    if target == 'address' and input.data('coordinates')
+      input.parent().addClass('value-selected').find('.selected-value').text(input.val())
+    else if target == 'person' and input.val().length > 0
       input.parent().addClass('value-selected').find('.selected-value').text(input.val())
 
   validatePersonId: (person_id, country) ->

@@ -4,6 +4,8 @@ class audiencias.views.AudienceParticipantsForm extends audiencias.views.Form
   events:
     'change .nationality-radio': 'nationalityChanged'
     'click .confirm-save': 'validateForm'
+    'autocompleteperson .person-id-input': 'onPersonAutocompleteSelected'
+    'autocompleteremoved .person-id-input': 'onPersonAutocompleteRemoved'
 
   initialize: (options) ->
     @participant = options.participantBeingEdited
@@ -17,10 +19,13 @@ class audiencias.views.AudienceParticipantsForm extends audiencias.views.Form
       el: @$el.find('.id-tooltip')
       content: "Solicite primero el pasaporte, de no contar con este solicite id."
     })
-    @setPersonAutoComplete('.person-id-input', @personAutocompleteSelected)
+    @setPersonAutoComplete('.person-id-input')
 
-  personAutocompleteSelected: (person) =>
-    @$el.find('.name-input').val(person.name)
+  onPersonAutocompleteSelected: (e, person) =>
+    @$el.find('.name-input').val(person.name).prop('disabled', true)
+
+  onPersonAutocompleteRemoved: =>
+    @$el.find('.name-input').prop('disabled', false).val('')
 
   nationalityChanged: =>
     newCountry = @$el.find('.nationality-radio:checked').val()

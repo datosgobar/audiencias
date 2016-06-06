@@ -67,7 +67,7 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => "audiencias2.mininterior.gob.ar" }
   config.action_mailer.smtp_settings = {
     address: 'smtp.mininterior.gov.ar',
-    port: 25
+    port: 25,
     openssl_verify_mode: 'none'
   }
 

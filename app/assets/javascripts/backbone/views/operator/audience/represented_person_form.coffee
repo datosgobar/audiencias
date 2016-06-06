@@ -3,6 +3,8 @@ class audiencias.views.AudienceRepresentedApplicantForm extends audiencias.views
   events:
     'change .nationality-radio': 'nationalityChange'
     'click .confirm-save': 'validateForm'
+    'autocompleteperson .person-id-input': 'onPersonAutocompleteSelected'
+    'autocompleteremoved .person-id-input': 'onPersonAutocompleteRemoved'
 
   initialize: (options) ->
     @audience = options.audience
@@ -12,11 +14,14 @@ class audiencias.views.AudienceRepresentedApplicantForm extends audiencias.views
     @$el.html(@template(
       audience: @audience
     )) 
-    @setPersonAutoComplete('.person-id-input', @personAutocompleteSelected)
+    @setPersonAutoComplete('.person-id-input')
 
-  personAutocompleteSelected: (person) =>
-    @$el.find('.name-input').val(person.name)
+  onPersonAutocompleteSelected: (e, person) =>
+    @$el.find('.name-input').val(person.name).prop('disabled', true)
 
+  onPersonAutocompleteRemoved: =>
+    @$el.find('.name-input').prop('disabled', false).val('')
+    
   nationalityChange: =>
     newCountry = @$el.find('.nationality-radio:checked').val()
     represented = @applicant.get('represented_person')

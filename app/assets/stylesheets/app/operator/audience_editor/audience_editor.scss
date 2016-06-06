@@ -259,6 +259,13 @@
           width: 85%;
         }
 
+        .autocomplete-wrapper {
+          width: 85%;
+          .person-id-input {
+            width: 100%;
+          }
+        }
+
         .id-joint-field {
           position: relative;
           width: 85%;
@@ -266,11 +273,14 @@
             height: 30px;
             width: 30%;
           }
-          .field-input {
+          .autocomplete-wrapper {
             width: 68%;
             position: absolute;
             top: 0;
             right: 0;
+            input {
+              width: 100%;
+            }
           }
         }
       }
