@@ -17,15 +17,19 @@
 }
 
 #operator-landing #navigation-left {
+  #current-obligee {
+    margin-bottom: 10px;
+  }
   p {
+    font-size: 18px;
     margin: 0 0 5px 0;
   }
   select {
     width: 14em;
     max-width: 100%;
-    margin-bottom: 10px;
   }
   button {
+    padding: 7px 14px;
     font-size: 13px;
   }
 }

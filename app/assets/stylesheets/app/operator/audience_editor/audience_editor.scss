@@ -5,11 +5,12 @@
     @include span-columns(10 of 10);
     #go-back {
       margin-bottom: 20px;
+      font-size: 14px;
       a {
         color: $grey-300;
       }
       img {
-        height: 18px;
+        height: 15px;
         vertical-align: middle;
         position: relative;
         top: -2px;
@@ -54,6 +55,10 @@
 
   .red {
     color: $red;
+  }
+
+  .section-title {
+    font-size: 18px;
   }
 
   #applicant, 
@@ -145,6 +150,7 @@
   }
 
   #participants {
+    padding-bottom: 50px;
     .section-wide {
       @include span-columns(10 of 10);
     }
@@ -154,6 +160,9 @@
         height: 24px;
         vertical-align: bottom;
       }
+    }
+    .confirm-save {
+      font-size: 12px;
     }
     .participants-radio-container {
       display: inline-block;
@@ -186,6 +195,10 @@
     text-align: center;
     margin-top: 20px;
     font-size: 12px;
+    button {
+      padding: 8px 12px;
+      margin-right: 10px;
+    }
   }
 
 }
@@ -220,6 +233,7 @@
     vertical-align: bottom;
   }
   .nationality-container {
+    font-size: 14px;
     background: $grey-100;
     border: solid 1px $grey-200;
     @include border-radius(4px);
@@ -249,7 +263,20 @@
         display: table-cell;
         width: 33.3333%;
         padding: 10px 0;
+        &.button-cell {
+          vertical-align: bottom;
+          button {
+            margin-bottom: 3px;
+          }
+        }
         .field-label {
+          font-size: 15px;
+          margin-bottom: 4px;
+          &.no-margin {
+            margin: 0;
+          }
+        }
+        .field-label-description {
           font-size: 13px;
           margin-bottom: 4px;
         }
@@ -257,6 +284,8 @@
         .countries-select {
           padding: 3px 8px;
           width: 85%;
+          font-size: 13px;
+          height: 30px;
         }
 
         .autocomplete-wrapper {
@@ -290,7 +319,7 @@
           position: absolute;
           top: 0;
           left: 0;
-          width: 100%;
+          width: 85%;
           height: 200%;
           textarea {
             width: 100%;
@@ -305,12 +334,15 @@
     }
   }
 
+  .confirm-save {
+    font-size: 13px;
+  }
+
   .form-actions {
     margin-top: 10px;
     .confirm-save {
       float: right;
       margin-right: 5%;
-      font-size: 13px;
     }
 
     .participation-label {

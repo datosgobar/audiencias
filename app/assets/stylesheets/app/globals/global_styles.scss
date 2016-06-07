@@ -40,6 +40,20 @@ button {
   &:hover {
     background: $blue-400;
   }
+
+  &.green {
+    background: $green;
+    &:hover {
+      background: $green-hover;
+    }
+  }
+
+  &.grey {
+    background: $grey-350;
+    &:hover {
+      background: $grey-300;
+    }
+  }
 }
 
 input, select, textarea {
