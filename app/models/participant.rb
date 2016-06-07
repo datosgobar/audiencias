@@ -17,7 +17,7 @@ class Participant < ActiveRecord::Base
   end
 
   def update_minor_attributes(params)
-    self.ocupation = params[:ocupation] if params[:ocupation]
+    self.ocupation = params[:ocupation].mb_chars.upcase if params[:ocupation]
     if params[:person]
       self.person = Person.find_or_initialize(params[:person])
       self.person.update_minor_attributes(params[:person])
