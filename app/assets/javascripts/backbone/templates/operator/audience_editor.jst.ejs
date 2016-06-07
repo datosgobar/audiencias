@@ -46,21 +46,21 @@
   <% if (audienceIsSaved) { %>
     <% if (currentStep == 'applicant') { %> 
       <button id="back-to-list">DEJAR EN PROCESO</button>
-      <button id="go-to-info">IR A DATOS AUDIENCIA</button>
+      <button id="go-to-info" class="green">SIGUIENTE</button>
     <% } else if (currentStep == 'info') { %>
       <button id="go-to-applicant" class="">VOLVER AL SOLICITANTE</button>
       <button id="back-to-list">DEJAR EN PROCESO</button>
-      <button id="preview-audience" class="">PREVISUALIZAR</button>
+      <button id="preview-audience" class="green">SIGUIENTE</button>
     <% } else { %>
       <button id="modify-audience" class="">MODIFICAR</button>
       <button id="back-to-list">DEJAR EN PROCESO</button>
-      <% var publishClass = audience.get('state') == 'valid' ? '': 'disabled' %>
+      <% var publishClass = audience.get('state') == 'valid' ? 'green': 'disabled' %>
       <button id="publish-audience" class="<%= publishClass %>" <%= publishClass %> >PUBLICAR</button>
     <% } %>
   <% } else { %>
     <button id="cancel-audience">CANCELAR</button>
     <button id="back-to-list" class="disabled" disabled>DEJAR EN PROCESO</button>
-    <button id="go-to-info" class="disabled" disabled>IR A DATOS AUDIENCIA</button>
+    <button id="go-to-info" class="disabled" disabled>SIGUIENTE</button>
   <% } %>
 
     

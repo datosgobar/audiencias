@@ -1,10 +1,18 @@
 <div class="header-table">
   <div class="table-row">
     <div class="table-cell spacer"></div>
-    <div class="table-cell creation-date">Fecha de creación</div>
+    <div class="table-cell creation-date">
+      <div class="overflow-ellipsis">
+      Fecha de creación
+      </div>
+    </div>
     <div class="table-cell author">Usuario</div>
     <div class="table-cell applicant">Solicitante</div>
-    <div class="table-cell represented">Se presentó como</div>
+    <div class="table-cell represented">
+      <div class="overflow-ellipsis">
+        Se presentó como
+      </div>
+    </div>
     <div class="table-cell audience-date">Fecha - Hora</div>
     <div class="table-cell motif">Motivo</div>
     <div class="table-cell status">Estado</div>
@@ -29,7 +37,7 @@
           <% day = day.length > 1 ? day : '0' + day %>
           <div class="table-cell creation-date"> 
             <div class="cell-content overflow-ellipsis">
-              <%= day %>-<%= month %>-<%= year %>
+              <%= day %>/<%= month %>/<%= year %>
             </div>
           </div>
           
@@ -46,6 +54,7 @@
             <div class="cell-content">
             <% if (audience.applicant && audience.applicant.person) { %>
               <p class="applicant-name overflow-ellipsis"><%= audience.applicant.person.name %></p>
+              <p class="applicant-position overflow-ellipsis"><%= audience.applicant.ocupation %></p>
               <p class="applicant-email overflow-ellipsis"><%= audience.applicant.person.email %></p>
             <% } %>
             </div>
@@ -74,6 +83,7 @@
             <div class="cell-content overflow-ellipsis">
               <%     
               var dateString = '';
+              var timeString = '';
               var date = new Date(audience.date);
               var dateIsValid = !isNaN(date.getTime());
               if (audience.date && dateIsValid) {
@@ -86,15 +96,17 @@
                 hour = hour.length > 1 ? hour : '0' + hour;
                 var minutes = date.getMinutes().toString();
                 minutes = minutes.length > 1 ? minutes : '0' + minutes;
-                dateString = day + '/' + month + '/' + year + ' ' + hour + ':' + minutes;
+                dateString = day + '/' + month + '/' + year; 
+                timeString = hour + ':' + minutes;
               }
               %>
-              <%= dateString %>
+              <div><%= dateString %></div>
+              <div><%= timeString %></div>
             </div>
           </div>
           <div class="table-cell motif">
             <div class="cell-content overflow-ellipsis">
-              <%= audience.motif %>
+              <%= audience.motif && audience.motif.length > 0  ? audience.motif.substr(0, 100) + '...' : ''  %>
             </div>
           </div>
           <div class="table-cell status">
@@ -154,12 +166,13 @@
   </div>
 </div>
 
-<div class="preview hidden">
-  <div class="preview-content">
-    <div class="preview-container"></div>
-    <img src="/assets/icon-cancelar.svg" class="close-img close-preview">
-    <div class="close-button-container">
-      <button class="close-preview close-button">CERRAR</button>
-    </div>  
+<div class="preview hidden close-preview">
+  <div class="preview-wrapper">
+    <div class="preview-content">
+      <div class="preview-container"></div>
+      <div class="close-button-container">
+        <button class="close-preview close-button">CERRAR</button>
+      </div>  
+    </div>
   </div>
 </div>

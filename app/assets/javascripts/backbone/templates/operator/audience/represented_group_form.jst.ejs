@@ -26,7 +26,8 @@
       <% } %>
       <div class="cell">
         <div class="field-label">Nombre</div>
-        <input type="text" placeholder="Nombre" value="<%= representedGroup.name %>" class="field-input name-input">      
+        <% var namePlaceholder = country == 'Argentina' ? 'Pueblo Qom' : 'Nombre del grupo' %>
+        <input type="text" placeholder="<%= namePlaceholder %>" value="<%= representedGroup.name %>" class="field-input name-input">      
       </div>
       <% if (country == 'Argentina') { %>
         <div class="cell"></div>
@@ -34,7 +35,8 @@
       <div class="cell description-cell">
         <div class="description-container">
           <div class="field-label">Descripción de la actividad (opcional, máximo 200 caracteres)</div>
-          <textarea id="group-description" maxlength="200"></textarea>
+          <% var descriptionPlaceholder = country == 'Argentina' ? 'Miembros autoconvocados para representar a su pueblo en temas que afectan a la comunidad' : 'Descripción de la actividad del grupo' %>
+          <textarea id="group-description" maxlength="200" placeholder="<%= descriptionPlaceholder %>"></textarea>
         </div>
       </div>
     </div>
@@ -50,8 +52,7 @@
       <div class="cell"></div>
     </div>
   </div>  
-</div>
-
-<div class="form-actions">
-  <button class="confirm-save">GUARDAR</button>
+  <div class="form-actions">
+    <button class="confirm-save">GUARDAR</button>
+  </div>
 </div>

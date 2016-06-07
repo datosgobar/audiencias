@@ -52,5 +52,6 @@ class audiencias.views.OperatorAudiences extends Backbone.View
     @$el.find('.preview').removeClass('hidden')
     @$el.find('.preview-container').html(audiencePreview.el)
 
-  closePreview: =>
-    @$el.find('.preview').addClass('hidden')
+  closePreview: (e) =>
+    if $(e.target).hasClass('close-preview') or $(e.target).hasClass('preview-wrapper')
+      @$el.find('.preview').addClass('hidden')

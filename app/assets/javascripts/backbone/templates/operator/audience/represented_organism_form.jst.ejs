@@ -25,8 +25,14 @@
         </div>
       <% } %>
       <div class="cell">
-        <div class="field-label">Nombre</div>
-        <input type="text" placeholder="Nombre" value="<%= representedOrganism.name %>" class="field-input name-input">      
+        <% if (country == 'Argentina') { %>
+          <div class="field-label no-margin">Nombre del Organismo estatal</div>
+          <div class="field-label-description">Complete con nombre del Organismo, Localidad, Provincia</div>
+        <% } else { %> 
+          <div class="field-label">Nombre del Organismo estatal</div>
+        <% } %>
+        <% var placeholder = country == 'Argentina' ? 'Municipio de Tres Isletas, Localidad Tres Isletas, Provincia de Chaco' : 'Nombre del Organismo' %>
+        <input type="text" placeholder="<%= placeholder %>" value="<%= representedOrganism.name %>" class="field-input name-input">      
       </div>
       <div class="cell button-cell">
         <button class="confirm-save">GUARDAR</button>

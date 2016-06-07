@@ -12,9 +12,11 @@
     <% if (editing) { %>
       <p class="subsection-description">Describa en una oración el motivo o razón de la solicitud de audiencia.</p>
       <p class="subsection-description">Máximo 200 caracteres</p>
+      <textarea maxlength="200" id="motif" placeholder="<%= editing ? 'Ej. Hablar sobre la posibilidad de subsidiar un proyecto civil.' : '' %>" ><%= audience.get('motif') %></textarea>
+    <% } else { %>
+      <p class="subsection-value motif"><%= audience.get('motif') %></p>
     <% } %>
-    <textarea maxlength="200" id="motif" placeholder="<%= editing ? 'Ej. Hablar sobre la posibilidad de subsidiar un proyecto civil.' : '' %>"
-      <%= disabledIfNotEditing %>><%= audience.get('motif') %></textarea>
+    
     <div class="invoked-interest-container">
       <% var interest = audience.get('interest_invoked'); %>
       <% var hasInterest = interest && interest.length > 0 %>
@@ -30,12 +32,15 @@
         <img src="/assets/logo-question.svg" class="interest-tooltip tooltip">
         <div class="interest-tooltip-content hidden">
           <p style="margin:0;font-weight: bold;">Tipo de interes</p>
+          <br>
           <p style="margin:0"><span style="font-weight: bold">Colectivo</span>: Se pretende influir en una decisión que afecta los derechos e intereses de un grupo de personas determinable. <span style="font-style: italic;">Ej: Modificar la normativa que regula ciertos procedimientos en el Colegio de Escribanos de CABA.</span></p>
+          <br>
           <p style="margin:0"><span style="font-weight: bold">Particular</span>: Se pretende influir en una decisión que afecta los derechos e intereses de una persona en particular. <span style="font-style: italic;">Ej: Conseguir fondos para la intervención quirúrgica de alta complejidad de un individuo.</span></p>
+          <br>
           <p style="margin:0"><span style="font-weight: bold">Difuso</span>: Se pretende influir en una decisión que afecta los derechos e intereses de un grupo de personas indeterminable. <span style="font-style: italic;">Ej: Regular los aumentos de precios del huevo, una materia prima utilizada por la industria y toda la ciudadanía. </span></p>
         </div>
       <% } else { %>
-        <p class="subsection-title"><%= (interest || '').toUpperCase() %></p>
+        <p class="subsection-value"><%= (interest || '').toUpperCase() %></p>
       <% } %>
     </div>
   </div>
@@ -57,18 +62,31 @@
       dateString = hour + ':' + minutes + ' ' + day + '/' + month + '/' + year;
     }
     %>
-    <label for="date" class="<%= !dateIsValid && !editing ? 'red' : '' %>">Fecha</label> 
-    <input type="text" id="date" <%= disabledIfNotEditing %> value="<%= dateString %>">
-    
+    <p class="<%= !dateIsValid && !editing ? 'red' : '' %> subsection-title">Fecha y hora de la audiencia</p> 
+    <% if (editing) { %> 
+      <input type="text" id="date" <%= disabledIfNotEditing %> value="<%= dateString %>" placeholder="<%= editing ? 'DD/MM/YYYY HH:MM' : '' %>">
+    <% } else { %>
+      <p class="subsection-value"><%= dateString %></p>
+    <% } %>
+
     <% var hasPlace = audience.get('place') && audience.get('place').length > 0 %>
-    <label id="place-label" for="place" class="<%= !hasPlace && !editing ? 'red' : '' %>">Lugar</label>
-    <input type="text" id="place" placeholder="<%= editing ? 'Ej. Despacho, Ministerio de Educación' : '' %>" <%= disabledIfNotEditing %> value="<%= audience.get('place') %>">
+    <p id="place-label" class="<%= !hasPlace && !editing ? 'red' : '' %> subsection-title">Lugar</p>
+    <% if (editing) { %>
+      <p class="subsection-description">Nombre descriptivo del lugar donde se llevó a cabo la audiencia</p>
+      <input type="text" id="place" placeholder="<%= editing ? 'Ej. Despacho, Ministerio de Educación' : '' %>" <%= disabledIfNotEditing %> value="<%= audience.get('place') %>">
+    <% } else  { %>
+      <p class="subsection-value place"><%= audience.get('place') %></p>
+    <% } %>
     
     <% var address = audience.get('address') %>
     <% var hasAddress =  address && audience.get('address').length > 0 %>
     <% var hasCoordinates = !!(hasAddress && audience.get('lat') && audience.get('lng')) %>
-    <label id="address-label" for="address" class="<%= !hasAddress && !editing ? 'red' : '' %>">Dirección</label>
-    <input type="text" id="address" placeholder="<%= editing ? 'Ej. Av. Roque Saenz Peña 768, CABA' : '' %>" <%= disabledIfNotEditing %> value="<%= address %>" data-coordinates="<%= hasCoordinates %>">
+    <p id="address-label" class="<%= !hasAddress && !editing ? 'red' : '' %> subsection-title">Dirección</p>
+    <% if (editing) { %>
+      <input type="text" id="address" placeholder="<%= editing ? 'Ej. Av. Roque Saenz Peña 768, CABA' : '' %>" <%= disabledIfNotEditing %> value="<%= address %>" data-coordinates="<%= hasCoordinates %>">
+    <% } else { %>
+      <p class="subsection-value address"><%= address %></p>
+    <% } %>
 
     <% if (!editing) { %>
       <div class="editing-buttons">
