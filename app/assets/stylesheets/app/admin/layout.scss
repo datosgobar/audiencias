@@ -69,8 +69,11 @@ body.showing-error-bar {
     min-height: 100%;
     position: relative;
     @include box-shadow($operator-side-shadow);
-    @include span-columns(10);
-    @include shift(1);
+    @include span-columns(12);
+    @include breakpoint-lg {
+      @include span-columns(10);
+      @include shift(1);
+    }
     padding: 50px;
   }
 }

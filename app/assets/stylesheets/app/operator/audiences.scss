@@ -37,7 +37,10 @@
     display: table-cell;
     border-right: solid 1px $grey-300;
     &.spacer {
-      width: 8.3333333%;
+      width: 0;
+      @include breakpoint-lg {
+        width: 8.3333333%;
+      }
     }
     &:last-child {
       border-right: none;
