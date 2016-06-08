@@ -41,6 +41,11 @@ window.audiencias =
       header.render()
       $('body').prepend(header.el)
 
+    renderFooter: ->
+      footer = new audiencias.views.Footer
+      footer.render()
+      $('body').append(footer.el)
+
     userLogin: ->
       audiencias.app.init()
       @renderHeader()
@@ -68,6 +73,7 @@ window.audiencias =
       audiencias.app.loadUsers()
 
       @renderHeader()
+      @renderFooter()
       adminLanding = new audiencias.views.AdminLanding 
       adminLanding.render()
       $('body').append(adminLanding.el)
@@ -75,12 +81,14 @@ window.audiencias =
     operatorLanding: ->
       audiencias.app.init()
       @renderHeader()
+      @renderFooter()
       operatorLanding = new audiencias.views.OperatorLanding 
       operatorLanding.render()
       $('body').append(operatorLanding.el)
 
     audienceEditor: ->
       @renderHeader()
+      @renderFooter()
       audienceEditor = new audiencias.views.AudienceEditor
       audienceEditor.render()
       $('body').append(audienceEditor.el)
@@ -88,6 +96,7 @@ window.audiencias =
     userConfig: ->
       audiencias.app.init()
       @renderHeader()
+      @renderFooter()
       userConfig = new audiencias.views.UserConfig
       $('body').append(userConfig.el)
   }
