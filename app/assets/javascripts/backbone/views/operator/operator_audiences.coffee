@@ -4,6 +4,7 @@ class audiencias.views.OperatorAudiences extends Backbone.View
   events: 
     'click .delete-audience': 'confirmDeleteAudience'
     'click .published': 'showPreview'
+    'click .from-another-obligee': 'showPreview'
     'click .close-preview': 'closePreview'
 
   initialize: ->
@@ -45,8 +46,6 @@ class audiencias.views.OperatorAudiences extends Backbone.View
   showPreview: (e) =>
     audienceId = $(e.currentTarget).data('audience-id')
     audience = audiencias.globals.audiences.get(audienceId)
-    clonedAudience = new audiencias.models.Audience 
-    clonedAudience.forceUpdate
     audiencePreview = new audiencias.views.AudiencePreview(audience: audience)
     audiencePreview.render()
     @$el.find('.preview').removeClass('hidden')

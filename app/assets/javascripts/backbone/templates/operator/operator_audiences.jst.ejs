@@ -26,7 +26,8 @@
     <div class="audience-table">
       <% for (var i=0; i<audiences.length; i++) { %>
         <% var audience = audiences[i]; %>
-        <div class="table-row <%= audience.published ? 'published' : '' %>" data-audience-id="<%= audience.id %>">
+        <% var isFromAnotherObligee = audience.obligee && audience.obligee.id != audiencias.globals.currentObligee %>
+        <div class="table-row <%= audience.published ? 'published' : '' %> <%= isFromAnotherObligee ? 'from-another-obligee' : '' %>" data-audience-id="<%= audience.id %>">
           <div class="table-cell spacer"></div>
           
           <% var creationDate = new Date(audience.created_at); %>
@@ -43,10 +44,10 @@
           
           <div class="table-cell author">
             <div class="cell-content overflow-ellipsis">
-              <% if (audience.obligee && audience.obligee.id == audiencias.globals.currentObligee) { %>
-                <%= audience.author.name %>
-              <% } else { %> 
+              <% if (isFromAnotherObligee) { %>
                 <%= audience.obligee && audience.obligee.person ? audience.obligee.person.name : '' %>
+              <% } else { %> 
+                <%= audience.author.name %>
               <% } %>
             </div>
           </div>
@@ -114,13 +115,13 @@
               <% if (audience.published) { %>
                 <div>Audiencia Publicada</div>
                 <img src="/assets/icon-check-audiencia-oscuro.svg" class="published-checked">
-              <% } else if (audience.obligee && audience.obligee.id == audiencias.globals.currentObligee) { %>
+              <% } else if (isFromAnotherObligee) { %>
+                En proceso de carga <%= audience.obligee && audience.obligee.person ? 'por ' + audience.obligee.person.name : '' %>
+              <% } else { %>
                 <a href="/intranet/editar_audiencia?audiencia=<%= audience.id %>">
                   <button class="edit-audience">EDITAR</button>
                 </a>
                 <button class="delete-audience" data-audience-id="<%= audience.id %>">BORRAR</button>
-              <% } else { %>
-                En proceso de carga <%= audience.obligee && audience.obligee.person ? 'por ' + audience.obligee.person.name : '' %>
               <% } %>
             </div>
           </div>

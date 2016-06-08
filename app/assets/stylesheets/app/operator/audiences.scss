@@ -31,6 +31,9 @@
       opacity: 0.6;
       cursor: pointer;
     }
+    &.from-another-obligee {
+      cursor: pointer;
+    }
   }
 
   .table-cell {
