@@ -18,10 +18,12 @@ class audiencias.views.DependenciesNavigation extends Backbone.View
     $(window).trigger('menu:show-supervisor')
 
   collapseAll: ->
+    $('#expand-all, #collapse-all').toggleClass('hidden')
     audiencias.globals.userDependencies.forEach (dependency) ->
       dependency.collapse()
 
   expandAll: ->
+    $('#expand-all, #collapse-all').toggleClass('hidden')
     audiencias.globals.userDependencies.forEach (dependency) ->
       dependency.expand()
 

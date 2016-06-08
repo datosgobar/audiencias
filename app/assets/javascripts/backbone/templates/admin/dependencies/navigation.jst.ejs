@@ -7,7 +7,7 @@
 <div id="navigation-actions">
   <div id="tree-actions">
     <img src="/assets/icon-desplegar.svg" id="expand-all">
-    <img src="/assets/icon-colapsar.svg" id="collapse-all">
+    <img src="/assets/icon-colapsar.svg" id="collapse-all" class="hidden">
   </div>
   <% var currentUser = audiencias.globals.users.currentUser(); %>
   <% if (currentUser && currentUser.get('role') == 'superadmin') { %>
