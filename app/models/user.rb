@@ -34,12 +34,35 @@ class User < ActiveRecord::Base
 		is_superadmin or dependencies.length > 0 or obligees.length > 0
 	end
 
-  def has_permission_for(obligee)
-    if role == 'superadmin' or role == 'admin'
-      true
-    else
-      self.obligees.include?(obligee)
+  def has_permission_for(thing)
+    if role == 'superadmin'
+      return true
     end
+
+    if thing.is_a? Obligee
+      obligee = thing
+      return false unless obligee.active
+      self.obligees.include?(obligee) or self.has_permission_for(obligee.dependency)
+
+    elsif thing.is_a? Dependency
+
+      dependency = thing
+      return false unless dependency.active
+      self.dependencies.include?(dependency) or dependency.is_sub_dependency_of(self.dependencies)
+
+    elsif thing.is_a? User
+
+      user = thing
+      user_scope = user.dependencies + user.obligees
+      for thing in user_scope 
+        return true if self.has_permission_for(thing)
+      end
+      false
+
+    else
+      false
+    end
+
   end
 
 

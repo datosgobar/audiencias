@@ -20,9 +20,7 @@ class Person < ActiveRecord::Base
       person = new
       person.id_type = params[:id_type]
       person.person_id = params[:person_id]
-      person.name = params[:name]
-      person.email = params[:email]
-      person.country = params[:country]
+      person.update_minor_attributes(params)
     end
 
     person
@@ -50,10 +48,10 @@ class Person < ActiveRecord::Base
   end
 
   def update_minor_attributes(new_attr)
-    self.name = new_attr[:name] if new_attr[:name]
-    self.telephone = new_attr[:telephone] if new_attr[:telephone]
-    self.email = new_attr[:email] if new_attr[:email]
-    self.country = new_attr[:country] if new_attr[:country]
+    self.name = new_attr[:name] if new_attr.include? :name
+    self.telephone = new_attr[:telephone] if new_attr.include? :telephone
+    self.email = new_attr[:email] if new_attr.include? :email
+    self.country = new_attr[:country] if new_attr.include? :country
   end
 
   private

@@ -12,8 +12,6 @@ Rails.application.routes.draw do
   post '/resetear_credenciales/:token', to: 'users#update_password'
 
   get '/intranet/dependencias', to: 'management#admin_landing', as: 'admin_landing'
-
-  post '/intranet/listar_supervisores', to: 'management#list_superadmins'
   post '/intranet/nuevo_supervisor', to: 'management#new_superadmin'
   post '/intranet/nuevo_administrador', to: 'management#new_admin'
   post '/intranet/nuevo_sujeto_obligado', to: 'management#new_obligee'

@@ -1,15 +1,6 @@
 class ManagementController < ApplicationController
 
   before_action :require_login, :authorize_user
-  before_action :check_dependency_permissions, only: [
-    :new_admin, :new_obligee, :new_operator, :new_sub_dependency,
-    :remove_admin, :remove_obligee, :remove_operator,
-    :update_obligee, :update_dependency
-  ]
-
-  def list_superadmins
-    render json: User.where(is_superadmin: true)
-  end
 
   def new_superadmin
     user = User.find_or_initialize(params[:user])
@@ -56,7 +47,7 @@ class ManagementController < ApplicationController
     if person.save and obligee.save and dependency.save
       render json: { success: true, dependency: dependency }
     else
-      render json: { success: false }
+      render json: { success: false, errors: { person: person.errors.messages, obligee: obligee.errors.messages, dependecy: dependency.errors.messages } }
     end
   end
 
@@ -135,7 +126,6 @@ class ManagementController < ApplicationController
   end
 
   def update_user
-    # TODO: validate
     user = User.find_by_document(params[:user][:id_type], params[:user][:person_id])
     unless user 
       render json: { success: false }
@@ -213,16 +203,6 @@ class ManagementController < ApplicationController
   def user_list
     users = User.all
     render json: { users: users }
-  end
-
-  private 
-
-  def check_dependency_permissions
-    return if @current_user.role == 'superadmin'
-    dependency = Dependency.find_by_id(params[:dependency][:id])
-    unless dependency.is_sub_dependency_of(@current_user.dependencies)
-      raise CanCan::AccessDenied.new
-    end
   end
 
 end
