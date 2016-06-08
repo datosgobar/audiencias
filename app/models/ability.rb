@@ -38,6 +38,23 @@ class Ability
           can :new_dependency, ManagementController
         end
 
+        can :operator_landing, OperatorsController
+        obligee = load_obligee(params)
+        if user.has_permission_for(obligee)
+          can :new_audience, OperatorsController
+          can :submit_new_audience, OperatorsController
+        end
+
+        audience = load_audience(params)
+        if user.has_permission_for(audience)
+          can :audience_editor, OperatorsController
+          can :edit_audience, OperatorsController
+          can :delete_audience, OperatorsController
+          can :delete_participant, OperatorsController
+          can :delete_represented, OperatorsController
+          can :publish_audience, OperatorsController
+        end
+
       end
     end
   end
@@ -57,6 +74,22 @@ class Ability
   def load_user(params) 
     if params.include?(:user) and params[:user].include?(:id_type) and params[:user].include?(:person_id)
       User.find_by_document(params[:user][:id_type], params[:user][:person_id])
+    end
+  end
+
+  def load_obligee(params)
+    if params.include?(:sujeto_obligado)
+      Obligee.find_by_id(params[:sujeto_obligado])
+    elsif params.include?(:obligee) and params[:obligee].include?(:id)
+      Obligee.find_by_id(params[:obligee][:id])
+    end
+  end
+
+  def load_audience(params)
+    if params.include?(:audiencia)
+      Audience.find_by_id(params[:audiencia])
+    elsif params.include?(:audience) and params[:audience].include?(:id)
+      Audience.find_by_id(params[:audience][:id])
     end
   end
 end

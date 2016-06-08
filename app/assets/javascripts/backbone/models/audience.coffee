@@ -30,17 +30,19 @@ class audiencias.models.Audience extends Backbone.Model
 
 
   submitEdition: (newData, callback) =>
+    data = { audience: newData }
     if @get('id')
-      newData.id = @get('id')
+      data.audience.id = @get('id')
+      submitUrl = '/intranet/editar_audiencia'
     else
-      newData.new = true
-      newData.obligee_id = audiencias.globals.obligees.currentObligee().get('id')
-      newData.author_id = audiencias.globals.users.currentUser().get('id')
+      data.obligee = { id: audiencias.globals.obligees.currentObligee().get('id') }
+      data.audience.author_id = audiencias.globals.users.currentUser().get('id')
+      submitUrl = '/intranet/nueva_audiencia'
 
     $.ajax(
-      url: '/intranet/editar_audiencia'
+      url: submitUrl
       method: 'POST'
-      data: { audience: newData }
+      data: data
       success: (response) =>
         if response.success and response.audience
           unless @get('id')

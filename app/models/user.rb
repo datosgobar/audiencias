@@ -59,6 +59,11 @@ class User < ActiveRecord::Base
       end
       false
 
+    elsif thing.is_a? Audience
+
+      audience = thing
+      not audience.deleted and not audience.published and self.has_permission_for(audience.obligee)
+
     else
       false
     end

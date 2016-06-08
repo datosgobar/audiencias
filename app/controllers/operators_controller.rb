@@ -38,14 +38,23 @@ class OperatorsController < ApplicationController
   def new_audience
     if params[:sujeto_obligado]
       @current_obligee = Obligee.find_by_id(params[:sujeto_obligado])
-      unless @current_obligee and @current_user.has_permission_for(@current_obligee)
-        raise CanCan::AccessDenied.new
-      end
-
       @obligees = @current_user.obligees.as_json
       @obligees << @current_obligee.as_json unless @current_user.obligees.include?(@current_obligee)
     else
       redirect_to operator_landing_path
+    end
+  end
+
+  def submit_new_audience
+    @current_audience = Audience.new(
+      obligee_id: params[:obligee][:id], 
+      author_id: params[:audience][:author_id]
+    )
+    @current_audience.update_minor_attributes(params[:audience])
+    if @current_audience.save 
+      render json: { success: true, audience: @current_audience }
+    else
+      render json: { success: false, errors: @current_audience.errors.messages }
     end
   end
 
@@ -67,16 +76,6 @@ class OperatorsController < ApplicationController
   def edit_audience
     if params[:audience] and params[:audience][:id]
       @current_audience = Audience.find_by_id(params[:audience][:id])
-    elsif params[:audience] and params[:audience][:new]
-      @current_audience = Audience.new(
-        obligee_id: params[:audience][:obligee_id], 
-        author_id: params[:audience][:author_id]
-      )
-    end
-
-    unless @current_audience
-      render json: { success: false }
-      return
     end
 
     @current_audience.update_minor_attributes(params[:audience])
@@ -88,17 +87,7 @@ class OperatorsController < ApplicationController
   end
 
   def delete_audience
-    unless params[:audience] and params[:audience][:id]
-      render json: { success: false }
-      return
-    end
-
     audience = Audience.find_by_id(params[:audience][:id])
-    unless audience
-      render json: { success: false }
-      return
-    end
-
     audience.deleted = true
     audience.deleted_at = DateTime.now
 
@@ -110,17 +99,7 @@ class OperatorsController < ApplicationController
   end
 
   def delete_participant
-    unless params[:audience] and params[:audience][:id]
-      render json: { success: false }
-      return
-    end
-
     audience = Audience.find_by_id(params[:audience][:id])
-    unless audience 
-      render json: { success: false }
-      return
-    end
-
     participant = audience.participants.find_by_id(params[:participant][:id])
     if participant and participant.destroy
       render json: { success: true, participants: audience.participants }
@@ -130,17 +109,7 @@ class OperatorsController < ApplicationController
   end
 
   def delete_represented
-    unless params[:audience] and params[:audience][:id]
-      render json: { success: false }
-      return
-    end
-
     audience = Audience.find_by_id(params[:audience][:id])
-    unless audience 
-      render json: { success: false }
-      return
-    end
-
     applicant = audience.applicant
     applicant.remove_represented
     if applicant.save 
@@ -151,17 +120,7 @@ class OperatorsController < ApplicationController
   end
 
   def publish_audience
-    unless params[:audience] and params[:audience][:id]
-      render json: { success: false }
-      return
-    end
-
     audience = Audience.find_by_id(params[:audience][:id])
-    unless audience 
-      render json: { success: false }
-      return
-    end
-    
     if audience.state == 'valid'
       audience.published = true
     else 
