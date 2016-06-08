@@ -91,3 +91,12 @@ window.audiencias =
       userConfig = new audiencias.views.UserConfig
       $('body').append(userConfig.el)
   }
+  helpers: {
+    initials: (names) ->
+      names = names.trim().split(' ')
+      if names.length > 1
+        initials = names[0][0] + names[1][0]
+      else
+        initials = names[0][0] + names[0][1]
+      initials.toUpperCase()
+  }

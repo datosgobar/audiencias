@@ -8,11 +8,12 @@
   </div>
   <div class="right-column">
     <div class="participant-card">
+      <% var name = obligee.person.name %>
       <span class="user-icon obligee">
-        <%= obligee.person.name[0] %><%= obligee.person.name[1] %>
+        <%= audiencias.helpers.initials(name) %>
       </span>
       <div class="participant-name">
-        <%= obligee.person.name %>
+        <%= name %>
       </div>
       <div class="participant-position">
         <%= obligee.position %>

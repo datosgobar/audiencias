@@ -10,11 +10,12 @@
       <div class="content-right">
         <% var obligee = audience.get('obligee') %>
         <div class="participant-card">
+          <% var obligeeName = obligee.get('person').name %>
           <span class="user-icon obligee">
-            <%= obligee.get('person').name[0] %><%= obligee.get('person').name[1] %>
+            <%= audiencias.helpers.initials(obligeeName) %>
           </span>
           <div class="participant-name">
-            <%= obligee.get('person').name %>
+            <%= obligeeName %>
           </div>
           <div class="participant-position">
             <%= obligee.get('position') %>

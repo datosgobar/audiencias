@@ -14,11 +14,12 @@
       </div>
       <div class="right-column">
         <div class="user-card">
+          <% var name = user.get('name') %>
           <span class="user-icon obligee">
-            <%= user.get('name')[0] %><%= user.get('name')[1] %>
+            <%= audiencias.helpers.initials(name) %>
           </span>
           <div class="user-name">
-            <%= user.get('name') %>
+            <%= name %>
           </div>
           <div class="user-id">
             <%= user.get('id_type').toUpperCase() %> <%= user.get('person_id') %>

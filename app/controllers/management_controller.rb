@@ -60,7 +60,7 @@ class ManagementController < ApplicationController
     if user.save and association.save 
       render json: { success: true, dependency: dependency, user: user }
     else
-      render json: { success: false }
+      render json: { success: false, errors: { user: user.errors.messages, operator: association.errors.messages } }
     end 
   end
 

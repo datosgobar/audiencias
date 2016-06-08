@@ -11,7 +11,7 @@
         <div id="user-header">
           <% var name = currentUser.get('name'); %>
           <% var role = currentUser.get('role') %>
-          <span class="user-icon <%= role %>"><%= name[0] + name[1] %></span> 
+          <span class="user-icon <%= role %>"><%= audiencias.helpers.initials(name) %></span> 
           <span id="user-header-name"><%= name %></span>
           <img src="/assets/icon-flecha-abajo-usuario.svg" id="user-header-icon">
         </div>

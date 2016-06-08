@@ -1,8 +1,9 @@
 <% var removedClass = get('markedForRemoval') ? 'removed' : '' %>
 <div class="user <%= removedClass %>" data-user-id="<%= get('id') %>">
-  <span class="user-icon"><%= get('name')[0] + get('name')[1] %></span> 
+  <% var name = get('name') %>
+  <span class="user-icon"><%= audiencias.helpers.initials(name) %></span> 
   <div class="user-fullname">
-    <%= get('name') %>
+    <%= name %>
   </div>
   <div class="user-id">
     <%= get('id_type').toUpperCase() %> <%= get('person_id') %>
