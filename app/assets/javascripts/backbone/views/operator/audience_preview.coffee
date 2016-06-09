@@ -4,8 +4,10 @@ class audiencias.views.AudiencePreview extends Backbone.View
 
   initialize: (options) ->
     @audience = options.audience
+    @hideMessages = options.hideMessages || false
 
   render: ->
     @$el.html(@template(
       audience: @audience
+      hideMessages: @hideMessages
     ))  

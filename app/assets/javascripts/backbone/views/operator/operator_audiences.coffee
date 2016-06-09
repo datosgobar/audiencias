@@ -46,7 +46,7 @@ class audiencias.views.OperatorAudiences extends Backbone.View
   showPreview: (e) =>
     audienceId = $(e.currentTarget).data('audience-id')
     audience = audiencias.globals.audiences.get(audienceId)
-    audiencePreview = new audiencias.views.AudiencePreview(audience: audience)
+    audiencePreview = new audiencias.views.AudiencePreview(audience: audience, hideMessages: true)
     audiencePreview.render()
     @$el.find('.preview').removeClass('hidden')
     @$el.find('.preview-container').html(audiencePreview.el)
