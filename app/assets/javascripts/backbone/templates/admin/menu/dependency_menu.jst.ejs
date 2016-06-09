@@ -30,7 +30,7 @@
     </div>
     <div class="title-buttons">
       <button id="see-admins" class="<%= showingAdmins ? 'hidden' : '' %>">VER ADMINISTRADORES</button>
-      <button id="hide-admins" class="<%= showingAdmins ? '' : 'hidden' %>">OCULTAR ADMINISTRADORES</button>
+      <button id="hide-admins" class="grey <%= showingAdmins ? '' : 'hidden' %>">OCULTAR ADMINISTRADORES</button>
     </div>
   
   <% } else if (renderMode == 'remove') { %>
@@ -48,7 +48,7 @@
       <input type="text" class="title-input" value="<%= dependency.get('name') %>">
     </div>
     <div class="title-buttons">
-      <button id="cancel-edit-dependency">CANCELAR</button>
+      <button id="cancel-edit-dependency" class="grey">CANCELAR</button>
       <button id="confirm-edit-dependency">CONFIRMAR</button>
     </div>
 

@@ -123,10 +123,6 @@
       button {
         font-weight: 400;
         padding: 4px 8px;
-        &#hide-admins,
-        &#cancel-edit-dependency {
-          background: $grey-300;
-        }
         &#remove-dependency {
           background: $red;
         }

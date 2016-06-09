@@ -22,10 +22,7 @@
           font-size: 11px;
           width: 6em;
           display: block;
-          &.grey {
-            background: $grey-300;
-            margin-top: 5px;
-          }
+          margin-top: 5px;
         }
       }
     }
@@ -131,6 +128,9 @@
         width: 100%;
         padding: 3px 8px;
         margin-top: 5px;
+      }
+      input#address {
+        height: 30px;
       }
 
       &.with-buttons .editing-buttons {
