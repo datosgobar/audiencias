@@ -8,7 +8,7 @@ class ManagementController < ApplicationController
     user.is_superadmin = true
 
     if user.save 
-      user.send_password_reset if new_user
+      # user.send_password_reset if new_user
       render json: { success: true, user: user }
     else
       render json: { success: false, errors: user.errors.messages }
@@ -27,7 +27,7 @@ class ManagementController < ApplicationController
     new_user = user.new_record?
 
     if user.save and association.save
-      user.send_password_reset if new_user
+      # user.send_password_reset if new_user
       render json: { success: true, dependency: dependency, user: user }
     else
       render json: { success: false, user_errors: user.errors.messages, association_errors: association.errors.messages }
