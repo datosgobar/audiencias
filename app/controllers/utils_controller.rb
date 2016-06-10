@@ -15,10 +15,13 @@ class UtilsController < ApplicationController
       return
     end
 
-    if responsePeople.length == 0 and Rails.env == "production"
+    if responsePeople.length == 0 and ['dni', 'lc', 'le'].include?(id_type) and Rails.env == "production"
       sintis = Sintys.new()
-      response = sintis.identificar_persona_fisica(id_type.to_sym, person_id)
-      responsePeople = parse_sintys_people(response[:results]) if response[:results].length > 0
+      begin
+        response = sintis.identificar_persona_fisica(id_type.to_sym, person_id)
+        responsePeople = parse_sintys_people(response[:results]) if response[:results].length > 0
+      rescue
+      end
     end
     render json: { success: true, results: responsePeople }
   end
@@ -30,8 +33,12 @@ class UtilsController < ApplicationController
       return
     end
     google_geocoding = GoogleGeocoding.new
-    google_response = google_geocoding.search_address(address)
-    response_address = parse_google_address(google_response)
+    begin
+      google_response = google_geocoding.search_address(address)
+      response_address = parse_google_address(google_response)
+    rescue
+      response_address = []
+    end
     render json: { success: true, results: response_address }
   end
 
