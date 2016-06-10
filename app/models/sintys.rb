@@ -58,7 +58,7 @@ class Sintys
       "modo" => "json",
       "parametros[cuit]" => cuit,
       "parametros[razonSocial]" => "",
-      "parametros[tematicas]" => "SI"
+      "parametros[tematicas]" => "NO"
     }
 
     response = post_sintys(query_params)
@@ -98,7 +98,7 @@ class Sintys
     json_response = JSON.parse(%{#{response}})
     @data_error = value_or_nil(json_response["error"])
     {
-      :results => if (@data_error == nil) then json_response["resultado"] else nil end,
+      :results => if (@data_error == nil) then json_response["resultado"] else [] end,
       :errors => @data_error
     }
   end
