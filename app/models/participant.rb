@@ -5,6 +5,7 @@ class Participant < ActiveRecord::Base
 
   validates :audience, presence: true
   validates :person, presence: true, uniqueness: { scope: :audience }
+  validates :ocupation, length: { maximum: 200 }, allow_blank: true
 
   AS_JSON_OPTIONS = {
     only: [:id, :ocupation],

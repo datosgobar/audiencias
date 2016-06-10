@@ -9,8 +9,7 @@ class Obligee < ActiveRecord::Base
 
 	validates :person, presence: true
 	validates :dependency, presence: true
-	validates :position, presence: true
-
+	validates :position, presence: true, length: { maximum: 200 }
 
   AS_JSON_OPTIONS = {
     only: [:id, :active, :position],

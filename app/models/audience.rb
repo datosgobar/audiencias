@@ -7,7 +7,11 @@ class Audience < ActiveRecord::Base
 
   validates :author, presence: true
   validates :obligee, presence: true
-
+  validates :summary, length: { maximum: 1000 }, allow_blank: true
+  validates :place, length: { maximum: 200 }, allow_blank: true
+  validates :motif, length: { maximum: 200 }, allow_blank: true
+  validates :address, length: { maximum: 200 }, allow_blank: true
+  
   AS_JSON_OPTIONS =  {
     only: [ :date, :publish_date, :summary, :interest_invoked, :address,
       :published, :place, :created_at, :lat, :lng, :id, :motif ],

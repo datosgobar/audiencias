@@ -6,6 +6,9 @@ class Applicant < ActiveRecord::Base
   belongs_to :represented_state_organism, foreign_key: 'represented_state_organism_id', class_name: 'StateOrganism'
   belongs_to :represented_people_group, foreign_key: 'represented_people_group_id', class_name: 'PeopleGroup'
 
+  validates :ocupation, length: { maximum: 200 }, allow_blank: true
+  validates :represented_person_ocupation, length: { maximum: 200 }, allow_blank: true
+
   AS_JSON_OPTIONS = {
     only: [ :id, :ocupation, :represented_person_ocupation, :absent ],
     include: {

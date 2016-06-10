@@ -8,7 +8,7 @@ class Dependency < ActiveRecord::Base
   has_many :historic_obligees, foreign_key: 'dependency_id', class_name: 'Obligee'
   has_many :direct_sub_dependencies, foreign_key: 'parent_id', class_name: 'Dependency'
   
-	validates :name, length: { minimum: 6 }
+	validates :name, length: { minimum: 3, maximum: 200 }
 
   def self.list_for_user(user)
     role = user.role

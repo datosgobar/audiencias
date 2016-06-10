@@ -1,10 +1,12 @@
 class Person < ActiveRecord::Base
 
-  validates :name, presence: true
-  validates :person_id, presence: true
+  validates :name, presence: true, length: { maximum: 200 }
+  validates :person_id, presence: true, length: { maximum: 20 }
   validates :id_type, presence: true
   validates :country, presence: true
+  validates_inclusion_of :country, :in => GLOBALS::COUNTRIES
   validates :email, format: { with: GLOBALS::EMAIL_REGEX }, allow_blank: true
+  validates :telephone, length: { maximum: 20 }, allow_blank: true
   has_many :obligees
   has_many :applicants
   after_initialize :set_default_country
