@@ -26,7 +26,8 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
         maxWidth: 400
       )
       @setDatePicker()
-      @setMotifMaxLength()
+      @setMaxLength('#motif')
+      @setMaxLength('#summary')
       @setAddressAutocomplete('#address')
 
   onAddressAutocompleteSelected: (e, address) =>
@@ -53,15 +54,6 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
     day = newDate.getDate()
     if year < 2015 or (year == 2015 and (month < 12 or day < 10))
       @$el.find('#date').datetimepicker('reset')
-
-  setMotifMaxLength: =>
-    motifTextarea = @$el.find('#motif')
-    motifTextarea.bind('input propertychange', =>
-      maxLength = motifTextarea.attr('maxlength')
-      if motifTextarea.val().length > maxLength
-        cuttedText = motifTextarea.val().substring(0, maxLength)
-        motifTextarea.val(cuttedText)
-    )
 
   enableMainEdit: =>
     @audience.set('editingInfo', true)

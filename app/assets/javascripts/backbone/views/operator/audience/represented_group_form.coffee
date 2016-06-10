@@ -12,7 +12,7 @@ class audiencias.views.AudienceRepresentedGroupForm extends audiencias.views.For
     @$el.html(@template(
       audience: @audience
     )) 
-    @setDescriptionfMaxLength()
+    @setMaxLength('#group-description')
 
   nationalityChange: =>
     newCountry = @$el.find('.nationality-radio:checked').val()
@@ -20,15 +20,6 @@ class audiencias.views.AudienceRepresentedGroupForm extends audiencias.views.For
     represented.country = newCountry
     @applicant.set('represented_people_group', represented)
     @render()
-
-  setDescriptionfMaxLength: =>
-    descriptionTextarea = @$el.find('#group-description')
-    descriptionTextarea.bind('input propertychange', =>
-      maxLength = descriptionTextarea.attr('maxlength')
-      if descriptionTextarea.val().length > maxLength
-        cuttedText = descriptionTextarea.val().substring(0, maxLength)
-        descriptionTextarea.val(cuttedText)
-    )
 
   validateForm: =>
     if @$el.find('#represented-nationality-argentine').is(':checked')

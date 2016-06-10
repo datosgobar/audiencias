@@ -103,7 +103,7 @@
     <p class="subsection-title <%= !hasSummary && !editing ? 'red' : '' %>">Síntesis</p>
     <% if (editing) { %>
       <p class="subsection-description">Describa de manera concisa lo sucedido en la audiencia, lo resuelto y el seguimiento del tema, de corresponder.</p>
-      <textarea id="summary" placeholder="<%= editing ? 'Ej: En el encuentro se acercaron posiciones entre el pedido de los participantes de regular los aumentos de precios del huevo y lo que actualmente ya está haciendo el ministerio al respecto. Se acordó quedar en contacto para hacer un seguimiento bimestral del tema.' : '' %>" <%= disabledIfNotEditing %>><%= audience.get('summary') %></textarea>
+      <textarea maxlength="1000" id="summary" placeholder="<%= editing ? 'Ej: En el encuentro se acercaron posiciones entre el pedido de los participantes de regular los aumentos de precios del huevo y lo que actualmente ya está haciendo el ministerio al respecto. Se acordó quedar en contacto para hacer un seguimiento bimestral del tema.' : '' %>" <%= disabledIfNotEditing %>><%= audience.get('summary') %></textarea>
     <% } else { %>
       <p class="full-summary"><%= audience.get('summary') %></p>
     <% } %>

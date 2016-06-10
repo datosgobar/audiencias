@@ -113,3 +113,12 @@ class audiencias.views.Form extends Backbone.View
 
   validateCountry: (country) ->
     country == 'Argentina' or audiencias.globals.countries.indexOf(country) > -1
+
+  setMaxLength: (inputSelector) =>
+    input = @$el.find(inputSelector)
+    input.bind('input propertychange', =>
+      maxLength = input.attr('maxlength')
+      if input.val().length > maxLength
+        cuttedText = input.val().substring(0, maxLength)
+        input.val(cuttedText)
+    )
