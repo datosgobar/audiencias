@@ -11,8 +11,9 @@
     <label for="represented-nationality-foreign" class="nationality-label">Extranjero</label>
   </div>
   <div class="field-table">
-    <% if (country != 'Argentina') { %>
-      <div class="row">
+    <div class="row">
+
+      <% if (country != 'Argentina') { %>
         <div class="cell">
           <div class="field-label">País</div>
           <% var countries = audiencias.globals.countries; %>
@@ -23,12 +24,8 @@
             <% } %>
           </select>
         </div>
-        <div class="cell"></div>
-        <div class="cell"></div>
-      </div>
-    <% } %>
+      <% } %>
 
-    <div class="row">
       <div class="cell">
         <% if (country == 'Argentina') { %>
           <div class="field-label">Tipo de nro. de documento</div>
@@ -50,8 +47,10 @@
         <div class="field-label">Apellido y nombre</div>
         <input type="text" placeholder="Apellido y nombre" value="<%= represented.name %>" class="field-input name-input">
       </div>
-      <div class="cell">
-      </div>
+      <% if (country == 'Argentina') { %>
+        <div class="cell">
+        </div>
+      <% } %>
     </div>
 
     <div class="row">

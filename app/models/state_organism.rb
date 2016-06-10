@@ -1,6 +1,6 @@
 class StateOrganism < ActiveRecord::Base
 
-  validates_inclusion_of :country, :in => GLOBALS::COUNTRY, allow_blank: true
+  validates_inclusion_of :country, :in => GLOBALS::COUNTRIES, allow_blank: true
   validates :name, length: { maximum: 200 }, presence: true
 
   def update_minor_attributes(params)

@@ -1,30 +1,32 @@
 <% var country = participant.person.country %>
-<div class="nationality-container">
-  <input type="radio" name="participant-nationality" id="participant-nationality-argentine" 
-    value="Argentina" class="nationality-radio" <%= country == 'Argentina' ? 'checked' : '' %> >
-  <label for="participant-nationality-argentine" class="nationality-label">Argentino</label>
-  <input type="radio" name="participant-nationality" id="participant-nationality-foreign" 
-    value="" class="nationality-radio" <%= country != 'Argentina' ? 'checked' : '' %> >
-  <label for="participant-nationality-foreign" class="nationality-label">Extranjero</label>
-</div>
-
 
 <div class="field-table">
-  <% if (country != 'Argentina') { %>
-    <div class="row">
-      <div class="cell">
-        <div class="field-label">País</div>
-        <% var countries = audiencias.globals.countries; %>
-        <select class="countries-select">
-          <option selected="true" disabled="disabled">Seleccione país...</option>    
-          <% for (var i=0; i<countries.length; i++) { %>
-            <option value="<%= countries[i] %>" <%= countries[i] == country ? 'selected' : '' %>><%= countries[i] %></option>
-          <% } %>
-        </select>
+
+  <div class="row">
+    <div class="cell">
+      <div class="nationality-container">
+        <input type="radio" name="participant-nationality" id="participant-nationality-argentine" 
+          value="Argentina" class="nationality-radio" <%= country == 'Argentina' ? 'checked' : '' %> >
+        <label for="participant-nationality-argentine" class="nationality-label">Argentino</label>
+        <input type="radio" name="participant-nationality" id="participant-nationality-foreign" 
+          value="" class="nationality-radio" <%= country != 'Argentina' ? 'checked' : '' %> >
+        <label for="participant-nationality-foreign" class="nationality-label">Extranjero</label>
       </div>
-      <div class="cell"></div>
     </div>
-  <% } %>
+
+    <% if (country != 'Argentina') { %>
+        <div class="cell">
+          <div class="field-label">País</div>
+          <% var countries = audiencias.globals.countries; %>
+          <select class="countries-select">
+            <option selected="true" disabled="disabled">Seleccione país...</option>    
+            <% for (var i=0; i<countries.length; i++) { %>
+              <option value="<%= countries[i] %>" <%= countries[i] == country ? 'selected' : '' %>><%= countries[i] %></option>
+            <% } %>
+          </select>
+        </div>
+    <% } %>
+  </div>
 
   <div class="row">
     <div class="cell">

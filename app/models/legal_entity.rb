@@ -1,6 +1,6 @@
 class LegalEntity < ActiveRecord::Base
 
-  validates_inclusion_of :country, :in => GLOBALS::COUNTRY, allow_blank: true
+  validates_inclusion_of :country, :in => GLOBALS::COUNTRIES, allow_blank: true
   validates :name, length: { maximum: 200 }, presence: true
   validates :email, format: { with: GLOBALS::EMAIL_REGEX }, allow_blank: true
   validates :telephone, length: { maximum: 20 }, allow_blank: true
