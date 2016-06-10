@@ -48,7 +48,12 @@ body.showing-error-bar #header {
     left: 0;
     z-index: 1;
 
-    @include outer-container; 
+    @include breakpoint-1080p {
+      width: 1920px;
+      left: 50%;
+      margin-left: -960px;
+    }
+    
     #user-menu {
       position: absolute;
       right: percentage(1/12);
