@@ -12,6 +12,7 @@ class audiencias.views.AudienceRepresentedOrganismForm extends audiencias.views.
     @$el.html(@template(
       audience: @audience
     )) 
+    @setMaxLength()
 
   nationalityChange: =>
     newCountry = @$el.find('.nationality-radio:checked').val()

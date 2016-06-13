@@ -26,8 +26,7 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
         maxWidth: 400
       )
       @setDatePicker()
-      @setMaxLength('#motif')
-      @setMaxLength('#summary')
+      @setMaxLength()
       @setAddressAutocomplete('#address')
 
   onAddressAutocompleteSelected: (e, address) =>

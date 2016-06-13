@@ -35,17 +35,17 @@
               <option value="lc" <%= idType == 'lc' ? 'selected' : '' %>>LC</option>
               <option value="le" <%= idType == 'le' ? 'selected' : '' %>>LE</option>
             </select>
-            <input type="text" placeholder="00000000" value="<%= applicant.get('person').person_id %>" class="field-input person-id-input">
+            <input maxlength="20" type="text" placeholder="00000000" value="<%= applicant.get('person').person_id %>" class="field-input person-id-input">
           </div>
         <% } else { %>
           <div class="field-label">Identificación <img src="/assets/logo-question.svg" class="id-tooltip tooltip"></div>
-          <input type="text" placeholder="00000000" value="<%= applicant.get('person').person_id %>" class="field-input person-id-input">
+          <input maxlength="20" type="text" placeholder="00000000" value="<%= applicant.get('person').person_id %>" class="field-input person-id-input">
         <% } %>
       </div>
       <div class="cell">
         <% var disabledIfPersonSelected = applicant.get('person').person_id && applicant.get('person').person_id.length > 0 ? 'disabled' : '' %>
         <div class="field-label">Apellido y nombre</div>
-        <input type="text" placeholder="Apellido y nombre" value="<%= applicant.get('person').name %>" class="field-input name-input" <%= disabledIfPersonSelected %>>
+        <input maxlength="200" type="text" placeholder="Apellido y nombre" value="<%= applicant.get('person').name %>" class="field-input name-input" <%= disabledIfPersonSelected %>>
       </div>
       
       <% if (applicantCountry == 'Argentina') { %>
@@ -61,11 +61,11 @@
       </div>
       <div class="cell"> 
         <div class="field-label">Mail</div>
-        <input type="text" placeholder="mail@unmail.com" value="<%= applicant.get('person').email %>" class="field-input email-input">
+        <input maxlength="100" type="text" placeholder="mail@unmail.com" value="<%= applicant.get('person').email %>" class="field-input email-input">
       </div>
       <div class="cell"> 
         <div class="field-label">Teléfono (opcional)</div>
-        <input type="text" placeholder="Teléfono" value="<%= applicant.get('person').telephone %>" class="field-input telephone-input">
+        <input maxlength="20" type="text" placeholder="Teléfono" value="<%= applicant.get('person').telephone %>" class="field-input telephone-input">
       </div>
     </div>
 

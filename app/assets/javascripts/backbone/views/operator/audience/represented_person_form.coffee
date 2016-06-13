@@ -15,7 +15,7 @@ class audiencias.views.AudienceRepresentedApplicantForm extends audiencias.views
       audience: @audience
     )) 
     @setPersonAutoComplete('.person-id-input')
-    @setMaxLength('.position-input')
+    @setMaxLength()
 
   onPersonAutocompleteSelected: (e, person) =>
     @$el.find('.name-input').val(person.name).prop('disabled', true)

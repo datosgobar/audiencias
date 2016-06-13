@@ -20,6 +20,7 @@ class audiencias.views.AudienceParticipantsForm extends audiencias.views.Form
       content: "Solicite primero el pasaporte, de no contar con este solicite id."
     })
     @setPersonAutoComplete('.person-id-input')
+    @setMaxLength()
 
   onPersonAutocompleteSelected: (e, person) =>
     @$el.find('.name-input').val(person.name).prop('disabled', true)

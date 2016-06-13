@@ -226,6 +226,10 @@
   .participant-absent {
     margin-top: 10px;
   }
+  & > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 #audience-editor  .person-form {

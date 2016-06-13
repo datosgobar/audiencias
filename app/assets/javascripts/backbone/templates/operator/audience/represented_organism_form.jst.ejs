@@ -32,7 +32,7 @@
           <div class="field-label">Nombre del Organismo estatal</div>
         <% } %>
         <% var placeholder = country == 'Argentina' ? 'Municipio de Tres Isletas, Localidad Tres Isletas, Provincia de Chaco' : 'Nombre del Organismo' %>
-        <input type="text" placeholder="<%= placeholder %>" value="<%= representedOrganism.name %>" class="field-input name-input">      
+        <input maxlength="200" type="text" placeholder="<%= placeholder %>" value="<%= representedOrganism.name %>" class="field-input name-input">      
       </div>
       <div class="cell button-cell">
         <button class="confirm-save">GUARDAR</button>

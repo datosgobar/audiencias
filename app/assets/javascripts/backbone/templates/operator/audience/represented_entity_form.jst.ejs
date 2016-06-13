@@ -16,7 +16,7 @@
       <% if (country == 'Argentina') { %>
         <div class="cell">
           <div class="field-label">CUIT</div>
-          <input type="text" placeholder="0000000000" value="<%= representedEntity.cuit %>" class="field-input cuit-input">      
+          <input maxlength="20" type="text" placeholder="0000000000" value="<%= representedEntity.cuit %>" class="field-input cuit-input">      
         </div>
       <% } else { %>
         <div class="cell">
@@ -32,18 +32,18 @@
       <% } %>
       <div class="cell">
         <div class="field-label">Razon social</div>
-        <input type="text" placeholder="Razon social" value="<%= representedEntity.name %>" class="field-input name-input">      
+        <input maxlength="200" type="text" placeholder="Razon social" value="<%= representedEntity.name %>" class="field-input name-input">      
       </div>
     </div>
 
     <div class="row">
       <div class="cell"> 
         <div class="field-label">Mail (opcional)</div>
-        <input type="text" placeholder="mail@unmail.com" value="<%= representedEntity.email %>" class="field-input email-input">
+        <input maxlength="100" type="text" placeholder="mail@unmail.com" value="<%= representedEntity.email %>" class="field-input email-input">
       </div>
       <div class="cell"> 
         <div class="field-label">Teléfono (opcional)</div>
-        <input type="text" placeholder="Teléfono" value="<%= representedEntity.telephone %>" class="field-input telephone-input">
+        <input maxlength="20" type="text" placeholder="Teléfono" value="<%= representedEntity.telephone %>" class="field-input telephone-input">
       </div>
       <div class="cell button-cell">
         <button class="confirm-save">GUARDAR</button>

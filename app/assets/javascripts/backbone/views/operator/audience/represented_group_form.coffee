@@ -12,7 +12,7 @@ class audiencias.views.AudienceRepresentedGroupForm extends audiencias.views.For
     @$el.html(@template(
       audience: @audience
     )) 
-    @setMaxLength('#group-description')
+    @setMaxLength()
 
   nationalityChange: =>
     newCountry = @$el.find('.nationality-radio:checked').val()

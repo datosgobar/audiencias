@@ -73,7 +73,7 @@
     <p id="place-label" class="<%= !hasPlace && !editing ? 'red' : '' %> subsection-title">Lugar</p>
     <% if (editing) { %>
       <p class="subsection-description">Nombre descriptivo del lugar donde se llevó a cabo la audiencia</p>
-      <input type="text" id="place" placeholder="<%= editing ? 'Ej. Despacho, Ministerio de Educación' : '' %>" <%= disabledIfNotEditing %> value="<%= audience.get('place') %>">
+      <input maxlength="200" type="text" id="place" placeholder="<%= editing ? 'Ej. Despacho, Ministerio de Educación' : '' %>" <%= disabledIfNotEditing %> value="<%= audience.get('place') %>">
     <% } else  { %>
       <p class="subsection-value place"><%= audience.get('place') %></p>
     <% } %>
@@ -83,7 +83,7 @@
     <% var hasCoordinates = !!(hasAddress && audience.get('lat') && audience.get('lng')) %>
     <p id="address-label" class="<%= !hasAddress && !editing ? 'red' : '' %> subsection-title">Dirección</p>
     <% if (editing) { %>
-      <input type="text" id="address" placeholder="<%= editing ? 'Ej. Av. Roque Saenz Peña 768, CABA' : '' %>" <%= disabledIfNotEditing %> value="<%= address %>" data-coordinates="<%= hasCoordinates %>">
+      <input maxlength="200" type="text" id="address" placeholder="<%= editing ? 'Ej. Av. Roque Saenz Peña 768, CABA' : '' %>" <%= disabledIfNotEditing %> value="<%= address %>" data-coordinates="<%= hasCoordinates %>">
     <% } else { %>
       <p class="subsection-value address"><%= address %></p>
     <% } %>

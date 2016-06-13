@@ -27,7 +27,7 @@
       <div class="cell">
         <div class="field-label">Nombre</div>
         <% var namePlaceholder = country == 'Argentina' ? 'Pueblo Qom' : 'Nombre del grupo' %>
-        <input type="text" placeholder="<%= namePlaceholder %>" value="<%= representedGroup.name %>" class="field-input name-input">      
+        <input maxlength="200" type="text" placeholder="<%= namePlaceholder %>" value="<%= representedGroup.name %>" class="field-input name-input">      
       </div>
       <% if (country == 'Argentina') { %>
         <div class="cell"></div>
@@ -43,11 +43,11 @@
     <div class="row">
       <div class="cell"> 
         <div class="field-label">Mail (opcional)</div>
-        <input type="text" placeholder="mail@unmail.com" value="<%= representedGroup.email %>" class="field-input email-input">
+        <input maxlength="100" type="text" placeholder="mail@unmail.com" value="<%= representedGroup.email %>" class="field-input email-input">
       </div>
       <div class="cell"> 
         <div class="field-label">Teléfono (opcional)</div>
-        <input type="text" placeholder="Teléfono" value="<%= representedGroup.telephone %>" class="field-input telephone-input">
+        <input maxlength="20" type="text" placeholder="Teléfono" value="<%= representedGroup.telephone %>" class="field-input telephone-input">
       </div>
       <div class="cell"></div>
     </div>
