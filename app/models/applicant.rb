@@ -17,7 +17,8 @@ class Applicant < ActiveRecord::Base
       represented_legal_entity: {},
       represented_state_organism: {},
       represented_people_group: {}
-    }
+    },
+    methods: [:publish_validations]
   }
   def as_json(options={})
     super(AS_JSON_OPTIONS)

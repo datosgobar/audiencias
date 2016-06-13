@@ -1,0 +1,14 @@
+<% var isIncomplete = function(s) { return s == 'incomplete' };
+var sections = [];
+var applicant = audience.get('applicant')
+if (applicant) {
+  var applicantState = applicant.get('publish_validations');
+  sections.push(applicantState);
+}
+var anythingMissing = _.any(sections, isIncomplete)  %>
+
+<% if (anythingMissing) { %> 
+  <div class="editor-section red missing-fields">
+    *No has completado todos los campos requeridos para publicar la audiencia
+  </div>
+<% } %>

@@ -42,6 +42,10 @@ class audiencias.views.AudienceEditor extends Backbone.View
       participantsSection.render()
       @$el.find('#editor-sections').append(participantsSection.el)
 
+      missingFieldsSection = new audiencias.views.AudienceMissingFieldsMessage(audience: @audience)
+      missingFieldsSection.render()
+      @$el.find('#editor-sections').append(missingFieldsSection.el)
+
     else if @audience.get('currentStep') == 'info'
 
       mainInfoSection = new audiencias.views.AudienceInfoSection(audience: @audience)
