@@ -100,6 +100,22 @@ window.audiencias =
       userConfig = new audiencias.views.UserConfig
       $('body').append(userConfig.el)
 
+    userHelp: ->
+      audiencias.app.init()
+      @renderHeader()
+      @renderFooter()
+      userHelp = new audiencias.views.UserHelp
+      userHelp.render()
+      $('body').append(userHelp.el)
+
+    userAbout: ->
+      audiencias.app.init()
+      @renderHeader()
+      @renderFooter()
+      userAbout = new audiencias.views.UserAbout
+      userAbout.render()
+      $('body').append(userAbout.el)
+
     forbidden: ->
       audiencias.app.init()
       @renderHeader()

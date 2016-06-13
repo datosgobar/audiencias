@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_login, only: [:user_config, :change_user_config]
+  before_action :require_login, only: [:user_config, :change_user_config, :about, :help]
 
   def login
     redirect_to root_url if @current_user
@@ -65,9 +65,6 @@ class UsersController < ApplicationController
       render json: { success: false, erros: user.errors }
     end
 
-  end
-
-  def user_config
   end
 
   def change_user_config

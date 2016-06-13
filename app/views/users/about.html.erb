@@ -1,0 +1,7 @@
+<%= javascript_tag do %>
+  $(function() {
+    audiencias.app.userAbout();
+    audiencias.globals.currentUser = <%= raw @current_user.id %>;
+    audiencias.globals.users.add(<%= raw @current_user.to_json %>)
+  });
+<% end %>

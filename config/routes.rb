@@ -45,6 +45,8 @@ Rails.application.routes.draw do
 
   get '/intranet/configuracion', to: 'users#user_config', as: 'user_config'
   post '/intranet/configuracion', to: 'users#change_user_config', as: 'change_user_config'
+  get '/intranet/ayuda', to: 'users#help'
+  get '/intranet/acerca_de', to: 'users#about'
 
   get "/403", :to => "errors#forbidden"
   get "/404", :to => "errors#not_found"

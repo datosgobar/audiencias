@@ -3,8 +3,7 @@ class audiencias.views.Header extends Backbone.View
   template: JST["backbone/templates/header"]
   events: 
     'click #user-header': 'toggleShowMenu'
-    'click #settings': 'settings'
-    'click #logout': 'logout'
+    'click .user-menu-action': 'followLink'
 
   initialize: ->
     audiencias.globals.users.on('add change', @render)
@@ -29,13 +28,8 @@ class audiencias.views.Header extends Backbone.View
       userMenuIcon.addClass('user-menu-visible')
       @listenForOneOutsideClick()
       
-  logout: ->
+  followLink: ->
     NProgress.start()
-    window.location.replace('/salir')
-
-  settings: ->
-    NProgress.start()
-    window.location.replace('/intranet/configuracion')
 
   listenForOneOutsideClick: =>
     $(window).one('click', (e) => 

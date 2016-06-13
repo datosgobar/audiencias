@@ -1,0 +1,9 @@
+#user-about #user-about-content {
+  @include span-columns(10);
+  @include shift(1);
+  
+  .title {
+    font-size: 30px;
+    font-weight: 500;
+  }
+}
