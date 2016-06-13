@@ -99,6 +99,19 @@ window.audiencias =
       @renderFooter()
       userConfig = new audiencias.views.UserConfig
       $('body').append(userConfig.el)
+
+    forbidden: ->
+      audiencias.app.init()
+      @renderHeader()
+
+    notFound: ->
+      audiencias.app.init()
+      @renderHeader()
+
+    internalServerError: ->
+      audiencias.app.init()
+      @renderHeader()
+      
   }
   helpers: {
     initials: (names) ->
