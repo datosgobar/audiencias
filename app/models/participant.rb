@@ -27,7 +27,7 @@ class Participant < ActiveRecord::Base
   end
 
   def publish_validations
-    if self.audience and self.person and self.ocupation and self.ocupation.length > 0
+    if self.audience and self.person
       'valid'
     else
       'incomplete'
