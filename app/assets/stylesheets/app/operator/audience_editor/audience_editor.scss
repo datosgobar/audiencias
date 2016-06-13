@@ -114,7 +114,7 @@
     .entity-tooltip,
     .organism-tooltip,
     .group-tooltip {
-      height: 24px;
+      height: 20px;
       vertical-align: middle;
     }
   }
@@ -159,8 +159,8 @@
     .section-title {
       color: $blue-300;
       .participants-tooltip {
-        height: 24px;
-        vertical-align: bottom;
+        height: 20px;
+        vertical-align: middle;
       }
     }
     .confirm-save {
@@ -239,7 +239,7 @@
 #audience-editor  .person-form {
   padding: 15px 30px;
   .id-tooltip {
-    height: 24px;
+    height: 20px;
     vertical-align: bottom;
   }
   .nationality-container {
