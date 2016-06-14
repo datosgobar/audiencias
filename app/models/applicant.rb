@@ -14,7 +14,7 @@ class Applicant < ActiveRecord::Base
     include: {
       person: Person::AS_JSON_OPTIONS,
       represented_person: Person::AS_JSON_OPTIONS,
-      represented_legal_entity: {},
+      represented_legal_entity: LegalEntity::AS_JSON_OPTIONS,
       represented_state_organism: {},
       represented_people_group: {}
     },

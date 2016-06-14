@@ -3,6 +3,7 @@ class audiencias.views.Form extends Backbone.View
 
   setPersonAutoComplete: (inputSelector) =>
     input = @$el.find(inputSelector)
+    return unless input.length > 0
     @wrapAutocompleteInput(input, 'person')
     input.autocomplete(
       source: @searchPerson
@@ -50,6 +51,7 @@ class audiencias.views.Form extends Backbone.View
 
   setAddressAutocomplete: (inputSelector) =>
     input = @$el.find(inputSelector)
+    return unless input.length > 0
     @wrapAutocompleteInput(input, 'address')
     input.autocomplete(
       source: @searchAddress
@@ -78,8 +80,41 @@ class audiencias.views.Form extends Backbone.View
           wrappedAddress = _.collect(response.results, (a) -> 
             { label: a.full_address, address: a }
           )
-          console.log('calling callback')
           autocompleteCallback(wrappedAddress)
+    )
+
+  setEntityAutocomplete: (inputSelector) =>
+    input = @$el.find(inputSelector)
+    return unless input.length > 0
+    @wrapAutocompleteInput(input, 'entity')
+    input.autocomplete(
+      source: @searchEntity
+      select: (e, ui) ->
+        if ui and ui.item and ui.item.entity
+          entity = ui.item.entity
+          input.parent().addClass('value-selected').find('.selected-value').text(entity.cuit)
+          input.trigger('autocompleteentity', [entity])
+    )
+    input.on('keyup', (e) => 
+      if e.keyCode == 13
+        @_doSearch = true
+        input.autocomplete('search')
+    )
+
+  searchEntity: (autocompleteRequest, autocompleteCallback) =>
+    return unless @_doSearch
+    @_doSearch = false
+    entityQuery = autocompleteRequest.term
+    $.ajax(
+      url: '/buscar_persona_juridica'
+      method: 'GET'
+      data: { cuit: entityQuery }
+      success: (response) =>
+        if response and response.success
+          wrappedEntities = _.collect(response.results, (e) ->
+            { label: "#{e.cuit} #{e.name}", entity: e, value: e.cuit }
+          )
+          autocompleteCallback(wrappedEntities)
     )
 
   wrapAutocompleteInput: (input, target) =>
@@ -96,7 +131,7 @@ class audiencias.views.Form extends Backbone.View
     )
     if target == 'address' and input.data('coordinates')
       input.parent().addClass('value-selected').find('.selected-value').text(input.val())
-    else if target == 'person' and input.val().length > 0
+    else if input.val().length > 0
       input.parent().addClass('value-selected').find('.selected-value').text(input.val())
 
   validatePersonId: (person_id, country) ->

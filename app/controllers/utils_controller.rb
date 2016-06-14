@@ -16,9 +16,9 @@ class UtilsController < ApplicationController
     end
 
     if responsePeople.length == 0 and ['dni', 'lc', 'le'].include?(id_type) and Rails.env == "production"
-      sintis = Sintys.new()
+      sintys = Sintys.new
       begin
-        response = sintis.identificar_persona_fisica(id_type.to_sym, person_id)
+        response = sintys.identificar_persona_fisica(id_type.to_sym, person_id)
         responsePeople = parse_sintys_people(response[:results]) if response[:results].length > 0
       rescue
       end
@@ -42,6 +42,24 @@ class UtilsController < ApplicationController
     render json: { success: true, results: response_address }
   end
 
+  def legal_entity_autocomplete
+    cuit = params[:cuit]
+    unless cuit 
+      render json: { success: false }
+      return 
+    end
+    response_entities = LegalEntity.where(cuit: cuit, country: 'Argentina')
+    if response_entities.length == 0 and Rails.env == 'production'
+      sintys = Sintys.new
+      begin
+        response = sintys.identificar_persona_juridica(cuit)
+        response_entities = parse_sintys_entities(response[:results]) if response[:results].length > 0
+      rescue
+      end
+    end
+    render json: { success: true, results: response_entities }
+  end
+
   private
 
   def parse_sintys_people(sintys_people)
@@ -50,6 +68,15 @@ class UtilsController < ApplicationController
         name: person['deno'].titleize,
         id_type: person['tdoc'].downcase,
         person_id: person['ndoc']
+      }
+    end
+  end
+
+  def parse_sintys_entities(sintys_entities) 
+    sintys_entities.collect do |entity|
+      { 
+        name: entity['razonSocial'],
+        cuit: entity['cuit']
       }
     end
   end

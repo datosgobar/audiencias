@@ -3,6 +3,8 @@ class audiencias.views.AudienceRepresentedEntityForm extends audiencias.views.Fo
   events:
     'change .nationality-radio': 'nationalityChange'
     'click .confirm-save': 'validateForm'
+    'autocompleteentity .cuit-input': 'onEntityAutocompleteSelected'
+    'autocompleteremoved .cuit-input': 'onEntityAutocompleteRemoved'
 
   initialize: (options) ->
     @audience = options.audience
@@ -12,6 +14,13 @@ class audiencias.views.AudienceRepresentedEntityForm extends audiencias.views.Fo
     @$el.html(@template(
       audience: @audience
     )) 
+    @setEntityAutocomplete('.cuit-input')
+
+  onEntityAutocompleteSelected: (e, entity) =>
+    @$el.find('.name-input').val(entity.name).prop('disabled', true)
+
+  onEntityAutocompleteRemoved: =>
+    @$el.find('.name-input').prop('disabled', false).val('')
 
   nationalityChange: =>
     newCountry = @$el.find('.nationality-radio:checked').val()

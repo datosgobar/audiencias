@@ -14,4 +14,11 @@ class LegalEntity < ActiveRecord::Base
     self.telephone = params[:telephone] if params.include?(:telephone)
   end
 
+  AS_JSON_OPTIONS = {
+    only: [:id, :country, :name, :email, :telephone, :cuit]
+  }
+  def as_json(options={})
+    super(AS_JSON_OPTIONS)
+  end
+
 end

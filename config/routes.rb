@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   
   get '/buscar_persona', to: 'utils#person_autocomplete', as: 'person_autocomplete'
   get '/buscar_direccion', to: 'utils#address_autocomplete', as: 'address_autocomplete'
+  get '/buscar_persona_juridica', to: 'utils#legal_entity_autocomplete', as: 'legal_entity_autocomplete'
 
   get '/intranet/configuracion', to: 'users#user_config', as: 'user_config'
   post '/intranet/configuracion', to: 'users#change_user_config', as: 'change_user_config'
