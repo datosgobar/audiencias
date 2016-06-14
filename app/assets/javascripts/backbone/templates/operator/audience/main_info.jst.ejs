@@ -59,7 +59,7 @@
       hour = hour.length > 1 ? hour : '0' + hour;
       var minutes = date.getMinutes().toString();
       minutes = minutes.length > 1 ? minutes : '0' + minutes;
-      dateString = hour + ':' + minutes + ' ' + day + '/' + month + '/' + year;
+      dateString = day + '/' + month + '/' + year + ' ' + hour + ':' + minutes;
     }
     %>
     <p class="<%= !dateIsValid && !editing ? 'red' : '' %> subsection-title">Fecha y hora de la audiencia</p> 

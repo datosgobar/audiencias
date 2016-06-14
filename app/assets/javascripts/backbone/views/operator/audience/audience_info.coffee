@@ -37,7 +37,7 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
 
   setDatePicker: =>
     @$el.find('#date').datetimepicker(
-      format: 'H:i d/m/Y'
+      format: 'd/m/Y H:i'
       lazyInit: true
       minDate: '10/12/2015'
       formatDate:'d/m/Y'
