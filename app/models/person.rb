@@ -52,7 +52,7 @@ class Person < ActiveRecord::Base
   def update_minor_attributes(new_attr)
     self.name = new_attr[:name] if new_attr.include? :name
     self.telephone = new_attr[:telephone] if new_attr.include? :telephone
-    self.email = new_attr[:email] if new_attr.include? :email
+    self.email = new_attr[:email] if new_attr.include? :email and new_attr[:email].length > 0
     self.country = new_attr[:country] if new_attr.include? :country
   end
 
