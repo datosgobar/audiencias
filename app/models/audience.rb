@@ -2,8 +2,8 @@ class Audience < ActiveRecord::Base
 
   belongs_to :author, foreign_key: 'author_id', class_name: 'User'
   belongs_to :obligee
-  belongs_to :applicant
-  has_many :participants
+  belongs_to :applicant, autosave: true
+  has_many :participants, autosave: true
 
   validates :author, presence: true
   validates :obligee, presence: true

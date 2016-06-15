@@ -8,6 +8,11 @@ class Applicant < ActiveRecord::Base
 
   validates :ocupation, length: { maximum: 200 }, allow_blank: true
   validates :represented_person_ocupation, length: { maximum: 200 }, allow_blank: true
+  validate :applicant_cant_be_the_obligee
+  validate :represented_person_cant_be_the_obligee
+  validate :applicant_cant_represent_itself
+  validate :applicant_cant_be_also_a_participant
+  validate :represented_person_cant_be_also_a_participant
 
   AS_JSON_OPTIONS = {
     only: [ :id, :ocupation, :represented_person_ocupation, :absent ],
@@ -101,6 +106,40 @@ class Applicant < ActiveRecord::Base
       'valid'
     else
       'incomplete'
+    end
+  end
+
+  def applicant_cant_be_also_a_participant
+    if self.audience and self.audience.participants and self.audience.participants.length > 0
+      if self.audience.participants.any? { |p| p.person == self.person }
+        errors.add(:person, "can't be also a participant")
+      end
+    end
+  end
+
+  def represented_person_cant_be_also_a_participant
+    if self.represented_person and self.audience and self.audience.participants and self.audience.participants.length > 0
+      if self.audience.participants.any? { |p| p.person == self.represented_person }
+        errors.add(:represented_person, "can't be also a participant")
+      end
+    end
+  end
+
+  def applicant_cant_represent_itself
+    if self.represented_person == self.person
+      errors.add(:person, "can't represent itself")
+    end
+  end
+
+  def applicant_cant_be_the_obligee
+    if self.audience and self.audience.obligee and self.audience.obligee.person == self.person
+      errors.add(:person, "can't be the obligee")
+    end
+  end
+
+  def represented_person_cant_be_the_obligee
+    if self.audience and self.audience.obligee and self.audience.obligee.person == self.represented_person
+      errors.add(:represented_person, "can't be the obligee")
     end
   end
 end

@@ -6,6 +6,9 @@ class Participant < ActiveRecord::Base
   validates :audience, presence: true
   validates :person, presence: true, uniqueness: { scope: :audience }
   validates :ocupation, length: { maximum: 200 }, allow_blank: true
+  validate :cant_be_the_applicant
+  validate :cant_be_the_represented_person
+  validate :cant_be_the_obligee
 
   AS_JSON_OPTIONS = {
     only: [:id, :ocupation],
@@ -32,5 +35,23 @@ class Participant < ActiveRecord::Base
     else
       'incomplete'
     end
+  end
+
+  def cant_be_the_applicant
+    if self.audience.applicant and self.audience.applicant.person == self.person 
+      errors.add(:person, "can't be the applicant")
+    end 
+  end
+
+  def cant_be_the_represented_person
+    if self.audience.applicant and self.audience.applicant.represented_person == self.person
+      errors.add(:person, "can't be the represented person")
+    end
+  end
+
+  def cant_be_the_obligee
+    if self.audience.obligee and self.audience.obligee.person == self.person 
+      errors.add(:person, "can't be the obligee")
+    end 
   end
 end
