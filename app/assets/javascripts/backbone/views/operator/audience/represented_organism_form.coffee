@@ -13,6 +13,7 @@ class audiencias.views.AudienceRepresentedOrganismForm extends audiencias.views.
       audience: @audience
     )) 
     @setMaxLength()
+    @setAutocomplete()
 
   nationalityChange: =>
     newCountry = @$el.find('.nationality-radio:checked').val()
@@ -48,3 +49,9 @@ class audiencias.views.AudienceRepresentedOrganismForm extends audiencias.views.
     data = { applicant: { represented_state_organism: organismData } }
     callback = => @audience.set('editingRepresented', false)
     @audience.submitEdition(data, callback)
+
+  setAutocomplete: =>
+    if @audience.get('applicant').get('represented_state_organism').country == 'Argentina'
+      @$el.find('.name-input').autocomplete(
+        source: audiencias.globals.dependencyAutocomplete
+      )
