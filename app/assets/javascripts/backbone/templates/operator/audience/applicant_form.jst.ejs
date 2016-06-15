@@ -81,5 +81,10 @@
     <input type="radio" name="participation" id="applicant-didnt-participated" 
       value="false" <%= participationIsSet && !applicantParticipated ? 'checked' : '' %>>
     <button class="confirm-save">GUARDAR</button>
+    <div class="red errors">
+      <p class="hidden person-also-participant">El solicitante no debe figurar tambien como participante</p>
+      <p class="hidden represents-itself">El solicitante no puede representarse a si mismo</p>
+      <p class="hidden cant-be-the-obligee">El solicitante no puede ser el sujeto obligado</p>
+    </div>
   </div>
 </div>

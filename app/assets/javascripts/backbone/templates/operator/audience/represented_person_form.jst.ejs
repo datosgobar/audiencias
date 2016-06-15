@@ -44,8 +44,9 @@
         <% } %>
       </div>
       <div class="cell">
+        <% var disabledIfPersonSelected = represented.person_id && represented.person_id.length > 0 ? 'disabled' : '' %>
         <div class="field-label">Apellido y nombre</div>
-        <input maxlength="200" type="text" placeholder="Apellido y nombre" value="<%= represented.name %>" class="field-input name-input">
+        <input maxlength="200" type="text" placeholder="Apellido y nombre" value="<%= represented.name %>" class="field-input name-input" <%= disabledIfPersonSelected %>>
       </div>
       <% if (country == 'Argentina') { %>
         <div class="cell">
@@ -71,5 +72,10 @@
   </div>
   <div class="form-actions">
     <button class="confirm-save">GUARDAR</button>
+  </div>
+  <div class="red errors">
+    <p class="hidden person-also-participant">La persona representada no debe figurar tambien como participante</p>
+    <p class="hidden represents-itself">El solicitante no puede representarse a si mismo</p>
+    <p class="hidden cant-be-the-obligee">La persona representada no puede ser el sujeto obligado</p>
   </div>
 </div>

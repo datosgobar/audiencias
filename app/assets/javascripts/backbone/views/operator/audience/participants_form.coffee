@@ -57,14 +57,22 @@ class audiencias.views.AudienceParticipantsForm extends audiencias.views.Form
     @$el.find('.name-input').toggleClass('invalid', !personNameValid)
     
     personIdValid = @validatePersonId(personAttr.person_id, personAttr.country)
-    valid = valid and personIdValid
+    personAlsoParticipant = (@audience.get('applicant') and @audience.get('applicant').get('person').person_id == personAttr.person_id)
+    personAlsoRepresented = (@audience.get('applicant') and @audience.get('applicant').get('represented_person') and @audience.get('applicant').get('represented_person').person_id == personAttr.person_id)
+    personIsTheObligee = (@audience.get('obligee').get('person').person_id == personAttr.person_id) 
+    valid = valid and personIdValid and !personAlsoParticipant and !personAlsoRepresented and !personIsTheObligee
     @$el.find('.person-id-input').toggleClass('invalid', !personIdValid)
 
     personCountryValid = @validateCountry(personAttr.country)
     valid = valid and personCountryValid
     @$el.find('.countries-select').toggleClass('invalid', !personCountryValid)
 
-    @submitParticipant(participantAttr) if valid
+    if valid
+      @submitParticipant(participantAttr) 
+    else 
+      @$el.find('.errors .person-also-participant').toggleClass('hidden', !personAlsoParticipant)
+      @$el.find('.errors .represented-person-also-participant').toggleClass('hidden', !personAlsoRepresented)
+      @$el.find('.errors .obligee-also-participant').toggleClass('hidden', !personIsTheObligee)
 
   submitParticipant: (participantData) =>
     data = { participant: participantData }

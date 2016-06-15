@@ -65,7 +65,10 @@ class audiencias.views.AudienceApplicantForm extends audiencias.views.Form
     @$el.find('.name-input').toggleClass('invalid', !personNameValid)
     
     personIdValid = @validatePersonId(personAttr.person_id, personAttr.country)
-    valid = valid and personIdValid
+    personAlsoParticipant = _.collect(@audience.get('participants'), (p) -> p.person.person_id).indexOf(personAttr.person_id) > -1
+    personRepresentsItself = (@audience.get('applicant') and @audience.get('applicant').get('represented_person') and @audience.get('applicant').get('represented_person').person_id == personAttr.person_id)
+    personIsTheObligee = (@audience.get('obligee').get('person').person_id == personAttr.person_id) 
+    valid = valid and personIdValid and !personAlsoParticipant and !personRepresentsItself and !personIsTheObligee
     @$el.find('.person-id-input').toggleClass('invalid', !personIdValid)
     
     if personAttr.email && personAttr.email.length > 0
@@ -84,6 +87,10 @@ class audiencias.views.AudienceApplicantForm extends audiencias.views.Form
 
     if valid
       @updateApplicant(applicantAttr)
+    else 
+      @$el.find('.errors .person-also-participant').toggleClass('hidden', !personAlsoParticipant)
+      @$el.find('.errors .represents-itself').toggleClass('hidden', !personRepresentsItself)
+      @$el.find('.errors .cant-be-the-obligee').toggleClass('hidden', !personIsTheObligee)
 
   updateApplicant: (applicantData) =>
     data = { applicant: applicantData }
