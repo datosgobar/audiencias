@@ -299,10 +299,13 @@
     <div class="section-content ">
       <% var publish_validations = audience.get('publish_validations') %>
       <% if (publish_validations && publish_validations.fields != 'valid') { %>
-      <div class="missing-field">*No has completado todos los campos requeridos para publicar la audiencia.</div>
+        <div class="missing-field">*No has completado todos los campos requeridos para publicar la audiencia.</div>
       <% } %>
       <% if (publish_validations && publish_validations.date == 'not_yet_valid') { %> 
         <div class="missing-field">*No es posible publicar una audiencia con fecha futura.</div>
+      <% } %>
+      <% if (publish_validations && publish_validations.participants != 'valid') { %>
+        <div class="missing-field">*La audiencia debe tener por lo menos un participante.</div>
       <% } %>
     </div>
     <% } %>

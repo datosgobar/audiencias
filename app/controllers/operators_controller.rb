@@ -102,7 +102,7 @@ class OperatorsController < ApplicationController
     audience = Audience.find_by_id(params[:audience][:id])
     participant = audience.participants.find_by_id(params[:participant][:id])
     if participant and participant.destroy
-      render json: { success: true, participants: audience.participants }
+      render json: { success: true, audience: audience }
     else
       render json: { success: false }
     end

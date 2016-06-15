@@ -56,5 +56,5 @@ class audiencias.views.AudienceParticipantsSection extends Backbone.View
       data: data
       success: (response) =>
         if response and response.success 
-          @audience.set('participants', response.participants)
+          @audience.forceUpdate(response.audience)
     )

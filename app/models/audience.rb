@@ -78,6 +78,14 @@ class Audience < ActiveRecord::Base
       self.motif && 
       self.motif.length > 0) then 'valid' else 'incomplete' end
 
+    if self.applicant and self.applicant.absent
+      total_participants = self.participants.length 
+    elsif self.applicant
+      total_participants = self.participants.length + 1
+    else
+      total_participants = 0
+    end
+    presence_validation = if total_participants > 0 then 'valid' else 'incomplete' end
     applicant_validation = if self.applicant then self.applicant.publish_validations else 'incomplete' end
     participants_validations = self.participants.collect(&:publish_validations)
     fields_validations = [proper_fields_validation, applicant_validation] + participants_validations
@@ -87,12 +95,12 @@ class Audience < ActiveRecord::Base
     else
       fields = 'incomplete'
     end
-    { date: date, fields: fields }
+    { date: date, participants: presence_validation, fields: fields }
   end
 
   def state 
     validations = publish_validations
-    if validations[:date] == 'valid' && validations[:fields] == 'valid'
+    if validations[:date] == 'valid' && validations[:fields] == 'valid' && validations[:participants] == 'valid'
       'valid'
     else
       'incomplete'
