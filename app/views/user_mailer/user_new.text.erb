@@ -1,10 +1,8 @@
-Usted ha solicitado restablecer su contraseña como usuario del Registro de Audiencias de Gestión de Intereses del Poder Ejecutivo Nacional.
+Se ha generado un nuevo usuario para usted dentro del Registro de Audiencias de Gestión de Intereses vinculado a este email y al DNI <%= @user.person_id %>. 
 
-Para resetearla, por favor, siga el siguiente link:
+Para ingresar al sistema y establecer su contraseña, siga el siguiente link:
 
 <%= password_reset_form_url(@user.password_reset_token) %>
-
-Si no ha solicitado el cambio de contraseña, desestime este mensaje.
 
 Saludos cordiales,
 
