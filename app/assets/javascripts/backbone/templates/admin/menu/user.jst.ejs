@@ -11,6 +11,11 @@
   <div class="user-email">
     <%= get('email') %>
   </div>
+  <% if (get('telephone') && get('telephone').length > 0) { %>
+    <div class="user-telephone">
+      Telefono <%= get('telephone') %>
+    </div>
+  <% } %>
   <button class="edit-user">EDITAR</button>
   <button class="remove-user">BAJA</button>
 </div>

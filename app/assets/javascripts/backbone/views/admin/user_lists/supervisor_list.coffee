@@ -2,6 +2,7 @@
 class audiencias.views.SupervisorList extends audiencias.views.UserList
   title: 'Supervisores'
   iconClass: 'superadmin'
+  role: 'superadmin'
   confirmNewUserText:
     main: '¿Está seguro de que desea dar permisos de supervisor al usuario?',
     secondary: 'El usuario podrá gestionar dependencias, usuarios y audiencias sin restricciones.'

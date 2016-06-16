@@ -1,6 +1,7 @@
 #= require ./user_list
 class audiencias.views.OperatorList extends audiencias.views.UserList
   title: 'Operadores'
+  role: 'operator'
   confirmNewUserText:
     main: '¿Está seguro de que desea dar permisos de operador al usuario?',
     secondary: 'El usuario podrá gestionar las audiencias del actual sujeto obligado.'

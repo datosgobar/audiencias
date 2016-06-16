@@ -11,12 +11,14 @@ class audiencias.views.UserForm extends Backbone.View
     @user = options.user || new audiencias.models.User({ skipValidation: true })
     @user.on('change', @render)
     @userFound = false
+    @role = options.role || 'operator'
 
   render: =>
     @$el.html(@template(
       user: @user
       mode: @mode
       userFound: @userFound
+      role: @role
     ))
     @setAutocomplete() if @mode == 'new'
 
@@ -33,6 +35,8 @@ class audiencias.views.UserForm extends Backbone.View
       name: @$el.find('.name-input').val().trim(),
       email: @$el.find('.email-input').val().trim()
     )
+    if @$el.find('.telephone-input').length > 0 
+      @user.set('telephone', @$el.find('.telephone-input').val().trim())
     @user.unset('skipValidation')
 
     if @user.isValid()

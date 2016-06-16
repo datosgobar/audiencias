@@ -3,6 +3,7 @@ class audiencias.views.UserList extends Backbone.View
   userTemplate: JST["backbone/templates/admin/menu/user"]
   className: 'user-list'
   iconClass: 'operator'
+  role: 'user'
   events:
     'click .add-user': 'showAddUserForm'
     'click .edit-user': 'showEditUserForm'
@@ -22,6 +23,7 @@ class audiencias.views.UserList extends Backbone.View
     if @showingForm
       userForm = new audiencias.views.UserForm(
         user: @formUser
+        role: @role
       )
       userForm.render()
       userForm.on('cancel', @hideForm)
