@@ -169,6 +169,7 @@ class ManagementController < ApplicationController
   def new_dependency
     dependency = Dependency.new(name: params[:dependency][:name], parent_id: params[:dependency][:parent_id])
     person = Person.find_or_initialize(params[:person])
+    person.update_minor_attributes(params[:person])
     if person.has_active_obligee
       render json: { success: false, errors: 'El sujeto obligado está en otra dependencia' }
       return

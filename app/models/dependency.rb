@@ -69,6 +69,10 @@ class Dependency < ActiveRecord::Base
 
   def mark_as_not_active
     self.active = false
+    if self.obligee 
+      self.obligee.active = false
+      self.obligee.save
+    end
     self.obligee = nil
     self.admin_associations.destroy_all
     self.direct_sub_dependencies.each { |d| d.mark_as_not_active }
