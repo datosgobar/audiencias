@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
 
 	validates :name, presence: true
-	validates :email, format: { with: GLOBALS::EMAIL_REGEX }, uniqueness: { case_sensitive: false }
+	validates :email, format: { with: GLOBALS::EMAIL_REGEX }
 	validates_inclusion_of :id_type, :in => %w(dni lc le)
 	validates :person_id, presence: true, uniqueness: true
 	validates_numericality_of :person_id, only_integer: true, greater_than: 0
@@ -22,6 +22,13 @@ class User < ActiveRecord::Base
 			self[column] = SecureRandom.urlsafe_base64
 		end while User.exists?(column => self[column])
 	end
+
+  def send_new_user_email
+    generate_token(:password_reset_token)
+    self.password_reset_sent_at = Time.zone.now
+    save!
+    UserMailer.user_new(self).deliver_now
+  end
 
 	def send_password_reset
 		generate_token(:password_reset_token)

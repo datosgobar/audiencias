@@ -8,7 +8,7 @@ class ManagementController < ApplicationController
     user.is_superadmin = true
 
     if user.save 
-      # user.send_password_reset if new_user
+      user.send_new_user_email if new_user
       render json: { success: true, user: user }
     else
       render json: { success: false, errors: user.errors.messages }
@@ -27,7 +27,7 @@ class ManagementController < ApplicationController
     new_user = user.new_record?
 
     if user.save and association.save
-      # user.send_password_reset if new_user
+      user.send_new_user_email if new_user
       render json: { success: true, dependency: dependency, user: user }
     else
       render json: { success: false, user_errors: user.errors.messages, association_errors: association.errors.messages }
@@ -36,15 +36,21 @@ class ManagementController < ApplicationController
 
   def new_obligee
     person = Person.find_or_initialize(params[:person])
+    person.update_minor_attributes(params[:person])
     dependency = Dependency.find_by_id(params[:dependency][:id])
     if dependency.obligee or person.has_active_obligee
       render json: { success: false }
       return
     end
+    user = User.find_or_initialize(params[:person])
+    user.update_minor_attributes(params[:person])
+    new_user = user.new_record?
     obligee = Obligee.new(person: person, dependency: dependency, position: params[:obligee][:position])
     dependency.obligee = obligee 
+    association = OperatorAssociation.new(user: user, obligee: obligee)
 
-    if person.save and obligee.save and dependency.save
+    if person.save and user.save and obligee.save and dependency.save and association.save
+      user.send_new_user_email if new_user
       render json: { success: true, dependency: dependency }
     else
       render json: { success: false, errors: { person: person.errors.messages, obligee: obligee.errors.messages, dependecy: dependency.errors.messages } }
@@ -55,9 +61,11 @@ class ManagementController < ApplicationController
     dependency = Dependency.find_by_id(params[:dependency][:id])
     obligee = dependency.obligee
     user = User.find_or_initialize(params[:user])
+    new_user = user.new_record?
     association = OperatorAssociation.new(user: user, obligee: obligee)
 
     if user.save and association.save 
+      user.send_new_user_email if new_user
       render json: { success: true, dependency: dependency, user: user }
     else
       render json: { success: false, errors: { user: user.errors.messages, operator: association.errors.messages } }
@@ -174,9 +182,14 @@ class ManagementController < ApplicationController
       render json: { success: false, errors: 'El sujeto obligado está en otra dependencia' }
       return
     end
+    user = User.find_or_initialize(params[:person])
+    user.update_minor_attributes(params[:person])
+    new_user = user.new_record?
     obligee = Obligee.new(person: person, dependency: dependency, position: params[:obligee][:position])
     dependency.obligee = obligee
-    if dependency.save and person.save and obligee.save
+    association = OperatorAssociation.new(user: user, obligee: obligee)
+    if dependency.save and person.save and obligee.save and user.save and association.save
+      user.send_new_user_email if new_user
       render json: { success: true, dependency: dependency }
     else
       render json: { success: false, errors: { dependency: dependency.errors.full_messages, person: person.errors.full_messages, obligee: obligee.errors.full_messages } }
