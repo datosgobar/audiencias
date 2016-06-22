@@ -10,3 +10,41 @@
   color: #767676;
   padding-right: 8.3333%;
 }
+
+#external-footer {
+  @include box-shadow($header-shadow);
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+
+  .footer-content-wrapper {
+    @include outer-container();
+
+    .footer-content {
+      @include span-columns(10 of 12);
+      @include shift(1);
+      padding: 20px 0;
+
+      .footer-section.first {
+        @include span-columns(5 of 12);
+        .logo-ministerio {
+          width: 240px;
+          height: 72px;
+        }
+        p {
+          margin: 0;
+          font-size: 13px;
+        }
+      }      
+
+      .footer-section.second {
+        @include span-columns(3 of 12);
+        @include shift(1);
+      } 
+      
+      .footer-section.third {
+        @include span-columns(3 of 12);
+      }
+    }
+  }  
+}
