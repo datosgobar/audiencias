@@ -24,7 +24,13 @@ class UsersController < ApplicationController
     else
       cookies[:auth_token] = user.auth_token
     end
-    render json: { success: true }
+
+    if user.dependencies.length > 0 or user.is_superadmin
+      redirect_path = admin_landing_path
+    else
+      redirect_path = operator_landing_path
+    end
+    render json: { success: true, redirect_to: redirect_path }
       
   end
 

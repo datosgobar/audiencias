@@ -39,7 +39,8 @@
             Perfil <span>ADMINISTRADOR</span>
           </div>
         </a>
-      <% } else if (obligees.length > 0 && location != '/intranet/audiencias') { %>
+      <% } %> 
+      <% if (obligees.length > 0 && location.substr(0, 20) != '/intranet/audiencias') { %>
         <a href="/intranet/audiencias">
           <div class="user-menu-action" id="profile">
             Perfil <span>OPERADOR</span>

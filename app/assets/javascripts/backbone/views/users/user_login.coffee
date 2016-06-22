@@ -43,7 +43,7 @@ class audiencias.views.UserLogin extends Backbone.View
   loginCallback: (response) =>
     if response and response.success 
       NProgress.start()
-      window.location.replace('/')
+      window.location.replace(response.redirect_to)
     else if response and response.message 
       @$el.find('#message').text(response.message)
     else
