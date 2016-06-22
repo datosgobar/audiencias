@@ -82,13 +82,15 @@ body.showing-error-bar {
 
 #user-config,
 #user-help,
-#user-about {
+#user-about,
+.error-layout {
   height: 100%;
   padding-top: $header-height;
   @include outer-container();
   #user-config-container,
   #user-about-container,
-  #user-help-container {
+  #user-help-container,
+  .error-container {
     min-height: 100%;
     position: relative;
     @include box-shadow($operator-side-shadow);

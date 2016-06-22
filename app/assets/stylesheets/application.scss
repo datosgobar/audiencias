@@ -18,7 +18,8 @@
 @import 'app/globals/global_styles';
 @import 'app/globals/media_queries';
 
-@import 'app/error_bar';
+@import 'app/errors/error_bar';
+@import 'app/errors/main_errors';
 @import 'app/header';
 @import 'app/footer';
 @import 'app/important_message';

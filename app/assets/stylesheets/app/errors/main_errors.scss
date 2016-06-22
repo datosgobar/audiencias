@@ -1,0 +1,50 @@
+.error-layout .error-container {
+  background: $blue-600;
+  color: white;
+  text-align: center;
+  display: table!important;
+  
+  .error-align {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .error-content {
+    display: inline-block;
+    $size: 300px;
+    width: $size;
+
+    .error-number-container {
+      width: $size;
+      height: $size;
+      $outer-border-size: 5px;
+      border: solid $outer-border-size $blue-700;
+      @include border-radius(50%);
+      $padding: 5px;
+      padding: $padding;
+
+      .error-number-content {
+        width: $size - 2*$outer-border-size - 2*$padding;
+        height: $size - 2*$outer-border-size - 2*$padding;
+        @include border-radius(50%);
+        background: white;
+        line-height: $size - 2*$outer-border-size - 2*$padding;
+        color: $blue-600;
+        border: solid 4px $blue-700;
+        font-size: 110px;
+        font-weight: 500;
+      }
+    }
+
+    .error-description {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+
+    button {
+      font-size: 14px;
+      margin-top: 20px;
+      padding: 6px 12px;
+    }
+  }
+}
