@@ -16,6 +16,9 @@
   width: 100%;
   position: absolute;
   bottom: 0;
+  z-index: 10;
+  background: white;
+  height: $footer-height;
 
   .footer-content-wrapper {
     @include outer-container();
@@ -41,7 +44,7 @@
         @include span-columns(3 of 12);
         @include shift(1);
       } 
-      
+
       .footer-section.third {
         @include span-columns(3 of 12);
       }
