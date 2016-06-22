@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     if request.method == 'GET'
-      redirect_to forbidden_path
+      render 'errors/forbidden'
     else
       head :forbidden
     end
