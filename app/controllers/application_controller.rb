@@ -7,11 +7,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     if request.method == 'GET'
-      render(
-        file: File.join(Rails.root, 'public/403.html'), 
-        status: 403, 
-        layout: false
-      )
+      redirect_to forbidden_path
     else
       head :forbidden
     end

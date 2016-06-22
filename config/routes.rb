@@ -49,7 +49,7 @@ Rails.application.routes.draw do
   get '/intranet/ayuda', to: 'users#help'
   get '/intranet/acerca_de', to: 'users#about'
 
-  get "/403", :to => "errors#forbidden"
-  get "/404", :to => "errors#not_found"
-  get "/500", :to => "errors#internal_server_error"
+  get "/403", :to => "errors#forbidden", :as => 'forbidden'
+  get "/404", :to => "errors#not_found", :as => 'not_found'
+  get "/500", :to => "errors#internal_server_error", :as => 'internal_server_error'
 end

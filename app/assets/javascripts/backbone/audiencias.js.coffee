@@ -119,14 +119,23 @@ window.audiencias =
     forbidden: ->
       audiencias.app.init()
       @renderHeader()
+      forbidden = new audiencias.views.Forbidden
+      forbidden.render()
+      $('body').append(forbidden.el)
 
     notFound: ->
       audiencias.app.init()
       @renderHeader()
+      notFound = new audiencias.views.NotFound
+      notFound.render()
+      $('body').append(notFound.el)
 
     internalServerError: ->
       audiencias.app.init()
       @renderHeader()
+      internalServerError = new audiencias.views.InternalServerError
+      internalServerError.render()
+      $('body').append(internalServerError.el)
       
   }
   helpers: {

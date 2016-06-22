@@ -1,7 +1,7 @@
 class audiencias.views.UnexpectedErrorHandler extends Backbone.View
   id: 'error-bar'
   className: 'hidden'
-  template: JST["backbone/templates/unexpected_error"]
+  template: JST["backbone/templates/errors/unexpected_error"]
   events:
     'click .hide-error-bar': 'hide'
 
