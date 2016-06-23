@@ -36,27 +36,21 @@ window.audiencias =
           audiencias.globals.users.set(response.users)
       )
 
+    render: (Class) ->
+      instance = new Class
+      instance.render()
+      $('body').prepend(instance.el)
+
     renderHeader: ->
-      header = new audiencias.views.Header
-      header.render()
-      $('body').prepend(header.el)
+      @render(audiencias.views.Header)
 
     renderInternalFooter: ->
-      footer = new audiencias.views.InternalFooter
-      footer.render()
-      $('body').append(footer.el)
-
-    renderExternalFooter: ->
-      footer = new audiencias.views.ExternalFooter
-      footer.render()
-      $('body').append(footer.el)
+      @render(audiencias.views.InternalFooter)
 
     userLogin: ->
       audiencias.app.init()
       @renderHeader()
-      userLogin = new audiencias.views.UserLogin
-      userLogin.render()
-      $('body').append(userLogin.el)
+      @render(audiencias.views.UserLogin)
 
     sendPasswordReset: ->
       audiencias.app.init()
@@ -76,27 +70,20 @@ window.audiencias =
       audiencias.app.init()
       audiencias.app.loadDependencies()
       audiencias.app.loadUsers()
-
       @renderHeader()
       @renderInternalFooter()
-      adminLanding = new audiencias.views.AdminLanding 
-      adminLanding.render()
-      $('body').append(adminLanding.el)
+      @render(audiencias.views.AdminLanding)
 
     operatorLanding: ->
       audiencias.app.init()
       @renderHeader()
       @renderInternalFooter()
-      operatorLanding = new audiencias.views.OperatorLanding 
-      operatorLanding.render()
-      $('body').append(operatorLanding.el)
+      @render(audiencias.views.OperatorLanding)
 
     audienceEditor: ->
       @renderHeader()
       @renderInternalFooter()
-      audienceEditor = new audiencias.views.AudienceEditor
-      audienceEditor.render()
-      $('body').append(audienceEditor.el)
+      @render(audiencias.views.AudienceEditor)
 
     userConfig: ->
       audiencias.app.init()
@@ -109,43 +96,33 @@ window.audiencias =
       audiencias.app.init()
       @renderHeader()
       @renderInternalFooter()
-      userHelp = new audiencias.views.UserHelp
-      userHelp.render()
-      $('body').append(userHelp.el)
+      @render(audiencias.views.UserHelp)
 
     userAbout: ->
       audiencias.app.init()
       @renderHeader()
       @renderInternalFooter()
-      userAbout = new audiencias.views.UserAbout
-      userAbout.render()
-      $('body').append(userAbout.el)
+      @render(audiencias.views.UserAbout)
 
     forbidden: ->
       audiencias.app.init()
       @renderHeader()
-      forbidden = new audiencias.views.Forbidden
-      forbidden.render()
-      $('body').append(forbidden.el)
+      @render(audiencias.views.Forbidden)
 
     notFound: ->
       audiencias.app.init()
       @renderHeader()
-      notFound = new audiencias.views.NotFound
-      notFound.render()
-      $('body').append(notFound.el)
+      @render(audiencias.views.NotFound)
 
     internalServerError: ->
       audiencias.app.init()
       @renderHeader()
-      internalServerError = new audiencias.views.InternalServerError
-      internalServerError.render()
-      $('body').append(internalServerError.el)
+      @render(audiencias.views.InternalServerError)
 
     searcher: ->
       audiencias.app.init()
       @renderHeader()
-      @renderExternalFooter()
+      @render(audiencias.views.Searcher)
       
   }
   helpers: {

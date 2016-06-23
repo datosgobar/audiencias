@@ -1,0 +1,33 @@
+.subheader-container {
+  background: $blue-700;
+  width: 100%;
+  
+  .subheader-content {
+    @include outer-container();
+    text-align: right;
+    
+    .subheader-links {
+      @include span-columns(10);
+      @include shift(1);
+      height: 50px;
+
+      .subheader-link {
+        display: inline-block;
+        height: 100%;
+        overflow: hidden;
+        color: white;
+        line-height: 50px;
+        padding: 0 10px;
+
+        &:hover {
+          background: rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+          height: 50px;
+          width: 25px;
+        }
+      }
+    }
+  }
+}
