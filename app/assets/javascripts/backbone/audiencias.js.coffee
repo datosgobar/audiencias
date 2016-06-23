@@ -124,7 +124,6 @@ window.audiencias =
     forbidden: ->
       audiencias.app.init()
       @renderHeader()
-      @renderExternalFooter()
       forbidden = new audiencias.views.Forbidden
       forbidden.render()
       $('body').append(forbidden.el)
@@ -132,7 +131,6 @@ window.audiencias =
     notFound: ->
       audiencias.app.init()
       @renderHeader()
-      @renderExternalFooter()
       notFound = new audiencias.views.NotFound
       notFound.render()
       $('body').append(notFound.el)
@@ -140,7 +138,6 @@ window.audiencias =
     internalServerError: ->
       audiencias.app.init()
       @renderHeader()
-      @renderExternalFooter()
       internalServerError = new audiencias.views.InternalServerError
       internalServerError.render()
       $('body').append(internalServerError.el)
