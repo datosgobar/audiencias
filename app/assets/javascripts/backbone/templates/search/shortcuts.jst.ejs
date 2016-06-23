@@ -1,0 +1,37 @@
+<% var column = function (shortcut_list) {
+  for (var i=0; i<shortcut_list.length; i++) { %>
+  <div class="table-row">
+    <div class="table-cell"> 
+      <div class="shortcut-name">
+        <%= shortcut_list[i].name %>
+      </div>
+    </div>
+    <div class="table-cell"> 
+      <div class="shortcut-value">
+      <%= shortcut_list[i].val %>
+      </div>
+    </div>
+  </div>
+<% } 
+}%>
+
+<div class="shortcuts-content">
+  <div class="shortcuts-column shortcuts-dependencies">
+    <div class="shortcuts-title">Estructura del Poder Ejecutivo Nacional</div>
+    <div class="shortcuts-table">
+      <% column(dependencies) %>
+    </div>
+  </div>
+  <div class="shortcuts-column shortcuts-obligees">
+    <div class="shortcuts-title">Sujetos obligados a registrar audiencias públicas</div>
+    <div class="shortcuts-table">
+      <% column(obligees) %>
+    </div>
+  </div>
+  <div class="shortcuts-column shortcuts-applicants">
+    <div class="shortcuts-title">Solicitantes de audiencias públicas</div>
+    <div class="shortcuts-table">
+      <% column(applicants) %>
+    </div>
+  </div>
+</div>

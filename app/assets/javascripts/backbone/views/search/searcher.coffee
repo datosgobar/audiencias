@@ -13,3 +13,7 @@ class audiencias.views.Searcher extends Backbone.View
     footer = new audiencias.views.ExternalFooter
     footer.render()
     @$el.find('.with-external-footer').append(footer.el)
+
+    shortcuts = new audiencias.views.SearchShortcuts
+    shortcuts.render()
+    @$el.find('.with-external-footer').append(shortcuts.el)

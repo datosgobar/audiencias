@@ -1,0 +1,42 @@
+#searcher .shortcuts {
+  @include outer-container();
+  padding: 20px 0;
+
+  .shortcuts-content {
+    @include span-columns(10);
+    @include shift(1);
+
+    .shortcuts-column {
+      @include span-columns(1 of 3);
+
+      .shortcuts-title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        background: $blue-300;
+        color: white;
+        padding: 4px;
+        text-align: center;
+        font-size: 14px;
+      }
+
+      .shortcuts-table {
+        display: table;
+
+        .table-row {
+          display: table-row;
+        }
+
+        .table-cell {
+          display: table-cell;
+        }
+      }
+    }
+
+    .shortcuts-dependencies,
+    .shortcuts-obligees {
+      padding-right: 4px;
+    }
+
+  }
+}
