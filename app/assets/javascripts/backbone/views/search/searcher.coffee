@@ -8,7 +8,7 @@ class audiencias.views.Searcher extends Backbone.View
 
     header = new audiencias.views.SubHeader
     header.render()
-    @$el.find('.with-external-footer').append(header.el)
+    @$el.find('.search-background-filter').prepend(header.el)
 
     footer = new audiencias.views.ExternalFooter
     footer.render()
