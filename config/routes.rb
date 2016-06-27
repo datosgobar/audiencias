@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
   root 'main#home'
+  get '/decreto', to:'main#legal'
+  get '/acerca_de', to:'main#about'
+  get '/como_funciona', to:'main#help'
 
   get '/intranet', to: 'users#login', as: 'login'
   post '/ingresar', to: 'users#login_attempt', as: 'login_attempt'

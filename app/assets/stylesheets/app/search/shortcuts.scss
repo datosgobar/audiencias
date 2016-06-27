@@ -8,6 +8,7 @@
 
     .shortcuts-column {
       @include span-columns(1 of 3);
+      padding: 0 6px;
 
       .shortcuts-title {
         white-space: nowrap;
@@ -15,13 +16,16 @@
         text-overflow: ellipsis;
         background: $blue-300;
         color: white;
-        padding: 4px;
+        padding: 8px;
         text-align: center;
         font-size: 14px;
+        font-weight: 500;
       }
 
       .shortcuts-table {
         display: table;
+        padding: 0 4px;
+        font-size: 13px;
 
         .table-row {
           display: table-row;
@@ -30,13 +34,31 @@
         .table-cell {
           display: table-cell;
         }
+
+        .ellipsis {
+          width: 1px;
+          min-width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          padding: 4px 15px 4px 4px;
+        }
+
+        .no-stretch {
+          width: 1%;
+          white-space: nowrap;
+          text-align: center;
+        }
+
+        .shortcut-value {
+          display: inline-block;
+          background: $grey-400;
+          color: white;
+          font-size: 11px;
+          padding: 0 5px;
+          border-radius: 10px;
+        }
       }
     }
-
-    .shortcuts-dependencies,
-    .shortcuts-obligees {
-      padding-right: 4px;
-    }
-
   }
 }

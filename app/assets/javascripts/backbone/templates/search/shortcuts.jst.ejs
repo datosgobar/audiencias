@@ -2,11 +2,13 @@
   for (var i=0; i<shortcut_list.length; i++) { %>
   <div class="table-row">
     <div class="table-cell"> 
-      <div class="shortcut-name">
-        <%= shortcut_list[i].name %>
+      <div class="shortcut-name ellipsis">
+        <a href="/">
+          <%= shortcut_list[i].name %>
+        </a>
       </div>
     </div>
-    <div class="table-cell"> 
+    <div class="table-cell no-stretch"> 
       <div class="shortcut-value">
       <%= shortcut_list[i].val %>
       </div>

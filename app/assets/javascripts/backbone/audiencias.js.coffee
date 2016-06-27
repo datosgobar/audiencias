@@ -123,6 +123,21 @@ window.audiencias =
       audiencias.app.init()
       @renderHeader()
       @render(audiencias.views.Searcher)
+
+    help: ->
+      audiencias.app.init()
+      @renderHeader()
+      @render(audiencias.views.Help)
+
+    legal: ->
+      audiencias.app.init()
+      @renderHeader()
+      @render(audiencias.views.Legal)
+
+    about: ->
+      audiencias.app.init()
+      @renderHeader()
+      @render(audiencias.views.About)
       
   }
   helpers: {
