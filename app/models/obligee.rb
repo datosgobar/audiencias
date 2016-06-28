@@ -24,7 +24,7 @@ class Obligee < ActiveRecord::Base
   end
 
   def search_audiences(query)
-    all_audiences.select { |audience| audience.includes_query?(query) }
+    Audience.operator_search(query, self.person.id).records.all
   end
 
   def all_audiences

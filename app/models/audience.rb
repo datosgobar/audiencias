@@ -1,3 +1,5 @@
+require 'elasticsearch/model'
+
 class Audience < ActiveRecord::Base
 
   belongs_to :author, foreign_key: 'author_id', class_name: 'User'
@@ -11,6 +13,10 @@ class Audience < ActiveRecord::Base
   validates :place, length: { maximum: 200 }, allow_blank: true
   validates :motif, length: { maximum: 200 }, allow_blank: true
   validates :address, length: { maximum: 200 }, allow_blank: true
+
+  include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+  # http://aaronvb.com/articles/intro-to-elasticsearch-ruby-on-rails-part-1.html
   
   AS_JSON_OPTIONS =  {
     only: [ :date, :publish_date, :summary, :interest_invoked, :address,
@@ -25,6 +31,42 @@ class Audience < ActiveRecord::Base
   }
   def as_json(options={})
     super(AS_JSON_OPTIONS)
+  end
+
+  def self.operator_search(query, person_id) 
+    # todo: falta incluir audiencias cargadas por otros sujetos obligados
+    __elasticsearch__.search({
+      sort: { created_at: :desc },
+      query: {
+        filtered: {
+          query: {
+            multi_match: {
+              query: query,
+              fields: [
+                'author.name', 
+                'applicant.person.name', 
+                'applicant.ocupation',
+                'applicant.person.email',
+                'applicant.represented_person.name', 
+                'applicant.represented_legal_entity.name',
+                'applicant.represented_state_organism.name',
+                'applicant.represented_people_group.name', 
+                'motif'
+              ]
+            }
+          },
+          filter: {
+            bool: {
+              should: [
+                { term: { "obligee.person.id" => person_id } }, 
+                { term: { "applicant.person.id" => person_id } },
+                { terms: { "participants.person.id" => [person_id] } }
+              ]
+            }
+          }
+        }
+      }
+    })
   end
 
   def update_minor_attributes(params)
@@ -111,3 +153,5 @@ class Audience < ActiveRecord::Base
     false
   end
 end
+
+Audience.import
