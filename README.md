@@ -38,7 +38,7 @@
 
 `apt-get install nodejs`
 
-* Instalar instancia de elasticsearch 
+* Instalar instancia de elasticsearch. `https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/tar/elasticsearch/2.3.3/elasticsearch-2.3.3.tar.gz`
 
 * Crear indice. Asumiendo que el server de elasticsearch está corriendo en el puerto 9200, correr:
 ```curl -X PUT 'http://localhost:9200/audiences/' -d \
