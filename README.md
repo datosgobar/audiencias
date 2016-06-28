@@ -38,6 +38,25 @@
 
 `apt-get install nodejs`
 
+* Instalar instancia de elasticsearch 
+
+* Crear indice. Asumiendo que el server de elasticsearch está corriendo en el puerto 9200, correr:
+```curl -X PUT 'http://localhost:9200/audiences/' -d \
+'{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "default": {
+          "tokenizer":  "standard",
+          "filter": [
+            "lowercase",
+            "asciifolding"
+          ]
+        }
+      }
+    }
+  }
+}'```
 
 
 ## Levantar server
@@ -46,3 +65,4 @@
 * Declarar que version y gemset de ruby vamos a estar usando: `rvm use 2.1.5@audiencias`
 * Correr migraciones pendientes: `bundle exec rake db:migrate`
 * Levantar server de desarrollo: `bundle exec rails server -p 80 -b0.0.0.0`
+* Levantar server local de elasticsearch

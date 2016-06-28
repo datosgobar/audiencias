@@ -16,7 +16,6 @@ class Audience < ActiveRecord::Base
 
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
-  # http://aaronvb.com/articles/intro-to-elasticsearch-ruby-on-rails-part-1.html
   
   AS_JSON_OPTIONS =  {
     only: [ :date, :publish_date, :summary, :interest_invoked, :address,
@@ -34,7 +33,6 @@ class Audience < ActiveRecord::Base
   end
 
   def self.operator_search(query, person_id) 
-    # todo: falta incluir audiencias cargadas por otros sujetos obligados
     __elasticsearch__.search({
       sort: { created_at: :desc },
       query: {
