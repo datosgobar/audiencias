@@ -107,7 +107,19 @@
           </div>
           <div class="table-cell motif">
             <div class="cell-content overflow-ellipsis">
-              <%= audience.motif && audience.motif.length > 0  ? audience.motif.substr(0, 100) + '...' : ''  %>
+              <% 
+              var motif;
+              if (audience.motif && audience.motif.length > 0) {
+                if (audience.motif.length > 100) {
+                  motif = audience.motif.substr(0, 100) + '...'
+                } else {
+                  motif = audience.motif;
+                }
+              } else {
+                motif = '';
+              }
+              %>
+              <%= motif %>
             </div>
           </div>
           <div class="table-cell status">
