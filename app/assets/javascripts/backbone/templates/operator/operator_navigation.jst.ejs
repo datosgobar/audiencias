@@ -27,8 +27,14 @@
 
   <div id="navigation-right">
     <div id="audience-text-search-container">
-      <input type="text" placeholder="Buscar por palabra clave" id="search">
-      <img src="/assets/icon-search.svg" id="search-icon">
+      <% var currentQuery = audiencias.globals.currentQuery %>
+      <% if (currentQuery) { %>
+        <input type="text" placeholder="Buscar por palabra clave" id="search" disabled value="<%= currentQuery %>">
+        <img src="/assets/icon-cancelar.svg" id="clean-search">
+      <% } else { %>
+        <input type="text" placeholder="Buscar por palabra clave" id="search">
+        <img src="/assets/icon-search.svg" id="search-icon">
+      <% } %>
     </div>
   </div>
 

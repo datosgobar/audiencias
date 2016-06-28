@@ -17,8 +17,9 @@ class OperatorsController < ApplicationController
     @obligees = @current_user.obligees.as_json
     @obligees << @current_obligee.as_json unless @current_user.obligees.include?(@current_obligee)
     
-    if params[:q]
-      total_audiences = @current_obligee.search_audiences(params[:q])
+    if params[:q] and params[:q].length > 0
+      @query = params[:q]
+      total_audiences = @current_obligee.search_audiences(@query)
     else
       total_audiences = @current_obligee.all_audiences
     end

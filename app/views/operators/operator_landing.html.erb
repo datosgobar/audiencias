@@ -1,6 +1,9 @@
 <%= javascript_tag do %>
   $(function() {
     audiencias.globals.pagination = <%= raw @pagination.to_json %>
+    <% if @query %>
+      audiencias.globals.currentQuery = "<%= @query %>"
+    <% end %>
     audiencias.app.operatorLanding();
 
     audiencias.globals.currentObligee = <%= raw @current_obligee.id %>;

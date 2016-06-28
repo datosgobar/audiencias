@@ -4,6 +4,8 @@ class audiencias.views.OperatorNavigation extends Backbone.View
   events:
     'change #current-obligee-select': 'changeCurrentObligee'
     'keyup #search': 'searchOnEnter'
+    'click #search-icon': 'searchIfQuery'
+    'click #clean-search': 'cleanSearch'
 
   initialize: ->
     audiencias.globals.obligees.on('add change remove', @render)
@@ -18,7 +20,14 @@ class audiencias.views.OperatorNavigation extends Backbone.View
 
   searchOnEnter: (e) =>
     if e.keyCode == 13
-      query = @$el.find('#search').val().trim()
-      if query.length > 0
-        currentObligee = audiencias.globals.currentObligee
-        window.location.href = "/intranet/audiencias?sujeto_obligado=#{currentObligee}&q=#{query}"
+      @searchIfQuery()
+
+  searchIfQuery: =>
+    query = @$el.find('#search').val().trim()
+    if query.length > 0
+      currentObligee = audiencias.globals.currentObligee
+      window.location.href = "/intranet/audiencias?sujeto_obligado=#{currentObligee}&q=#{query}"
+
+  cleanSearch: =>
+    currentObligee = audiencias.globals.currentObligee
+    window.location.href = "/intranet/audiencias?sujeto_obligado=#{currentObligee}"    
