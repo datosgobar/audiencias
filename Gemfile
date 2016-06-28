@@ -38,6 +38,10 @@ gem 'underscore-rails'
 gem "rails-backbone"
 # https://github.com/mislav/will_paginate
 gem 'will_paginate', '~> 3.1.0'
+# https://github.com/elastic/elasticsearch-rails
+gem 'elasticsearch-rails'
+# https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model
+gem 'elasticsearch-model'
 
 gem 'mysql2', '~> 0.3.18' 
 
