@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   root 'main#home'
+  get '/buscar', to: 'main#search'
   get '/decreto', to:'main#legal'
   get '/acerca_de', to:'main#about'
   get '/como_funciona', to:'main#help'

@@ -1,5 +1,8 @@
 <%= javascript_tag do %>
   $(function() {
+    <% if @audiences %>
+      audiencias.globals.results = <%= raw @audiences.to_json %>;
+    <% end %>
     audiencias.app.searcher();
     <% if @current_user %>
       audiencias.globals.currentUser = <%= raw @current_user.id %>;
