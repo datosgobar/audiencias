@@ -12,8 +12,22 @@
   .search-content {
     @include outer-container();
     padding-top: 20px;
-    padding-bottom: 100px;
 
+    .table {
+      display: table;
+    }
+
+    .table-row {
+      display: table-row;
+    }
+
+    .table-cell {
+      display: table-cell;
+    }  
+    .invisible {
+      visibility: hidden;
+    }
+    
     .search-title {
       width: 700px;
       margin: auto;
@@ -39,16 +53,16 @@
       .search-old-container {
         font-size: 13px;
         font-weight: 300;
+        @include user-select(none);
       }
 
       .search-input {
-        display: table;
         margin-top: 4px;
 
         .table-cell {
-          display: table-cell;
           height: 40px;
         }
+
         .search-text-container {
           width: 400px;
           padding-right: 4px;
@@ -75,6 +89,49 @@
           button {
             width: 100%;
             height: 40px;
+          }
+        }
+      }
+
+      .advance-search-container.message-container {
+        padding-top: 5px;
+        padding-bottom: 40px;
+
+        .advance-search {
+          font-size: 12px;
+
+          .table-cell.first {
+            white-space: nowrap;
+          }
+          .table-cell.second {
+            width: 100%;
+            padding-left: 10px;
+          }
+
+          .show-advance-search-label {
+            cursor: pointer;
+          }
+          #show-advance-search {
+            position: absolute;
+            left: -99999px;
+          }
+        }
+        
+        .warning-message {
+          background: $white-yellow;
+          color: $gold;
+          @include border-radius(4px);
+          padding: 5px;
+          font-size: 12px;
+          position: relative;
+          padding-left: 18px; 
+
+          .warning-icon {
+            height: 16px;
+            position: absolute;
+            left: 4px;
+            top: 50%;
+            margin-top: -8px;
           }
         }
       }

@@ -13,12 +13,12 @@
         <div class="search-form">
           <div class="search-old-container">
             <input type="checkbox" id="search-old">
-            <label for="search-old">Buscar en registros históricos</label>
+            <label for="search-old">Incluir registros históricos</label>
           </div>
 
           <div class="search-input table">
             <div class="table-cell search-text-container">
-              <input type="text" placeholder="Introduzca su busqueda">
+              <input type="text" id="search-text" placeholder="Introduzca su busqueda">
             </div>
             <div class="table-cell search-type-container">
               <select>
@@ -29,7 +29,27 @@
               </select>
             </div>
             <div class="table-cell search-button-container">
-              <button class="green">BUSCAR</button>
+              <button class="green" id="submit-search">BUSCAR</button>
+            </div>
+          </div>
+
+          <div class="advance-search-container message-container">
+            <div class="advance-search table">
+              <div class="table-cell first">
+                <input type="checkbox" id="show-advance-search">
+                <label class="show-advance-search-label" for="show-advance-search">Busqueda avanzada ></label>
+              </div>
+              <div class="table-cell second date-container invisible">
+                Buscar por fecha
+                <div>
+                  <input type="text"> acá un input de fecha copado
+                </div>
+              </div>
+            </div>
+
+            <div class="warning-message invisible">
+              <img src="/assets/icon-marcador-derecha-dorado.svg" class="warning-icon">
+              Mensaje advirtiendo que si se busca en histórico disminuye la complejidad de la búsqueda. 
             </div>
           </div>
 
