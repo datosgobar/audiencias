@@ -1,0 +1,9 @@
+#results .results-content {
+  padding-top: 10px;
+  .facets-container {
+    @include span-columns(3 of 10);
+  }
+  .results-list {
+    @include span-columns(7 of 10);
+  }
+}

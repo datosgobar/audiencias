@@ -19,7 +19,7 @@ class audiencias.views.Searcher extends Backbone.View
     @$el.find('.with-external-footer').append(footer.el)
 
     if audiencias.globals.results
-      results = new audiencias.views.Results
+      results = new audiencias.views.ResultsList
       results.render()
       @$el.find('.with-external-footer').append(results.el)
     else

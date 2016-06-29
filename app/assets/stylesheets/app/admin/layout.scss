@@ -110,6 +110,13 @@ body.showing-error-bar {
     padding-bottom: $footer-height;
     position: relative;
     background: $grey-100;
+    #results {
+      @include outer-container();
+      .results-content {
+        @include span-columns(10);
+        @include shift(1);
+      }
+    }
     .error-container {
       display: table;
       height: 100%;
