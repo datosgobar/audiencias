@@ -124,6 +124,7 @@ class OperatorsController < ApplicationController
     audience = Audience.find_by_id(params[:audience][:id])
     if audience.state == 'valid'
       audience.published = true
+      audience.publish_date = DateTime.now
     else 
       render json: { success: false }
       return
