@@ -1,0 +1,61 @@
+#searcher .results-list .result-el {
+  padding: 10px;
+  background: white;
+  @include border-radius(4px);
+  width: 100%;
+  margin-bottom: 10px;
+  @include box-shadow($result-shadow);
+  cursor: pointer;
+  border-right: solid 5px $grey-300;
+  font-size: 14px;
+
+  &:hover {
+    border-right-color: $blue-300;
+  }
+
+  .table {
+    display: table;
+    width: 100%;
+  }
+  .table-row {
+    display: table-row;
+  }
+  .table-cell {
+    display: table-cell;
+    width: 25%;
+    padding: 0 4px;
+  }
+
+  .no-padding {
+    padding: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .bold {
+    font-weight: 500;
+  }
+
+  .small-font {
+    font-size: 12px;
+  }
+
+  .space-up {
+    margin-top: 5px;
+  }
+
+  .big-space-up { 
+    margin-top: 15px;
+  }
+
+  .grey {
+    color: $grey-300;
+  }
+
+  .col-title {
+    padding-bottom: 10px;
+  }
+
+}
