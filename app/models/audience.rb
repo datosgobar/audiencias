@@ -28,8 +28,41 @@ class Audience < ActiveRecord::Base
     },
     methods: [ :state, :publish_validations ]
   }
+  AS_PUBLIC_JSON_OPTIONS = {
+    only: [ :date, :publish_date, :summary, :interest_invoked, :address,
+      :published, :place, :lat, :lng, :id, :motif ],
+    include: { 
+      applicant: Applicant::AS_PUBLIC_JSON_OPTIONS,
+      obligee: Obligee::AS_PUBLIC_JSON_OPTIONS,
+      participants: Participant::AS_PUBLIC_JSON_OPTIONS
+    }
+  }
   def as_json(options={})
-    super(AS_JSON_OPTIONS)
+    if options[:for_public]
+      super(AS_PUBLIC_JSON_OPTIONS)
+    else
+      super(AS_JSON_OPTIONS)
+    end
+  end
+
+  def self.public_search(query)
+    __elasticsearch__.search({
+      sort: { created_at: :desc },
+      query: {
+        filtered: {
+          query: {
+            match: {
+              "_all" => query
+            }
+          },
+          filter: {
+            bool: {
+              must: [{ term: { "published" => true } }]
+            }
+          }
+        }
+      }
+    })
   end
 
   def self.operator_search(query, person_id) 

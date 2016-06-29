@@ -16,6 +16,12 @@ class Participant < ActiveRecord::Base
       person: Person::AS_JSON_OPTIONS
     }
   }
+  AS_PUBLIC_JSON_OPTIONS = {
+    only: [:id, :ocupation],
+    include: {
+      person: Person::AS_PUBLIC_JSON_OPTIONS
+    }
+  }
   def as_json(options={})
     super(AS_JSON_OPTIONS)
   end

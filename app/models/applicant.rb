@@ -25,6 +25,16 @@ class Applicant < ActiveRecord::Base
     },
     methods: [:publish_validations]
   }
+  AS_PUBLIC_JSON_OPTIONS = {
+    only: [ :id, :ocupation, :represented_person_ocupation, :absent ],
+    include: {
+      person: Person::AS_PUBLIC_JSON_OPTIONS,
+      represented_person: Person::AS_PUBLIC_JSON_OPTIONS,
+      represented_legal_entity: LegalEntity::AS_PUBLIC_JSON_OPTIONS,
+      represented_state_organism: StateOrganism::AS_PUBLIC_JSON_OPTIONS,
+      represented_people_group: PeopleGroup::AS_PUBLIC_JSON_OPTIONS
+    }
+  }
   def as_json(options={})
     super(AS_JSON_OPTIONS)
   end

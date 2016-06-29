@@ -7,4 +7,8 @@ class StateOrganism < ActiveRecord::Base
     self.country = params[:country] if params.include?(:country)
     self.name = params[:name].mb_chars.upcase if params.include?(:name)
   end
+
+  AS_PUBLIC_JSON_OPTIONS = {
+    only: [:id, :country, :name]
+  }
 end

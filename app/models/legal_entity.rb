@@ -17,6 +17,9 @@ class LegalEntity < ActiveRecord::Base
   AS_JSON_OPTIONS = {
     only: [:id, :country, :name, :email, :telephone, :cuit]
   }
+  AS_PUBLIC_JSON_OPTIONS = {
+    only: [:id, :country, :name, :cuit]
+  }
   def as_json(options={})
     super(AS_JSON_OPTIONS)
   end

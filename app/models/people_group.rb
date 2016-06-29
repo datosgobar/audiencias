@@ -13,4 +13,8 @@ class PeopleGroup < ActiveRecord::Base
     self.telephone = params[:telephone] if params.include?(:telephone)
     self.description = params[:description] if params.include?(:description)
   end
+
+  AS_PUBLIC_JSON_OPTIONS = {
+    only: [:country, :name, :description]
+  }
 end
