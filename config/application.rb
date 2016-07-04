@@ -24,5 +24,7 @@ module Audiencias
     config.active_record.raise_in_transactional_callbacks = true
 
     config.exceptions_app = self.routes
+
+    config.time_zone = 'Buenos Aires'
   end
 end

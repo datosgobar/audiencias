@@ -11,13 +11,14 @@ class audiencias.views.SearchForm extends Backbone.View
     @$el.html(@template())
 
     if audiencias.globals.results 
-      dateFrom = moment(audiencias.globals.results.from, "DD-MM-YYYY")
-      dateTo = moment(audiencias.globals.results.to, "DD-MM-YYYY")
-    else
       dateFrom = null
       dateTo = null
+      if audiencias.globals.results.from
+        dateFrom = moment(audiencias.globals.results.from)
+      if audiencias.globals.results.to
+        dateTo = moment(audiencias.globals.results.to)
+      
     @dateFromPicker = @setDatepicker('#date-from', dateFrom)
-    window.dateFromPicker = @dateFromPicker
     @dateToPicker = @setDatepicker('#date-to', dateTo)
 
   changeSearchScope: =>
@@ -39,12 +40,12 @@ class audiencias.views.SearchForm extends Backbone.View
       searchType = if $('#search-old').is(':checked') then 'historico' else @$el.find('#search-type').val()
       searchParams += "&en=#{searchType}"
 
-      dateFrom = @dateFromPicker.getMoment()
-      if dateFrom
+      if @dateFromPicker.getDate() and @$el.find('#date-from').val().length > 0
+        dateFrom = @dateFromPicker.getMoment()
         searchParams += "&desde=#{dateFrom.format('DD-MM-YYYY')}"
 
-      dateTo = @dateToPicker.getMoment() 
-      if dateTo 
+      if @dateToPicker.getDate() and @$el.find('#date-to').val().length > 0
+        dateTo = @dateToPicker.getMoment() 
         searchParams += "&hasta=#{dateTo.format('DD-MM-YYYY')}"
 
       window.location.href = "/buscar?#{searchParams}"

@@ -45,14 +45,14 @@ class Audience < ActiveRecord::Base
     end
   end
 
-  def self.public_search(query)
-    __elasticsearch__.search({
+  def self.public_search(options)
+    search_options = {
       sort: { created_at: :desc },
       query: {
         filtered: {
           query: {
             match: {
-              "_all" => query
+              "_all" => options[:query]
             }
           },
           filter: {
@@ -62,7 +62,15 @@ class Audience < ActiveRecord::Base
           }
         }
       }
-    })
+    }
+    if options[:from] or options[:to]
+      date_filter = { range: { date: {} } }
+      date_filter[:range][:date]["gte"] = options[:from] if options[:from]
+      date_filter[:range][:date]["lte"] = options[:to] if options[:to]
+      search_options[:query][:filtered][:filter][:bool][:must] << date_filter
+    end
+
+    __elasticsearch__.search(search_options)
   end
 
   def self.operator_search(query, person_id) 

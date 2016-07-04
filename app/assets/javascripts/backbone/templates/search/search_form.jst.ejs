@@ -57,8 +57,9 @@
         <input type="checkbox" id="show-advance-search">
         <label class="show-advance-search-label" for="show-advance-search">Busqueda avanzada ></label>
       </div>
-
-      <div class="table-cell second date-container invisible">
+      <% var date_from = audiencias.globals.results ? audiencias.globals.results.from : null %>
+      <% var date_to = audiencias.globals.results ? audiencias.globals.results.to : null %>
+      <div class="table-cell second date-container <%= date_from || date_to ? '' : 'invisible' %>">
         Buscar por fecha
         <div class="date-selectors">
           <input type="text" id="date-from" placeholder="Desde">
