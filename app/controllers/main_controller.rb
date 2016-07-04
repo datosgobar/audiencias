@@ -22,7 +22,7 @@ class MainController < ApplicationController
       current_page: params[:pagina] || 0
     }
     search[:from] = params[:desde] if params[:desde]
-    search[:to] = params[:to] if params[:to]
+    search[:to] = params[:hasta] if params[:hasta]
 
     audiences = Audience.public_search(search[:query])
     search[:audiences] = audiences.records.as_json({for_public: true})

@@ -8,7 +8,7 @@
       font-size: 13px;
       font-weight: 300;
       @include user-select(none);
-      
+
       label {
         cursor: pointer;
       }
@@ -67,6 +67,16 @@
           padding: 0 0 20px 10px;
           &.invisible {
             visibility: hidden;
+          }
+
+          .date-selectors {
+            padding-top: 6px;
+            input {
+              height: 28px;
+              width: 110px;
+              background: white;
+              padding: 2px 6px;
+            }
           }
         }
 
