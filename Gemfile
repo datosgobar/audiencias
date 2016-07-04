@@ -42,6 +42,8 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'elasticsearch-rails'
 # https://github.com/elastic/elasticsearch-rails/tree/master/elasticsearch-model
 gem 'elasticsearch-model'
+# https://github.com/fphilipe/premailer-rails
+gem 'premailer-rails'
 
 gem 'mysql2', '~> 0.3.18' 
 

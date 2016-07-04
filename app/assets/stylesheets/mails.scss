@@ -1,0 +1,11 @@
+@import 'app/globals/fonts';
+@import 'app/globals/colors';
+
+p {
+  font-size: 18px;
+}
+
+a {
+  color: $blue-300;
+  text-decoration: none;
+}
