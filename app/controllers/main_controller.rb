@@ -14,12 +14,20 @@ class MainController < ApplicationController
 
   def search_audiences 
     # todo: incluir tipo de busqueda, si incluye historico y/o rango de fecha
-    {
+
+    search = {
       query: params[:q],
+      type: params[:en],
       items_per_page: 10,
-      current_page: params[:pagina] || 0,
-      audiences: Audience.public_search(params[:q]).records.as_json({for_public: true})
+      current_page: params[:pagina] || 0
     }
+    search[:from] = params[:desde] if params[:desde]
+    search[:to] = params[:to] if params[:to]
+
+    audiences = Audience.public_search(search[:query])
+    search[:audiences] = audiences.records.as_json({for_public: true})
+
+    search
   end
 
 end

@@ -5,22 +5,45 @@
   Enunciado que invite a buscar por diferentes tipos, persona física, estructura o motivo de la audiencia
 </div>
 
-<div class="search-form">
+<% var selectedType = audiencias.globals.results ? audiencias.globals.results.type : '' %>
+
+<div class="search-form <%= selectedType == 'historico' ? 'historic-search': '' %>">
   <div class="search-old-container">
-    <input type="checkbox" id="search-old">
+    <input type="checkbox" id="search-old" <%= selectedType == 'historico' ? 'checked': '' %>>
     <label for="search-old">Incluir registros históricos</label>
   </div>
 
-  <div class="search-input table">
+  <div class="search-input table ">
     <div class="table-cell search-text-container">
-      <input type="text" id="search-text" placeholder="Introduzca su busqueda">
+      <% var searchValue = audiencias.globals.results ? audiencias.globals.results.query : '' %>
+      <input type="text" id="search-text" placeholder="Introduzca su busqueda" value="<%= searchValue %>">
     </div>
     <div class="table-cell search-type-container">
-      <select>
-        <option disabled="disabled">Seleccionar tipo</option>
-        <option>Texto libre</option>
-        <option>Persona</option>
-        <option>Dependencia</option>
+      <select id="search-type">
+        <option disabled="disabled">
+          Seleccionar tipo
+        </option>
+        <option value="texto" <%= selectedType == 'texto' ? 'selected': '' %>>
+          Texto libre
+        </option>
+        <option value="persona-fisica" <%= selectedType == 'persona-fisica' ? 'selected': '' %>>
+          Persona física
+        </option>
+        <option value="persona-juridica" <%= selectedType == 'persona-juridica' ? 'selected': '' %>>
+          Persona juridica
+        </option>
+        <option value="organismo" <%= selectedType == 'organismo' ? 'selected': '' %>>
+          Organismo estatal
+        </option>
+        <option value="grupo-de-personas" <%= selectedType == 'grupo-de-personas' ? 'selected': '' %>>
+          Grupo de personas
+        </option>
+        <option value="estructura" <%= selectedType == 'estructura' ? 'selected': '' %>>
+          Estructura
+        </option>
+        <option value="sintesis-o-motivo" <%= selectedType == 'sintesis-o-motivo' ? 'selected': '' %>>
+          Sintesis o motivo
+        </option>
       </select>
     </div>
     <div class="table-cell search-button-container">
@@ -34,6 +57,7 @@
         <input type="checkbox" id="show-advance-search">
         <label class="show-advance-search-label" for="show-advance-search">Busqueda avanzada ></label>
       </div>
+
       <div class="table-cell second date-container invisible">
         Buscar por fecha
         <div>
@@ -42,7 +66,7 @@
       </div>
     </div>
 
-    <div class="warning-message invisible">
+    <div class="warning-message">
       <img src="/assets/icon-marcador-derecha-dorado.svg" class="warning-icon">
       Mensaje advirtiendo que si se busca en histórico disminuye la complejidad de la búsqueda. 
     </div>

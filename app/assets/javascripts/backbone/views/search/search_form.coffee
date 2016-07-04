@@ -13,8 +13,7 @@ class audiencias.views.SearchForm extends Backbone.View
 
   changeSearchScope: =>
     searchingOld = @$el.find('#search-old').is(':checked')
-    @$el.find('.warning-message').toggleClass('invisible', !searchingOld)
-    @$el.find('.advance-search').toggleClass('invisible', searchingOld)
+    @$el.find('.search-form').toggleClass('historic-search', searchingOld)
 
   showAdvanceSearch: =>
     showingAdvanceSearch = @$el.find('#show-advance-search').is(':checked')
@@ -26,4 +25,17 @@ class audiencias.views.SearchForm extends Backbone.View
   searchIfQuery: =>
     searchText = @$el.find('#search-text').val().trim()
     if searchText.length > 0
-      window.location.href = "/buscar?q=#{searchText}"
+      searchParams = "q=#{searchText}"
+
+      searchType = if $('#search-old').is(':checked') then 'historico' else @$el.find('#search-type').val()
+      searchParams += "&en=#{searchType}"
+
+      dateFrom = false
+      if dateFrom
+        searchParams += "&desde=#{dateFrom}"
+
+      dateTo = false 
+      if dateTo 
+        searchParams += "&hasta=#{dateTo}"
+
+      window.location.href = "/buscar?#{searchParams}"
