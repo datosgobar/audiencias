@@ -33,22 +33,45 @@ class audiencias.views.SearchForm extends Backbone.View
     @searchIfQuery() if e.keyCode == 13
 
   searchIfQuery: =>
+    params = []
+
     searchText = @$el.find('#search-text').val().trim()
     if searchText.length > 0
-      searchParams = "q=#{searchText}"
+      params.push(
+        name: 'q'
+        value: searchText
+      )
 
-      searchType = if $('#search-old').is(':checked') then 'historico' else @$el.find('#search-type').val()
-      searchParams += "&en=#{searchType}"
+    searchType = if $('#search-old').is(':checked') then 'historico' else @$el.find('#search-type').val()
+    params.push(
+      name: 'en'
+      value: searchType
+    )
 
-      if @dateFromPicker.getDate() and @$el.find('#date-from').val().length > 0
-        dateFrom = @dateFromPicker.getMoment()
-        searchParams += "&desde=#{dateFrom.format('DD-MM-YYYY')}"
+    if @dateFromPicker.getDate() and @$el.find('#date-from').val().length > 0
+      dateFrom = @dateFromPicker.getMoment()
+      params.push(
+        name: 'desde'
+        value: dateFrom.format('DD-MM-YYYY')
+      )
 
-      if @dateToPicker.getDate() and @$el.find('#date-to').val().length > 0
-        dateTo = @dateToPicker.getMoment() 
-        searchParams += "&hasta=#{dateTo.format('DD-MM-YYYY')}"
+    if @dateToPicker.getDate() and @$el.find('#date-to').val().length > 0
+      dateTo = @dateToPicker.getMoment() 
+      params.push(
+        name: 'hasta'
+        value: dateTo.format('DD-MM-YYYY')
+      )
 
-      window.location.href = "/buscar?#{searchParams}"
+    searchParams = ''
+    if params.length > 0 
+      searchParams += '?'
+      for param, index in params 
+        if index == 0
+          searchParams += "#{param.name}=#{param.value}"
+        else 
+          searchParams += "&#{param.name}=#{param.value}"
+
+    window.location.href = "/buscar#{searchParams}"
 
   setDatepicker: (selector, selectedDate) ->
     i18n = {

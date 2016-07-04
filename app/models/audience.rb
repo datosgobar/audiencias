@@ -47,14 +47,9 @@ class Audience < ActiveRecord::Base
 
   def self.public_search(options)
     search_options = {
-      sort: { created_at: :desc },
+      sort: { date: :desc },
       query: {
         filtered: {
-          query: {
-            match: {
-              "_all" => options[:query]
-            }
-          },
           filter: {
             bool: {
               must: [{ term: { "published" => true } }]
@@ -63,6 +58,11 @@ class Audience < ActiveRecord::Base
         }
       }
     }
+
+    if options[:query]
+      search_options[:query][:filtered][:query] = { match: { "_all" => options[:query] } }
+    end
+
     if options[:from] or options[:to]
       date_filter = { range: { date: {} } }
       date_filter[:range][:date]["gte"] = options[:from] if options[:from]

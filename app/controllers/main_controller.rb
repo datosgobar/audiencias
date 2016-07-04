@@ -1,11 +1,6 @@
 class MainController < ApplicationController
 
   def search
-    unless params[:q] and params[:q].length > 0
-      redirect_to root_path
-      return 
-    end
-    
     @search_results = search_audiences
     render :home
   end
