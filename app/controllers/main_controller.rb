@@ -21,7 +21,8 @@ class MainController < ApplicationController
 
     search_results = search_options
     search_results[:audiences] = audiences.records.as_json({for_public: true})
-
+    search_results[:total] = audiences.count
+    
     search_results
   end
 
