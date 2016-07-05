@@ -1,8 +1,11 @@
 .error-layout {
-  background: $blue-600;
   color: white;
   text-align: center;
   display: table!important;
+
+  &.background-blue {
+    background: $blue-500;
+  }
   
   .error-align {
     display: table-cell;
@@ -11,34 +14,34 @@
 
   .error-content {
     display: inline-block;
-    $size: 300px;
-    width: $size;
+    position: relative;
+    background-size: contain;
+    background-repeat: no-repeat;
 
-    .error-number-container {
-      width: $size;
-      height: $size;
-      $outer-border-size: 5px;
-      border: solid $outer-border-size $blue-700;
-      @include border-radius(50%);
-      $padding: 5px;
-      padding: $padding;
-
-      .error-number-content {
-        width: $size - 2*$outer-border-size - 2*$padding;
-        height: $size - 2*$outer-border-size - 2*$padding;
-        @include border-radius(50%);
-        background: white;
-        line-height: $size - 2*$outer-border-size - 2*$padding;
-        color: $blue-600;
-        border: solid 4px $blue-700;
-        font-size: 110px;
-        font-weight: 500;
-      }
+    &.not-found {
+      background-image: url('/assets/404.svg');
+      width: 800px;
+      height: 533px;
     }
 
-    .error-description {
-      margin-top: 20px;
-      font-size: 20px;
+    &.forbidden {
+      background-image: url('/assets/403.svg');
+      width: 600px;
+      height: 725px;
+    }
+
+    &.internal-server-error {
+      background-image: url('/assets/500.svg');
+      width: 600px;
+      height: 640px; 
+    }
+
+    .go-back-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      text-align: center;
     }
 
     button {
