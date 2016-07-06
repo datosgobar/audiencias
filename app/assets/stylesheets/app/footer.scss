@@ -12,7 +12,7 @@
 }
 
 #external-footer {
-  @include box-shadow($header-shadow);
+  @include box-shadow($footer-shadow);
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -47,6 +47,16 @@
 
       .footer-section.third {
         @include span-columns(3 of 12);
+
+        font-size: 12px;
+
+        .social-links {
+          font-size: 20px;
+          i {
+            margin-right: 10px;
+          }
+        }
+
       }
     }
   }  
