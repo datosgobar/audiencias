@@ -19,7 +19,7 @@ class Audience < ActiveRecord::Base
   
   AS_JSON_OPTIONS =  {
     only: [ :date, :publish_date, :summary, :interest_invoked, :address,
-      :published, :place, :created_at, :lat, :lng, :id, :motif ],
+      :published, :place, :created_at, :lat, :lng, :id, :motif, :deleted ],
     include: { 
       author: User::AS_JSON_OPTIONS,
       applicant: Applicant::AS_JSON_OPTIONS,
@@ -70,11 +70,11 @@ class Audience < ActiveRecord::Base
       search_options[:query][:filtered][:filter][:bool][:must] << date_filter
     end
 
-    __elasticsearch__.search(search_options)
+    self.search(search_options)
   end
 
   def self.operator_search(query, person_id) 
-    __elasticsearch__.search({
+    self.search({
       sort: { created_at: :desc },
       query: {
         filtered: {
@@ -100,7 +100,12 @@ class Audience < ActiveRecord::Base
                 { term: { "obligee.person.id" => person_id } }, 
                 { term: { "applicant.person.id" => person_id } },
                 { terms: { "participants.person.id" => [person_id] } }
-              ]
+              ],
+              must: [{
+                term: {
+                  "deleted" => false
+                }
+              }]
             }
           }
         }
