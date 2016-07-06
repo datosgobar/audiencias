@@ -44,6 +44,8 @@ gem 'elasticsearch-rails'
 gem 'elasticsearch-model'
 # https://github.com/fphilipe/premailer-rails
 gem 'premailer-rails'
+# https://github.com/bokmann/font-awesome-rails
+gem "font-awesome-rails"
 
 gem 'mysql2', '~> 0.3.18' 
 
