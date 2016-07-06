@@ -16,6 +16,8 @@ class Audience < ActiveRecord::Base
 
   include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
+
+  self.per_page = 15
   
   AS_JSON_OPTIONS =  {
     only: [ :date, :publish_date, :summary, :interest_invoked, :address,

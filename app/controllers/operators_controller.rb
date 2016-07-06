@@ -19,20 +19,18 @@ class OperatorsController < ApplicationController
     
     if params[:q] and params[:q].length > 0
       @query = params[:q]
-      total_audiences = @current_obligee.search_audiences(@query)
+      @audiences = @current_obligee.search_audiences(@query)
     else
-      total_audiences = @current_obligee.all_audiences
+      @audiences = @current_obligee.all_audiences
     end
-    
+
     page = (params[:pagina] || 1).to_i
-    per_page = 15
-    page_start = (page-1)*per_page
-    @audiences = total_audiences[page_start, per_page]
+    @audiences = @audiences.paginate(page: page)
     @pagination = {
-      total_audiences: total_audiences.length,
-      total_pages: (total_audiences.length / per_page.to_f).ceil,
+      total_audiences: @audiences.total_entries,
+      total_pages: @audiences.total_pages,
       current_page: page,
-      per_page: per_page
+      per_page: Audience.per_page
     }
   end
 

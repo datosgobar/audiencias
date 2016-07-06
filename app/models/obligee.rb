@@ -28,7 +28,7 @@ class Obligee < ActiveRecord::Base
   end
 
   def search_audiences(query)
-    Audience.operator_search(query, self.person.id).records.all
+    Audience.operator_search(query, self.person.id).records
   end
 
   def all_audiences
@@ -36,5 +36,12 @@ class Obligee < ActiveRecord::Base
     as_applicant_audiences = Audience.joins(:applicant).where('person_id = ?', person.id)
     as_participant_audiences = Audience.joins(:participants).where('person_id = ?', person.id)
     (proper_audiences | as_applicant_audiences | as_participant_audiences).sort_by(&:created_at).reverse
+
+    Audience
+      .where(deleted: false)
+      .joins('LEFT OUTER JOIN applicants ON applicants.id = audiences.applicant_id')
+      .joins('LEFT JOIN participants ON participants.audience_id = audiences.id')
+      .where('obligee_id = ? OR applicants.person_id = ? OR participants.person_id = ?', self.id, person_id, person_id).distinct
+    
   end
 end
