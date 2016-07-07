@@ -1,13 +1,9 @@
-<!-- todo: mostrar paises 
-    cuantos participantes mostrar?
--->
-
 <div class="condensed table">
 
   <div class="table-row">
     <div class="table-cell col-title bold grey">Sujeto obligado</div>
     <div class="table-cell col-title bold grey">Solicitante</div>
-    <div class="table-cell col-title bold grey">Participantes</div>
+    <div class="table-cell col-title bold grey">Participantes (<%= audience.participants.length %>)</div>
     <div class="table-cell col-title bold grey">Datos audiencia</div>
   </div>
 
@@ -19,7 +15,10 @@
       <p class="obligee-position small-font">
         <%= audience.obligee.position.toUpperCase() %>
       </p>
-      <p class="obligee-id small-font space-up">
+      <p class="obligee-country space-up small-font">
+        <%= audience.obligee.person.country %>
+      </p>
+      <p class="obligee-id small-font">
         <%= audience.obligee.person.id_type.toUpperCase() %>
         <%= audience.obligee.person.person_id %>
       </p>
@@ -31,9 +30,15 @@
       <p class="applicant-position small-font">
         <%= audience.applicant.ocupation.toUpperCase() %>
       </p>
-      <p class="applicant-id small-font space-up">
+      <p class="applicant-country small-font space-up">
+        <%= audience.applicant.person.country %>
+      </p>
+      <p class="applicant-id small-font">
         <%= audience.applicant.person.id_type.toUpperCase() %>
         <%= audience.applicant.person.person_id %>
+      </p>
+      <p class="applicant-participation small-font">
+        <%= audience.applicant.absent ? 'El solicitante no participó de la audiencia' : 'El solicitante participió de la audiencia' %>
       </p>
 
       <% if (audience.applicant.represented_person) { %>
@@ -41,6 +46,9 @@
         <p class="representation-type small-font">PERSONA FÍSICA</p>
         <p class="represented-name bold"><%= audience.applicant.represented_person.name %></p>
         <p class="represented-id small-font space-up">
+          <%= audience.applicant.represented_person.country %>
+        </p>
+        <p class="represented-id small-font">
           <%= audience.applicant.represented_person.id_type.toUpperCase() %>
           <%= audience.applicant.represented_person.person_id %>
         </p>
@@ -65,7 +73,29 @@
     </div>
 
     <div class="table-cell">
-      
+      <% for (var i=0; i<Math.min(audience.participants.length, 2); i++) { %> 
+        <% var participant = audience.participants[i]; %>
+        <div class="participant <%= i > 0 ? 'big-space-up' : '' %>">
+          <p class="participant-name bold">
+            <%= participant.person.name %>
+          </p>
+          <p class="participant-position small-font">
+            <%= participant.ocupation.toUpperCase() %>
+          </p>
+          <p class="participant-country space-up small-font">
+            <%= participant.person.country %>
+          </p>
+          <p class="participant-id small-font">
+            <%= participant.person.id_type.toUpperCase() %>
+            <%= participant.person.person_id %>
+          </p>
+        </div>
+      <% } %>
+      <% if (audience.participants.length > 2) { %>
+        <div class="big-space-up">
+          ...
+        </div>
+      <% } %>
     </div>
     <div class="table-cell">
       <% var date = new Date(audience.date)
