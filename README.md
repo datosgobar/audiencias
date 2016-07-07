@@ -43,6 +43,68 @@
 * Crear indice. Asumiendo que el server de elasticsearch está corriendo en el puerto 9200, correr:
 ```curl -X PUT 'http://localhost:9200/audiences/' -d \
 '{
+  "mappings": {
+    "audience": {
+      "properties": {
+        "applicant": {
+          "properties": {
+            "person": {
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "copy_to": "people.name"
+                }
+              }
+            }
+          }
+        },
+        "obligee": {
+          "properties": {
+            "person": {
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "copy_to": "people.name"
+                }
+              }
+            },
+            "dependency": {
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "fields": {
+                    "raw": { "type": "string", "index": "not_analyzed" }
+                  }                       
+                }
+              }
+            }
+          }
+        },
+        "participants": {
+          "properties": {
+            "person": {
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "copy_to": "people.name"
+                }
+              }
+            }
+          }
+        },
+        "people": {
+          "properties": {
+            "name": {
+              "type": "string",
+              "fields": {
+                "raw": { "type": "string", "index": "not_analyzed" }
+              }            
+            }
+          }
+        }
+      }
+    } 
+  },
   "settings": {
     "analysis": {
       "analyzer": {

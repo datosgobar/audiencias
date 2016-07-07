@@ -1,5 +1,8 @@
 class MainController < ApplicationController
 
+  def home
+  end
+
   def search
     @search_results = search_audiences
     render :home
@@ -10,20 +13,23 @@ class MainController < ApplicationController
   def search_audiences 
     search_options = {
       query: params[:q],
-      type: params[:en],
-      items_per_page: 10,
-      current_page: params[:pagina] || 0
+      type: params[:en]
     }
+
     search_options[:from] = parse_date(params[:desde]) if params[:desde]
     search_options[:to] = parse_date(params[:hasta]) if params[:hasta]
 
-    audiences = Audience.public_search(search_options)
+    search_results = Audience.public_search(search_options)
+    page = (params[:pagina] || 1).to_i
+    audiences = search_results.records.paginate(page: page)
 
-    search_results = search_options
-    search_results[:audiences] = audiences.records.as_json({for_public: true})
-    search_results[:total] = audiences.count
-    
-    search_results
+    {
+      audiences: audiences.as_json({for_public: true}),
+      total: audiences.total_entries,
+      total_pages: audiences.total_pages,
+      per_page: Audience.per_page,
+      aggregations: search_results.response['aggregations'].as_json
+    }
   end
 
   def parse_date(date_string)

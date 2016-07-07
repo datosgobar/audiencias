@@ -47,19 +47,38 @@ class Audience < ActiveRecord::Base
     end
   end
 
-  def self.public_search(options)
+  def self.public_search(options={})
     search_options = {
       sort: { date: :desc },
       query: {
         filtered: {
           filter: {
             bool: {
-              must: [{ term: { "published" => true } }]
+              must: [
+                { term: { "published" => true } },
+                { term: { "deleted" => false } }
+              ]
             }
           }
         }
-      }
+      },
+      aggs: {}
     }
+
+    if options[:aggs]
+      if options[:aggs].include?(:people)
+        search_options[:aggs][:people] = {
+          terms: {
+            field: 'people.name.raw',
+            size: 10
+          }
+        }
+      end
+      if options[:aggs].include?(:dependencies)
+      end
+      if options[:aggs].include?(:representation)
+      end
+    end
 
     if options[:query]
       search_options[:query][:filtered][:query] = { match: { "_all" => options[:query] } }
