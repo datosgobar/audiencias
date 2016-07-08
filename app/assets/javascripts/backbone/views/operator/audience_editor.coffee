@@ -101,6 +101,32 @@ class audiencias.views.AudienceEditor extends Backbone.View
       method: 'POST'
       success: (response) =>
         if response and response.success 
-          obligeeId = audiencias.globals.currentObligee
-          window.location.href = "/intranet/audiencias?sujeto_obligado=#{obligeeId}"     
+          @showPublishedSuccesfully()
+        else
+          @showPublishError()
     )
+
+  showPublishedSuccesfully: =>
+    messageOptions = {
+      icon: 'ok',
+      confirmation: false,
+      text: {
+        main: 'La audiencia se ha publicado correctamente'
+      }
+      callback: {
+        confirm: =>
+          obligeeId = audiencias.globals.currentObligee
+          window.location.href = "/intranet/audiencias?sujeto_obligado=#{obligeeId}"
+      }
+    }
+    message = new audiencias.views.ImportantMessage(messageOptions)
+    
+  showPublishError: =>
+    messageOptions = {
+      icon: 'alert',
+      confirmation: false,
+      text: {
+        main: 'Ha ocurrido un error inesperado.'
+      }
+    }
+    message = new audiencias.views.ImportantMessage(messageOptions)
