@@ -4,30 +4,18 @@ class audiencias.views.SearchForm extends Backbone.View
   events:
     'keyup #search-text': 'searchOnEnter'
     'click #submit-search': 'searchIfQuery'
-    'change #search-old': 'changeSearchScope'
     'change #show-advance-search': 'showAdvanceSearch'
 
   render: ->
     @$el.html(@template())
 
-    if audiencias.globals.results 
-      dateFrom = null
-      dateTo = null
-      if audiencias.globals.results.from
-        dateFrom = moment(audiencias.globals.results.from)
-      if audiencias.globals.results.to
-        dateTo = moment(audiencias.globals.results.to)
+    if audiencias.globals.results
+      searchOptions = if audiencias.globals.results then audiencias.globals.results.options else {}
+      dateFrom = if searchOptions.from then moment(searchOptions.from) else null
+      dateTo = if searchOptions.to then moment(searchOptions.to) else null
       
     @dateFromPicker = @setDatepicker('#date-from', dateFrom)
     @dateToPicker = @setDatepicker('#date-to', dateTo)
-
-  changeSearchScope: =>
-    searchingOld = @$el.find('#search-old').is(':checked')
-    @$el.find('.search-form').toggleClass('historic-search', searchingOld)
-
-  showAdvanceSearch: =>
-    showingAdvanceSearch = @$el.find('#show-advance-search').is(':checked')
-    @$el.find('.date-container').toggleClass('invisible', !showingAdvanceSearch)
 
   searchOnEnter: (e) =>
     @searchIfQuery() if e.keyCode == 13
@@ -37,39 +25,32 @@ class audiencias.views.SearchForm extends Backbone.View
 
     searchText = @$el.find('#search-text').val().trim()
     if searchText.length > 0
-      params.push(
-        name: 'q'
-        value: searchText
-      )
+      params.push("q=#{searchText}")
 
-    searchType = if $('#search-old').is(':checked') then 'historico' else @$el.find('#search-type').val()
-    params.push(
-      name: 'en'
-      value: searchType
-    )
+    if @$el.find('#search-old').is(':checked')
+      params.push('buscar-historico=si')
 
     if @dateFromPicker.getDate() and @$el.find('#date-from').val().length > 0
-      dateFrom = @dateFromPicker.getMoment()
-      params.push(
-        name: 'desde'
-        value: dateFrom.format('DD-MM-YYYY')
-      )
+      dateFrom = @dateFromPicker.getMoment().format('DD-MM-YYYY')
+      params.push("desde=#{dateFrom}")
 
     if @dateToPicker.getDate() and @$el.find('#date-to').val().length > 0
-      dateTo = @dateToPicker.getMoment() 
-      params.push(
-        name: 'hasta'
-        value: dateTo.format('DD-MM-YYYY')
-      )
+      dateTo = @dateToPicker.getMoment().format('DD-MM-YYYY')
+      params.push("hasta=#{dateTo}")
 
-    searchParams = ''
-    if params.length > 0 
-      searchParams += '?'
-      for param, index in params 
-        if index == 0
-          searchParams += "#{param.name}=#{param.value}"
-        else 
-          searchParams += "&#{param.name}=#{param.value}"
+    if @$el.find('#search-person').is(':checked')
+      params.push('buscar-persona=si')
+
+    if @$el.find('#search-dependencies').is(':checked')
+      params.push('buscar-pen=si')
+
+    if @$el.find('#search-representation').is(':checked')
+      params.push('buscar-representado=si')
+
+    if @$el.find('#search-summary').is(':checked')
+      params.push('buscar-textos=si')
+    
+    searchParams = if params.length > 0 then "?#{params.join('&')}" else ''
 
     window.location.href = "/buscar#{searchParams}"
 

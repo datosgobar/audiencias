@@ -1,82 +1,97 @@
 <div class="search-title">
   Registro Único de Audiencias de Gestión de Intereses del Poder Ejecutivo Nacional
 </div>
-<div class="search-subtitle">
-  Enunciado que invite a buscar por diferentes tipos, persona física, estructura o motivo de la audiencia
-</div>
 
-<% var selectedType = audiencias.globals.results ? audiencias.globals.results.type : '' %>
+<% var searchOptions = audiencias.globals.results ? audiencias.globals.results.options : null %>
 
-<div class="search-form <%= selectedType == 'historico' ? 'historic-search': '' %>">
-  <div class="search-old-container">
-    <input type="checkbox" id="search-old" <%= selectedType == 'historico' ? 'checked': '' %>>
-    <label for="search-old">Incluir registros históricos</label>
+<div class="search-form">
+
+  <div class="search-input">
+    <% var searchValue = searchOptions ? searchOptions.query : '' %>
+    <input type="text" id="search-text" placeholder="Introduzca su busqueda" value="<%= searchValue %>">
+    <button class="green" id="submit-search">BUSCAR</button>
   </div>
 
-  <div class="search-input table ">
-    <div class="table-cell search-text-container">
-      <% var searchValue = audiencias.globals.results ? audiencias.globals.results.query : '' %>
-      <input type="text" id="search-text" placeholder="Introduzca su busqueda" value="<%= searchValue %>">
-    </div>
-    <div class="table-cell search-type-container">
-      <select id="search-type">
-        <option disabled="disabled">
-          Seleccionar tipo
-        </option>
-        <option value="texto" <%= selectedType == 'texto' ? 'selected': '' %>>
-          Texto libre
-        </option>
-        <option value="persona-fisica" <%= selectedType == 'persona-fisica' ? 'selected': '' %>>
-          Persona física
-        </option>
-        <option value="persona-juridica" <%= selectedType == 'persona-juridica' ? 'selected': '' %>>
-          Persona juridica
-        </option>
-        <option value="organismo" <%= selectedType == 'organismo' ? 'selected': '' %>>
-          Organismo estatal
-        </option>
-        <option value="grupo-de-personas" <%= selectedType == 'grupo-de-personas' ? 'selected': '' %>>
-          Grupo de personas
-        </option>
-        <option value="estructura" <%= selectedType == 'estructura' ? 'selected': '' %>>
-          Estructura
-        </option>
-        <option value="sintesis-o-motivo" <%= selectedType == 'sintesis-o-motivo' ? 'selected': '' %>>
-          Sintesis o motivo
-        </option>
-      </select>
-    </div>
-    <div class="table-cell search-button-container">
-      <button class="green" id="submit-search">BUSCAR</button>
-    </div>
-  </div>
+  <% var advanceSearch = searchOptions ? !!(searchOptions.from || searchOptions.to || searchOptions.person || searchOptions.dependency || searchOptions.represented || searchOptions.texts) : false  %>
+  <div class="advance-search-container">
+    <input type="checkbox" id="show-advance-search" <%= advanceSearch ? 'checked' : '' %>>
+    <label class="show-advance-search-label" for="show-advance-search">
+      <img src="/assets/icon-marcador-derecha-gris.svg" class="advance-search-icon">
+      Busqueda avanzada
+    </label>
 
-  <div class="advance-search-container message-container">
-    <div class="advance-search table">
-      <div class="table-cell first">
-        <input type="checkbox" id="show-advance-search">
-        <label class="show-advance-search-label" for="show-advance-search">Busqueda avanzada ></label>
+    <% var historicSearch = searchOptions ? searchOptions.historic : false %>
+    <input type="checkbox" id="search-old" <%= historicSearch ? 'checked' : '' %>>
+    <label class="search-old-label" for="search-old">
+      <i class="fa fa-square-o" aria-hidden="true"></i>
+      <i class="fa fa-check-square-o" aria-hidden="true"></i>
+      Incluir registros históricos
+    </label>
+
+    <div class="advance-search">
+      <div class="search-option">
+        <div class="search-description">
+          Fecha especifica o rango
+        </div>
+        <% var date_from = searchOptions ? searchOptions.from : null %>
+        <% var date_to = searchOptions ? searchOptions.to : null %>
+        <input type="text" id="date-from" placeholder="Desde" class="date-input">
+        <input type="text" id="date-to" placeholder="Hasta" class="date-input">
+        <img src="/assets/icon-calendar.svg" class="calendar-icon">
       </div>
-      <% var date_from = audiencias.globals.results ? audiencias.globals.results.from : null %>
-      <% var date_to = audiencias.globals.results ? audiencias.globals.results.to : null %>
-      <div class="table-cell second date-container <%= date_from || date_to ? '' : 'invisible' %>">
-        Buscar por fecha
-        <div class="date-selectors">
-          <input type="text" id="date-from" placeholder="Desde">
-          <input type="text" id="date-to" placeholder="Hasta">
+      <div class="search-option">
+        <div class="search-description">
+          Buscar en:
+        </div>
+
+        <div class="table">
+          <div class="table-row">
+            <div class="table-cell">
+              <input type="checkbox" id="search-person" <%= searchOptions.person ? 'checked' : '' %>>
+              <label for="search-person">
+                <i class="fa fa-square-o" aria-hidden="true"></i>
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                Personas físicas
+              </label>
+            </div>
+
+            <div class="table-cell">
+              <input type="checkbox" id="search-dependencies" <%= searchOptions.dependency ? 'checked' : '' %>> 
+              <label for="search-dependencies">
+                <i class="fa fa-square-o" aria-hidden="true"></i>
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                Poder ejecutivo nacional
+              </label>
+            </div>
+          </div>
+
+          <div class="table-row">
+            <div class="table-cell">
+              <input type="checkbox" id="search-representation" <%= searchOptions.represented ? 'checked' : '' %>>
+              <label for="search-representation">
+                <i class="fa fa-square-o" aria-hidden="true"></i>
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                Tipo de carácter de representación
+              </label>
+            </div>
+
+            <div class="table-cell">
+              <input type="checkbox" id="search-summary" <%= searchOptions.texts ? 'checked' : '' %>>
+              <label for="search-summary">
+                <i class="fa fa-square-o" aria-hidden="true"></i>
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                Sintesis o motivos
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="warning-message">
-      <img src="/assets/icon-marcador-derecha-dorado.svg" class="warning-icon">
-      Mensaje advirtiendo que si se busca en histórico disminuye la complejidad de la búsqueda. 
-    </div>
   </div>
 
-  <% if (audiencias.globals.results) { %>
-    <div class="total-count">  
+  <div class="total-count">  
+    <% if (audiencias.globals.results) { %>
       Se encontraron <%= audiencias.globals.results.total %> resultados
-    </div>
-  <% } %>
+    <% } %>
+  </div>
 </div>

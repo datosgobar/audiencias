@@ -1,6 +1,6 @@
 #searcher {
   .search-background-filter {
-    background-color: rgba($blue-300, 0.8);
+    background-color: rgba($blue-500, 0.85);
   }
   .search-container {
     background-image: url('/assets/background.jpg');
@@ -31,6 +31,7 @@
       text-align: center;
       font-size: 35px;
       margin-bottom: 10px;
+      font-weight: 500;
     }
 
     .search-subtitle {

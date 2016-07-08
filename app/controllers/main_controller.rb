@@ -13,7 +13,11 @@ class MainController < ApplicationController
   def search_audiences 
     search_options = {
       query: params[:q],
-      type: params[:en]
+      historic: params['buscar-historico'],
+      person: params['buscar-persona'],
+      dependency: params['buscar-pen'],
+      represented: params['buscar-representado'],
+      texts: params['buscar-textos']
     }
 
     search_options[:from] = parse_date(params[:desde]) if params[:desde]
@@ -28,7 +32,8 @@ class MainController < ApplicationController
       total: audiences.total_entries,
       total_pages: audiences.total_pages,
       per_page: Audience.per_page,
-      aggregations: search_results.response['aggregations'].as_json
+      aggregations: search_results.response['aggregations'].as_json,
+      options: search_options
     }
   end
 
