@@ -9,22 +9,6 @@
     text-overflow: ellipsis;
   }
 
-  .pagination {
-    text-align: center;
-    padding: 20px 0 50px 0;
-    .pagination-link {
-      padding: 6px 11px;
-      @include border-radius(2px);
-      &:hover {
-        background: $grey-200;
-      }
-      &.current-page {
-        background: $grey-400;
-        color: white;
-      }
-    }
-  }
-
   .table-row {
     display: table-row;
     &.published {

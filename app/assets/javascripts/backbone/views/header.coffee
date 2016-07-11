@@ -6,10 +6,8 @@ class audiencias.views.Header extends Backbone.View
     'click .user-menu-action': 'followLink'
 
   initialize: ->
-    audiencias.globals.users.on('users:loaded', =>
-      audiencias.globals.users.on('add change', @render)
-      @render()
-    )
+    audiencias.globals.users.on('add change', @render)
+    @render()
 
   render: =>
     @$el.html(@template())

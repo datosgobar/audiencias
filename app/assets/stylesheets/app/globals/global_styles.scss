@@ -135,3 +135,19 @@ span.user-icon {
     padding: 0 0 30px 0;
   }
 }
+
+.pagination {
+  text-align: center;
+  padding: 30px;
+  .pagination-link {
+    padding: 6px 11px;
+    @include border-radius(2px);
+    &:hover {
+      background: $grey-200;
+    }
+    &.current-page {
+      background: $grey-400;
+      color: white;
+    }
+  }
+}
