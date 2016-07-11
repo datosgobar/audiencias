@@ -27,8 +27,12 @@
 
       .facet {
         position: relative;
-        padding: 5px;
+        padding: 5px 60px 5px 5px;
         @include border-radius(4px);
+
+        .facet-name {
+          overflow: hidden;
+        }
 
         &.selected, &.selected:hover {
           background: $grey-400;

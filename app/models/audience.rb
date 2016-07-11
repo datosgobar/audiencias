@@ -62,14 +62,7 @@ class Audience < ActiveRecord::Base
           }
         }
       },
-      aggs: {
-        people: {
-          terms: {
-            field: 'people.name.raw',
-            size: 10
-          }
-        }
-      }
+      aggs: {}
     }
 
     if options['q']
@@ -97,6 +90,17 @@ class Audience < ActiveRecord::Base
         terms: {
           field: 'interest_invoked',
           size: 3
+        }
+      }
+    end
+
+    if options['persona']
+      search_options[:query][:filtered][:filter][:bool][:must] << { term: { 'people.name.raw' => options['persona'] } }
+    else
+      search_options[:aggs][:people] = {
+        terms: {
+          field: 'people.name.raw',
+          size: 10
         }
       }
     end

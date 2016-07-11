@@ -1,0 +1,37 @@
+<div class="facet-section">
+  <div class="facet-title"><%= title %></div>
+
+  <% if (selectedValue) { %>
+    <% var linkParams = { pagina: null }; %>
+    <% linkParams[paramName] = null; %>
+    <a href="<%= linkCreator(linkParams) %>">
+      <div class="facet selected">
+        <div class="facet-name">
+          <%= selectedValue %>
+        </div>
+        <div class="facet-value">
+          <i class="fa fa-times" aria-hidden="true"></i>
+        </div>
+      </div>
+    </a>
+
+  <% } else { %>
+
+    <% for (var i=0; i<facetList.length; i++) { %>
+      <% var facet = facetList[i]; %>
+      <% var linkParams = { pagina: null };%>
+      <% linkParams[paramName] = facet.key %>
+      <a href="<%= linkCreator(linkParams) %>">
+        <div class="facet">
+          <div class="facet-name">
+            <%= facet.key %>
+          </div>
+          <div class="facet-value">
+            <%= facet.doc_count %>
+          </div>
+        </div>
+      </a>
+    <% } %>
+
+  <% } %>
+</div>

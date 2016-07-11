@@ -12,6 +12,10 @@ class audiencias.views.ResultsList extends Backbone.View
       resultElement.render()
       @$el.find('.results-list').append(resultElement.el)
 
+    facets = new audiencias.views.Facets(linkCreator: @linkCreator)
+    facets.render()
+    @$el.find('.facets-container').append(facets.el)
+
   linkCreator: (newParams) ->
     paramList = []
     searchOptions = $.extend({}, audiencias.globals.results.options)
