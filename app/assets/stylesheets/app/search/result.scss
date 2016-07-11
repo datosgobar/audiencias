@@ -63,3 +63,52 @@
   }
 
 }
+
+#searcher .results-list .full-result {
+  position: fixed;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: table;
+
+  .background-veil {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: rgba(90, 90, 90, 0.5);
+  }
+
+  .vertical-spacer {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .result-el {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: auto;
+
+    &:hover {
+      border-right: solid 5px $grey-300;
+      cursor: default;
+    }
+
+    .top-table {
+      padding-bottom: 15px;
+      border-bottom: solid 2px $grey-300;
+    }
+
+    .bottom-table {
+      padding-top: 15px;
+      .wide-cell {
+        width: 75%;
+      }
+    }
+  }
+}

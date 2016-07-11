@@ -1,0 +1,171 @@
+<div class="vertical-spacer">
+  <div class="background-veil"></div>
+  <div class="result-el">
+    <div class="top-table table">
+
+      <div class="table-row">
+        <div class="table-cell col-title bold grey">Sujeto obligado</div>
+        <div class="table-cell col-title bold grey">Solicitante</div>
+        <div class="table-cell col-title bold grey">Participantes (<%= audience.participants.length %>)</div>
+        <div class="table-cell col-title bold grey">Datos audiencia</div>
+      </div>
+
+      <div class="table-row main-row">
+        <div class="table-cell">
+          <p class="obligee-name bold">
+            <%= audience.obligee.person.name %>
+          </p>
+          <p class="obligee-position small-font">
+            <%= audience.obligee.position.toUpperCase() %>
+          </p>
+          <p class="obligee-country space-up small-font">
+            <%= audience.obligee.person.country %>
+          </p>
+          <p class="obligee-id small-font">
+            <%= audience.obligee.person.id_type.toUpperCase() %>
+            <%= audience.obligee.person.person_id %>
+          </p>
+        </div>
+        <div class="table-cell">
+          <p class="applicant-name bold">
+            <%= audience.applicant.person.name %>
+          </p>
+          <p class="applicant-position small-font">
+            <%= audience.applicant.ocupation.toUpperCase() %>
+          </p>
+          <p class="applicant-country small-font space-up">
+            <%= audience.applicant.person.country %>
+          </p>
+          <p class="applicant-id small-font">
+            <%= audience.applicant.person.id_type.toUpperCase() %>
+            <%= audience.applicant.person.person_id %>
+          </p>
+          <p class="applicant-participation small-font">
+            <%= audience.applicant.absent ? 'El solicitante no participó de la audiencia' : 'El solicitante participió de la audiencia' %>
+          </p>
+
+          <% if (audience.applicant.represented_person) { %>
+            <p class="representation-type big-space-up small-font">EN REPRESENTACIÓN</p>
+            <p class="representation-type small-font">PERSONA FÍSICA</p>
+            <p class="represented-name bold"><%= audience.applicant.represented_person.name %></p>
+            <p class="represented-id small-font space-up">
+              <%= audience.applicant.represented_person.country %>
+            </p>
+            <p class="represented-id small-font">
+              <%= audience.applicant.represented_person.id_type.toUpperCase() %>
+              <%= audience.applicant.represented_person.person_id %>
+            </p>
+
+          <% } else if (audience.applicant.represented_legal_entity) { %>
+            <p class="representation-type big-space-up small-font">EN REPRESENTACIÓN</p>
+            <p class="representation-type small-font">PERSONA JURÍDICA</p>
+            <p class="represented-name bold"><%= audience.applicant.represented_legal_entity.name %></p>
+            <p class="represented-id small-font space-up">CUIT <%= audience.applicant.represented_legal_entity.cuit %></p>
+
+          <% } else if (audience.applicant.represented_state_organism) { %>
+            <p class="representation-type big-space-up small-font">EN REPRESENTACIÓN</p>
+            <p class="representation-type small-font">ORGANISMO ESTATAL</p>
+            <p class="represented-name bold"><%= audience.applicant.represented_state_organism.name %></p>
+
+          <% } else if (audience.applicant.represented_people_group) { %>
+            <p class="representation-type big-space-up small-font">EN REPRESENTACIÓN</p>
+            <p class="representation-type small-font">GRUPO DE PERSONAS</p>
+            <p class="represented-name bold"><%= audience.applicant.represented_people_group.name %></p>
+            <p class="represented-description small-font space-up"><%= audience.applicant.represented_people_group.description %></p>
+          <% } %>
+        </div>
+
+        <div class="table-cell">
+          <% for (var i=0; i<audience.participants.length; i+=2) { %> 
+            <% var participant = audience.participants[i]; %>
+            <div class="participant <%= i > 0 ? 'big-space-up' : '' %>">
+              <p class="participant-name bold">
+                <%= participant.person.name %>
+              </p>
+              <p class="participant-position small-font">
+                <%= participant.ocupation.toUpperCase() %>
+              </p>
+              <p class="participant-country space-up small-font">
+                <%= participant.person.country %>
+              </p>
+              <p class="participant-id small-font">
+                <%= participant.person.id_type.toUpperCase() %>
+                <%= participant.person.person_id %>
+              </p>
+            </div>
+          <% } %>
+        </div>
+
+        <div class="table-cell">
+          <% for (var i=1; i<audience.participants.length; i+=2) { %> 
+            <% var participant = audience.participants[i]; %>
+            <div class="participant <%= i > 0 ? 'big-space-up' : '' %>">
+              <p class="participant-name bold">
+                <%= participant.person.name %>
+              </p>
+              <p class="participant-position small-font">
+                <%= participant.ocupation.toUpperCase() %>
+              </p>
+              <p class="participant-country space-up small-font">
+                <%= participant.person.country %>
+              </p>
+              <p class="participant-id small-font">
+                <%= participant.person.id_type.toUpperCase() %>
+                <%= participant.person.person_id %>
+              </p>
+            </div>
+          <% } %>
+        </div>
+        
+      </div>
+    </div>
+
+
+    <div class="table bottom-table">
+      <div class="table-cell wide-cell">
+        <div class="bold grey">Datos Audiencia</div>
+        <p class="grey">Síntesis</p>
+        <p class="small-font"><%= audience.summary %></p>
+
+        <p class="grey big-space-up">Lugar</p>
+        <p class="small-font"><%= audience.place %></p>
+
+        <p class="grey big-space-up">Dirección</p>
+        <p class="small-font"><%= audience.address %></p>
+
+      </div>  
+
+      <div class="table-cell">
+        <% var date = new Date(audience.date)
+            var year = date.getFullYear();
+            var month = (date.getMonth() + 1).toString();
+            month = month.length > 1 ? month : '0' + month;
+            var day = date.getDate().toString();
+            day = day.length > 1 ? day : '0' + day;
+            var hour = date.getHours().toString();
+            hour = hour.length > 1 ? hour : '0' + hour;
+            var minutes = date.getMinutes().toString();
+            minutes = minutes.length > 1 ? minutes : '0' + minutes;
+            dateString = hour + ':' + minutes + ' ' + day + '/' + month + '/' + year; %>
+
+        <div class="table-cell no-padding">
+          <p class="grey">Fecha</p>
+          <p class="small-font"><%= day %>-<%= month %>-<%= year %></p>
+        </div>
+        <div class="table-cell no-padding">
+          <p class="grey">Hora</p>
+          <p class="small-font"><%= hour %>:<%= minutes %></p>
+        </div>
+
+        <p class="grey big-space-up">Interés invocado</p>
+        <p class="small-font"><%= audience.interest_invoked.toUpperCase() %></p>
+
+        <p class="grey big-space-up">Motivo</p>
+        <p class="small-font"><%= audience.motif %></p>
+
+      </div>
+    </div>
+
+
+  </div>
+</div>
