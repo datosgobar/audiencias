@@ -1,6 +1,28 @@
 <div class="results-content">
   <div class="facets-container">
-    NAVEGACIÓN
+    <div class="title">
+      NAVEGACIÓN
+    </div>
+
+    <% var aggs = audiencias.globals.results.aggregations; %>
+
+    <% if (aggs && aggs.interest_invoked) { %>
+      <div class="facet-section">
+        <div class="facet-title">Interés Invocado</div>
+        <% for (var i=0; i<aggs.interest_invoked.buckets.length; i++) { %>
+          <% var facet = aggs.interest_invoked.buckets[i]; %>
+          <a href="<%= linkCreator({'interes-invocado': facet.key, pagina: null}) %>">
+            <div class="facet">
+              <%= facet.key %>
+              <div class="facet-value">
+                <%= facet.doc_count %>
+              </div>
+            </div>
+          </a>
+        <% } %>
+      </div>
+    <% } %>
+
   </div>
   <div class="results-container">
     <div class="results-list"></div>
@@ -14,14 +36,14 @@
         <% var maxPage = current_page + 5 <= total_pages ? current_page + 5 : total_pages + 1 %>
         
         <% if (minPage > 1) { %>
-          <a href="<%= linkCreator(1) %>">
+          <a href="<%= linkCreator({pagina: 1}) %>">
             <span class="pagination-link">«</span>
           </a>
         <% } %>
         
         <% for (var i=minPage; i<maxPage; i++) { %>
           <% if (i != current_page) { %>
-            <a href="<%= linkCreator(i) %>">
+            <a href="<%= linkCreator({pagina: i}) %>">
               <span class="pagination-link"><%= i %></span>
             </a>
           <% } else { %>
@@ -30,7 +52,7 @@
         <% } %>
 
         <% if (maxPage < total_pages) { %>
-          <a href="<%= linkCreator(total_pages) %>">
+          <a href="<%= linkCreator({pagina: total_pages}) %>">
             <span class="pagination-link">»</span>
           </a>
         <% } %>

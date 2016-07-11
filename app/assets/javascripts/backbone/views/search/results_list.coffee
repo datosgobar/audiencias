@@ -12,11 +12,11 @@ class audiencias.views.ResultsList extends Backbone.View
       resultElement.render()
       @$el.find('.results-list').append(resultElement.el)
 
-  linkCreator: (page) ->
-    paramList = ["pagina=#{page}"]
-    searchOptions = audiencias.globals.results.options
+  linkCreator: (newParams) ->
+    paramList = []
+    searchOptions = $.extend({}, audiencias.globals.results.options)
+    searchOptions = $.extend(searchOptions, newParams)
     for key of searchOptions
-      if key != 'pagina' and searchOptions[key]
-        paramList.push("#{key}=#{searchOptions[key]}")
+      paramList.push("#{key}=#{searchOptions[key]}") if searchOptions[key]
     params = paramList.join('&')
     "/buscar?#{params}"

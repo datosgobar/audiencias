@@ -1,7 +1,50 @@
 #results .results-content {
   padding-top: 10px;
+
   .facets-container {
     @include span-columns(3 of 10);
+    padding: 20px 40px 0 0;
+
+    .title {
+      font-size: 18px;
+      color: $grey-400;
+      font-weight: 500;
+      padding: 0 5px;
+    }
+
+    .facet-section {
+      margin: 10px 0;
+      border-bottom: solid 1px $grey-300;
+      padding-bottom: 5px;
+
+      .facet-title {
+        border-bottom: solid 1px $grey-300;
+        font-weight: 500;
+        color: $grey-400;
+        margin-bottom: 5px;
+        padding: 0 5px;
+      }
+
+      .facet {
+        position: relative;
+        padding: 5px;
+
+        &:hover {
+          background: $grey-200;
+        }
+
+        .facet-value {
+          position: absolute; 
+          right: 5px;
+          top: 5px;
+          color: white;
+          font-size: 12px;
+          background: $grey-400;
+          padding: 2px 8px;
+          @include border-radius(50%);
+        }
+      }
+    }
   }
   .results-container {
     @include span-columns(7 of 10);

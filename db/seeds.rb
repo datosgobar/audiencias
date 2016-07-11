@@ -15,7 +15,7 @@ def initialize_random_of(klass, conditions={})
       audience: conditions[:audience],
       ocupation: Faker::Company.profession
     })
-    representation = [nil, 'person', 'legal_entity', 'state_organism', 'people_group']
+    representation = [nil, 'person', 'legal_entity', 'state_organism', 'people_group'].sample
     if representation == 'person'
       applicant.represented_person = Person.all.sample
       applicant.represented_person_ocupation = Faker::Company.profession
@@ -184,4 +184,4 @@ have_at_least 200, OperatorAssociation
 have_at_least 100, PeopleGroup
 have_at_least 100, StateOrganism
 have_at_least 100, LegalEntity
-have_at_least 200, Audience, { published: true }
+have_at_least 400, Audience, { published: true }

@@ -62,23 +62,21 @@ class Audience < ActiveRecord::Base
           }
         }
       },
-      aggs: {}
-    }
-
-    if options['aggs']
-      if options['aggs'].include?('people')
-        search_options[:aggs][:people] = {
+      aggs: {
+        people: {
           terms: {
             field: 'people.name.raw',
             size: 10
           }
+        },
+        interest_invoked: {
+          terms: {
+            field: 'interest_invoked',
+            size: 3
+          }
         }
-      end
-      if options['aggs'].include?('dependencies')
-      end
-      if options['aggs'].include?('representation')
-      end
-    end
+      }
+    }
 
     if options['q']
       search_options[:query][:filtered][:query] = { match: { "_all" => options['q'] } }
@@ -96,6 +94,10 @@ class Audience < ActiveRecord::Base
         date_filter[:range][:date]["lte"] = toDate
       end
       search_options[:query][:filtered][:filter][:bool][:must] << date_filter
+    end
+
+    if options['interes-invocado']
+      search_options[:query][:filtered][:filter][:bool][:must] << { term: { 'interest_invoked' => options['interes-invocado'] } }
     end
 
     self.search(search_options)
