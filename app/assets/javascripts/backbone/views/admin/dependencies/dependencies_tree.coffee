@@ -11,8 +11,14 @@ class audiencias.views.DependenciesTree extends Backbone.View
   initialize: ->
     $(window).on('search:show-full-list', @showFullList)
       .on('search:show-results-list', @showResultsList)
-    audiencias.globals.userDependencies.on('change add remove', @render)
-    audiencias.globals.users.on('change add', @toggleAddDependencyButton)
+    audiencias.globals.userDependencies.on('audiences:loaded', =>
+      @render()
+      audiencias.globals.userDependencies.on('change add remove', @render)
+    )
+    audiencias.globals.users.on('users:loaded', =>
+      @toggleAddDependencyButton()
+      audiencias.globals.users.on('change add', @toggleAddDependencyButton)
+    )
     @mode = 'tree'
 
   render: =>
@@ -30,6 +36,13 @@ class audiencias.views.DependenciesTree extends Backbone.View
       })
       @$el.find('#dependencies-results').html(resultsEl)
     @$el.find('.list-container').nanoScroller(flash: false)
+    @scrollToSelected()
+
+  scrollToSelected: =>
+    selected = audiencias.globals.userDependencies.filter((d) -> d.get('selected'))
+    if selected.length > 0
+      dependencyEl = @$el.find("div[data-dependency-id='#{selected[0].get('id')}']")
+      @$el.find('.list-container').nanoScroller(flash: false, scrollTo: dependencyEl)
 
   selectDependency: (event) =>
     id = $(event.currentTarget).data('dependency-id')

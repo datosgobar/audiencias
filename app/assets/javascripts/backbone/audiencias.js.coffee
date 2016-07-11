@@ -26,6 +26,7 @@ window.audiencias =
         method: 'GET'
         success: (response) =>
           audiencias.globals.userDependencies.set(response.dependencies)
+          audiencias.globals.userDependencies.trigger('audiences:loaded')
       )
 
     loadUsers: ->
@@ -34,6 +35,7 @@ window.audiencias =
         method: 'GET'
         success: (response) =>
           audiencias.globals.users.set(response.users)
+          audiencias.globals.users.trigger('users:loaded')
       )
 
     render: (Class) ->

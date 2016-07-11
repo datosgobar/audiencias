@@ -8,8 +8,14 @@ class audiencias.views.DependenciesNavigation extends Backbone.View
     'input #dependencies-search-input': 'lunrSearch'
 
   initialize: =>
-    audiencias.globals.userDependencies.on('change add remove', @initializeLunr)
-    audiencias.globals.users.on('change add', @render)
+    audiencias.globals.userDependencies.on('audiences:loaded', =>
+      @initializeLunr()
+      audiencias.globals.userDependencies.on('change:name change:obligee add remove', @initializeLunr)
+    )
+    audiencias.globals.users.on('users:loaded', =>
+      @render()
+      audiencias.globals.users.on('change add', @render)
+    )
 
   render: =>
     @$el.html(@template())
@@ -21,11 +27,13 @@ class audiencias.views.DependenciesNavigation extends Backbone.View
     $('#expand-all, #collapse-all').toggleClass('hidden')
     audiencias.globals.userDependencies.forEach (dependency) ->
       dependency.collapse()
+    audiencias.globals.userDependencies.trigger('change')
 
   expandAll: ->
     $('#expand-all, #collapse-all').toggleClass('hidden')
     audiencias.globals.userDependencies.forEach (dependency) ->
       dependency.expand()
+    audiencias.globals.userDependencies.trigger('change')
 
   initializeLunr: =>
     @lunr = lunr( ->

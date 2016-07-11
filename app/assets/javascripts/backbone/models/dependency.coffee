@@ -43,10 +43,10 @@ class audiencias.models.Dependency extends Backbone.Model
   expand: ->
     hasAnyChild = audiencias.globals.userDependencies.findWhere({parent_id: @get('id')})
     if hasAnyChild
-      @set('expanded', true)
+      @set('expanded', true, {silent: true})
 
   collapse: ->
-    @set('expanded', false)
+    @set('expanded', false, {silent: true})
 
   validateName: (name) ->
     name = @get('name')

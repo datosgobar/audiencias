@@ -6,8 +6,10 @@ class audiencias.collections.UserDependencies extends Backbone.Collection
     if dependency.get('parent_id')
       parent = @get(dependency.get('parent_id'))
       if parent
-        parent.set('expanded', true)
+        parent.set('expanded', true, {silent: true})
         @expandParents(parent)
+    else
+      @trigger('change')
 
   setSelected: (dependencyId) ->
     @deselectAll()
@@ -17,7 +19,8 @@ class audiencias.collections.UserDependencies extends Backbone.Collection
     @expandParents(newSelectedDependency)
 
   deselectAll: ->
-    @filter((d) -> d.get('selected')).forEach((d) -> d.set('selected', false))
+    @filter((d) -> d.get('selected')).forEach((d) -> d.set('selected', false, {silent: true}))
+    @trigger('change')
 
   forceUpdate: (newDependency) ->
     savedDependency = @get(newDependency.id)
