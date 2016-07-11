@@ -9,10 +9,49 @@ def initialize_random_of(klass, conditions={})
     })
   
   elsif klass == Applicant
-    # TODO
+    applicant = Applicant.new({
+      absent: [false, true].sample,
+      person: Person.all.sample,
+      audience: conditions[:audience],
+      ocupation: Faker::Company.profession
+    })
+    representation = [nil, 'person', 'legal_entity', 'state_organism', 'people_group']
+    if representation == 'person'
+      applicant.represented_person = Person.all.sample
+      applicant.represented_person_ocupation = Faker::Company.profession
+    elsif representation == 'legal_entity'
+      applicant.represented_legal_entity = LegalEntity.all.sample
+    elsif representation == 'state_organism'
+      applicant.represented_state_organism = StateOrganism.all.sample
+    elsif representation == 'people_group'
+      applicant.represented_people_group = PeopleGroup.all.sample
+    end
+    applicant
 
   elsif klass == Audience
-    # TODO
+    audience = Audience.new({
+      date: Faker::Time.between(DateTime.now - 1.year, DateTime.now),
+      summary: Faker::Lorem.paragraph[0..999],
+      place: Faker::Address.city,
+      address: "#{Faker::Address.street_address}, #{Faker::Address.city}, #{Faker::Address.country}",
+      obligee: Obligee.all.sample,
+      lat: Faker::Address.latitude,
+      lng: Faker::Address.longitude,
+      motif: Faker::Lorem.paragraph[0..199],
+      author: User.all.sample,
+      interest_invoked: ['particular', 'difuso', 'colectivo'].sample
+    })
+    if conditions[:published]
+      audience.publish_date = audience.date + 1.day
+      audience.published = true
+    end
+    audience.applicant = initialize_random_of(Applicant, { audience: audience })
+    audience.applicant.save
+    [0, 1, 2, 3, 4, 6, 8].sample.times do 
+      participant = initialize_random_of(Participant, { audience: audience })
+      participant.save
+    end
+    audience
   
   elsif klass == Dependency
     dependency = Dependency.new({
@@ -23,7 +62,16 @@ def initialize_random_of(klass, conditions={})
     dependency
 
   elsif klass == LegalEntity
-    # TODO
+    entity = LegalEntity.new({
+      country: ['Argentina', GLOBALS::COUNTRIES.sample].sample,
+      name: Faker::Company.name,
+      email: [nil, Faker::Internet.email].sample,
+      telephone: [nil, Faker::PhoneNumber.phone_number[0..19]].sample
+    })
+    if entity.country == 'Argentina'
+      entity.cuit = Faker::Number.number(8)
+    end
+    entity
 
   elsif klass == Obligee
     obligee = Obligee.new({
@@ -50,18 +98,22 @@ def initialize_random_of(klass, conditions={})
     })
 
   elsif klass == Participant 
-    # TODO
+    Participant.new({
+      audience: conditions[:audience],
+      person: Person.all.sample,
+      ocupation: Faker::Company.profession
+    })
 
   elsif klass == Person
 
     person = Person.new({
       person_id: Faker::Number.number(8),
       name: "#{Faker::Name.last_name } #{Faker::Name.first_name}",
-      telephone: [nil, Faker::PhoneNumber.phone_number].sample,
+      telephone: [nil, Faker::PhoneNumber.phone_number[0..19]].sample,
       email: Faker::Internet.email,
       country: ['Argentina', GLOBALS::COUNTRIES.sample].sample
     })
-    person.id_type = if person.country == 'Argentina' then ['dni', 'lc', 'le'].sample else person.country end
+    person.id_type = if person.country == 'Argentina' then ['dni', 'lc', 'le'].sample else '' end
     person  
 
   elsif klass == PeopleGroup
@@ -70,8 +122,8 @@ def initialize_random_of(klass, conditions={})
       country: ['Argentina', GLOBALS::COUNTRIES.sample].sample,
       name: Faker::Company.name,
       email: Faker::Internet.email,
-      telephone: [nil, Faker::PhoneNumber.phone_number].sample,
-      description: ['', Faker::Lorem.paragraph].sample
+      telephone: [nil, Faker::PhoneNumber.phone_number[0..19]].sample,
+      description: ['', Faker::Lorem.paragraph[0..199]].sample
     })
 
   elsif klass == StateOrganism
@@ -130,3 +182,6 @@ have_at_least 200, Obligee
 have_at_least 20, AdminAssociation
 have_at_least 200, OperatorAssociation
 have_at_least 100, PeopleGroup
+have_at_least 100, StateOrganism
+have_at_least 100, LegalEntity
+have_at_least 200, Audience, { published: true }
