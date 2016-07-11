@@ -27,9 +27,6 @@ class audiencias.views.SearchForm extends Backbone.View
     if searchText.length > 0
       params.push("q=#{searchText}")
 
-    if @$el.find('#search-old').is(':checked')
-      params.push('buscar-historico=si')
-
     if @dateFromPicker.getDate() and @$el.find('#date-from').val().length > 0
       dateFrom = @dateFromPicker.getMoment().format('DD-MM-YYYY')
       params.push("desde=#{dateFrom}")

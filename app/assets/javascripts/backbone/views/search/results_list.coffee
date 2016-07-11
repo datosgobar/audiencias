@@ -3,18 +3,19 @@ class audiencias.views.ResultsList extends Backbone.View
   template: JST["backbone/templates/search/results_list"]
 
   render: ->
-    @$el.html(@template(
-      linkCreator: @linkCreator
-    ))
+    if audiencias.globals.results.audiences && audiencias.globals.results.audiences.length > 0
+      @$el.html(@template(
+        linkCreator: @linkCreator
+      ))
 
-    for audience in audiencias.globals.results.audiences
-      resultElement = new audiencias.views.Result(audience: audience)
-      resultElement.render()
-      @$el.find('.results-list').append(resultElement.el)
+      for audience in audiencias.globals.results.audiences
+        resultElement = new audiencias.views.Result(audience: audience)
+        resultElement.render()
+        @$el.find('.results-list').append(resultElement.el)
 
-    facets = new audiencias.views.Facets(linkCreator: @linkCreator)
-    facets.render()
-    @$el.find('.facets-container').append(facets.el)
+      facets = new audiencias.views.Facets(linkCreator: @linkCreator)
+      facets.render()
+      @$el.find('.facets-container').append(facets.el)
 
   linkCreator: (newParams) ->
     paramList = []

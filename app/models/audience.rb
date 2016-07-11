@@ -66,7 +66,58 @@ class Audience < ActiveRecord::Base
     }
 
     if options['q']
-      search_options[:query][:filtered][:query] = { match: { "_all" => options['q'] } }
+      if options['buscar-persona'] or options['buscar-pen'] or options['buscar-textos'] or options['buscar-representado']
+        query = { bool: { should: [] }}
+        if options['buscar-persona']
+          query[:bool][:should] << { 
+            multi_match: { 
+              "query" => options['q'],
+              "fields" => [
+                "applicant.person.name",
+                "applicant.person.person_id",
+                "obligee.person.name",
+                "obligee.person.person_id",
+                "participants.person.name",
+                "participants.person.person_id"
+              ]
+            } 
+          }
+        end
+        if options['buscar-pen']
+          query[:bool][:should] << { 
+            match: { 
+              "obligee.dependency.name" => options['q']
+            } 
+          }
+        end
+        if options['buscar-textos']
+          query[:bool][:should] << { 
+            multi_match: { 
+              "query" => options['q'],
+              "fields" => [
+                "summary",
+                "motif"
+              ]
+            } 
+          }
+        end
+        if options['buscar-representado']
+          query[:bool][:should] << { 
+            multi_match: { 
+              "query" => options['q'],
+              "fields" => [
+                "applicant.represented_person.name",
+                "applicant.represented_legal_entity.name",
+                "applicant.represented_state_organism.name",
+                "applicant.represented_people_group.name"
+              ]
+            } 
+          }
+        end
+        search_options[:query][:filtered][:query] = query
+      else
+        search_options[:query][:filtered][:query] = { match: { "_all" => options['q'] } }
+      end
     end
 
     if options['desde'] or options['hasta']
