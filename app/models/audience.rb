@@ -94,6 +94,17 @@ class Audience < ActiveRecord::Base
       }
     end
 
+    if options['pen']
+      search_options[:query][:filtered][:filter][:bool][:must] << { term: { 'dependency.name.raw' => options['pen'] } }
+    else
+      search_options[:aggs][:pen] = {
+        terms: {
+          field: "dependency.name.raw",
+          size: 10
+        }
+      }
+    end
+
     if options['persona']
       search_options[:query][:filtered][:filter][:bool][:must] << { term: { 'people.name.raw' => options['persona'] } }
     else

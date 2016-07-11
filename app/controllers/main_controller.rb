@@ -14,7 +14,7 @@ class MainController < ApplicationController
     search_options = params.permit([
       'buscar-historico', 'buscar-persona', 'buscar-pen', 
       'buscar-textos', 'buscar-representado', 'desde', 
-      'hasta', 'q', 'pagina', 'interes-invocado', 'persona'
+      'hasta', 'q', 'pagina', 'interes-invocado', 'persona', 'pen'
     ])
 
     page = (params[:pagina] || 1).to_i

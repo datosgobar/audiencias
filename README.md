@@ -72,9 +72,7 @@
               "properties": {
                 "name": {
                   "type": "string",
-                  "fields": {
-                    "raw": { "type": "string", "index": "not_analyzed" }
-                  }                       
+                  "copy_to": "dependency.name"
                 }
               }
             }
@@ -98,7 +96,17 @@
               "type": "string",
               "fields": {
                 "raw": { "type": "string", "index": "not_analyzed" }
-              }            
+              }
+            }
+          }
+        },
+        "dependency": {
+          "properties": {
+            "name": {
+              "type": "string",
+              "fields": {
+                "raw": { "type": "string", "index": "not_analyzed" }
+              }
             }
           }
         }

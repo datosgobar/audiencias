@@ -18,6 +18,15 @@ class audiencias.views.Facets extends Backbone.View
         linkCreator: @linkCreator
       ))
 
+    if aggregations.pen or options['pen']
+      @$el.append(@template(
+        title: 'Poder Ejecutivo Nacional'
+        selectedValue: options['pen'],
+        paramName: 'pen',
+        facetList: if aggregations.pen then aggregations.pen.buckets else []
+        linkCreator: @linkCreator
+      ))
+
     if aggregations.interest_invoked or options['interes-invocado']
       @$el.append(@template(
         title: 'Interes Invocado'
