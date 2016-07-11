@@ -5,21 +5,36 @@
     </div>
 
     <% var aggs = audiencias.globals.results.aggregations; %>
+    <% var options = audiencias.globals.results.options;  %>
 
-    <% if (aggs && aggs.interest_invoked) { %>
+    <% if (aggs && aggs.interest_invoked || options['interes-invocado']) { %>
       <div class="facet-section">
         <div class="facet-title">Interés Invocado</div>
-        <% for (var i=0; i<aggs.interest_invoked.buckets.length; i++) { %>
-          <% var facet = aggs.interest_invoked.buckets[i]; %>
-          <a href="<%= linkCreator({'interes-invocado': facet.key, pagina: null}) %>">
-            <div class="facet">
-              <%= facet.key %>
+
+        <% if (options['interes-invocado']) { %>
+          <a href="<%= linkCreator({'interes-invocado': null, pagina: null}) %>">
+            <div class="facet selected">
+              <%= options['interes-invocado'] %>
               <div class="facet-value">
-                <%= facet.doc_count %>
+                <i class="fa fa-times" aria-hidden="true"></i>
               </div>
             </div>
-          </a>
+          </a>          
+        <% } else { %>
+          <% for (var i=0; i<aggs.interest_invoked.buckets.length; i++) { %>
+            <% var facet = aggs.interest_invoked.buckets[i]; %>
+            <a href="<%= linkCreator({'interes-invocado': facet.key, pagina: null}) %>">
+              <div class="facet">
+                <%= facet.key %>
+                <div class="facet-value">
+                  <%= facet.doc_count %>
+                </div>
+              </div>
+            </a>
+          <% } %>
         <% } %>
+
+
       </div>
     <% } %>
 

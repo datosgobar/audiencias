@@ -28,6 +28,12 @@
       .facet {
         position: relative;
         padding: 5px;
+        @include border-radius(4px);
+
+        &.selected, &.selected:hover {
+          background: $grey-400;
+          color: white;
+        }
 
         &:hover {
           background: $grey-200;
@@ -36,7 +42,7 @@
         .facet-value {
           position: absolute; 
           right: 5px;
-          top: 5px;
+          top: 6px;
           color: white;
           font-size: 12px;
           background: $grey-400;

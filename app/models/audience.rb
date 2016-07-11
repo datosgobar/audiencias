@@ -68,12 +68,6 @@ class Audience < ActiveRecord::Base
             field: 'people.name.raw',
             size: 10
           }
-        },
-        interest_invoked: {
-          terms: {
-            field: 'interest_invoked',
-            size: 3
-          }
         }
       }
     }
@@ -98,6 +92,13 @@ class Audience < ActiveRecord::Base
 
     if options['interes-invocado']
       search_options[:query][:filtered][:filter][:bool][:must] << { term: { 'interest_invoked' => options['interes-invocado'] } }
+    else
+      search_options[:aggs][:interest_invoked] = {
+        terms: {
+          field: 'interest_invoked',
+          size: 3
+        }
+      }
     end
 
     self.search(search_options)
