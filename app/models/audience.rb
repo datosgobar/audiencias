@@ -65,8 +65,8 @@ class Audience < ActiveRecord::Base
       aggs: {}
     }
 
-    if options[:aggs]
-      if options[:aggs].include?(:people)
+    if options['aggs']
+      if options['aggs'].include?('people')
         search_options[:aggs][:people] = {
           terms: {
             field: 'people.name.raw',
@@ -74,20 +74,27 @@ class Audience < ActiveRecord::Base
           }
         }
       end
-      if options[:aggs].include?(:dependencies)
+      if options['aggs'].include?('dependencies')
       end
-      if options[:aggs].include?(:representation)
+      if options['aggs'].include?('representation')
       end
     end
 
-    if options[:query]
-      search_options[:query][:filtered][:query] = { match: { "_all" => options[:query] } }
+    if options['q']
+      search_options[:query][:filtered][:query] = { match: { "_all" => options['q'] } }
     end
 
-    if options[:from] or options[:to]
+    if options['desde'] or options['hasta']
       date_filter = { range: { date: {} } }
-      date_filter[:range][:date]["gte"] = options[:from] if options[:from]
-      date_filter[:range][:date]["lte"] = options[:to] if options[:to]
+      
+      if options['desde']
+        fromDate = Date.parse(options['desde'], "%d-%m-%Y").iso8601()
+        date_filter[:range][:date]["gte"] = fromDate 
+      end
+      if options['hasta']
+        toDate = Date.parse(options['hasta'], "%d-%m-%Y").iso8601()
+        date_filter[:range][:date]["lte"] = toDate
+      end
       search_options[:query][:filtered][:filter][:bool][:must] << date_filter
     end
 

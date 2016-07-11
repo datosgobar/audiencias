@@ -11,8 +11,8 @@ class audiencias.views.SearchForm extends Backbone.View
 
     if audiencias.globals.results
       searchOptions = if audiencias.globals.results then audiencias.globals.results.options else {}
-      dateFrom = if searchOptions.from then moment(searchOptions.from) else null
-      dateTo = if searchOptions.to then moment(searchOptions.to) else null
+      dateFrom = if searchOptions.desde then moment(searchOptions.desde, 'DD-MM-YYYY') else null
+      dateTo = if searchOptions.hasta then moment(searchOptions.hasta, 'DD-MM-YYYY') else null
       
     @dateFromPicker = @setDatepicker('#date-from', dateFrom)
     @dateToPicker = @setDatepicker('#date-to', dateTo)

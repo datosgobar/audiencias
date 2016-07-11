@@ -2,5 +2,40 @@
   <div class="facets-container">
     NAVEGACIÓN
   </div>
-  <div class="results-list"></div>
+  <div class="results-container">
+    <div class="results-list"></div>
+    <div class="results-pagination">
+      <% var results = audiencias.globals.results; %>
+      <% if (results.total_pages > 1) { %>
+
+        <% var current_page = results.current_page %>
+        <% var total_pages = results.total_pages %>
+        <% var minPage = current_page - 4 > 1 ? current_page - 4 : 1%>
+        <% var maxPage = current_page + 5 <= total_pages ? current_page + 5 : total_pages + 1 %>
+        
+        <% if (minPage > 1) { %>
+          <a href="<%= linkCreator(1) %>">
+            <span class="pagination-link">«</span>
+          </a>
+        <% } %>
+        
+        <% for (var i=minPage; i<maxPage; i++) { %>
+          <% if (i != current_page) { %>
+            <a href="<%= linkCreator(i) %>">
+              <span class="pagination-link"><%= i %></span>
+            </a>
+          <% } else { %>
+            <span class="pagination-link current-page"><%= i %></span>
+          <% } %>
+        <% } %>
+
+        <% if (maxPage < total_pages) { %>
+          <a href="<%= linkCreator(total_pages) %>">
+            <span class="pagination-link">»</span>
+          </a>
+        <% } %>
+
+      <% } %>
+    </div>
+  </div>
 </div>

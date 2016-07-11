@@ -7,12 +7,12 @@
 <div class="search-form">
 
   <div class="search-input">
-    <% var searchValue = searchOptions ? searchOptions.query : '' %>
+    <% var searchValue = searchOptions ? searchOptions.q : '' %>
     <input type="text" id="search-text" placeholder="Introduzca su busqueda" value="<%= searchValue %>">
     <button class="green" id="submit-search">BUSCAR</button>
   </div>
 
-  <% var advanceSearch = searchOptions ? !!(searchOptions.from || searchOptions.to || searchOptions.person || searchOptions.dependency || searchOptions.represented || searchOptions.texts) : false  %>
+  <% var advanceSearch = searchOptions ? !!(searchOptions.desde || searchOptions.hasta || searchOptions['buscar-persona'] || searchOptions['buscar-pen'] || searchOptions['buscar-representado'] || searchOptions['buscar-textos']) : false  %>
   <div class="advance-search-container">
     <input type="checkbox" id="show-advance-search" <%= advanceSearch ? 'checked' : '' %>>
     <label class="show-advance-search-label" for="show-advance-search">
@@ -20,7 +20,7 @@
       Busqueda avanzada
     </label>
 
-    <% var historicSearch = searchOptions ? searchOptions.historic : false %>
+    <% var historicSearch = searchOptions ? searchOptions['buscar-historico'] : false %>
     <input type="checkbox" id="search-old" <%= historicSearch ? 'checked' : '' %>>
     <label class="search-old-label" for="search-old">
       <i class="fa fa-square-o" aria-hidden="true"></i>
@@ -33,8 +33,6 @@
         <div class="search-description">
           Fecha especifica o rango
         </div>
-        <% var date_from = searchOptions ? searchOptions.from : null %>
-        <% var date_to = searchOptions ? searchOptions.to : null %>
         <input type="text" id="date-from" placeholder="Desde" class="date-input">
         <input type="text" id="date-to" placeholder="Hasta" class="date-input">
         <img src="/assets/icon-calendar.svg" class="calendar-icon">
@@ -47,7 +45,7 @@
         <div class="table">
           <div class="table-row">
             <div class="table-cell">
-              <input type="checkbox" id="search-person" <%= searchOptions && searchOptions.person ? 'checked' : '' %>>
+              <input type="checkbox" id="search-person" <%= searchOptions && searchOptions['buscar-persona'] ? 'checked' : '' %>>
               <label for="search-person">
                 <i class="fa fa-square-o" aria-hidden="true"></i>
                 <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -56,7 +54,7 @@
             </div>
 
             <div class="table-cell">
-              <input type="checkbox" id="search-dependencies" <%= searchOptions && searchOptions.dependency ? 'checked' : '' %>> 
+              <input type="checkbox" id="search-dependencies" <%= searchOptions && searchOptions['buscar-pen'] ? 'checked' : '' %>> 
               <label for="search-dependencies">
                 <i class="fa fa-square-o" aria-hidden="true"></i>
                 <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -67,7 +65,7 @@
 
           <div class="table-row">
             <div class="table-cell">
-              <input type="checkbox" id="search-representation" <%= searchOptions && searchOptions.represented ? 'checked' : '' %>>
+              <input type="checkbox" id="search-representation" <%= searchOptions && searchOptions['buscar-representado'] ? 'checked' : '' %>>
               <label for="search-representation">
                 <i class="fa fa-square-o" aria-hidden="true"></i>
                 <i class="fa fa-check-square-o" aria-hidden="true"></i>
@@ -76,7 +74,7 @@
             </div>
 
             <div class="table-cell">
-              <input type="checkbox" id="search-summary" <%= searchOptions && searchOptions.texts ? 'checked' : '' %>>
+              <input type="checkbox" id="search-summary" <%= searchOptions && searchOptions['buscar-textos'] ? 'checked' : '' %>>
               <label for="search-summary">
                 <i class="fa fa-square-o" aria-hidden="true"></i>
                 <i class="fa fa-check-square-o" aria-hidden="true"></i>

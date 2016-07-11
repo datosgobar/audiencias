@@ -3,7 +3,13 @@
   .facets-container {
     @include span-columns(3 of 10);
   }
-  .results-list {
+  .results-container {
     @include span-columns(7 of 10);
+    
+    .results-pagination {
+      padding: 20px 0;
+      text-align: center;
+    }
+
   }
 }
