@@ -70,5 +70,8 @@ group :development, :test do
 
   # https://github.com/ryanb/letter_opener
   gem "letter_opener"
+
+  # https://github.com/stympy/faker
+  gem 'faker'
 end
 
