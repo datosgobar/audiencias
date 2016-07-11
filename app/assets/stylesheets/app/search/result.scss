@@ -1,4 +1,5 @@
-#searcher .results-list .result-el {
+.results-list .result-el,
+.single-audience.full-result .result-el {
   padding: 10px;
   background: white;
   @include border-radius(4px);
@@ -64,7 +65,7 @@
 
 }
 
-#searcher .results-list .full-result {
+.single-audience.full-result {
   position: fixed;
   z-index: 20;
   width: 100%;
@@ -93,6 +94,8 @@
     z-index: 2;
     max-width: 800px;
     margin: auto;
+    max-height: 70%;
+    overflow: auto;
 
     &:hover {
       border-right: solid 5px $grey-300;

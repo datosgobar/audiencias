@@ -3,6 +3,15 @@ class MainController < ApplicationController
   def home
   end
 
+  def audience
+    @audience = Audience.find_by_id(params[:id])
+    if @audience    
+      render :home
+    else
+      redirect_to '/404'  
+    end
+  end
+
   def search
     @search_results = search_audiences
     render :home

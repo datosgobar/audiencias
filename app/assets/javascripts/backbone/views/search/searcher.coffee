@@ -26,3 +26,9 @@ class audiencias.views.Searcher extends Backbone.View
       shortcuts = new audiencias.views.SearchShortcuts
       shortcuts.render()
       @$el.find('.with-external-footer').append(shortcuts.el)
+  
+      if audiencias.globals.singleAudience 
+        console.log('asd')
+        fullResult = new audiencias.views.FullResult(audience: audiencias.globals.singleAudience)
+        fullResult.render()
+        $('body').append(fullResult.el)

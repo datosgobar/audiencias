@@ -14,5 +14,11 @@ class audiencias.views.Result extends Backbone.View
 
   showFullResult: =>
     fullResult = new audiencias.views.FullResult(audience: @audience)
-    fullResult.render()
-    @$el.after(fullResult.el)
+    if window.history and history.pushState
+      fullResult.render()
+      @$el.after(fullResult.el)
+      title = $(document).find("title").text()
+      history.replaceState({}, title, fullResult.audienceUrl)
+    else
+      window.location.href = fullResult.audienceUrl;
+
