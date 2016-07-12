@@ -46,67 +46,82 @@
   "mappings": {
     "audience": {
       "properties": {
-        "applicant": {
+        "_people": {
+          "type": "nested",
+          "include_in_parent": true,
           "properties": {
-            "person": {
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "copy_to": "people.name"
-                }
-              }
-            }
-          }
-        },
-        "obligee": {
-          "properties": {
-            "person": {
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "copy_to": "people.name"
-                }
-              }
+            "name": {
+              "type": "string",
+              "index": "not_analyzed"
             },
-            "dependency": {
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "copy_to": "dependency.name"
-                }
-              }
+            "id": {
+              "type": "integer"
             }
           }
         },
-        "participants": {
-          "properties": {
-            "person": {
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "copy_to": "people.name"
-                }
-              }
-            }
-          }
-        },
-        "people": {
+        "_dependency": {
+          "type": "nested",
+          "include_in_parent": true,
           "properties": {
             "name": {
               "type": "string",
-              "fields": {
-                "raw": { "type": "string", "index": "not_analyzed" }
-              }
+              "index": "not_analyzed"
+            },
+            "id": {
+              "type": "integer"
             }
           }
         },
-        "dependency": {
+        "_represented_entity": {
+          "type": "nested",
+          "include_in_parent": true,
           "properties": {
             "name": {
               "type": "string",
-              "fields": {
-                "raw": { "type": "string", "index": "not_analyzed" }
-              }
+              "index": "not_analyzed"
+            },
+            "id": {
+              "type": "integer"
+            }
+          }
+        },
+        "_represented_organism": {
+          "type": "nested",
+          "include_in_parent": true,
+          "properties": {
+            "name": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "id": {
+              "type": "integer"
+            }
+          }
+        },
+        "_represented_group": {
+          "type": "nested",
+          "include_in_parent": true,
+          "properties": {
+            "name": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "id": {
+              "type": "integer"
+            }
+          }
+        },
+        "_interest_invoked": {
+          "type": "nested",
+          "include_in_parent": true,
+          "properties": {
+            "name": {
+              "type": "string",
+              "index": "not_analyzed"
+            },
+            "id": {
+              "type": "string",
+              "index": "not_analyzed"
             }
           }
         }
