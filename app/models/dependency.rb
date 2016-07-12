@@ -42,14 +42,18 @@ class Dependency < ActiveRecord::Base
   end
 
   def as_json(options={})
-    json = super({
-      only: [:id, :name, :active, :parent_id],
-      include: { 
-        users: { only: [:id] },
-        obligee: Obligee::AS_JSON_OPTIONS,
-        direct_sub_dependencies: { only: [:id] }
-      }
-    })
+    if options[:minimal]
+      super({ only: [:id, :name] })
+    else
+      json = super({
+        only: [:id, :name, :active, :parent_id],
+        include: { 
+          users: { only: [:id] },
+          obligee: Obligee::AS_JSON_OPTIONS,
+          direct_sub_dependencies: { only: [:id] }
+        }
+      })
+    end
   end
 
   def is_sub_dependency_of(dependencies)

@@ -17,4 +17,11 @@ class PeopleGroup < ActiveRecord::Base
   AS_PUBLIC_JSON_OPTIONS = {
     only: [:country, :name, :description]
   }
+  def as_json(options={})
+    if options[:minimal]
+      super({ only: [:id, :name] })
+    else
+      super(options)
+    end
+  end
 end

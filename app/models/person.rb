@@ -49,7 +49,11 @@ class Person < ActiveRecord::Base
     only: [:email, :id, :id_type, :name, :person_id]
   }
   def as_json(options={})
-    super(AS_JSON_OPTIONS)
+    if options[:minimal]
+      super({ only: [:id, :name] })
+    else
+      super(AS_JSON_OPTIONS)
+    end
   end
 
   def update_minor_attributes(new_attr)

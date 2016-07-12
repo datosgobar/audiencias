@@ -16,14 +16,14 @@ class Obligee < ActiveRecord::Base
     include: [
       { person: Person::MINIMAL_JSON_OPTIONS }, 
       { users: { only: [:id] } }, 
-      { dependency: { only: [:name, :active]} }
+      { dependency: { only: [:name, :active, :id]} }
     ]
   }
   AS_PUBLIC_JSON_OPTIONS = {
     only: [:id, :active, :position],
     include: [
       { person: Person::AS_PUBLIC_JSON_OPTIONS },
-      { dependency: { only: [:name, :active]} }
+      { dependency: { only: [:name, :active, :id]} }
     ]
   }
   def as_json(options={})

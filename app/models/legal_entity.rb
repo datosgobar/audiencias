@@ -21,7 +21,11 @@ class LegalEntity < ActiveRecord::Base
     only: [:id, :country, :name, :cuit]
   }
   def as_json(options={})
-    super(AS_JSON_OPTIONS)
+    if options[:minimal]
+      super({ only: [:id, :name] })
+    else
+      super(AS_JSON_OPTIONS)
+    end
   end
 
 end

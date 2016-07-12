@@ -47,7 +47,30 @@ class Audience < ActiveRecord::Base
     end
   end
 
-  def self.public_search(options={})
+  def as_indexed_json(options={})
+    json = self.as_json
+    json['_people'] = self.people.as_json(minimal: true)
+    json['_dependency'] = self.obligee.dependency.as_json(minimal: true)
+    if self.applicant
+      a = self.applicant
+      json['_represented_entity'] = a.represented_legal_entity.as_json(minimal: true) if a.represented_legal_entity
+      json['_represented_organism'] = a.represented_legal_entity.as_json(minimal: true) if a.represented_legal_entity
+      json['_represented_group'] = a.represented_legal_entity.as_json(minimal: true) if a.represented_legal_entity
+    end
+    json['_interest_invoked'] = { 'id' => interest_invoked, 'name' => if interest_invoked then interest_invoked.titleize else nil end }
+    json
+  end
+
+  def people
+    p = []
+    p << self.obligee.person if self.obligee
+    p << self.applicant.person if self.applicant
+    p << self.applicant.represented_person if self.applicant and self.applicant.represented_person
+    self.participants.each { |participant| p << participant.person }
+    p
+  end
+
+  def self.search_options(options={})
     search_options = {
       sort: { date: :desc },
       query: {

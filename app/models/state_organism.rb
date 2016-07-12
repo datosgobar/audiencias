@@ -11,4 +11,11 @@ class StateOrganism < ActiveRecord::Base
   AS_PUBLIC_JSON_OPTIONS = {
     only: [:id, :country, :name]
   }
+  def as_json(options={})
+    if options[:minimal]
+      super({ only: [:id, :name] })
+    else
+      super(options)
+    end
+  end
 end
