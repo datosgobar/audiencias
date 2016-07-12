@@ -15,11 +15,14 @@
       <p class="obligee-position small-font">
         <%= audience.obligee.position.toUpperCase() %>
       </p>
+      <p class="obligee-dependency small-font">
+        <%= audience.obligee.dependency.name %>
+      </p>
       <p class="obligee-country space-up small-font">
         <%= audience.obligee.person.country %>
       </p>
       <p class="obligee-id small-font">
-        <%= audience.obligee.person.id_type.toUpperCase() %>
+        <%= audience.obligee.person.country == 'Argentina' ? audience.obligee.person.id_type.toUpperCase() : 'ID' %>
         <%= audience.obligee.person.person_id %>
       </p>
     </div>
@@ -34,7 +37,7 @@
         <%= audience.applicant.person.country %>
       </p>
       <p class="applicant-id small-font">
-        <%= audience.applicant.person.id_type.toUpperCase() %>
+        <%= audience.applicant.person.country == 'Argentina' ? audience.applicant.person.id_type.toUpperCase() : 'ID' %>
         <%= audience.applicant.person.person_id %>
       </p>
       <p class="applicant-participation small-font">
@@ -49,7 +52,7 @@
           <%= audience.applicant.represented_person.country %>
         </p>
         <p class="represented-id small-font">
-          <%= audience.applicant.represented_person.id_type.toUpperCase() %>
+          <%= audience.applicant.represented_person.country == 'Argentina' ? audience.applicant.represented_person.id_type.toUpperCase() : 'ID' %>
           <%= audience.applicant.represented_person.person_id %>
         </p>
 
@@ -57,7 +60,9 @@
         <p class="representation-type big-space-up small-font">EN REPRESENTACIÓN</p>
         <p class="representation-type small-font">PERSONA JURÍDICA</p>
         <p class="represented-name bold"><%= audience.applicant.represented_legal_entity.name %></p>
-        <p class="represented-id small-font space-up">CUIT <%= audience.applicant.represented_legal_entity.cuit %></p>
+        <% if (audience.applicant.represented_legal_entity.country == 'Argentina') { %>
+          <p class="represented-id small-font space-up">CUIT <%= audience.applicant.represented_legal_entity.cuit %></p>
+        <% } %>
 
       <% } else if (audience.applicant.represented_state_organism) { %>
         <p class="representation-type big-space-up small-font">EN REPRESENTACIÓN</p>
@@ -86,7 +91,7 @@
             <%= participant.person.country %>
           </p>
           <p class="participant-id small-font">
-            <%= participant.person.id_type.toUpperCase() %>
+            <%= participant.person.country == 'Argentina' ? participant.person.id_type.toUpperCase() : 'ID' %>
             <%= participant.person.person_id %>
           </p>
         </div>

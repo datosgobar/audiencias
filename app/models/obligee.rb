@@ -21,7 +21,10 @@ class Obligee < ActiveRecord::Base
   }
   AS_PUBLIC_JSON_OPTIONS = {
     only: [:id, :active, :position],
-    include: [{ person: Person::AS_PUBLIC_JSON_OPTIONS }]
+    include: [
+      { person: Person::AS_PUBLIC_JSON_OPTIONS },
+      { dependency: { only: [:name, :active]} }
+    ]
   }
   def as_json(options={})
     super(AS_JSON_OPTIONS)
