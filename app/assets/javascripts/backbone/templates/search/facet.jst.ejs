@@ -24,7 +24,7 @@
       <a href="<%= linkCreator(linkParams) %>">
         <div class="facet">
           <div class="facet-name">
-            <%= facet.key %>
+            <%= facet.name.buckets[0].key %>
           </div>
           <div class="facet-value">
             <%= facet.doc_count %>
