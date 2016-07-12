@@ -23,5 +23,5 @@ class audiencias.views.ResultsList extends Backbone.View
     searchOptions = $.extend(searchOptions, newParams)
     for key of searchOptions
       paramList.push("#{key}=#{searchOptions[key]}") if searchOptions[key]
-    params = paramList.join('&')
-    "/buscar?#{params}"
+    params = if paramList.length > 0 then '?' + paramList.join('&') else ''
+    "/buscar#{params}"

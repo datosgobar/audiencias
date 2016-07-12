@@ -1,44 +1,63 @@
 class audiencias.views.Facets extends Backbone.View
   template: JST["backbone/templates/search/facet"]
+  representationTemplate: JST["backbone/templates/search/facet_representation"]
   className: 'facets'
   events: 
     'click .expand-facet-list': 'expandFacetList'
     'click .collapse-facet-list': 'collapseFacetList'
+    'click .facet-group-name': 'toggleFacetGroup'
 
   initialize: (options) ->
     @linkCreator = options.linkCreator
 
   render: ->
     aggregations = audiencias.globals.results.aggregations || {}
-    options = audiencias.globals.results.options || {}
     selected = audiencias.globals.results.selected_values || {}
 
-    if aggregations['_people'] or options['persona']
-      @$el.append(@template(
-        title: 'Personas'
-        selectedValue: selected['person'],
-        paramName: 'persona',
-        facetList: if aggregations['_people'] then aggregations['_people'].ids.buckets else []
-        linkCreator: @linkCreator
-      ))
+    @$el.append(@template(
+      title: 'Personas'
+      selectedValue: selected['person'],
+      paramName: 'persona',
+      facetList: aggregations['_people']
+      linkCreator: @linkCreator
+    ))
 
-    if aggregations['_dependency'] or options['pen']
-      @$el.append(@template(
-        title: 'Poder Ejecutivo Nacional'
-        selectedValue: selected['dependency'],
-        paramName: 'pen',
-        facetList: if aggregations['_dependency'] then aggregations['_dependency'].ids.buckets else []
-        linkCreator: @linkCreator
-      ))
+    @$el.append(@template(
+      title: 'Poder Ejecutivo Nacional'
+      selectedValue: selected['dependency'],
+      paramName: 'pen',
+      facetList: aggregations['_dependency']
+      linkCreator: @linkCreator
+    ))
 
-    if aggregations['_interest_invoked'] or options['interes-invocado']
-      @$el.append(@template(
-        title: 'Interes Invocado'
-        selectedValue: selected['interest_invoked'],
-        paramName: 'interes-invocado',
-        facetList: if aggregations['_interest_invoked'] then aggregations['_interest_invoked'].ids.buckets else []
-        linkCreator: @linkCreator
-      ))
+    @$el.append(@representationTemplate(
+      title: 'En representación'
+      aggregations: [{ 
+        facetList: aggregations['_represented_organism'], 
+        selected: selected['organism'], 
+        paramName: 'organismo-estatal',
+        name: 'Organismo Estatal'
+      }, { 
+        facetList: aggregations['_represented_group'], 
+        selected: selected['group'], 
+        paramName: 'grupo-de-personas',
+        name: 'Grupo de personas'
+      }, { 
+        facetList: aggregations['_represented_entity'], 
+        selected: selected['entity'], 
+        paramName: 'persona-juridica',
+        name: 'Personas Jurídicas'
+      }],
+      linkCreator: @linkCreator
+    ))
+
+    @$el.append(@template(
+      title: 'Interes Invocado'
+      selectedValue: selected['interest_invoked'],
+      paramName: 'interes-invocado',
+      facetList: aggregations['_interest_invoked']
+      linkCreator: @linkCreator
+    ))
     
   expandFacetList: (e) =>
     target = $(e.currentTarget)
@@ -54,3 +73,8 @@ class audiencias.views.Facets extends Backbone.View
     facetList = target.siblings('.facet-list')
     facetList.addClass('hidden')
     facetList.first().removeClass('hidden')
+
+  toggleFacetGroup: (e) =>
+    target = $(e.currentTarget)
+    target.find('i').toggleClass('hidden')
+    target.siblings('.facet-group').toggleClass('hidden')

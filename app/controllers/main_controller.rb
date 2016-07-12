@@ -22,7 +22,8 @@ class MainController < ApplicationController
   def search_audiences 
     search_options = params.permit([
       'buscar-persona', 'buscar-pen', 'buscar-textos', 'buscar-representado', 
-      'desde', 'hasta', 'q', 'pagina', 'interes-invocado', 'persona', 'pen'
+      'desde', 'hasta', 'q', 'pagina', 'interes-invocado', 'persona', 'pen',
+      'organismo-estatal', 'grupo-de-personas', 'persona-juridica'
     ])
 
     selected = {}
@@ -36,6 +37,18 @@ class MainController < ApplicationController
     if search_options.include?('pen')
       dependency = Dependency.find_by_id(search_options['pen'])
       selected['dependency'] = dependency.name if dependency
+    end
+    if search_options.include?('organismo-estatal')
+      organism = StateOrganism.find_by_id(search_options['organismo-estatal'])
+      selected['organism'] = organism.name if organism
+    end
+    if search_options.include?('grupo-de-personas')
+      people_group = PeopleGroup.find_by_id(search_options['grupo-de-personas'])
+      selected['group'] = people_group.name if people_group
+    end
+    if search_options.include?('persona-juridica')
+      legal_entity = LegalEntity.find_by_id(search_options['persona-juridica'])
+      selected['entity'] = legal_entity.name if legal_entity
     end
 
     page = (params[:pagina] || 1).to_i

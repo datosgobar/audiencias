@@ -56,12 +56,24 @@
         }
       }
       .expand-facet-list,
-      .collapse-facet-list {
+      .collapse-facet-list, 
+      .facet-group-name {
         padding: 5px 60px 5px 5px;
         color: $blue-300;
         cursor: pointer;
         &:hover {
           background: $grey-200;
+        }
+      }
+      .facet-group-name {
+        font-weight: 500;
+        position: relative;
+        i {
+          position: absolute;
+          right: 8px;
+          top: 50%;
+          font-size: 17px;
+          margin-top: -9px;
         }
       }
     }

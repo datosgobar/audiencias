@@ -54,8 +54,8 @@ class Audience < ActiveRecord::Base
     if self.applicant
       a = self.applicant
       json['_represented_entity'] = a.represented_legal_entity.as_json(minimal: true) if a.represented_legal_entity
-      json['_represented_organism'] = a.represented_legal_entity.as_json(minimal: true) if a.represented_legal_entity
-      json['_represented_group'] = a.represented_legal_entity.as_json(minimal: true) if a.represented_legal_entity
+      json['_represented_organism'] = a.represented_state_organism.as_json(minimal: true) if a.represented_state_organism
+      json['_represented_group'] = a.represented_people_group.as_json(minimal: true) if a.represented_people_group
     end
     json['_interest_invoked'] = { 'id' => interest_invoked, 'name' => if interest_invoked then interest_invoked.titleize else nil end }
     json
