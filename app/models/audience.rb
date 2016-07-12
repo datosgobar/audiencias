@@ -157,40 +157,46 @@ class Audience < ActiveRecord::Base
       search_options[:query][:filtered][:filter][:bool][:must] << date_filter
     end
 
-    if options['interes-invocado']
-      search_options[:query][:filtered][:filter][:bool][:must] << { term: { 'interest_invoked' => options['interes-invocado'] } }
-    else
-      search_options[:aggs][:interest_invoked] = {
-        terms: {
-          field: 'interest_invoked',
-          size: 3
+    aliases = HashWithIndifferentAccess.new({
+      'persona' => '_people',
+      'pen' => '_dependency',
+      'interes-invocado' => '_interest_invoked',
+      'persona-juridica' => '_represented_entity',
+      'grupo-de-personas' => '_represented_group',
+      'organismo-estatal' => '_represented_organism'
+    })
+    aliases.each do |k, v|
+      if options[k]
+        filter = { term: { "#{v}.id" => options[k] } }
+        search_options[:query][:filtered][:filter][:bool][:must] << filter
+      else
+        search_options[:aggs][v] = {
+          nested: {
+            path: v
+          },
+          aggs: {
+            ids: {
+              terms: {
+                field: "#{v}.id",
+                size: 10
+              },
+              aggs: {
+                name: {
+                  terms: {
+                    field: "#{v}.name"
+                  }
+                }
+              }  
+            }
+          }
         }
-      }
+      end
     end
+    search_options
+  end
 
-    if options['pen']
-      search_options[:query][:filtered][:filter][:bool][:must] << { term: { 'dependency.name.raw' => options['pen'] } }
-    else
-      search_options[:aggs][:pen] = {
-        terms: {
-          field: "dependency.name.raw",
-          size: 10
-        }
-      }
-    end
-
-    if options['persona']
-      search_options[:query][:filtered][:filter][:bool][:must] << { term: { 'people.name.raw' => options['persona'] } }
-    else
-      search_options[:aggs][:people] = {
-        terms: {
-          field: 'people.name.raw',
-          size: 10
-        }
-      }
-    end
-
-    self.search(search_options)
+  def self.public_search(options={})
+    self.search(search_options(options))
   end
 
   def self.operator_search(query, person_id) 
