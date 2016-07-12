@@ -27,6 +27,18 @@ class audiencias.views.SearchForm extends Backbone.View
     if searchText.length > 0
       params.push("q=#{searchText}")
 
+      if @$el.find('#search-person').is(':checked')
+        params.push('buscar-persona=si')
+
+      if @$el.find('#search-dependencies').is(':checked')
+        params.push('buscar-pen=si')
+
+      if @$el.find('#search-representation').is(':checked')
+        params.push('buscar-representado=si')
+
+      if @$el.find('#search-summary').is(':checked')
+        params.push('buscar-textos=si')
+
     if @dateFromPicker.getDate() and @$el.find('#date-from').val().length > 0
       dateFrom = @dateFromPicker.getMoment().format('DD-MM-YYYY')
       params.push("desde=#{dateFrom}")
@@ -34,18 +46,6 @@ class audiencias.views.SearchForm extends Backbone.View
     if @dateToPicker.getDate() and @$el.find('#date-to').val().length > 0
       dateTo = @dateToPicker.getMoment().format('DD-MM-YYYY')
       params.push("hasta=#{dateTo}")
-
-    if @$el.find('#search-person').is(':checked')
-      params.push('buscar-persona=si')
-
-    if @$el.find('#search-dependencies').is(':checked')
-      params.push('buscar-pen=si')
-
-    if @$el.find('#search-representation').is(':checked')
-      params.push('buscar-representado=si')
-
-    if @$el.find('#search-summary').is(':checked')
-      params.push('buscar-textos=si')
     
     searchParams = if params.length > 0 then "?#{params.join('&')}" else ''
 
