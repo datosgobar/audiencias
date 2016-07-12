@@ -178,7 +178,7 @@ class Audience < ActiveRecord::Base
             ids: {
               terms: {
                 field: "#{v}.id",
-                size: 10
+                size: 50
               },
               aggs: {
                 name: {

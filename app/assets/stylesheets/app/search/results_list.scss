@@ -55,6 +55,15 @@
           @include border-radius(50%);
         }
       }
+      .expand-facet-list,
+      .collapse-facet-list {
+        padding: 5px 60px 5px 5px;
+        color: $blue-300;
+        cursor: pointer;
+        &:hover {
+          background: $grey-200;
+        }
+      }
     }
   }
   .results-container {

@@ -16,22 +16,30 @@
     </a>
 
   <% } else { %>
-
-    <% for (var i=0; i<facetList.length; i++) { %>
-      <% var facet = facetList[i]; %>
-      <% var linkParams = { pagina: null };%>
-      <% linkParams[paramName] = facet.key %>
-      <a href="<%= linkCreator(linkParams) %>">
-        <div class="facet">
-          <div class="facet-name">
-            <%= facet.name.buckets[0].key %>
+    <% for (var m=0; m<facetList.length; m+=10) { %>
+      <div class="facet-list <%= m > 0 ? 'hidden' : '' %>">
+      <% for (var i=m; i<Math.min(m+10, facetList.length); i++) { %>
+        <% var facet = facetList[i]; %>
+        <% var linkParams = { pagina: null };%>
+        <% linkParams[paramName] = facet.key %>
+        <a href="<%= linkCreator(linkParams) %>">
+          <div class="facet">
+            <div class="facet-name">
+              <%= facet.name.buckets[0].key %>
+            </div>
+            <div class="facet-value">
+              <%= facet.doc_count %>
+            </div>
           </div>
-          <div class="facet-value">
-            <%= facet.doc_count %>
-          </div>
-        </div>
-      </a>
+        </a>
+      <% } %>
+      </div>
     <% } %>
-
+    <div class="expand-facet-list">
+      Ver mas...
+    </div>
+    <div class="collapse-facet-list hidden">
+      Ver menos...
+    </div>
   <% } %>
 </div>
