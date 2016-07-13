@@ -1,16 +1,23 @@
 class audiencias.views.Result extends Backbone.View
   className: 'result-el'
   template: JST["backbone/templates/search/result"]
+  historicTemplate: JST["backbone/templates/search/result_historic"]
   events:
     'click': 'showFullResult'
 
   initialize: (options) ->
     @audience = options.audience
+    @historicFlag = options.historic
 
   render: ->
-    @$el.html(@template(
-      audience: @audience 
-    ))
+    if @historicFlag
+      @$el.html(@historicTemplate(
+        audience: @audience
+      ))
+    else
+      @$el.html(@template(
+        audience: @audience 
+      ))
 
   showFullResult: =>
     fullResult = new audiencias.views.FullResult(audience: @audience)

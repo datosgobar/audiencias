@@ -6,7 +6,13 @@
 
   </div>
   <div class="results-container">
-    <div class="results-list"></div>
+    <div class="results-list">
+      <% if (viewingHistoric) { %>
+        <div class="historic-disclaimer">
+          Por razones de compatibilidad entre la tecnología utilizada en el sistema anterior (desarrollado en el año 2008) y la utilizada en el nuevo sistema vigente, encontrarás diferencias en la forma en la que son mostrados los resultados. Se ha respetado el formato de los datos del sistema anterior por el carácter de declaración jurada de la información consignada.
+        </div>
+      <% } %>
+    </div>
     <div class="pagination">
       <% if (totalPages > 1) { %>
 

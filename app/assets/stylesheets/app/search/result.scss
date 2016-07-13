@@ -21,6 +21,7 @@
   .table {
     display: table;
     width: 100%;
+    table-layout: fixed;
   }
   .table-row {
     display: table-row;
@@ -37,6 +38,8 @@
 
   p {
     margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .bold {

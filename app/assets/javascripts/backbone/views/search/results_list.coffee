@@ -6,28 +6,26 @@ class audiencias.views.ResultsList extends Backbone.View
     @linkCreator = options.linkCreator
 
   render: ->
-    viewingHistoric = audiencias.globals.results.options.historico
 
-    if viewingHistoric and audiencias.globals.results.old_audiences.records.length > 0
+    viewingHistoric = !!audiencias.globals.results.options.historico
+    currentPage = audiencias.globals.results.current_page
+    if viewingHistoric
+      records = audiencias.globals.results.old_audiences.records
+      totalPages = audiencias.globals.results.old_audiences.total_pages
+    else 
+      records = audiencias.globals.results.audiences.records
+      totalPages = audiencias.globals.results.audiences.total_pages
+
+    if records.length > 0
       @$el.html(@template(
         linkCreator: @linkCreator
-        currentPage: audiencias.globals.results.current_page,
-        totalPages: audiencias.globals.results.old_audiences.total_pages
+        currentPage: currentPage,
+        totalPages: totalPages,
+        viewingHistoric: viewingHistoric
       ))
 
-      facets = new audiencias.views.Facets(linkCreator: @linkCreator)
-      facets.render()
-      @$el.find('.facets-container').append(facets.el)
-
-    else if audiencias.globals.results.audiences.records.length > 0
-      @$el.html(@template(
-        linkCreator: @linkCreator,
-        currentPage: audiencias.globals.results.current_page,
-        totalPages: audiencias.globals.results.audiences.total_pages
-      ))
-
-      for audience in audiencias.globals.results.audiences.records
-        resultElement = new audiencias.views.Result(audience: audience)
+      for audience in records
+        resultElement = new audiencias.views.Result(audience: audience, historic: viewingHistoric)
         resultElement.render()
         @$el.find('.results-list').append(resultElement.el)
 

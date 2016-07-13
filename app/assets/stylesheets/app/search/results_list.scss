@@ -126,4 +126,13 @@
   .results-container {
     @include span-columns(7 of 10);
   }
+
+  .historic-disclaimer {
+    margin: 10px 0 20px 0;
+    padding: 10px;
+    border: solid 1px $grey-400;
+    color: $grey-400;
+    @include border-radius(4px);
+    font-size: 14px;
+  }
 }

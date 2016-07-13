@@ -1,0 +1,87 @@
+<div class="condensed table">
+
+  <div class="table-row">
+    <div class="table-cell col-title bold grey">Sujeto obligado</div>
+    <div class="table-cell col-title bold grey">Solicitante</div>
+    <div class="table-cell col-title bold grey">Participantes</div>
+    <div class="table-cell col-title bold grey">Datos audiencia</div>
+  </div>
+
+  <div class="table-row">
+    <div class="table-cell">
+      <p class="obligee-name bold">
+        <%= audience.apellido_sujeto_obligado %> <%= audience.nombre_sujeto_obligado %>
+      </p>
+      <p class="obligee-position small-font">
+        <%= audience.cargo_sujeto_obligado %>
+      </p>
+      <p class="obligee-dependency small-font">
+        <%= audience.dependencia_sujeto_obligado %>
+      </p>
+
+    </div>
+    <div class="table-cell">
+      <p class="applicant-name bold">
+        <%= audience.apellido_solicitante %> <%= audience.nombre_solicitante %>
+      </p>
+      <p class="applicant-position small-font">
+        <%= audience.cargo_solicitante %>
+      </p>
+      <p class="applicant-id small-font">
+        <%= audience.tipo_documento_solicitante %> <%= audience.numero_documento_solicitante %>
+      </p>
+
+        <p class="representation-type big-space-up small-font">EN REPRESENTACIÓN</p>
+        <p class="representation-type small-font"><%= audience.caracter_en_que_participa %></p>
+        <p class="represented-name bold"><%= audience.apellido_descripcion_representado %></p>
+        <p class="represented-name bold"><%= audience.nombre_representado %></p>
+        <p class="represented-id small-font space-up">
+          <%= audience.cargo_representado %>
+        </p>
+        <p class="represented-address small-font"><%= audience.domicilio_representado %></p>
+        <p class="represented-id small-font">
+          DNI <%= audience.numero_documento_representadoo %>
+        </p>
+
+    </div>
+
+    <div class="table-cell">
+      <div class="participant">
+        <p class="participant-text small-font">
+          <%= audience.participante_audiencia.length > 500 ? audience.participante_audiencia.substr(0, 500) + '...' : audience.participante_audiencia %>
+        </p>
+
+      </div>
+
+    </div>
+    <div class="table-cell">
+      <% var date = new Date(audience.fecha_hora_audiencia)
+          var year = date.getFullYear();
+          var month = (date.getMonth() + 1).toString();
+          month = month.length > 1 ? month : '0' + month;
+          var day = date.getDate().toString();
+          day = day.length > 1 ? day : '0' + day;
+          var hour = date.getHours().toString();
+          hour = hour.length > 1 ? hour : '0' + hour;
+          var minutes = date.getMinutes().toString();
+          minutes = minutes.length > 1 ? minutes : '0' + minutes;
+          dateString = hour + ':' + minutes + ' ' + day + '/' + month + '/' + year; %>
+
+      <div class="table-cell no-padding">
+        <p class="grey">Fecha</p>
+        <p class="small-font"><%= day %>-<%= month %>-<%= year %></p>
+      </div>
+      <div class="table-cell no-padding">
+        <p class="grey">Hora</p>
+        <p class="small-font"><%= hour %>:<%= minutes %></p>
+      </div>
+
+      <p class="grey big-space-up">Interés invocado</p>
+      <p class="small-font"><%= audience.interes_invocado %></p>
+
+      <p class="grey big-space-up">Motivo</p>
+      <p class="small-font"><%= audience.objeto_audiencia %></p>
+
+    </div>
+  </div>
+</div>
