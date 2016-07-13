@@ -19,11 +19,11 @@ class MainController < ApplicationController
 
   private 
 
-  def search_audiences 
+  def search_audiences
     search_options = params.permit([
       'buscar-persona', 'buscar-pen', 'buscar-textos', 'buscar-representado', 
       'desde', 'hasta', 'q', 'pagina', 'interes-invocado', 'persona', 'pen',
-      'organismo-estatal', 'grupo-de-personas', 'persona-juridica'
+      'organismo-estatal', 'grupo-de-personas', 'persona-juridica', 'historico'
     ])
 
     selected = {}
@@ -51,19 +51,30 @@ class MainController < ApplicationController
       selected['entity'] = legal_entity.name if legal_entity
     end
 
+    audience_search_results = Audience.public_search(search_options)
+    old_audience_search_results = OldAudience.public_search(search_options)
+
     page = (params[:pagina] || 1).to_i
-    search_results = Audience.public_search(search_options)
-    paginated_results = search_results.paginate(page: page)
+    audience_paginated_results = audience_search_results.paginate(page: page)
+    old_audience_paginated_results = old_audience_search_results.paginate(page: page)
 
     {
-      audiences: paginated_results.records.as_json({for_public: true}),
-      total: paginated_results.records.total,
-      total_pages: paginated_results.total_pages,
+      audiences: { 
+        records: audience_paginated_results.records.as_json({for_public: true}),
+        total_pages: audience_paginated_results.total_pages,
+        aggregations: audience_search_results.response['aggregations'].as_json,
+        selected_values: selected,
+        per_page: Audience.per_page,
+        total: audience_paginated_results.records.total
+      },
+      old_audiences: {
+        records: old_audience_paginated_results.records.as_json({for_public: true}),
+        total_pages: old_audience_paginated_results.total_pages,
+        total: old_audience_paginated_results.records.total
+      },
+      total: audience_paginated_results.records.total + old_audience_paginated_results.records.total,
       current_page: page,
-      per_page: Audience.per_page,
-      aggregations: search_results.response['aggregations'].as_json,
-      options: search_options,
-      selected_values: selected
+      options: search_options
     }
   end
 

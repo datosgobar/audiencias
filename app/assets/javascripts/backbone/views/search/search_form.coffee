@@ -6,8 +6,11 @@ class audiencias.views.SearchForm extends Backbone.View
     'click #submit-search': 'searchIfQuery'
     'change #show-advance-search': 'showAdvanceSearch'
 
+  initialize: (options) ->
+    @linkCreator = options.linkCreator
+
   render: ->
-    @$el.html(@template())
+    @$el.html(@template(linkCreator: @linkCreator))
 
     if audiencias.globals.results
       searchOptions = if audiencias.globals.results then audiencias.globals.results.options else {}

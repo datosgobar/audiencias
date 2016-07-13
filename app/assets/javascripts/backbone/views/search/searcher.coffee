@@ -10,7 +10,7 @@ class audiencias.views.Searcher extends Backbone.View
     header.render()
     @$el.find('.search-background-filter').append(header.el)
 
-    form = new audiencias.views.SearchForm
+    form = new audiencias.views.SearchForm(linkCreator: @linkCreator)
     form.render()
     @$el.find('.search-background-filter').append(form.el)
 
@@ -19,7 +19,7 @@ class audiencias.views.Searcher extends Backbone.View
     @$el.find('.with-external-footer').append(footer.el)
 
     if audiencias.globals.results
-      results = new audiencias.views.ResultsList
+      results = new audiencias.views.ResultsList(linkCreator: @linkCreator)
       results.render()
       @$el.find('.with-external-footer').append(results.el)
     else
@@ -32,3 +32,12 @@ class audiencias.views.Searcher extends Backbone.View
         fullResult = new audiencias.views.FullResult(audience: audiencias.globals.singleAudience)
         fullResult.render()
         $('body').append(fullResult.el)
+
+  linkCreator: (newParams) ->
+    paramList = []
+    searchOptions = $.extend({}, audiencias.globals.results.options)
+    searchOptions = $.extend(searchOptions, newParams)
+    for key of searchOptions
+      paramList.push("#{key}=#{searchOptions[key]}") if searchOptions[key]
+    params = if paramList.length > 0 then '?' + paramList.join('&') else ''
+    "/buscar#{params}"

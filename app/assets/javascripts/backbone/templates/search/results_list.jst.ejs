@@ -8,13 +8,10 @@
   <div class="results-container">
     <div class="results-list"></div>
     <div class="pagination">
-      <% var results = audiencias.globals.results; %>
-      <% if (results.total_pages > 1) { %>
+      <% if (totalPages > 1) { %>
 
-        <% var current_page = results.current_page %>
-        <% var total_pages = results.total_pages %>
-        <% var minPage = current_page - 4 > 1 ? current_page - 4 : 1%>
-        <% var maxPage = current_page + 5 <= total_pages ? current_page + 5 : total_pages + 1 %>
+        <% var minPage = currentPage - 4 > 1 ? currentPage - 4 : 1%>
+        <% var maxPage = currentPage + 5 <= totalPages ? currentPage + 5 : totalPages + 1 %>
         
         <% if (minPage > 1) { %>
           <a href="<%= linkCreator({pagina: 1}) %>">
@@ -23,7 +20,7 @@
         <% } %>
         
         <% for (var i=minPage; i<maxPage; i++) { %>
-          <% if (i != current_page) { %>
+          <% if (i != currentPage) { %>
             <a href="<%= linkCreator({pagina: i}) %>">
               <span class="pagination-link"><%= i %></span>
             </a>
@@ -32,8 +29,8 @@
           <% } %>
         <% } %>
 
-        <% if (maxPage < total_pages) { %>
-          <a href="<%= linkCreator({pagina: total_pages}) %>">
+        <% if (maxPage < totalPages) { %>
+          <a href="<%= linkCreator({pagina: totalPages}) %>">
             <span class="pagination-link">»</span>
           </a>
         <% } %>

@@ -14,12 +14,16 @@ class audiencias.views.Facets extends Backbone.View
     @linkCreator = options.linkCreator
 
   render: ->
-    aggregations = audiencias.globals.results.aggregations || {}
-    selected = audiencias.globals.results.selected_values || {}
     options = audiencias.globals.results.options || {}
 
     @$el.append(@dateTemaplte())
     @setDatepicker()
+
+    @renderExpandedFacets() unless options.historico 
+
+  renderExpandedFacets: =>
+    aggregations = audiencias.globals.results.audiences.aggregations || {}
+    selected = audiencias.globals.results.audiences.selected_values || {}
 
     @$el.append(@facetTemplate(
       title: 'Personas Físicas'

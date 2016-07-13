@@ -82,6 +82,19 @@
   <div class="total-count">  
     <% if (audiencias.globals.results) { %>
       Se encontraron <%= audiencias.globals.results.total %> resultado<%= audiencias.globals.results.total != 1 ? 's' : '' %>
+      <% if (searchOptions && searchOptions.q && searchOptions.q.length > 0) { %>
+        para "<%= searchOptions.q %>"
+      <% } %>
+
+      <% var viewingHistoric = !!audiencias.globals.results.options.historico  %>
+      <div class="results-tabs">
+        <a href="<%= linkCreator({pagina: null, historico: null}) %>">
+          <div class="result-tab <%= viewingHistoric ? '' : 'selected' %>">Registro Actual (<%= audiencias.globals.results.audiences.total %>)</div>
+        </a>
+        <a href="<%= linkCreator({pagina: null, historico: 'si'}) %>">
+          <div class="result-tab <%= viewingHistoric ? 'selected' : '' %>">Registro Histórico (<%= audiencias.globals.results.old_audiences.total %>)</div>
+        </a>
+      </div>
     <% } %>
   </div>
 </div>
