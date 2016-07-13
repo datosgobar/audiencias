@@ -14,8 +14,8 @@ class audiencias.views.SearchForm extends Backbone.View
       dateFrom = if searchOptions.desde then moment(searchOptions.desde, 'DD-MM-YYYY') else null
       dateTo = if searchOptions.hasta then moment(searchOptions.hasta, 'DD-MM-YYYY') else null
       
-    @dateFromPicker = @setDatepicker('#date-from', dateFrom)
-    @dateToPicker = @setDatepicker('#date-to', dateTo)
+    @dateFromPicker = audiencias.app.setDatepicker(@$el.find('#date-from')[0], dateFrom)
+    @dateToPicker = audiencias.app.setDatepicker(@$el.find('#date-to')[0], dateTo)
 
   searchOnEnter: (e) =>
     @searchIfQuery() if e.keyCode == 13
@@ -50,21 +50,3 @@ class audiencias.views.SearchForm extends Backbone.View
     searchParams = if params.length > 0 then "?#{params.join('&')}" else ''
 
     window.location.href = "/buscar#{searchParams}"
-
-  setDatepicker: (selector, selectedDate) ->
-    i18n = {
-      previousMonth : 'Mes anterior',
-      nextMonth     : 'Mes siguiente',
-      months        : ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-      weekdays      : ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
-      weekdaysShort : ['Dom','Lun','Mar','Mie','Jue','Vie','Sab']
-    }
-    picker = new Pikaday(
-      field: @$el.find(selector)[0]
-      format: 'DD-MM-YYYY'
-      i18n: i18n,
-      minDate: moment().date(1).month(0).year(2000).toDate()
-      maxDate: moment().toDate()
-    )
-    picker.setMoment(selectedDate) if selectedDate
-    picker

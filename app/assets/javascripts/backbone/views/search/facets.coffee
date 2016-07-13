@@ -1,5 +1,6 @@
 class audiencias.views.Facets extends Backbone.View
-  template: JST["backbone/templates/search/facet"]
+  dateTemaplte: JST["backbone/templates/search/date_filter"]
+  facetTemplate: JST["backbone/templates/search/facet"]
   representationTemplate: JST["backbone/templates/search/facet_representation"]
   className: 'facets'
   events: 
@@ -7,6 +8,7 @@ class audiencias.views.Facets extends Backbone.View
     'click .collapse-facet-list': 'collapseFacetList'
     'click .facet-group-name': 'toggleFacetGroup'
     'click .toggle-groups': 'toggleGroups'
+    'click #apply-new-date': 'applyNewDate'
 
   initialize: (options) ->
     @linkCreator = options.linkCreator
@@ -14,8 +16,12 @@ class audiencias.views.Facets extends Backbone.View
   render: ->
     aggregations = audiencias.globals.results.aggregations || {}
     selected = audiencias.globals.results.selected_values || {}
+    options = audiencias.globals.results.options || {}
 
-    @$el.append(@template(
+    @$el.append(@dateTemaplte())
+    @setDatepicker()
+
+    @$el.append(@facetTemplate(
       title: 'Personas Físicas'
       selectedValue: selected['person'],
       paramName: 'persona',
@@ -50,7 +56,7 @@ class audiencias.views.Facets extends Backbone.View
         linkCreator: @linkCreator
       ))
 
-    @$el.append(@template(
+    @$el.append(@facetTemplate(
       title: 'Poder Ejecutivo Nacional'
       selectedValue: selected['dependency'],
       paramName: 'pen',
@@ -58,7 +64,7 @@ class audiencias.views.Facets extends Backbone.View
       linkCreator: @linkCreator
     ))
 
-    @$el.append(@template(
+    @$el.append(@facetTemplate(
       title: 'Interes Invocado'
       selectedValue: selected['interest_invoked'],
       paramName: 'interes-invocado',
@@ -90,3 +96,26 @@ class audiencias.views.Facets extends Backbone.View
     target = $(e.currentTarget)
     target.parent().find('.toggle-groups').toggleClass('hidden')
     target.closest('.facet-section').find('.grouped-facet, .joined-facets').toggleClass('hidden')
+
+  setDatepicker: =>
+    searchOptions = audiencias.globals.results.options || {}
+    dateFrom = if searchOptions.desde then moment(searchOptions.desde, 'DD-MM-YYYY') else null
+    dateTo = if searchOptions.hasta then moment(searchOptions.hasta, 'DD-MM-YYYY') else null
+      
+    @dateFromPicker = audiencias.app.setDatepicker(@$el.find('#filter-date-from')[0], dateFrom)
+    @dateToPicker = audiencias.app.setDatepicker(@$el.find('#filter-date-to')[0], dateTo)
+
+  applyNewDate: =>
+    newOptions = {}
+    if @$el.find('#filter-date-from').val().length == 0
+      newOptions.desde = null
+    else if @dateFromPicker.getDate()
+      dateFrom = @dateFromPicker.getMoment().format('DD-MM-YYYY')
+      newOptions.desde = dateFrom
+
+    if @$el.find('#filter-date-to').val().length == 0
+      newOptions.hasta = null
+    else if @dateToPicker.getDate() 
+      dateTo = @dateToPicker.getMoment().format('DD-MM-YYYY')
+      newOptions.hasta = dateTo
+    window.location.href = @linkCreator(newOptions)

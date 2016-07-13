@@ -17,6 +17,10 @@
       border-bottom: solid 1px $grey-300;
       padding-bottom: 5px;
 
+      &.date-container {
+        border-bottom: none;
+      }
+
       .facet-title {
         border-bottom: solid 1px $grey-300;
         font-weight: 500;
@@ -29,6 +33,40 @@
           font-weight: 400;
           color: $blue-300;
           cursor: pointer;
+        }
+      }
+
+      .dates {
+        padding: 5px 40px 5px 5px;
+        .table {
+          display: table;
+          margin-bottom: 10px;
+          width: 100%;
+          img {
+            width: 30px;
+            height: 24px;
+            vertical-align: bottom;
+          }
+        }
+        .table-cell {
+          display: table-cell;
+          width: 50%;
+          &:first-child {
+            padding-right: 4px;
+          }
+          &:last-child {
+            padding-left: 4px;
+          }
+          input {
+            width: 100%;
+            background: white;
+            padding: 4px;
+            font-size: 12px;
+          }
+        }
+        button {
+          padding: 6px 12px;
+          font-size: 14px;
         }
       }
 

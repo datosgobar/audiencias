@@ -38,6 +38,24 @@ window.audiencias =
           audiencias.globals.users.trigger('users:loaded')
       )
 
+    setDatepicker: (field, selectedDate) ->
+      i18n = {
+        previousMonth : 'Mes anterior',
+        nextMonth     : 'Mes siguiente',
+        months        : ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        weekdays      : ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
+        weekdaysShort : ['Dom','Lun','Mar','Mie','Jue','Vie','Sab']
+      }
+      picker = new Pikaday(
+        field: field
+        format: 'DD-MM-YYYY'
+        i18n: i18n,
+        minDate: moment().date(1).month(0).year(2000).toDate()
+        maxDate: moment().toDate()
+      )
+      picker.setMoment(selectedDate) if selectedDate
+      picker      
+
     render: (Class) ->
       instance = new Class
       instance.render()
