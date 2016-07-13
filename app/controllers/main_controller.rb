@@ -5,7 +5,7 @@ class MainController < ApplicationController
 
   def audience
     @audience = Audience.find_by_id(params[:id])
-    if @audience    
+    if @audience and @audience.published
       render :home
     else
       redirect_to '/404'  

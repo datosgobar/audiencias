@@ -143,6 +143,23 @@
   }
 }'```
 
+```curl -X PUT 'http://localhost:9200/old_audiences/' -d \
+'{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "default": {
+          "tokenizer":  "standard",
+          "filter": [
+            "lowercase",
+            "asciifolding"
+          ]
+        }
+      }
+    }
+  }
+}'```
+
 
 ## Levantar server
 * Traer la ultima version del proyecto con `git pull`.
