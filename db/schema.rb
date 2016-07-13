@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160605180001) do
+ActiveRecord::Schema.define(version: 20160713123700) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -96,6 +96,39 @@ ActiveRecord::Schema.define(version: 20160605180001) do
 
   add_index "obligees", ["dependency_id"], name: "index_obligees_on_dependency_id"
   add_index "obligees", ["person_id"], name: "index_obligees_on_person_id"
+
+  create_table "old_audiences", force: :cascade do |t|
+    t.integer  "id_audiencia"
+    t.string   "apellido_sujeto_obligado"
+    t.string   "nombre_sujeto_obligado"
+    t.string   "cargo_sujeto_obligado"
+    t.string   "dependencia_sujeto_obligado"
+    t.string   "super_dependencia"
+    t.datetime "fecha_solicitud_audiencia"
+    t.string   "apellido_solicitante"
+    t.string   "nombre_solicitante"
+    t.string   "cargo_solicitante"
+    t.string   "tipo_documento_solicitante"
+    t.string   "numero_documento_solicitante"
+    t.string   "interes_invocado"
+    t.string   "caracter_en_que_participa"
+    t.string   "apellido_descripcion_representado"
+    t.string   "nombre_representado"
+    t.string   "cargo_representado"
+    t.string   "domicilio_representado"
+    t.string   "numero_documento_representadoo"
+    t.datetime "fecha_hora_audiencia"
+    t.string   "lugar_audiencia"
+    t.string   "objeto_audiencia"
+    t.string   "participante_audiencia"
+    t.string   "estado_cancelada_audiencia"
+    t.string   "estado_audiencia"
+    t.string   "sintesis_audiencia"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "old_audiences", ["id_audiencia"], name: "index_old_audiences_on_id_audiencia"
 
   create_table "operator_associations", force: :cascade do |t|
     t.integer  "user_id",    null: false
