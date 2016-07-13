@@ -6,6 +6,7 @@ class audiencias.views.Facets extends Backbone.View
     'click .expand-facet-list': 'expandFacetList'
     'click .collapse-facet-list': 'collapseFacetList'
     'click .facet-group-name': 'toggleFacetGroup'
+    'click .toggle-groups': 'toggleGroups'
 
   initialize: (options) ->
     @linkCreator = options.linkCreator
@@ -15,39 +16,45 @@ class audiencias.views.Facets extends Backbone.View
     selected = audiencias.globals.results.selected_values || {}
 
     @$el.append(@template(
-      title: 'Personas'
+      title: 'Personas Físicas'
       selectedValue: selected['person'],
       paramName: 'persona',
       facetList: aggregations['_people']
       linkCreator: @linkCreator
     ))
 
+    somethingSelected =  selected['organism'] or selected['group'] or selected['entity']
+    hasOrganismFacets = aggregations['_represented_organism'] and aggregations['_represented_organism'].ids.buckets.length > 0
+    hasGroupFacest = aggregations['_represented_group'] and aggregations['_represented_group'].ids.buckets.length > 0
+    hasEntityFacets = aggregations['_represented_entity'] and aggregations['_represented_entity'].ids.buckets.length > 0
+    hasFacets = hasOrganismFacets or hasGroupFacest or hasEntityFacets
+    if somethingSelected or hasFacets
+      @$el.append(@representationTemplate(
+        title: 'En representación'
+        aggregations: [{ 
+          facetList: aggregations['_represented_organism'], 
+          selected: selected['organism'], 
+          paramName: 'organismo-estatal',
+          name: 'Organismo Estatal'
+        }, { 
+          facetList: aggregations['_represented_group'], 
+          selected: selected['group'], 
+          paramName: 'grupo-de-personas',
+          name: 'Grupo de personas'
+        }, { 
+          facetList: aggregations['_represented_entity'], 
+          selected: selected['entity'], 
+          paramName: 'persona-juridica',
+          name: 'Personas Jurídicas'
+        }],
+        linkCreator: @linkCreator
+      ))
+
     @$el.append(@template(
       title: 'Poder Ejecutivo Nacional'
       selectedValue: selected['dependency'],
       paramName: 'pen',
       facetList: aggregations['_dependency']
-      linkCreator: @linkCreator
-    ))
-
-    @$el.append(@representationTemplate(
-      title: 'En representación'
-      aggregations: [{ 
-        facetList: aggregations['_represented_organism'], 
-        selected: selected['organism'], 
-        paramName: 'organismo-estatal',
-        name: 'Organismo Estatal'
-      }, { 
-        facetList: aggregations['_represented_group'], 
-        selected: selected['group'], 
-        paramName: 'grupo-de-personas',
-        name: 'Grupo de personas'
-      }, { 
-        facetList: aggregations['_represented_entity'], 
-        selected: selected['entity'], 
-        paramName: 'persona-juridica',
-        name: 'Personas Jurídicas'
-      }],
       linkCreator: @linkCreator
     ))
 
@@ -78,3 +85,8 @@ class audiencias.views.Facets extends Backbone.View
     target = $(e.currentTarget)
     target.find('i').toggleClass('hidden')
     target.siblings('.facet-group').toggleClass('hidden')
+
+  toggleGroups: (e) =>
+    target = $(e.currentTarget)
+    target.parent().find('.toggle-groups').toggleClass('hidden')
+    target.closest('.facet-section').find('.grouped-facet, .joined-facets').toggleClass('hidden')

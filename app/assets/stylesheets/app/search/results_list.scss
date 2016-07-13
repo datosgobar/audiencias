@@ -23,6 +23,13 @@
         color: $grey-400;
         margin-bottom: 5px;
         padding: 0 5px;
+
+        .toggle-groups {
+          float: right;
+          font-weight: 400;
+          color: $blue-300;
+          cursor: pointer;
+        }
       }
 
       .facet {

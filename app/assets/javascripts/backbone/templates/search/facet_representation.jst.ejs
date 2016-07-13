@@ -1,64 +1,122 @@
+<% var selectedValue = false;
+
+for (var i=0; i<aggregations.length; i++) {
+  if (aggregations[i].selected) {
+    var linkParams = { pagina: null };
+    linkParams[aggregations[i].paramName] = null;
+    selectedValue = { name: aggregations[i].selected, link: linkCreator(linkParams) }
+  } 
+} %>
+
 <div class="facet-section">
-  <div class="facet-title"><%= title %></div>
-  
-  <% var selectedValue = false; %>
+  <div class="facet-title">
+    <%= title %>
 
-  <% for (var i=0; i<aggregations.length; i++) { %>
-    <% if (aggregations[i].selected) { %>
-      <% selectedValue = aggregations[i].selected %>
-      <% var linkParams = { pagina: null }; %>
-      <% linkParams[aggregations[i].paramName] = null; %>
-      <a href="<%= linkCreator(linkParams) %>">
-        <div class="facet selected">
-          <div class="facet-name">
-            <%= selectedValue %>
-          </div>
-          <div class="facet-value">
-            <i class="fa fa-times" aria-hidden="true"></i>
-          </div>
-        </div>
-      </a>
+    <% if (!selectedValue) { %>
+      <span class="toggle-groups">Desagrupar</span>
+      <span class="toggle-groups hidden">Agrupar</span>
     <% } %>
-  <% } %>
+  </div>
 
-  <% if (!selectedValue) { %>
-    <% for (var j=0; j<aggregations.length; j++) { %>
-      <div class="facet-group-container">
-        <div class="facet-group-name">
-          <%=aggregations[j].name%>
-          <i class="fa fa-chevron-down" aria-hidden="true"></i>
-          <i class="fa fa-chevron-up hidden" aria-hidden="true"></i>
+  <% if (selectedValue) { %>
+
+    <a href="<%= selectedValue.link %>">
+      <div class="facet selected">
+        <div class="facet-name">
+          <%= selectedValue.name %>
         </div>
-        <div class="facet-group hidden">
-          <% var buckets = aggregations[j].facetList.ids.buckets; %>
-          <% for (var m=0; m<buckets.length; m+=10) { %>
-            <div class="facet-list <%= m > 0 ? 'hidden' : '' %>">
-            <% for (var i=m; i<Math.min(m+10, buckets.length); i++) { %>
-              <% var facet = buckets[i]; %>
-              <% var linkParams = { pagina: null };%>
-              <% linkParams[aggregations[j].paramName] = facet.key %>
-              <a href="<%= linkCreator(linkParams) %>">
-                <div class="facet">
-                  <div class="facet-name">
-                    <%= facet.name.buckets[0].key %>
-                  </div>
-                  <div class="facet-value">
-                    <%= facet.doc_count %>
-                  </div>
-                </div>
-              </a>
-            <% } %>
-            </div>
-          <% } %>
-          <div class="expand-facet-list <%= buckets.length > 10 ? '' : 'hidden' %>">
-            Ver mas...
-          </div>
-          <div class="collapse-facet-list hidden">
-            Ver menos...
-          </div>
+        <div class="facet-value">
+          <i class="fa fa-times" aria-hidden="true"></i>
         </div>
       </div>
-    <% } %>
+    </a>
+
+  <% } else { %>
+
+    <div class="grouped-facet">
+      <% for (var j=0; j<aggregations.length; j++) { %>
+        <% if (aggregations[j].facetList.ids.buckets.length > 0) { %>
+
+        <div class="facet-group-container">
+          <div class="facet-group-name">
+            <%=aggregations[j].name%>
+            <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            <i class="fa fa-chevron-up hidden" aria-hidden="true"></i>
+          </div>
+          <div class="facet-group hidden">
+            <% var buckets = aggregations[j].facetList.ids.buckets; %>
+            <% for (var m=0; m<buckets.length; m+=10) { %>
+              <div class="facet-list <%= m > 0 ? 'hidden' : '' %>">
+              <% for (var i=m; i<Math.min(m+10, buckets.length); i++) { %>
+                <% var facet = buckets[i]; %>
+                <% var linkParams = { pagina: null };%>
+                <% linkParams[aggregations[j].paramName] = facet.key %>
+                <a href="<%= linkCreator(linkParams) %>">
+                  <div class="facet">
+                    <div class="facet-name">
+                      <%= facet.name.buckets[0].key %>
+                    </div>
+                    <div class="facet-value">
+                      <%= facet.doc_count %>
+                    </div>
+                  </div>
+                </a>
+              <% } %>
+              </div>
+            <% } %>
+            <div class="expand-facet-list <%= buckets.length > 10 ? '' : 'hidden' %>">
+              Ver mas...
+            </div>
+            <div class="collapse-facet-list hidden">
+              Ver menos...
+            </div>
+          </div>
+        </div>
+
+        <% } %>
+      <% } %>
+    </div>
+
+    <div class="joined-facets hidden">
+      <% var allBuckets = [];
+      for (var j=0; j<aggregations.length; j++) { 
+        var buckets = aggregations[j].facetList.ids.buckets;
+        for (var i=0; i<buckets.length; i++) {
+          var facet = buckets[i];
+          allBuckets.push({
+            paramName: aggregations[j].paramName,
+            key: facet.key,
+            name: facet.name.buckets[0].key,
+            count: facet.doc_count
+          })
+        } 
+      }
+      allBuckets = _.sortBy(allBuckets, function(b) { return -b.count; }) 
+      for (var k=0; k<allBuckets.length; k+=10) { %>
+        <div class="facet-list <%= k > 0 ? 'hidden' : '' %>">
+          <% for (var m=k; m<Math.min(k+10, allBuckets.length); m++) {%>
+            <% var linkParams = { pagina: null };%>
+            <% linkParams[allBuckets[m].paramName] = allBuckets[m].key %>
+            <a href="<%= linkCreator(linkParams) %>">
+              <div class="facet">
+                <div class="facet-name">
+                  <%= allBuckets[m].name %>
+                </div>
+                <div class="facet-value">
+                  <%= allBuckets[m].count %>
+                </div>
+              </div>
+            </a>
+          <% } %>
+        </div>
+      <% } %>
+      <div class="expand-facet-list <%= allBuckets.length > 10 ? '' : 'hidden' %>">
+        Ver mas...
+      </div>
+      <div class="collapse-facet-list hidden">
+        Ver menos...
+      </div>      
+    </div>
 
   <% } %>
 </div>
