@@ -58,24 +58,32 @@ class MainController < ApplicationController
     audience_paginated_results = audience_search_results.paginate(page: page)
     old_audience_paginated_results = old_audience_search_results.paginate(page: page)
 
-    {
-      audiences: { 
-        records: audience_paginated_results.records.as_json({for_public: true}),
-        total_pages: audience_paginated_results.total_pages,
-        aggregations: audience_search_results.response['aggregations'].as_json,
-        selected_values: selected,
-        per_page: Audience.per_page,
-        total: audience_paginated_results.records.total
-      },
-      old_audiences: {
+    search_results = {}
+    search_results[:audiences] = {
+      records: audience_paginated_results.records.as_json({for_public: true}),
+      total_pages: audience_paginated_results.total_pages,
+      aggregations: audience_search_results.response['aggregations'].as_json,
+      selected_values: selected,
+      per_page: Audience.per_page,
+      total: audience_paginated_results.records.total
+    }
+    if ['person', 'interest_invoked', 'dependency', 'organism', 'group', 'entity'].any? { |param| selected.include?(param) }
+      search_results[:old_audiences] = {
+        records: [],
+        total_pages: 0,
+        total: 0
+      }
+    else
+      search_results[:old_audiences] = {
         records: old_audience_paginated_results.records.as_json({for_public: true}),
         total_pages: old_audience_paginated_results.total_pages,
         total: old_audience_paginated_results.records.total
-      },
-      total: audience_paginated_results.records.total + old_audience_paginated_results.records.total,
-      current_page: page,
-      options: search_options
-    }
+      }
+    end
+    search_results[:total] = search_results[:audiences][:total] + search_results[:old_audiences][:total]
+    search_results[:current_page] = page
+    search_results[:options] = search_options
+    search_results
   end
 
 end
