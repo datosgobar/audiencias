@@ -8,7 +8,7 @@
 
   <div class="search-input">
     <% var searchValue = searchOptions ? searchOptions.q : '' %>
-    <input type="text" id="search-text" placeholder="Introduzca su busqueda" value="<%= searchValue %>">
+    <input type="text" id="search-text" placeholder="Buscar por funcionarios, dependencias, participantes de audiencias" value="<%= searchValue %>">
     <button class="green" id="submit-search">BUSCAR</button>
   </div>
 
@@ -17,13 +17,13 @@
     <input type="checkbox" id="show-advance-search" <%= advanceSearch ? 'checked' : '' %>>
     <label class="show-advance-search-label" for="show-advance-search">
       <img src="/assets/icon-marcador-derecha-gris.svg" class="advance-search-icon">
-      Busqueda avanzada
+      Personalizá tu búsqueda
     </label>
 
     <div class="advance-search">
       <div class="search-option">
         <div class="search-description">
-          Fecha especifica o rango
+          Rango de fechas
         </div>
         <input type="text" id="date-from" placeholder="Desde" class="date-input">
         <input type="text" id="date-to" placeholder="Hasta" class="date-input">
@@ -89,10 +89,10 @@
       <% var viewingHistoric = !!audiencias.globals.results.options.historico  %>
       <div class="results-tabs">
         <a href="<%= linkCreator({pagina: null, historico: null}) %>">
-          <div class="result-tab <%= viewingHistoric ? '' : 'selected' %>">Registro Actual (<%= audiencias.globals.results.audiences.total %>)</div>
+          <div class="result-tab <%= viewingHistoric ? '' : 'selected' %>">Sistema Vigente (<%= audiencias.globals.results.audiences.total %>)</div>
         </a>
         <a href="<%= linkCreator({pagina: null, historico: 'si'}) %>">
-          <div class="result-tab <%= viewingHistoric ? 'selected' : '' %>">Registro Histórico (<%= audiencias.globals.results.old_audiences.total %>)</div>
+          <div class="result-tab <%= viewingHistoric ? 'selected' : '' %>">Sistema Anterior (<%= audiencias.globals.results.old_audiences.total %>)</div>
         </a>
       </div>
     <% } %>

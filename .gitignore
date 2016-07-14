@@ -21,3 +21,4 @@ TODO
 invision
 /private
 config/initializers/passwords.rb
+db/seeds/audiencias.csv
