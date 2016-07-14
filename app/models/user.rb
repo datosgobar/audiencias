@@ -24,10 +24,10 @@ class User < ActiveRecord::Base
 	end
 
   def send_new_user_email
-    generate_token(:password_reset_token)
-    self.password_reset_sent_at = Time.zone.now
-    save!
-    UserMailer.user_new(self).deliver_now
+    #generate_token(:password_reset_token)
+    #self.password_reset_sent_at = Time.zone.now
+    #save!
+    #UserMailer.user_new(self).deliver_now
   end
 
 	def send_password_reset
