@@ -147,12 +147,12 @@ class Audience < ActiveRecord::Base
       date_filter = { range: { date: {} } }
       
       if options['desde']
-        fromDate = Date.parse(options['desde'], "%d-%m-%Y").iso8601()
+        fromDate = Time.parse(options['desde']).iso8601()
         date_filter[:range][:date]["gte"] = fromDate 
       end
       if options['hasta']
-        toDate = Date.parse(options['hasta'], "%d-%m-%Y").iso8601()
-        date_filter[:range][:date]["lte"] = toDate
+        toDate = (Time.zone.parse(options['hasta']) + 1.day).iso8601()
+        date_filter[:range][:date]["lt"] = toDate
       end
       search_options[:query][:filtered][:filter][:bool][:must] << date_filter
     end
