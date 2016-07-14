@@ -2,6 +2,7 @@ class audiencias.views.Facets extends Backbone.View
   dateTemaplte: JST["backbone/templates/search/date_filter"]
   facetTemplate: JST["backbone/templates/search/facet"]
   representationTemplate: JST["backbone/templates/search/facet_representation"]
+  downloadTemplate: JST["backbone/templates/search/download_results"]
   className: 'facets'
   events: 
     'click .expand-facet-list': 'expandFacetList'
@@ -20,6 +21,7 @@ class audiencias.views.Facets extends Backbone.View
     @setDatepicker()
 
     @renderExpandedFacets() unless options.historico 
+    #@renderDownload()
 
   renderExpandedFacets: =>
     aggregations = audiencias.globals.results.audiences.aggregations || {}
@@ -76,6 +78,9 @@ class audiencias.views.Facets extends Backbone.View
       linkCreator: @linkCreator
     ))
     
+  renderDownload: ->
+    @$el.append(@downloadTemplate())
+
   expandFacetList: (e) =>
     target = $(e.currentTarget)
     facetList = target.siblings('.facet-list.hidden')

@@ -122,6 +122,18 @@
         }
       }
     }
+
+    .download-container {
+      border-bottom: none;
+      .facet-title {
+        border-bottom: none;
+      }
+      .download-description {
+        padding: 0 5px;
+        font-size: 13px;
+        margin: 0;
+      }
+    }
   }
   .results-container {
     @include span-columns(7 of 10);
