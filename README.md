@@ -168,3 +168,6 @@
 * Correr migraciones pendientes: `bundle exec rake db:migrate`
 * Levantar server de desarrollo: `bundle exec rails server -p 80 -b0.0.0.0`
 * Levantar server local de elasticsearch
+
+## Importar audiencias historicas
+* El script que importa las audiencias historicas está en `db/seeds/historic.rb` y se corre ejecutando `bundle exec rake db:seed historic=yes`. Asume que se va a importar desde un archivo csv, cuyo path es `db/seeds/audiencias.csv` (ver los comentarios del script para ver detalles sobre el csv).
