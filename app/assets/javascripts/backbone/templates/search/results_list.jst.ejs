@@ -11,6 +11,49 @@
         <div class="historic-disclaimer">
           Por razones de compatibilidad entre la tecnología utilizada en el sistema anterior (desarrollado en el año 2008) y la utilizada en el nuevo sistema vigente, encontrarás diferencias en la forma en la que son mostrados los resultados. Se ha respetado el formato de los datos del sistema anterior por el carácter de declaración jurada de la información consignada.
         </div>
+      <% } else { %>
+        <div class="person-role-filter table">
+          <div class="table-cell">
+            Ver persona física como: 
+          </div>
+
+          <div class="table-cell">
+            <input type="checkbox" id="role-obligee" checked>
+            <label for="role-obligee">
+              Sujeto obligado
+                <i class="fa fa-square-o" aria-hidden="true"></i>
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+            </label>
+          </div>
+
+          <div class="table-cell">
+            <input type="checkbox" id="role-applicant" checked>
+            <label for="role-applicant">
+              Solicitante
+                <i class="fa fa-square-o" aria-hidden="true"></i>
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+            </label>
+          </div>
+
+          <div class="table-cell">
+            <input type="checkbox" id="role-participant" checked>
+            <label for="role-participant">
+              Participante
+                <i class="fa fa-square-o" aria-hidden="true"></i>
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+            </label>
+          </div>
+
+          <div class="table-cell">
+            <input type="checkbox" id="role-represented" checked>
+            <label for="role-represented">
+              Representado
+                <i class="fa fa-square-o" aria-hidden="true"></i>
+                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+            </label>
+          </div>
+
+        </div>
       <% } %>
     </div>
     <div class="pagination">
