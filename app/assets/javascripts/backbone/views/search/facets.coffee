@@ -21,14 +21,14 @@ class audiencias.views.Facets extends Backbone.View
     @setDatepicker()
 
     @renderExpandedFacets() unless options.historico 
-    #@renderDownload()
+    @renderDownload()
 
   renderExpandedFacets: =>
     aggregations = audiencias.globals.results.audiences.aggregations || {}
     selected = audiencias.globals.results.audiences.selected_values || {}
 
     @$el.append(@facetTemplate(
-      title: 'Personas Físicas'
+      title: 'Personas físicas'
       selectedValue: selected['person'],
       paramName: 'persona',
       facetList: aggregations['_people']
@@ -71,7 +71,7 @@ class audiencias.views.Facets extends Backbone.View
     ))
 
     @$el.append(@facetTemplate(
-      title: 'Interes Invocado'
+      title: 'Interes invocado'
       selectedValue: selected['interest_invoked'],
       paramName: 'interes-invocado',
       facetList: aggregations['_interest_invoked']

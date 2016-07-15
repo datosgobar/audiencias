@@ -131,7 +131,33 @@
       .download-description {
         padding: 0 5px;
         font-size: 13px;
-        margin: 0;
+        margin: 0 0 5px 0;
+      }
+      .download {
+        display: inline-block;
+        $width: 50px;
+        width: $width;
+        height: $width * 71/61;
+        background-size: contain;
+        background-repeat: no-repeat;
+        &.download-csv {
+          background-image: url('/assets/icon-formato-csv.svg');
+          &:hover {
+            background-image: url('/assets/icon-formato-csv-hover.svg')
+          }
+        }
+        &.download-json {
+          background-image: url('/assets/icon-formato-json.svg');
+          &:hover {
+            background-image: url('/assets/icon-formato-json-hover.svg')
+          }
+        }
+        &.download-xlsx {
+          background-image: url('/assets/icon-formato-xlsx.svg');
+          &:hover {
+            background-image: url('/assets/icon-formato-xlsx-hover.svg')
+          }
+        }
       }
     }
   }

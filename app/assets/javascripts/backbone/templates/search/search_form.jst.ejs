@@ -31,7 +31,7 @@
       </div>
       <div class="search-option">
         <div class="search-description">
-          Buscar en:
+          Buscar solo por:
         </div>
 
         <div class="table">
@@ -50,7 +50,7 @@
               <label for="search-dependencies">
                 <i class="fa fa-square-o" aria-hidden="true"></i>
                 <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                Poder ejecutivo nacional
+                Dependencias del Poder Ejecutivo Nacional
               </label>
             </div>
           </div>
@@ -61,7 +61,7 @@
               <label for="search-representation">
                 <i class="fa fa-square-o" aria-hidden="true"></i>
                 <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                Tipo de carácter de representación
+                Entidades públicas/privadas
               </label>
             </div>
 
@@ -70,7 +70,7 @@
               <label for="search-summary">
                 <i class="fa fa-square-o" aria-hidden="true"></i>
                 <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                Sintesis o motivos
+                Motivo o síntesis de la audiencia
               </label>
             </div>
           </div>
@@ -89,10 +89,10 @@
       <% var viewingHistoric = !!audiencias.globals.results.options.historico  %>
       <div class="results-tabs">
         <a href="<%= linkCreator({pagina: null, historico: null}) %>">
-          <div class="result-tab <%= viewingHistoric ? '' : 'selected' %>">Sistema Vigente (<%= audiencias.globals.results.audiences.total %>)</div>
+          <div class="result-tab <%= viewingHistoric ? '' : 'selected' %>">Sistema actual (<%= audiencias.globals.results.audiences.total %>)</div>
         </a>
         <a href="<%= linkCreator({pagina: null, historico: 'si'}) %>">
-          <div class="result-tab <%= viewingHistoric ? 'selected' : '' %>">Sistema Anterior (<%= audiencias.globals.results.old_audiences.total %>)</div>
+          <div class="result-tab <%= viewingHistoric ? 'selected' : '' %>">Sistema anterior (<%= audiencias.globals.results.old_audiences.total %>)</div>
         </a>
       </div>
     <% } %>

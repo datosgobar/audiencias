@@ -18,6 +18,9 @@
       <p class="obligee-dependency small-font">
         <%= audience.dependencia_sujeto_obligado %>
       </p>
+      <p class="obligee-dependency small-font">
+        <%= audience.super_dependencia %>
+      </p>
 
     </div>
     <div class="table-cell">
@@ -55,6 +58,21 @@
 
     </div>
     <div class="table-cell">
+      <% var date = new Date(audience.fecha_solicitud_audiencia)
+          var year = date.getFullYear();
+          var month = (date.getMonth() + 1).toString();
+          month = month.length > 1 ? month : '0' + month;
+          var day = date.getDate().toString();
+          day = day.length > 1 ? day : '0' + day;
+          var hour = date.getHours().toString();
+          hour = hour.length > 1 ? hour : '0' + hour;
+          var minutes = date.getMinutes().toString();
+          minutes = minutes.length > 1 ? minutes : '0' + minutes;
+          dateString = hour + ':' + minutes + ' ' + day + '/' + month + '/' + year; %>
+
+      <p class="grey">Fecha de solicitud</p>
+      <p class="small-font"><%= day %>-<%= month %>-<%= year %></p>
+
       <% var date = new Date(audience.fecha_hora_audiencia)
           var year = date.getFullYear();
           var month = (date.getMonth() + 1).toString();
@@ -68,7 +86,7 @@
           dateString = hour + ':' + minutes + ' ' + day + '/' + month + '/' + year; %>
 
       <div class="table-cell no-padding">
-        <p class="grey">Fecha</p>
+        <p class="grey big-space-up">Fecha</p>
         <p class="small-font"><%= day %>-<%= month %>-<%= year %></p>
       </div>
       <div class="table-cell no-padding">
