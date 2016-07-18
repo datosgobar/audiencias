@@ -13,13 +13,105 @@ class MainController < ApplicationController
   end
 
   def search
-    @search_results = search_audiences
+    page = (params[:pagina] || 1).to_i
+    @search_options, @selected = collect_search_options
+    @search_results = {}
+
+    audience_search_results = Audience.public_search(@search_options)
+    audience_paginated_results = audience_search_results.paginate(page: page)
+    audience_json = audience_paginated_results.records.as_json({for_public: true})
+    audience_total_pages = audience_paginated_results.total_pages
+    audience_aggregations = audience_search_results.response['aggregations'].as_json
+    audience_total = audience_paginated_results.records.total
+
+    if selected_facet
+      old_audience_json = []
+      old_audience_total_pages = 0
+      old_audience_total = 0
+    else
+      old_audience_paginated_results = OldAudience.public_search(@search_options).paginate(page: page)
+      old_audience_json = old_audience_paginated_results.records.as_json({for_public: true})
+      old_audience_total_pages = old_audience_paginated_results.total_pages
+      old_audience_total = old_audience_paginated_results.records.total
+    end
+
+    @search_results = {
+      audiences: {
+        records: audience_json,
+        total_pages: audience_total_pages,
+        total: audience_total,
+        aggregations: audience_aggregations,
+        selected_values: @selected,
+        per_page: Audience.per_page,
+      },
+      old_audiences: {
+        records: old_audience_json,
+        total_pages: old_audience_total_pages,
+        total: old_audience_total,
+        per_page: OldAudience.per_page
+      },
+      current_page: page,
+      options: @search_options,
+      total: audience_total + old_audience_total
+    }
+
     render :home
+  end
+
+  def download
+    filename = Pathname.new(request.path).basename.to_s
+    @search_options, @selected = collect_search_options
+
+    if filename[0..20] == 'audiencias_historicas'
+      search_results = OldAudience.public_search(@search_options)
+      records = search_results.paginate(page: 1, per_page: OldAudience.count).records
+    else
+      search_results = Audience.public_search(@search_options)
+      records = search_results.paginate(page: 1, per_page: Audience.count).records
+    end
+
+    respond_to do |format|
+      format.csv { send_data generate_csv(records) , filename: filename }
+      format.json { send_data generate_json(records) , filename: filename }
+      format.xlsx { send_data generate_xlsx(records) , filename: filename }
+    end
   end
 
   private 
 
-  def search_audiences
+  def generate_csv(audiences)
+    require 'csv'
+    CSV.generate(headers: true) do |csv|
+      attributes = if audiences.length > 1 then audiences.first.class::CSV_HEADERS else [] end
+      csv << attributes
+      audiences.each do |audience|
+        csv << audience.as_csv
+      end
+    end
+  end
+
+  def generate_json(audiences)
+    audiences_json = audiences.as_json(for_public: true)
+    JSON.pretty_generate(audiences_json)
+  end
+
+  def generate_xlsx(audiences)
+    xlsx_package = Axlsx::Package.new
+    workbook = xlsx_package.workbook
+    workbook.add_worksheet(:name => "audiencias") do |sheet|
+      if audiences.length > 1 
+        attributes = audiences.first.class::CSV_HEADERS 
+        types = [:string] * attributes.length
+        sheet.add_row(attributes)
+      end
+      audiences.each do |audience|
+        sheet.add_row(audience.as_csv, types: types)
+      end
+    end
+    xlsx_package.to_stream.read
+  end
+
+  def collect_search_options
     search_options = params.permit([
       'buscar-persona', 'buscar-pen', 'buscar-textos', 'buscar-representado', 
       'desde', 'hasta', 'q', 'pagina', 'interes-invocado', 'persona', 'pen',
@@ -51,39 +143,11 @@ class MainController < ApplicationController
       selected['entity'] = legal_entity.name if legal_entity
     end
 
-    audience_search_results = Audience.public_search(search_options)
-    old_audience_search_results = OldAudience.public_search(search_options)
+    [search_options, selected]
+  end
 
-    page = (params[:pagina] || 1).to_i
-    audience_paginated_results = audience_search_results.paginate(page: page)
-    old_audience_paginated_results = old_audience_search_results.paginate(page: page)
-
-    search_results = {}
-    search_results[:audiences] = {
-      records: audience_paginated_results.records.as_json({for_public: true}),
-      total_pages: audience_paginated_results.total_pages,
-      aggregations: audience_search_results.response['aggregations'].as_json,
-      selected_values: selected,
-      per_page: Audience.per_page,
-      total: audience_paginated_results.records.total
-    }
-    if ['person', 'interest_invoked', 'dependency', 'organism', 'group', 'entity'].any? { |param| selected.include?(param) }
-      search_results[:old_audiences] = {
-        records: [],
-        total_pages: 0,
-        total: 0
-      }
-    else
-      search_results[:old_audiences] = {
-        records: old_audience_paginated_results.records.as_json({for_public: true}),
-        total_pages: old_audience_paginated_results.total_pages,
-        total: old_audience_paginated_results.records.total
-      }
-    end
-    search_results[:total] = search_results[:audiences][:total] + search_results[:old_audiences][:total]
-    search_results[:current_page] = page
-    search_results[:options] = search_options
-    search_results
+  def selected_facet
+    ['person', 'interest_invoked', 'dependency', 'organism', 'group', 'entity'].any? { |param| @selected.include?(param) }
   end
 
 end

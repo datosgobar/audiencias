@@ -322,6 +322,13 @@ class Audience < ActiveRecord::Base
   def includes_query?(query)
     false
   end
+
+  CSV_HEADERS = %w{id date publish_date summary place obligee_id applicant_id lat lng
+    motif interest_invoked address}
+
+  def as_csv 
+    CSV_HEADERS.collect{ |attr| self[attr] }
+  end
 end
 
 Audience.import

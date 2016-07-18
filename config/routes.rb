@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
   root 'main#home'
   get '/buscar', to: 'main#search'
+  get '/audiencias', to: 'main#download'
+  get '/audiencias_historicas', to: 'main#download'
   get '/audiencia', to: 'main#audience'
   get '/decreto', to:'main#legal'
   get '/acerca_de', to:'main#about'
