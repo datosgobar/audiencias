@@ -22,6 +22,7 @@ class audiencias.views.DependenciesTree extends Backbone.View
     @mode = 'tree'
 
   render: =>
+    scrollPosition = if @$el.find('.nano-content').length > 0 then @$el.find('.nano-content').scrollTop() else 0
     @$el.html(@containerTemplate(mode: @mode))
     if @mode == 'tree'
       dependenciesTree = @treeTemplate({
@@ -35,14 +36,7 @@ class audiencias.views.DependenciesTree extends Backbone.View
         results: @results, 
       })
       @$el.find('#dependencies-results').html(resultsEl)
-    @$el.find('.list-container').nanoScroller(flash: false)
-    @scrollToSelected()
-
-  scrollToSelected: =>
-    selected = audiencias.globals.userDependencies.filter((d) -> d.get('selected'))
-    if selected.length > 0
-      dependencyEl = @$el.find("div[data-dependency-id='#{selected[0].get('id')}']")
-      @$el.find('.list-container').nanoScroller(flash: false, scrollTo: dependencyEl)
+    @$el.find('.list-container').nanoScroller(flash: false, scrollTop: scrollPosition)
 
   selectDependency: (event) =>
     id = $(event.currentTarget).data('dependency-id')
