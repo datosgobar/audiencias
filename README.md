@@ -46,6 +46,10 @@
   "mappings": {
     "audience": {
       "properties": {
+        "date": {
+          "type": "date",
+          "format": ""strict_date_optional_time||epoch_millis""
+        },
         "_people": {
           "type": "nested",
           "include_in_parent": true,
@@ -145,6 +149,16 @@
 
 ```curl -X PUT 'http://localhost:9200/old_audiences/' -d \
 '{
+  "mappings": {
+    "old_audience": {
+      "properties": {
+        "fecha_hora_audiencia": {
+          "type": "date",
+          "format": ""strict_date_optional_time||epoch_millis""          
+        }
+      }
+    }
+  },
   "settings": {
     "analysis": {
       "analyzer": {
