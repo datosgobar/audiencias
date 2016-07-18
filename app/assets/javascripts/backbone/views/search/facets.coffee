@@ -79,7 +79,10 @@ class audiencias.views.Facets extends Backbone.View
     ))
     
   renderDownload: ->
-    @$el.append(@downloadTemplate())
+    options = audiencias.globals.results.options
+    @$el.append(@downloadTemplate(
+      linkCreator: @linkCreator
+    ))
 
   expandFacetList: (e) =>
     target = $(e.currentTarget)

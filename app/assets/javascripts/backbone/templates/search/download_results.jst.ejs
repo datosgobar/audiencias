@@ -2,9 +2,25 @@
   <div class="facet-title">DESCARGAR</div>
   <p class="download-description">Descargá tu búsqueda en cualquiera de estos formatos.</p>
 
-  <div class="download download-csv"></div>
-  <div class="download download-json"></div>
-  <div class="download download-xlsx"></div>
+  <% 
+  var filename_base;
+  if (audiencias.globals.results.options.historico) {
+    filename_base = 'audiencias_historicas';
+  } else {
+    filename_base = 'audiencias';
+  } 
+  %>
+  <a href="<%= linkCreator({pagina: null, historico: null}, filename_base + '.csv') %>">
+    <div class="download download-csv"></div>
+  </a>
+  
+  <a href="<%= linkCreator({pagina: null, historico: null}, filename_base + '.json') %>">
+    <div class="download download-json"></div>
+  </a>
+
+  <a href="<%= linkCreator({pagina: null, historico: null}, filename_base + '.xlsx') %>">
+    <div class="download download-xlsx"></div>
+  </a>
     
   </div>
 </div>

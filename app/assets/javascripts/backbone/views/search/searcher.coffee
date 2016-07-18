@@ -33,11 +33,11 @@ class audiencias.views.Searcher extends Backbone.View
         fullResult.render()
         $('body').append(fullResult.el)
 
-  linkCreator: (newParams) ->
+  linkCreator: (newParams, baseRoute='buscar') ->
     paramList = []
     searchOptions = $.extend({}, audiencias.globals.results.options)
     searchOptions = $.extend(searchOptions, newParams)
     for key of searchOptions
       paramList.push("#{key}=#{searchOptions[key]}") if searchOptions[key]
     params = if paramList.length > 0 then '?' + paramList.join('&') else ''
-    "/buscar#{params}"
+    "/#{baseRoute}#{params}"
