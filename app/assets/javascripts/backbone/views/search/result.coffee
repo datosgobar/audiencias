@@ -24,6 +24,7 @@ class audiencias.views.Result extends Backbone.View
     if window.history and history.pushState
       fullResult.render()
       @$el.after(fullResult.el)
+      $('body').addClass('showing-full-audience')
       title = $(document).find("title").text()
       history.replaceState({}, title, fullResult.audienceUrl)
     else

@@ -28,10 +28,9 @@ class audiencias.views.Searcher extends Backbone.View
       @$el.find('.with-external-footer').append(shortcuts.el)
   
       if audiencias.globals.singleAudience 
-        console.log('asd')
         fullResult = new audiencias.views.FullResult(audience: audiencias.globals.singleAudience)
         fullResult.render()
-        $('body').append(fullResult.el)
+        $('body').addClass('showing-full-audience').append(fullResult.el)
 
   linkCreator: (newParams, baseRoute='buscar') ->
     paramList = []

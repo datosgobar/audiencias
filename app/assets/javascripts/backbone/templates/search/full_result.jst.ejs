@@ -4,10 +4,10 @@
     <div class="top-table table">
 
       <div class="table-row">
-        <div class="table-cell col-title bold grey">Sujeto obligado</div>
-        <div class="table-cell col-title bold grey">Solicitante</div>
-        <div class="table-cell col-title bold grey">Participantes (<%= audience.participants.length %>)</div>
-        <div class="table-cell col-title bold grey">Datos audiencia</div>
+        <div class="table-cell col-title bold blue">Sujeto obligado</div>
+        <div class="table-cell col-title bold blue">Solicitante</div>
+        <div class="table-cell col-title bold blue">Participantes (<%= audience.participants.length %>)</div>
+        <div class="table-cell"></div>
       </div>
 
       <div class="table-row main-row">
@@ -128,14 +128,14 @@
 
     <div class="table bottom-table">
       <div class="table-cell wide-cell">
-        <div class="bold grey">Datos Audiencia</div>
-        <p class="grey">Síntesis</p>
+        <div class="bold blue">Datos Audiencia</div>
+        <p class="blue">Síntesis</p>
         <p class="small-font"><%= audience.summary %></p>
 
-        <p class="grey big-space-up">Lugar</p>
+        <p class="blue big-space-up">Lugar</p>
         <p class="small-font"><%= audience.place %></p>
 
-        <p class="grey big-space-up">Dirección</p>
+        <p class="blue big-space-up">Dirección</p>
         <p class="small-font"><%= audience.address %></p>
 
       </div>  
@@ -154,18 +154,18 @@
             dateString = hour + ':' + minutes + ' ' + day + '/' + month + '/' + year; %>
 
         <div class="table-cell no-padding">
-          <p class="grey">Fecha</p>
+          <p class="blue">Fecha</p>
           <p class="small-font"><%= day %>-<%= month %>-<%= year %></p>
         </div>
         <div class="table-cell no-padding">
-          <p class="grey">Hora</p>
+          <p class="blue">Hora</p>
           <p class="small-font"><%= hour %>:<%= minutes %></p>
         </div>
 
-        <p class="grey big-space-up">Interés invocado</p>
+        <p class="blue big-space-up">Interés invocado</p>
         <p class="small-font"><%= audience.interest_invoked.toUpperCase() %></p>
 
-        <p class="grey big-space-up">Motivo</p>
+        <p class="blue big-space-up">Motivo</p>
         <p class="small-font"><%= audience.motif %></p>
 
       </div>

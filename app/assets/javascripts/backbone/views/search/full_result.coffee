@@ -20,4 +20,5 @@ class audiencias.views.FullResult extends Backbone.View
       history.replaceState({}, title, @currentLocation)
     else
       history.replaceState({}, title, '/')
+    $('body').removeClass('showing-full-audience')
     @remove()

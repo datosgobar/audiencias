@@ -9,6 +9,10 @@ body.showing-error-bar {
   }
 }
 
+body.showing-full-audience {
+  overflow: hidden;
+}
+
 #admin-landing {
   height: 100%;
   padding-top: $header-height;
