@@ -48,7 +48,7 @@
       "properties": {
         "date": {
           "type": "date",
-          "format": ""strict_date_optional_time||epoch_millis""
+          "format": "strict_date_optional_time||epoch_millis"
         },
         "_people": {
           "type": "nested",
@@ -154,7 +154,7 @@
       "properties": {
         "fecha_hora_audiencia": {
           "type": "date",
-          "format": ""strict_date_optional_time||epoch_millis""          
+          "format": "strict_date_optional_time||epoch_millis"
         }
       }
     }
@@ -174,6 +174,7 @@
   }
 }'```
 
+* Para eliminar un indice (en caso de que sea necesario): ```curl -XDELETE 'http://localhost:9200/NOMBRE_DEL_INDICE/'```
 
 ## Levantar server
 * Traer la ultima version del proyecto con `git pull`.
