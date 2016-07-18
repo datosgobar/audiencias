@@ -23,7 +23,16 @@ class Participant < ActiveRecord::Base
     }
   }
   def as_json(options={})
-    super(AS_JSON_OPTIONS)
+    if options[:spanish]
+      {
+        'id' => person.person_id,
+        'nombre' => person.name,
+        'pais' => person.country,
+        'ocupacion' => ocupation
+      }
+    else
+      super(AS_JSON_OPTIONS)
+    end
   end
 
   def update_minor_attributes(params)

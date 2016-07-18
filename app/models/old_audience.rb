@@ -59,6 +59,10 @@ class OldAudience < ActiveRecord::Base
     lugar_audiencia objeto_audiencia participante_audiencia estado_cancelada_audiencia estado_audiencia
     sintesis_audiencia }
 
+  def self.table_headers
+    CSV_HEADERS
+  end
+
   def as_csv 
     CSV_HEADERS.collect{ |attr| self[attr] }
   end

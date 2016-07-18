@@ -82,7 +82,7 @@ class MainController < ApplicationController
   def generate_csv(audiences)
     require 'csv'
     CSV.generate(headers: true) do |csv|
-      attributes = if audiences.length > 1 then audiences.first.class::CSV_HEADERS else [] end
+      attributes = if audiences.length > 1 then audiences.first.class.table_headers else [] end
       csv << attributes
       audiences.each do |audience|
         csv << audience.as_csv
@@ -97,10 +97,11 @@ class MainController < ApplicationController
 
   def generate_xlsx(audiences)
     xlsx_package = Axlsx::Package.new
+    xlsx_package.use_shared_strings = true
     workbook = xlsx_package.workbook
     workbook.add_worksheet(:name => "audiencias") do |sheet|
       if audiences.length > 1 
-        attributes = audiences.first.class::CSV_HEADERS 
+        attributes = audiences.first.class.table_headers
         types = [:string] * attributes.length
         sheet.add_row(attributes)
       end
