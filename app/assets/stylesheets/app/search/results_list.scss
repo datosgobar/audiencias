@@ -140,22 +140,20 @@
         height: $width * 71/61;
         background-size: contain;
         background-repeat: no-repeat;
-        &.download-csv {
-          background-image: url('/assets/icon-formato-csv.svg');
-          &:hover {
-            background-image: url('/assets/icon-formato-csv-hover.svg')
-          }
+        img {
+          width: 100%;
+          height: 100%;
+          display: inline-block;
         }
-        &.download-json {
-          background-image: url('/assets/icon-formato-json.svg');
-          &:hover {
-            background-image: url('/assets/icon-formato-json-hover.svg')
-          }
+        .hover-img {
+          display: none;
         }
-        &.download-xlsx {
-          background-image: url('/assets/icon-formato-xlsx.svg');
-          &:hover {
-            background-image: url('/assets/icon-formato-xlsx-hover.svg')
+        &:hover {
+          .main-img {
+            display: none;
+          }
+          .hover-img {
+            display: inline-block;
           }
         }
       }

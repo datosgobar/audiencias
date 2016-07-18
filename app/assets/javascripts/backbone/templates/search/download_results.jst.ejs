@@ -11,15 +11,24 @@
   } 
   %>
   <a href="<%= linkCreator({pagina: null, historico: null}, filename_base + '.csv') %>">
-    <div class="download download-csv"></div>
+    <div class="download download-csv">
+      <img class="main-img" src="/assets/icon-formato-csv.svg">
+      <img class="hover-img" src="/assets/icon-formato-csv-hover.svg">
+    </div>
   </a>
-  
+
   <a href="<%= linkCreator({pagina: null, historico: null}, filename_base + '.json') %>">
-    <div class="download download-json"></div>
+    <div class="download download-json">
+      <img class="main-img" src="/assets/icon-formato-json.svg">
+      <img class="hover-img" src="/assets/icon-formato-json-hover.svg">
+    </div>
   </a>
 
   <a href="<%= linkCreator({pagina: null, historico: null}, filename_base + '.xlsx') %>">
-    <div class="download download-xlsx"></div>
+    <div class="download download-xlsx">
+      <img class="main-img" src="/assets/icon-formato-xlsx.svg">
+      <img class="hover-img" src="/assets/icon-formato-xlsx-hover.svg">
+    </div>
   </a>
     
   </div>
