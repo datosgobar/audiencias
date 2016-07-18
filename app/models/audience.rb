@@ -382,6 +382,10 @@ class Audience < ActiveRecord::Base
     end
 
   end
+
+  def send_publish_email
+    UserMailer.audience_new(self).deliver_now
+  end
 end
 
 Audience.import

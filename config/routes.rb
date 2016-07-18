@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get '/buscar', to: 'main#search'
   get '/audiencias', to: 'main#download'
   get '/audiencias_historicas', to: 'main#download'
-  get '/audiencia', to: 'main#audience'
+  get '/audiencia', to: 'main#audience', as: 'audience'
   get '/decreto', to:'main#legal'
   get '/acerca_de', to:'main#about'
   get '/como_funciona', to:'main#help'

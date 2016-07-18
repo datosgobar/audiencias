@@ -1,8 +1,8 @@
-Estimado <%= user.name %>,
+Estimado <%= @audience.applicant.person.name %>,
 
 Tenemos el agrado de informarle que ha sido nombrado en una Audiencia de Gestión de Intereses, en carácter de Solicitante. Para ver la información de la Audiencia completa, por favor, siga el siguiente link:
 
-LINK  
+<%= link_to 'Ver audiencia', audience_url({id: @audience.id}) %>
 
 En caso de ser un Sujeto Obligado, podrá visualizar esta entrada desde su panel de control dentro del Registro de Audiencia de Gestión de Intereses.
 
