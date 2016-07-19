@@ -12,6 +12,15 @@ class MainController < ApplicationController
     end
   end
 
+  def audience_historic
+    @audience = OldAudience.where(id_audiencia: params[:id]).first
+    if @audience
+      render :home
+    else
+      redirect_to '/404'  
+    end
+  end
+
   def search
     page = (params[:pagina] || 1).to_i
     @search_options, @selected = collect_search_options

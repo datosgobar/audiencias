@@ -20,7 +20,7 @@ class audiencias.views.Result extends Backbone.View
       ))
 
   showFullResult: =>
-    fullResult = new audiencias.views.FullResult(audience: @audience)
+    fullResult = new audiencias.views.FullResult(audience: @audience, historic: @historicFlag)
     if window.history and history.pushState
       fullResult.render()
       @$el.after(fullResult.el)

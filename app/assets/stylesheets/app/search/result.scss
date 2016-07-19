@@ -30,6 +30,9 @@
     display: table-cell;
     width: 25%;
     padding: 0 4px;
+    &.double-cell {
+      width: 50%;
+    }
   }
 
   .no-padding {

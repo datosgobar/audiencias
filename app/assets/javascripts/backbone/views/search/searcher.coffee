@@ -28,7 +28,8 @@ class audiencias.views.Searcher extends Backbone.View
       @$el.find('.with-external-footer').append(shortcuts.el)
   
       if audiencias.globals.singleAudience 
-        fullResult = new audiencias.views.FullResult(audience: audiencias.globals.singleAudience)
+        historic = !!audiencias.globals.singleAudience.id_audiencia
+        fullResult = new audiencias.views.FullResult(audience: audiencias.globals.singleAudience, historic: historic)
         fullResult.render()
         $('body').addClass('showing-full-audience').append(fullResult.el)
 
