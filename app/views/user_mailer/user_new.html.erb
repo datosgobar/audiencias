@@ -2,5 +2,5 @@
 
 <p>Se ha generado un nuevo usuario para usted dentro del Registro de Audiencias de Gestión de Intereses vinculado a este email y al DNI <%= @user.person_id %>.</p>
 <p>Para ingresar al sistema y establecer su contraseña, siga el siguiente link:</p>
-<p><%= link_to 'Establecer contraseña', password_reset_form_url(@user.password_reset_token) %></p>
+<p><%= link_to('Establecer contraseña', password_reset_form_url(@user.password_reset_token), { target: '_blank'}) %></p>
 <p>Saludos cordiales,</p>

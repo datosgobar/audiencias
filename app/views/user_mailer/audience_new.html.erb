@@ -2,6 +2,6 @@
 
 <p class="greeting">Estimado <%= @audience.applicant.person.name %>,</p>
 <p>Tenemos el agrado de informarle que ha sido nombrado en una Audiencia de Gestión de Intereses, en carácter de Solicitante. Para ver la información de la Audiencia completa, por favor, siga el siguiente link:</p>
-<p><%= link_to 'Ver audiencia', audience_url({id: @audience.id}) %></p>
+<p><%= link_to('Ver audiencia', audience_url({id: @audience.id}), { target: '_blank'}) %></p>
 <p>Saludos cordiales,</p>
 
