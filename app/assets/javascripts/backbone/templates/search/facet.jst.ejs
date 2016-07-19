@@ -4,6 +4,7 @@
   <% if (selectedValue) { %>
     <% var linkParams = { pagina: null }; %>
     <% linkParams[paramName] = null; %>
+    <% if (paramName == 'persona') { linkParams['roles-persona'] = null }%>
     <a href="<%= linkCreator(linkParams) %>">
       <div class="facet selected">
         <div class="facet-name">
@@ -23,6 +24,7 @@
         <% var facet = buckets[i]; %>
         <% var linkParams = { pagina: null };%>
         <% linkParams[paramName] = facet.key %>
+        <% if (paramName == 'persona') { linkParams['roles-persona'] = 'obligado-solicitante-participante-representado' }%>
         <a href="<%= linkCreator(linkParams) %>">
           <div class="facet">
             <div class="facet-name">

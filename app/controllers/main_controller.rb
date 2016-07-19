@@ -125,7 +125,8 @@ class MainController < ApplicationController
     search_options = params.permit([
       'buscar-persona', 'buscar-pen', 'buscar-textos', 'buscar-representado', 
       'desde', 'hasta', 'q', 'pagina', 'interes-invocado', 'persona', 'pen',
-      'organismo-estatal', 'grupo-de-personas', 'persona-juridica', 'historico'
+      'organismo-estatal', 'grupo-de-personas', 'persona-juridica', 'historico',
+      'roles-persona'
     ])
 
     selected = {}

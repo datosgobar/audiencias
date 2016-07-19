@@ -11,45 +11,76 @@
         <div class="historic-disclaimer">
           Por razones de compatibilidad entre la tecnología utilizada en el sistema anterior (desarrollado en el año 2008) y la utilizada en el nuevo sistema vigente, encontrarás diferencias en la forma en la que son mostrados los resultados. Se ha respetado el formato de los datos del sistema anterior por el carácter de declaración jurada de la información consignada.
         </div>
-      <% } else { %>
+      <% } else if (personSelected) { %>
         <div class="person-role-filter table">
           <div class="table-cell">
             Ver persona física como: 
           </div>
 
+          <% var options = audiencias.globals.results.options;
+          var selectedRoles = options['roles-persona'] ? options['roles-persona'].split('-') : []
+          function linkForCheckboxLink(roleName) {
+            var index = selectedRoles.indexOf(roleName);
+            var params = { pagina: null };
+            console.log(roleName, index);
+            if (index > -1 && selectedRoles.length > 1) {
+              newRoles = selectedRoles.concat([]);
+              newRoles.splice(index, 1);
+              params['roles-persona'] = newRoles.join('-');
+            } else if (index > -1) {
+              params['roles-persona'] = null;
+            } else {
+              newRoles = selectedRoles.concat([roleName]);
+              params['roles-persona'] = newRoles.join('-');
+            }
+            return linkCreator(params);
+          } %>
+
           <div class="table-cell">
-            <input type="checkbox" id="role-obligee" checked>
+            <% var showingObligees = selectedRoles.indexOf('obligado') > -1 %>
+            <input type="checkbox" id="role-obligee" <%= showingObligees ? 'checked' : '' %> class="role-checkbox">
             <label for="role-obligee">
-              Sujeto obligado
-                <i class="fa fa-square-o" aria-hidden="true"></i>
-                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+              <a href="<%= linkForCheckboxLink('obligado') %>">
+                Sujeto obligado
+                  <i class="fa fa-square-o" aria-hidden="true"></i>
+                  <i class="fa fa-check-square-o" aria-hidden="true"></i>
+              </a>
             </label>
           </div>
 
           <div class="table-cell">
-            <input type="checkbox" id="role-applicant" checked>
+            <% var showingApplicant = selectedRoles.indexOf('solicitante') > -1 %>
+            <input type="checkbox" id="role-applicant" <%= showingApplicant ? 'checked' : '' %> class="role-checkbox">
             <label for="role-applicant">
-              Solicitante
-                <i class="fa fa-square-o" aria-hidden="true"></i>
-                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+              <a href="<%= linkForCheckboxLink('solicitante') %>">
+                Solicitante
+                  <i class="fa fa-square-o" aria-hidden="true"></i>
+                  <i class="fa fa-check-square-o" aria-hidden="true"></i>
+              </a>
             </label>
           </div>
 
           <div class="table-cell">
-            <input type="checkbox" id="role-participant" checked>
+            <% var showingParticipants = selectedRoles.indexOf('participante') > -1 %>
+            <input type="checkbox" id="role-participant" <%= showingParticipants ? 'checked' : '' %> class="role-checkbox">
             <label for="role-participant">
-              Participante
-                <i class="fa fa-square-o" aria-hidden="true"></i>
-                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+              <a href="<%= linkForCheckboxLink('participante') %>">
+                Participante
+                  <i class="fa fa-square-o" aria-hidden="true"></i>
+                  <i class="fa fa-check-square-o" aria-hidden="true"></i>
+              </a>
             </label>
           </div>
 
           <div class="table-cell">
-            <input type="checkbox" id="role-represented" checked>
+            <% var showingRepresented = selectedRoles.indexOf('representado') > -1 %>
+            <input type="checkbox" id="role-represented" <%= showingRepresented ? 'checked' : '' %> class="role-checkbox">
             <label for="role-represented">
-              Representado
-                <i class="fa fa-square-o" aria-hidden="true"></i>
-                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+              <a href="<%= linkForCheckboxLink('representado') %>">
+                Representado
+                  <i class="fa fa-square-o" aria-hidden="true"></i>
+                  <i class="fa fa-check-square-o" aria-hidden="true"></i>
+              </a>
             </label>
           </div>
 

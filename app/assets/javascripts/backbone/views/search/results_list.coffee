@@ -17,11 +17,13 @@ class audiencias.views.ResultsList extends Backbone.View
       totalPages = audiencias.globals.results.audiences.total_pages
 
     if records.length > 0
+      personSelected = !!audiencias.globals.results.audiences.selected_values.person
       @$el.html(@template(
         linkCreator: @linkCreator
         currentPage: currentPage,
         totalPages: totalPages,
-        viewingHistoric: viewingHistoric
+        viewingHistoric: viewingHistoric,
+        personSelected: personSelected
       ))
 
       for audience in records
