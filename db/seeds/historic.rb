@@ -19,19 +19,29 @@ csv_path = Rails.root.join('db', 'seeds', 'audiencias.csv')
 csv_options = { col_sep: ';', encoding: 'ISO-8859-1', headers: true }
 
 audiences_created = 0
-ActiveRecord::Base.transaction do
 
-  CSV.open(csv_path, 'r', csv_options).each do |line|
-    line_hash = {}
-    line.as_json.each { |value_pair| line_hash[value_pair[0]] = value_pair[1] }
+CSV.open(csv_path, 'r', csv_options).each do |line|
+  line_hash = {}
+  line.as_json.each { |value_pair| line_hash[value_pair[0]] = value_pair[1] }
 
-    audience = OldAudience.where(id_audiencia: line_hash['id_audiencia']).first_or_initialize
-    new_audience = audience.new_record?
-    audience.update_attributes(line_hash)
-    audiences_created += 1 if new_audience and audience.save
+  id_audiencia = line_hash['id_audiencia']
+  audience = OldAudience.where(id_audiencia: id_audiencia).first_or_initialize
+  new_audience = audience.new_record?
+  audience.update_attributes(line_hash)
 
+  audience_is_new = audience.new_record?
+  audience_saved = audience.save
+  if audience_saved 
+    audiences_created += 1 
+    if audience_is_new
+      puts "Audiencia #{id_audiencia} creada"
+    else
+      puts "Audiencia #{id_audiencia} actualizada"
+    end
+  else 
+    puts "Falló creacion de audiencia #{id_audiencia}"
   end
-  
 end
+  
 
 puts "#{audiences_created} audiences created"
