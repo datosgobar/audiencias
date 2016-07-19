@@ -2,12 +2,5 @@
 
 <p>Se ha generado un nuevo usuario para usted dentro del Registro de Audiencias de Gestión de Intereses vinculado a este email y al DNI <%= @user.person_id %>.</p>
 <p>Para ingresar al sistema y establecer su contraseña, siga el siguiente link:</p>
-<p><%= link_to 'Reestablecer contraseña', password_reset_form_url(@user.password_reset_token) %></p>
+<p><%= link_to 'Establecer contraseña', password_reset_form_url(@user.password_reset_token) %></p>
 <p>Saludos cordiales,</p>
-<p>El Equipo de Registro Único de Audiencias de Gestión de Intereses<br>
-Subsecretaría de Reforma Institucional<br>
-y Fortalecimiento de la Democracia<br>
-(011) 4339-0800 interno 71276<br>
-registrodeaudiencias@mininterior.gob.ar</p>
-<p>---</p>
-<p>No responda este correo. El mismo ha sido generado de forma automática. Si necesita ayuda, contáctenos a través de registrodeaudiencias@mininterior.gob.ar</p>

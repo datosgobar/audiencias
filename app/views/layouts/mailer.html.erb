@@ -1,5 +1,28 @@
 <html>
   <body>
-    <%= yield %>
+    <div class="mail-container">
+      <div class="header-container">
+        <img src="<%= "#{root_url}#{image_url("header-mailing.png")}" %>" class="header-img">
+      </div>
+      <div class="main">
+        <div class="text-shadow">
+          <%= yield %>
+          <div class="bottom-text">
+            <p class="office-info">
+              Subsecretaría de Reforma Institucional y<br>
+              Fortalecimiento de la Democracia<br>
+              (011) 4339-0800 interno 71276<br>
+              registrodeaudiencias@mininterior.gob.ar
+            </p>
+            <p class="contact-info">
+              No responda este correo. El mismo ha sido generado de forma automática. Si necesita ayuda, contáctenos a través de <a href="mailto:registrodeaudiencias@mininterior.gob.ar">registrodeaudiencias@mininterior.gob.ar</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-container">
+        <img src="<%= "#{root_url}#{image_url("footer-mailing.png")}" %>" class="footer-img">
+      </div>
+    </div>
   </body>
 </html>
