@@ -49,7 +49,7 @@ class Audience < ActiveRecord::Base
 
   def as_indexed_json(options={})
     json = self.as_json
-    json['_people'] = self.people.as_json(minimal: true)
+    json['_people'] = self.people
     json['_dependency'] = self.obligee.dependency.as_json(minimal: true)
     if self.applicant
       a = self.applicant
@@ -63,10 +63,31 @@ class Audience < ActiveRecord::Base
 
   def people
     p = []
-    p << self.obligee.person if self.obligee
-    p << self.applicant.person if self.applicant
-    p << self.applicant.represented_person if self.applicant and self.applicant.represented_person
-    self.participants.each { |participant| p << participant.person }
+
+    if self.obligee
+      person_json = self.obligee.person.as_json(minimal: true)
+      person_json['role'] = 'obligee'
+      p << person_json
+    end
+
+    if self.applicant
+      person_json = self.applicant.person.as_json(minimal: true)
+      person_json['role'] = 'applicant'
+      p << person_json
+    end
+
+    if self.applicant and self.applicant.represented_person
+      person_json = self.applicant.represented_person.as_json(minimal: true)
+      person_json['role'] = 'represented'
+      p << person_json
+    end
+
+    self.participants.each do |participant| 
+      person_json = participant.person.as_json(minimal: true)
+      person_json['role'] = 'participant'
+      p << person_json
+    end
+
     p
   end
 
@@ -169,6 +190,18 @@ class Audience < ActiveRecord::Base
       if options[k]
         filter = { term: { "#{v}.id" => options[k] } }
         search_options[:query][:filtered][:filter][:bool][:must] << filter
+
+        if k == 'persona' and options['roles-persona']
+          roles = options['roles-persona'].split('-')
+          role_translations = { 'obligado' => 'obligee'}
+          nested_filter = { nested: { path: '_people', query: { bool: { must: [] }} } }
+          roles.each do |role|
+            role_filter = { term: { "_people.role" => role_translations[role] } }
+
+          end
+          search_options[:query][:filtered][:filter][:bool][:must] << nested_filter
+        end
+        
       else
         search_options[:aggs][v] = {
           nested: {
@@ -323,7 +356,6 @@ class Audience < ActiveRecord::Base
     false
   end
 
-  # representados !!!
   DOWNLOAD_HEADERS = [
     { methods: [:id], name: 'id' },
     { methods: [:date], name: 'fecha' },
