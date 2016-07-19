@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160713123700) do
+ActiveRecord::Schema.define(version: 20160719134000) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       null: false
@@ -126,6 +126,10 @@ ActiveRecord::Schema.define(version: 20160713123700) do
     t.string   "sintesis_audiencia"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "es_persona_juridica"
+    t.string   "derivada_a_apellido"
+    t.string   "derivada_a_nombre"
+    t.string   "derivada_a_cargo"
   end
 
   add_index "old_audiences", ["id_audiencia"], name: "index_old_audiences_on_id_audiencia"

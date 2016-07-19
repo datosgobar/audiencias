@@ -68,5 +68,3 @@ class OldAudience < ActiveRecord::Base
   end
 
 end
-
-OldAudience.import

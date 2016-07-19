@@ -10,9 +10,10 @@ require 'csv'
 # cargo_solicitante, tipo_documento_solicitante, numero_documento_solicitante
 # interes_invocado, caracter_en_que_participa, apellido_descripcion_representado
 # nombre_representado, cargo_representado, domicilio_representado
-# numero_documento_representadoo, fecha_hora_audiencia, lugar_audiencia
-# objeto_audiencia, participante_audiencia, estado_cancelada_audiencia
-# estado_audiencia, sintesis_audiencia
+# numero_documento_representadoo, es_persona_juridica, fecha_hora_audiencia, 
+# lugar_audiencia, objeto_audiencia, participante_audiencia, 
+# estado_cancelada_audiencia, estado_audiencia, sintesis_audiencia, 
+# derivada_a_apellido, derivada_a_nombre, derivada_a_cargo
 
 csv_path = Rails.root.join('db', 'seeds', 'audiencias.csv')
 csv_options = { col_sep: ';', encoding: 'ISO-8859-1', headers: true }

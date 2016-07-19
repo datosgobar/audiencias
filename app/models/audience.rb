@@ -387,5 +387,3 @@ class Audience < ActiveRecord::Base
     UserMailer.audience_new(self).deliver_now
   end
 end
-
-Audience.import
