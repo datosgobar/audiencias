@@ -1,39 +1,38 @@
-<% var column = function (shortcut_list) {
-  for (var i=0; i<shortcut_list.length; i++) { %>
-  <div class="table-row">
-    <div class="table-cell"> 
-      <div class="shortcut-name ellipsis">
-        <a href="/">
-          <%= shortcut_list[i].name %>
-        </a>
-      </div>
-    </div>
-    <div class="table-cell no-stretch"> 
-      <div class="shortcut-value">
-      <%= shortcut_list[i].val %>
-      </div>
-    </div>
-  </div>
-<% } 
-}%>
+<% var aggregations = audiencias.globals.aggregations %>
 
 <div class="shortcuts-content">
   <div class="shortcuts-column shortcuts-dependencies">
-    <div class="shortcuts-title">Estructura del Poder Ejecutivo Nacional</div>
+    <a href="/navegar/pen">
+      <div class="shortcuts-title">Estructura del Poder Ejecutivo Nacional</div>
+    </a>
     <div class="shortcuts-table">
-      <% column(dependencies) %>
+      <% var dependencies = aggregations._dependency.ids.buckets; %>
+      <% for (var i=0; i<Math.min(dependencies.length, 10); i++) { %>
+      <a href="<%= linkCreator({ pen: dependencies[i].key }) %>">
+        <div class="shortcut-row">
+          <div class="shortcut-name ellipsis">
+              <%= dependencies[i].name.buckets[0].key %>
+          </div>
+          <div class="shortcut-value">
+            <%= dependencies[i].doc_count %>
+          </div>
+        </div>
+      </a>
+    <% } %>
     </div>
   </div>
   <div class="shortcuts-column shortcuts-obligees">
-    <div class="shortcuts-title">Sujetos obligados que han concedido audiencias</div>
+    <a href="/navegar/sujetos_obligados">
+      <div class="shortcuts-title">Sujetos obligados que han concedido audiencias</div>
+    </a>
     <div class="shortcuts-table">
-      <% column(obligees) %>
     </div>
   </div>
   <div class="shortcuts-column shortcuts-applicants">
-    <div class="shortcuts-title">Audiencias pedidas por</div>
+    <a href="/navegar/solicitantes_de_audiencias">
+      <div class="shortcuts-title">Audiencias pedidas por</div>
+    </a>
     <div class="shortcuts-table">
-      <% column(applicants) %>
     </div>
   </div>
 </div>

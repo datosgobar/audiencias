@@ -23,7 +23,7 @@ class audiencias.views.Searcher extends Backbone.View
       results.render()
       @$el.find('.with-external-footer').append(results.el)
     else
-      shortcuts = new audiencias.views.SearchShortcuts
+      shortcuts = new audiencias.views.SearchShortcuts(linkCreator: @linkCreator)
       shortcuts.render()
       @$el.find('.with-external-footer').append(shortcuts.el)
   
@@ -35,7 +35,8 @@ class audiencias.views.Searcher extends Backbone.View
 
   linkCreator: (newParams, baseRoute='buscar') ->
     paramList = []
-    searchOptions = $.extend({}, audiencias.globals.results.options)
+    if audiencias.globals.results
+      searchOptions = $.extend({}, audiencias.globals.results.options)
     searchOptions = $.extend(searchOptions, newParams)
     for key of searchOptions
       paramList.push("#{key}=#{searchOptions[key]}") if searchOptions[key]

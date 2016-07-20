@@ -3,6 +3,9 @@
     <% if @search_results %>
       audiencias.globals.results = <%= raw @search_results.to_json %>;
     <% end %>
+    <% if @aggregations %>
+      audiencias.globals.aggregations = <%= raw @aggregations.to_json %>;
+    <% end %>
     <% if @audience %>
       audiencias.globals.singleAudience = <%= raw @audience.to_json(for_public: true) %>
     <% end %>

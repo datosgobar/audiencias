@@ -1,6 +1,7 @@
 class MainController < ApplicationController
 
   def home
+    @aggregations = home_aggregations
   end
 
   def audience
@@ -22,48 +23,7 @@ class MainController < ApplicationController
   end
 
   def search
-    page = (params[:pagina] || 1).to_i
-    @search_options, @selected = collect_search_options
-    @search_results = {}
-
-    audience_search_results = Audience.public_search(@search_options)
-    audience_paginated_results = audience_search_results.paginate(page: page)
-    audience_json = audience_paginated_results.records.as_json({for_public: true})
-    audience_total_pages = audience_paginated_results.total_pages
-    audience_aggregations = audience_search_results.response['aggregations'].as_json
-    audience_total = audience_paginated_results.records.total
-
-    if selected_facet
-      old_audience_json = []
-      old_audience_total_pages = 0
-      old_audience_total = 0
-    else
-      old_audience_paginated_results = OldAudience.public_search(@search_options).paginate(page: page)
-      old_audience_json = old_audience_paginated_results.records.as_json({for_public: true})
-      old_audience_total_pages = old_audience_paginated_results.total_pages
-      old_audience_total = old_audience_paginated_results.records.total
-    end
-
-    @search_results = {
-      audiences: {
-        records: audience_json,
-        total_pages: audience_total_pages,
-        total: audience_total,
-        aggregations: audience_aggregations,
-        selected_values: @selected,
-        per_page: Audience.per_page,
-      },
-      old_audiences: {
-        records: old_audience_json,
-        total_pages: old_audience_total_pages,
-        total: old_audience_total,
-        per_page: OldAudience.per_page
-      },
-      current_page: page,
-      options: @search_options,
-      total: audience_total + old_audience_total
-    }
-
+    @search_results = do_search
     render :home
   end
 
@@ -87,6 +47,53 @@ class MainController < ApplicationController
   end
 
   private 
+
+  def do_search
+    page = (params[:pagina] || 1).to_i
+    @search_options, @selected = collect_search_options
+
+    audience_search_results = Audience.public_search(@search_options)
+    audience_paginated_results = audience_search_results.paginate(page: page)
+    audience_json = audience_paginated_results.records.as_json({for_public: true})
+    audience_total_pages = audience_paginated_results.total_pages
+    audience_aggregations = audience_search_results.response['aggregations'].as_json
+    audience_total = audience_paginated_results.records.total
+
+    if selected_facet
+      old_audience_json = []
+      old_audience_total_pages = 0
+      old_audience_total = 0
+    else
+      old_audience_paginated_results = OldAudience.public_search(@search_options).paginate(page: page)
+      old_audience_json = old_audience_paginated_results.records.as_json({for_public: true})
+      old_audience_total_pages = old_audience_paginated_results.total_pages
+      old_audience_total = old_audience_paginated_results.records.total
+    end
+
+    {
+      audiences: {
+        records: audience_json,
+        total_pages: audience_total_pages,
+        total: audience_total,
+        aggregations: audience_aggregations,
+        selected_values: @selected,
+        per_page: Audience.per_page,
+      },
+      old_audiences: {
+        records: old_audience_json,
+        total_pages: old_audience_total_pages,
+        total: old_audience_total,
+        per_page: OldAudience.per_page
+      },
+      current_page: page,
+      options: @search_options,
+      total: audience_total + old_audience_total
+    }
+  end
+
+  def home_aggregations
+    Audience.public_search({}).response['aggregations'].as_json
+  end
 
   def generate_csv(audiences)
     require 'csv'
