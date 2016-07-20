@@ -188,20 +188,20 @@ class Audience < ActiveRecord::Base
     })
     aliases.each do |k, v|
       if options[k]
-        filter = { term: { "#{v}.id" => options[k] } }
-        search_options[:query][:filtered][:filter][:bool][:must] << filter
+        nested_filter = { nested: { path: v, query: { bool: { must: [], must_not: [] } } } }
+        nested_filter[:nested][:query][:bool][:must] << { term: { "#{v}.id" => options[k] } }
 
         if k == 'persona' and options['roles-persona']
           roles = options['roles-persona'].split('-')
-          role_translations = { 'obligado' => 'obligee'}
-          nested_filter = { nested: { path: '_people', query: { bool: { must: [] }} } }
-          roles.each do |role|
-            role_filter = { term: { "_people.role" => role_translations[role] } }
-
+          role_translations = { 'obligado' => 'obligee', 'participante' => 'participant', 'representado' => 'represented', 'solicitante' => 'applicant'}
+          role_translations.each do |k, v|
+            if not roles.include?(k)
+              nested_filter[:nested][:query][:bool][:must_not] << { term: { "_people.role" => v } }
+            end
           end
-          search_options[:query][:filtered][:filter][:bool][:must] << nested_filter
         end
         
+        search_options[:query][:filtered][:filter][:bool][:must] << nested_filter
       else
         search_options[:aggs][v] = {
           nested: {
