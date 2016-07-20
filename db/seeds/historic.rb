@@ -16,7 +16,7 @@ require 'csv'
 # derivada_a_apellido, derivada_a_nombre, derivada_a_cargo
 
 csv_path = Rails.root.join('db', 'seeds', 'audiencias.csv')
-csv_options = { col_sep: ';', encoding: 'ISO-8859-1', headers: true }
+csv_options = { col_sep: ';', encoding: 'utf8', headers: true }
 
 audiences_created = 0
 
