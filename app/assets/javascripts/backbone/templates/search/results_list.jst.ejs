@@ -22,7 +22,6 @@
           function linkForCheckboxLink(roleName) {
             var index = selectedRoles.indexOf(roleName);
             var params = { pagina: null };
-            console.log(roleName, index);
             if (index > -1 && selectedRoles.length > 1) {
               newRoles = selectedRoles.concat([]);
               newRoles.splice(index, 1);
