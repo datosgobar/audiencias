@@ -129,6 +129,7 @@ class OperatorsController < ApplicationController
     end 
 
     if audience.save 
+      audience.send_publish_email
       render json: { success: true }
     else
       render json: { success: false }
