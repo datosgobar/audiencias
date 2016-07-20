@@ -35,25 +35,27 @@ body {
     padding: 0 50px 50px 50px;
     .text-shadow {
       background: white;
-      padding: 30px;
+      padding: 45px;
       @include box-shadow(0px 0px 5px 0px rgba(0, 0, 0, 0.4));
     }
   }
 }
 
 .main {
-  font-size: 14px;
+  font-size: 16px;
 
   p {
     margin: 15px 0;
   }
   .greeting {
     font-size: 16px;
+    margin-top: 0;
     margin-bottom: 20px;
   }
 
   a {
-    color: $blue-300;
+    color: $blue-200;
+    font-weight: bold;
     text-decoration: none;
   }  
 
@@ -61,5 +63,8 @@ body {
     font-weight: bold;
     margin-top: 40px;
     font-size: 11px;
+  }
+  .contact-info {
+    margin-bottom: 0;
   }
 }
