@@ -60,3 +60,7 @@
 
 ## Importar audiencias historicas
 * El script que importa las audiencias historicas está en `db/seeds/historic.rb` y se corre ejecutando `bundle exec rake db:seed historic=yes`. Asume que se va a importar desde un archivo csv, cuyo path es `db/seeds/audiencias.csv` (ver los comentarios del script para ver detalles sobre el csv).
+
+## Crear primer usuario 
+En la consola de Rails ejecutar `bundle exec rails c`
+`User.create!(email: "email", name: "Apeliido Nombre", person_id: "34321017", id_type: :dni, password: "ejemplo", is_superadmin: true)`
