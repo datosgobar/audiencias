@@ -11,6 +11,11 @@ class MainController < ApplicationController
   def audience
     @audience = Audience.find_by_id(params[:id])
     if @audience and @audience.published
+      @aggregations = Audience.shortcut_aggregations({
+        dependency_size: 50,
+        obligee_size: 50,
+        applicant_size: 50
+      }).as_json
       render :home
     else
       redirect_to '/404'  
@@ -20,6 +25,11 @@ class MainController < ApplicationController
   def audience_historic
     @audience = OldAudience.where(id_audiencia: params[:id]).first
     if @audience
+      @aggregations = Audience.shortcut_aggregations({
+        dependency_size: 50,
+        obligee_size: 50,
+        applicant_size: 50
+      }).as_json
       render :home
     else
       redirect_to '/404'  
@@ -56,6 +66,7 @@ class MainController < ApplicationController
       obligee_size: 0,
       applicant_size: 0
     }).as_json
+    @dependencies = Dependency.all.as_json(for_public: true)
     render :shortcuts
   end
 

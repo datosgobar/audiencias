@@ -44,8 +44,12 @@ class Dependency < ActiveRecord::Base
   def as_json(options={})
     if options[:minimal]
       super({ only: [:id, :name] })
+    elsif options[:for_public]
+      super({
+        only: [:id, :name, :active, :parent_id]
+      })
     else
-      json = super({
+      super({
         only: [:id, :name, :active, :parent_id],
         include: { 
           users: { only: [:id] },
