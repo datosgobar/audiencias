@@ -1,7 +1,7 @@
 class MainController < ApplicationController
 
   def home
-    @aggregations = home_aggregations
+    @aggregations = Audience.shortcut_aggregations.as_json
   end
 
   def audience
@@ -89,10 +89,6 @@ class MainController < ApplicationController
       options: @search_options,
       total: audience_total + old_audience_total
     }
-  end
-
-  def home_aggregations
-    Audience.public_search({}).response['aggregations'].as_json
   end
 
   def generate_csv(audiences)
