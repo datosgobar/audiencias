@@ -7,6 +7,10 @@ class audiencias.views.Shortcuts extends Backbone.View
     @$el.html(@template(
       linkCreator: audiencias.app.linkCreator
     ))
+    if audiencias.globals.dependencies_shortcuts
+      dependenciesShortcuts = new audiencias.views.ShortcutsDependencies
+      dependenciesShortcuts.render()
+      @$el.find('.shortcuts-table').append(dependenciesShortcuts.el)
 
     header = new audiencias.views.SubHeader
     header.render()

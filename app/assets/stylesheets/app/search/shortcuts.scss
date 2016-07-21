@@ -83,5 +83,33 @@
         text-overflow: ellipsis;
       }
     }
+
+    .dependency {
+      img {
+        height: 15px;
+        width: 14px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .expanded {
+        display: none;
+      }
+      &.selected {
+        .collapsed {
+          display: none;
+        }
+        .expanded {
+          display: inline-block;
+        }
+      }
+    }
+
+    .children {
+      display: none
+    }
+
+    .dependency.selected + .children {
+      display: block;
+    }
   }
 }

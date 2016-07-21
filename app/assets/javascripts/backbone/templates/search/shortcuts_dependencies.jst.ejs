@@ -1,0 +1,23 @@
+<% for (var i=0; i<nodes.length; i++) { %>
+  <% var node = nodes[i]; %>
+
+  <a href="<%= audiencias.app.linkCreator({ pen: node.id }) %>" class="dependency">
+    <div class="shortcut-row" style="padding-left:<%= padding %>%">
+      <div class="shortcut-name ellipsis">
+        <img src="/assets/icon-marcador-derecha.svg" class="collapsed">
+        <img src="/assets/icon-marcador-abajo.svg" class="expanded">
+        <%= node.name %>
+      </div>
+      <div class="shortcut-value">
+        <%= aggregations[node.id] ? aggregations[node.id].doc_count : 0 %>
+      </div>
+    </div>
+  </a>
+
+  <% var childrenNodes = allNodes[node.id] %>
+  <% if (childrenNodes && childrenNodes.length > 0) { %>
+    <div class="children">
+      <%= template({ nodes: childrenNodes, padding: padding + 3, template: template, allNodes: allNodes, aggregations: aggregations}) %>
+    </div>
+  <% } %> 
+<% } %>

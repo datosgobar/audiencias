@@ -1,6 +1,9 @@
 <%= javascript_tag do %>
   $(function() {
     audiencias.globals.aggregations = <%= raw @aggregations.to_json %>
+    <% if @dependencies %>
+      audiencias.globals.dependencies_shortcuts = <%= raw @dependencies.to_json %>
+    <% end %>
     audiencias.app.shortcuts();
     <% if @current_user %>
       audiencias.globals.currentUser = <%= raw @current_user.id %>;
