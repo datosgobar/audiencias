@@ -54,7 +54,17 @@ window.audiencias =
         maxDate: moment().toDate()
       )
       picker.setMoment(selectedDate) if selectedDate
-      picker      
+      picker   
+
+    linkCreator: (newParams, baseRoute='buscar') ->
+      paramList = []
+      if audiencias.globals.results
+        searchOptions = $.extend({}, audiencias.globals.results.options)
+      searchOptions = $.extend(searchOptions, newParams)
+      for key of searchOptions
+        paramList.push("#{key}=#{searchOptions[key]}") if searchOptions[key]
+      params = if paramList.length > 0 then '?' + paramList.join('&') else ''
+      "/#{baseRoute}#{params}"         
 
     render: (Class) ->
       instance = new Class
@@ -158,6 +168,11 @@ window.audiencias =
       audiencias.app.init()
       @renderHeader()
       @render(audiencias.views.About)
+
+    shortcuts: ->
+      audiencias.app.init()
+      @renderHeader()
+      @render(audiencias.views.Shortcuts)
       
   }
   helpers: {

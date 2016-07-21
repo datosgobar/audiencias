@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   get '/decreto', to:'main#legal'
   get '/acerca_de', to:'main#about'
   get '/como_funciona', to:'main#help'
+  get '/navegar/pen', to:'main#dependencies'
+  get '/navegar/sujetos_obligados', to:'main#obligees'
+  get '/navegar/solicitantes_de_audiencias', to:'main#applicants'
 
   get '/intranet', to: 'users#login', as: 'login'
   post '/ingresar', to: 'users#login_attempt', as: 'login_attempt'

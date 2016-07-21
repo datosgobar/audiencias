@@ -3,6 +3,9 @@ class audiencias.views.Searcher extends Backbone.View
   className: 'main-container'
   template: JST["backbone/templates/search/searcher"]
 
+  initialize: ->
+    @linkCreator = audiencias.app.linkCreator
+
   render: ->
     @$el.html(@template())
 
@@ -32,13 +35,3 @@ class audiencias.views.Searcher extends Backbone.View
         fullResult = new audiencias.views.FullResult(audience: audiencias.globals.singleAudience, historic: historic)
         fullResult.render()
         $('body').addClass('showing-full-audience').append(fullResult.el)
-
-  linkCreator: (newParams, baseRoute='buscar') ->
-    paramList = []
-    if audiencias.globals.results
-      searchOptions = $.extend({}, audiencias.globals.results.options)
-    searchOptions = $.extend(searchOptions, newParams)
-    for key of searchOptions
-      paramList.push("#{key}=#{searchOptions[key]}") if searchOptions[key]
-    params = if paramList.length > 0 then '?' + paramList.join('&') else ''
-    "/#{baseRoute}#{params}"

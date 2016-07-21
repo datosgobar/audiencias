@@ -57,3 +57,31 @@
     }
   }
 }
+
+#shortcuts {
+  .shortcuts-table {
+    .shortcut-row {
+      position: relative;
+      padding: 5px 50px 5px 5px;
+      &:hover {
+        background: $grey-200;
+      }
+      .shortcut-value {
+        display: inline-block;
+        background: $grey-400;
+        color: white;
+        font-size: 13px;
+        padding: 0 5px;
+        border-radius: 10px;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+      }
+      .ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

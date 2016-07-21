@@ -167,86 +167,68 @@ module AudienceSearchMethods
       aggregations
     end
 
-    def shortcut_aggregations
-      query = make_query({
-        aggregations: {
-          _dependency: {
-            nested: {
-              path: '_dependency'
-            },
-            aggs: {
-              ids: {
-                terms: {
-                  field: "_dependency.id",
-                  size: 50
-                },
-                aggs: {
-                  name: {
-                    terms: {
-                      field: "_dependency.name"
+    def shortcut_aggregations(options)
+      aggregations =  { aggregations: {} }
+      default_aggregations = parse_aggregations({})
+      if options[:obligee_size] > 0
+        aggregations[:aggregations][:_obligee] = {
+          nested: { path: '_people' },
+          aggs: {
+            _obligees: {
+              filter: { term: { '_people.role' => 'obligee' } },
+              aggs: {
+                ids: {
+                  terms: {
+                    field: "_people.id",
+                    size: options[:obligee_size]
+                  },
+                  aggs: {
+                    name: {
+                      terms: { field: "_people.name" }
                     }
-                  }
-                }  
-              }
-            }
-          },
-          _obligee: {
-            nested: {
-              path: '_people'
-            },
-            aggs: {
-              _obligees: {
-                filter: { term: { '_people.role' => 'obligee' } },
-                aggs: {
-                  ids: {
-                    terms: {
-                      field: "_people.id",
-                      size: 50
-                    },
-                    aggs: {
-                      name: {
-                        terms: {
-                          field: "_people.name"
-                        }
-                      }
-                    }  
-                  }
-                }
-              }
-            }
-          },
-          _applicant: {
-            nested: {
-              path: '_people'
-            },
-            aggs: {
-              _applicants: {
-                filter: { term: { '_people.role' => 'applicant' } },
-                aggs: {
-                  ids: {
-                    terms: {
-                      field: "_people.id",
-                      size: 50
-                    },
-                    aggs: {
-                      name: {
-                        terms: {
-                          field: "_people.name"
-                        }
-                      }
-                    }  
-                  }
+                  }  
                 }
               }
             }
           }
         }
-      })
-      default_aggregations = parse_aggregations({})
-      query[:aggs][:_dependency] = default_aggregations['_dependency']
-      query[:aggs][:_represented_entity] = default_aggregations['_represented_entity']
-      query[:aggs][:_represented_group] = default_aggregations['_represented_group']
-      query[:aggs][:_represented_organism] = default_aggregations['_represented_organism']
+      end
+      if options[:applicant_size] > 0
+        aggregations[:aggregations][:_applicant] = {
+          nested: { path: '_people' },
+          aggs: {
+            _applicants: {
+              filter: { term: { '_people.role' => 'applicant' } },
+              aggs: {
+                ids: {
+                  terms: {
+                    field: "_people.id",
+                    size: options[:applicant_size]
+                  },
+                  aggs: {
+                    name: {
+                      terms: { field: "_people.name" }
+                    }
+                  }  
+                }
+              }
+            }
+          }
+        }
+      end
+      query = make_query(aggregations)
+      if options[:dependency_size] > 0
+        query[:aggs][:_dependency] = default_aggregations['_dependency']
+        query[:aggs][:_dependency][:aggs][:ids][:terms][:size] = options[:dependency_size]
+      end
+      if options[:applicant_size] > 0
+        query[:aggs][:_represented_entity] = default_aggregations['_represented_entity']
+        query[:aggs][:_represented_entity][:aggs][:ids][:terms][:size] = options[:applicant_size]
+        query[:aggs][:_represented_group] = default_aggregations['_represented_group']
+        query[:aggs][:_represented_group][:aggs][:ids][:terms][:size] = options[:applicant_size]
+        query[:aggs][:_represented_organism] = default_aggregations['_represented_organism']
+        query[:aggs][:_represented_organism][:aggs][:ids][:terms][:size] = options[:applicant_size]
+      end
       self.search(query).response['aggregations']
     end
 

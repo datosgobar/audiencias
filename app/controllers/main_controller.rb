@@ -1,7 +1,11 @@
 class MainController < ApplicationController
 
   def home
-    @aggregations = Audience.shortcut_aggregations.as_json
+    @aggregations = Audience.shortcut_aggregations({
+      dependency_size: 50,
+      obligee_size: 50,
+      applicant_size: 50
+    }).as_json
   end
 
   def audience
@@ -45,6 +49,34 @@ class MainController < ApplicationController
       format.xlsx { send_data generate_xlsx(records) , filename: filename }
     end
   end
+
+  def dependencies
+    @aggregations = Audience.shortcut_aggregations({
+      dependency_size: Dependency.count,
+      obligee_size: 0,
+      applicant_size: 0
+    }).as_json
+    render :shortcuts
+  end
+
+  def obligees
+    @aggregations = Audience.shortcut_aggregations({
+      dependency_size: 0,
+      obligee_size: 150,
+      applicant_size: 0
+    }).as_json  
+    render :shortcuts
+  end
+
+  def applicants
+    @aggregations = Audience.shortcut_aggregations({
+      dependency_size: 0,
+      obligee_size: 0,
+      applicant_size: 150
+    }).as_json    
+    render :shortcuts
+  end
+
 
   private 
 

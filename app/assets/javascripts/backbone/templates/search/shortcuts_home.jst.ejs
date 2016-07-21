@@ -1,0 +1,93 @@
+<% var aggregations = audiencias.globals.aggregations %>
+
+<div class="shortcuts-content">
+  <div class="shortcuts-column shortcuts-dependencies">
+    <a href="/navegar/pen">
+      <div class="shortcuts-title">Estructura del Poder Ejecutivo Nacional</div>
+    </a>
+    <div class="shortcuts-table">
+      <% var dependencies = aggregations._dependency.ids.buckets; %>
+      <% for (var i=0; i<Math.min(dependencies.length, 10); i++) { %>
+        <a href="<%= linkCreator({ pen: dependencies[i].key }) %>">
+          <div class="shortcut-row">
+            <div class="shortcut-name ellipsis">
+                <%= dependencies[i].name.buckets[0].key %>
+            </div>
+            <div class="shortcut-value">
+              <%= dependencies[i].doc_count %>
+            </div>
+          </div>
+        </a>
+      <% } %>
+    </div>
+  </div>
+  <div class="shortcuts-column shortcuts-obligees">
+    <a href="/navegar/sujetos_obligados">
+      <div class="shortcuts-title">Sujetos obligados que han concedido audiencias</div>
+    </a>
+    <div class="shortcuts-table">
+      <% var obligees = aggregations._obligee._obligees.ids.buckets; %>
+      <% for (var i=0; i<Math.min(obligees.length, 10); i++) { %>
+        <a href="<%= linkCreator({ persona: obligees[i].key, 'roles-persona': 'obligado' }) %>">
+          <div class="shortcut-row">
+            <div class="shortcut-name ellipsis">
+                <%= obligees[i].name.buckets[0].key %>
+            </div>
+            <div class="shortcut-value">
+              <%= obligees[i].doc_count %>
+            </div>
+          </div>
+        </a>
+      <% } %>    
+    </div>
+  </div>
+  <div class="shortcuts-column shortcuts-applicants">
+    <a href="/navegar/solicitantes_de_audiencias">
+      <div class="shortcuts-title">Audiencias pedidas por</div>
+    </a>
+    <div class="shortcuts-table">
+      <% 
+        var all_aggregations = [
+          { type: 'person', list: aggregations._applicant._applicants.ids.buckets },
+          { type: 'entity', list: aggregations._represented_entity.ids.buckets },
+          { type: 'group', list: aggregations._represented_group.ids.buckets },
+          { type: 'organism', list: aggregations._represented_organism.ids.buckets },
+        ];
+        var all_applicants = [];
+        for (var i=0; i<all_aggregations.length; i++) {
+          var type = all_aggregations[i].type
+          var agg_list = all_aggregations[i].list;
+          for (var j=0; j<agg_list.length; j++) {
+            var bucket = agg_list[j];
+            bucket.type = type;
+            all_applicants.push(bucket);
+          }
+        }
+        all_applicants = _.sortBy(all_applicants, function(el) { return -el.doc_count });
+      %>
+      <% for (var i=0; i<Math.min(all_applicants.length, 10); i++) { %>
+        <% var linkParams;
+          if (all_applicants[i].type == 'person') {
+            linkParams = { 'persona': all_applicants[i].key, 'roles-persona': 'solicitante' }
+          } else if (all_applicants[i].type == 'group') {
+            linkParams = { 'grupo-de-personas': all_applicants[i].key }
+          } else if (all_applicants[i].type == 'entity') {
+            linkParams = { 'persona-juridica': all_applicants[i].key }
+          } else {
+            linkParams = { 'organismo-estatal': all_applicants[i].key }
+          }
+         %>
+        <a href="<%= linkCreator(linkParams) %>">
+          <div class="shortcut-row">
+            <div class="shortcut-name ellipsis">
+                <%= all_applicants[i].name.buckets[0].key %>
+            </div>
+            <div class="shortcut-value">
+              <%= all_applicants[i].doc_count %>
+            </div>
+          </div>
+        </a>
+      <% } %> 
+    </div>
+  </div>
+</div>
