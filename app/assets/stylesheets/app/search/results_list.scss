@@ -199,19 +199,22 @@
     label {
       cursor: pointer;
       color: $blue-300;
-      i {
-        width: 1em;
+      .checked,
+      .not-checked {
+        height: 19px;
+        width: 23px;
+        vertical-align: bottom;
       }
-      .fa-check-square-o {
+      .checked {
         display: none;
       }
     }
 
     input:checked + label {
-      .fa-square-o {
+      .not-checked {
         display: none;
       }
-      .fa-check-square-o {
+      .checked {
         display: inline-block;
       }
     }

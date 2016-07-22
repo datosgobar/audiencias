@@ -117,6 +117,7 @@ body.showing-full-audience {
     background: $grey-100;
     #results {
       @include outer-container();
+      min-height: 50px;
       .results-content {
         @include span-columns(10);
         @include shift(1);

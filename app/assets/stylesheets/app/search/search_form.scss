@@ -46,15 +46,16 @@
     label {
       cursor: pointer;
       position: relative;
-      i {
+      .checked, .not-checked {
         position: absolute;
-        left: 0;
-        top: 8px;
-        width: 12px;
-      }      
-      .fa-check-square-o {
+        left: -5px;
+        top: 5px;
+        width: 20px;
+        height: 18px;
+      }
+      .checked {
         display: none;
-      }      
+      }
     }
 
     .advance-search .search-option .table-cell label {
@@ -63,11 +64,11 @@
     }
 
     input[type="checkbox"]:checked + label {
-      .fa-check-square-o {
+      .checked {
         display: inline-block;
       }
-      .fa-square-o {
-        display: none;
+      .not-checked {
+        display: none;  
       }
     }
 
