@@ -8,7 +8,7 @@
 
     .shortcuts-column {
       @include span-columns(1 of 3);
-      padding: 0 6px;
+      padding: 0 10px;
 
       .shortcuts-title {
         white-space: nowrap;
@@ -16,20 +16,25 @@
         text-overflow: ellipsis;
         background: $blue-300;
         color: white;
-        padding: 8px;
+        padding: 12px;
         text-align: center;
-        font-size: 14px;
-        font-weight: 500;
+        font-size: 16px;
+        @include border-radius(4px);
+        margin-bottom: 10px;
+        &:hover {
+          background: $blue-400
+        }
       }
 
       .shortcuts-table {
-        font-size: 13px;
+        font-size: 15px;
 
         .shortcut-row {
           padding-right: 40px;
           position: relative;
           &:hover {
             background: $grey-200;
+            color: $blue-400;
           }
         }
 
@@ -46,9 +51,9 @@
           display: inline-block;
           background: $grey-400;
           color: white;
-          font-size: 11px;
-          padding: 0 5px;
-          border-radius: 10px;
+          font-size: 13px;
+          padding: 0 7px;
+          @include border-radius(10px);
           position: absolute;
           right: 5px;
           top: 5px;
@@ -65,13 +70,14 @@
       padding: 5px 50px 5px 5px;
       &:hover {
         background: $grey-200;
+        color: $blue-400;
       }
       .shortcut-value {
         display: inline-block;
         background: $grey-400;
         color: white;
         font-size: 13px;
-        padding: 0 5px;
+        padding: 0 7px;
         border-radius: 10px;
         position: absolute;
         right: 5px;
