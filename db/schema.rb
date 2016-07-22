@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160721221137) do
+ActiveRecord::Schema.define(version: 20160722154211) do
 
   create_table "admin_associations", force: :cascade do |t|
     t.integer  "user_id",       limit: 4, null: false
@@ -42,19 +42,19 @@ ActiveRecord::Schema.define(version: 20160721221137) do
   create_table "audiences", force: :cascade do |t|
     t.datetime "date"
     t.datetime "publish_date"
-    t.string   "summary",          limit: 255
+    t.text     "summary",          limit: 65535
     t.boolean  "published",        limit: 1
     t.string   "place",            limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "obligee_id",       limit: 4
     t.integer  "applicant_id",     limit: 4
-    t.decimal  "lat",                          precision: 10, scale: 6
-    t.decimal  "lng",                          precision: 10, scale: 6
+    t.decimal  "lat",                            precision: 10, scale: 6
+    t.decimal  "lng",                            precision: 10, scale: 6
     t.string   "motif",            limit: 255
     t.integer  "author_id",        limit: 4
     t.string   "interest_invoked", limit: 255
-    t.boolean  "deleted",          limit: 1,                            default: false
+    t.boolean  "deleted",          limit: 1,                              default: false
     t.date     "deleted_at"
     t.string   "address",          limit: 255
   end
