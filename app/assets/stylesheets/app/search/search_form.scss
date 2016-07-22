@@ -29,8 +29,7 @@
     .show-advance-search-label {
       font-weight: 500;
       display: inline-block;
-      width: 170px;
-      font-size: 13px;
+      font-size: 15px;
 
       .advance-search-icon {
         height: 13px;
@@ -46,27 +45,37 @@
 
     label {
       cursor: pointer;
-      i {
-        width: 12px;
-      }      
-      .fa-check-square-o {
+      position: relative;
+      .checked, .not-checked {
+        position: absolute;
+        left: -5px;
+        top: 5px;
+        width: 20px;
+        height: 18px;
+      }
+      .checked {
         display: none;
-      }      
+      }
+    }
+
+    .advance-search .search-option .table-cell label {
+      padding-left: 15px;
+
     }
 
     input[type="checkbox"]:checked + label {
-      .fa-check-square-o {
+      .checked {
         display: inline-block;
       }
-      .fa-square-o {
-        display: none;
+      .not-checked {
+        display: none;  
       }
     }
 
     .advance-search {
       display: none;
       padding: 15px;
-      font-size: 12px;
+      font-size: 15px;
 
       .search-option {
         position: relative;
@@ -82,11 +91,12 @@
         .table-cell {
           width: 50%;
           vertical-align: middle;
+          padding-right: 15px;
         }
         label {
           display: inline-block;
 
-          font-size: 13px;
+          font-size: 14px;
           padding: 5px 0;
         }
       }

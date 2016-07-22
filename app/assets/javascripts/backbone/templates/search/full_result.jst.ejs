@@ -104,7 +104,7 @@
         <div class="table-cell">
           <% for (var i=1; i<audience.participants.length; i+=2) { %> 
             <% var participant = audience.participants[i]; %>
-            <div class="participant <%= i > 0 ? 'big-space-up' : '' %>">
+            <div class="participant <%= i > 1 ? 'big-space-up' : '' %>">
               <p class="participant-name bold">
                 <%= participant.person.name %>
               </p>

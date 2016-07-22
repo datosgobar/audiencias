@@ -7,7 +7,7 @@
   margin-bottom: 10px;
   @include box-shadow($result-shadow);
   cursor: pointer;
-  border-right: solid 5px $grey-300;
+  border-right: solid 8px $grey-300;
   font-size: 14px;
 
   &:last-child {
@@ -50,7 +50,7 @@
   }
 
   .small-font {
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .space-up {
@@ -62,7 +62,7 @@
   }
 
   .grey {
-    color: $grey-300;
+    color: $grey-350;
   }
 
   .blue {
@@ -105,9 +105,10 @@
     max-width: 800px;
     margin: auto;
     overflow: auto;
+    border: none;
+    padding: 30px;
 
     &:hover {
-      border-right: solid 5px $grey-300;
       cursor: default;
     }
 

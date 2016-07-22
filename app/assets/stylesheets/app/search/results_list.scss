@@ -1,12 +1,11 @@
 #results .results-content {
-  padding-top: 10px;
 
   .facets-container {
     @include span-columns(3 of 10);
     padding: 20px 40px 0 0;
 
     .title {
-      font-size: 18px;
+      font-size: 22px;
       color: $grey-400;
       font-weight: 500;
       padding: 0 5px;
@@ -43,9 +42,10 @@
           margin-bottom: 10px;
           width: 100%;
           img {
-            width: 30px;
-            height: 24px;
-            vertical-align: bottom;
+            width: 28px;
+            height: 26px;
+            vertical-align: middle;
+            margin-left: 8px;
           }
         }
         .table-cell {
@@ -66,7 +66,7 @@
         }
         button {
           padding: 6px 12px;
-          font-size: 14px;
+          font-size: 13px;
         }
       }
 
@@ -85,6 +85,7 @@
         }
 
         &:hover {
+          color: $blue-400;
           background: $grey-200;
         }
 
@@ -97,7 +98,7 @@
           font-size: 12px;
           background: $grey-400;
           padding: 2px 8px;
-          @include border-radius(50%);
+          @include border-radius(10px);
         }
       }
       .expand-facet-list,
@@ -130,7 +131,7 @@
       }
       .download-description {
         padding: 0 5px;
-        font-size: 13px;
+        font-size: 14px;
         margin: 0 0 5px 0;
       }
       .download {
@@ -161,10 +162,15 @@
   }
   .results-container {
     @include span-columns(7 of 10);
+
+    .results-list {
+      padding-top: 20px;
+    }
+
   }
 
   .historic-disclaimer {
-    margin: 10px 0 20px 0;
+    margin: 0 0 20px 0;
     padding: 10px;
     border: solid 1px $grey-400;
     color: $grey-400;
@@ -173,7 +179,7 @@
   }
 
   .person-role-filter {
-    margin: 10px 0 20px 0;
+    margin: 0 0 20px 0;
     padding: 10px;
     border: solid 1px $grey-400;
     @include border-radius(4px);
@@ -193,19 +199,22 @@
     label {
       cursor: pointer;
       color: $blue-300;
-      i {
-        width: 1em;
+      .checked,
+      .not-checked {
+        height: 19px;
+        width: 23px;
+        vertical-align: bottom;
       }
-      .fa-check-square-o {
+      .checked {
         display: none;
       }
     }
 
     input:checked + label {
-      .fa-square-o {
+      .not-checked {
         display: none;
       }
-      .fa-check-square-o {
+      .checked {
         display: inline-block;
       }
     }

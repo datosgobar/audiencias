@@ -3,7 +3,7 @@
 <div class="shortcuts-content">
   <div class="shortcuts-column shortcuts-dependencies">
     <a href="/navegar/pen">
-      <div class="shortcuts-title">Estructura del Poder Ejecutivo Nacional</div>
+      <div class="shortcuts-title">Estructura del <br> Poder Ejecutivo Nacional</div>
     </a>
     <div class="shortcuts-table">
       <% var dependencies = aggregations._dependency.ids.buckets; %>
@@ -23,7 +23,7 @@
   </div>
   <div class="shortcuts-column shortcuts-obligees">
     <a href="/navegar/sujetos_obligados">
-      <div class="shortcuts-title">Sujetos obligados que han concedido audiencias</div>
+      <div class="shortcuts-title">Sujetos obligados que <br> han concedido audiencias</div>
     </a>
     <div class="shortcuts-table">
       <% var obligees = aggregations._obligee._obligees.ids.buckets; %>
@@ -43,7 +43,7 @@
   </div>
   <div class="shortcuts-column shortcuts-applicants">
     <a href="/navegar/solicitantes_de_audiencias">
-      <div class="shortcuts-title">Audiencias pedidas por</div>
+      <div class="shortcuts-title">Sujetos que han <br> pedido audiencias</div>
     </a>
     <div class="shortcuts-table">
       <% 
