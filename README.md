@@ -59,6 +59,9 @@
 * Levantar server local de elasticsearch
 
 ## Importar audiencias historicas
+
+IMPORTANTE: La migración ChangeColumsLimitInOldAudiences tiene que correrse antes de ejecutar este script.
+
 * El script que importa las audiencias historicas está en `db/seeds/historic.rb` y se corre ejecutando `bundle exec rake db:seed historic=yes`. Asume que se va a importar desde un archivo csv, cuyo path es `db/seeds/audiencias.csv` (ver los comentarios del script para ver detalles sobre el csv).
 
 ## Crear primer usuario 
