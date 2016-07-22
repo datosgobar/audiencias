@@ -1,17 +1,53 @@
 class audiencias.views.ShortcutsDependencies extends Backbone.View
-  className: 'shortcuts-table'
   navigationTemplate: JST["backbone/templates/search/shortcuts_dependencies_navigation"]
   template: JST["backbone/templates/search/shortcuts_dependencies"]
   events: 
     'click img': 'toggleDependency'
     'click .toggle-dependencies': 'toggleDependencies'
+    'input .dependency-input-search': 'lunrSearch'
+
+  initialize: ->
+    @joinDependenciesAndAggregations()
+    @initializeLunr()
+
+  initializeLunr: ->
+    @lunr = lunr( ->
+      this.field('name')
+      this.ref('id')
+    )
+    dependencies = audiencias.globals.dependencies_shortcuts
+    @lunr.add(dependency) for dependency in dependencies
+
+  lunrSearch: (e) =>
+    searchText = $(e.currentTarget).val().trim()
+    if searchText.length > 0 
+      lunrResults = @lunr.search(searchText)
+      if lunrResults.length > 0
+        dependenciesIds = _.pluck(lunrResults, 'ref')
+        dependencies = _.filter(audiencias.globals.dependencies_shortcuts, (d) -> dependenciesIds.indexOf(d.id) > -1)
+        @renderResults(dependencies)
+      else
+        @renderResults([])
+    else 
+      @renderTree()
 
   render: ->
-    @joinDependenciesAndAggregations()
     @$el.html(@navigationTemplate())
-    @$el.append(@template(
+    @renderTree()
+
+  renderTree: ->
+    @$el.find('.shortcuts-table').html(@template(
       nodes: @dependenciesByParent[0],
       allNodes: @dependenciesByParent
+      padding: 0,
+      template: @template,
+      aggregations: @aggregationsById
+    ))
+
+  renderResults: (results) ->
+    @$el.find('.shortcuts-table').html(@template(
+      nodes: results,
+      allNodes: []
       padding: 0,
       template: @template,
       aggregations: @aggregationsById
