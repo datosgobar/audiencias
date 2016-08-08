@@ -2,7 +2,6 @@ class audiencias.views.ShortcutsDependencies extends Backbone.View
   navigationTemplate: JST["backbone/templates/search/shortcuts_dependencies_navigation"]
   template: JST["backbone/templates/search/shortcuts_dependencies"]
   events: 
-    'click img': 'toggleDependency'
     'click .toggle-dependencies': 'toggleDependencies'
     'input .dependency-input-search': 'lunrSearch'
 
@@ -63,11 +62,6 @@ class audiencias.views.ShortcutsDependencies extends Backbone.View
       d.count = if @aggregationsById[d.id] then @aggregationsById[d.id].doc_count else 0
       if !!d.parent_id then d.parent_id else 0
     )
-
-  toggleDependency: (e) ->
-    e.preventDefault()
-    target = $(e.currentTarget)
-    target.parents('.dependency').toggleClass('selected')
 
   toggleDependencies: (e) ->
     target = $(e.currentTarget)

@@ -96,11 +96,8 @@
 
       .expand-all,
       .collapse-all {
-        width: 30px;
-        height: 30px;
         cursor: pointer;
-        display: inline-block;
-        vertical-align: middle;
+        color: $blue-300;
       }
 
       .dependencies-search {
