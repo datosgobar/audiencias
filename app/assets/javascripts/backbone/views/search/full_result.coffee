@@ -4,6 +4,7 @@ class audiencias.views.FullResult extends Backbone.View
   historicTemplate: JST["backbone/templates/search/full_result_historic"]
   events: 
     'click .background-veil': 'die'
+    'click .close': 'die'
 
   initialize: (options) ->
     @audience = options.audience
@@ -23,6 +24,7 @@ class audiencias.views.FullResult extends Backbone.View
       @$el.html(@template(
         audience: @audience 
       ))
+    $(document).on('keydown', @dieIfEsc)
 
   die: =>
     title = $(document).find("title").text()
@@ -32,3 +34,8 @@ class audiencias.views.FullResult extends Backbone.View
       history.replaceState({}, title, '/')
     $('body').removeClass('showing-full-audience')
     @remove()
+
+  dieIfEsc: (e) =>
+    if e.keyCode == 27
+      $(document).off('keydown', @dieIfEsc)
+      @die()
