@@ -97,7 +97,13 @@
             <span class="pagination-link">«</span>
           </a>
         <% } %>
-        
+
+        <% if (currentPage > 1) { %>
+          <a href="<%= linkCreator({pagina: currentPage-1}) %>">
+            <span class="pagination-link">‹</span>
+          </a>
+        <% } %>
+
         <% for (var i=minPage; i<maxPage; i++) { %>
           <% if (i != currentPage) { %>
             <a href="<%= linkCreator({pagina: i}) %>">
@@ -106,6 +112,12 @@
           <% } else { %>
             <span class="pagination-link current-page"><%= i %></span>
           <% } %>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+          <a href="<%= linkCreator({pagina: currentPage+1}) %>">
+            <span class="pagination-link">›</span>
+          </a>
         <% } %>
 
         <% if (maxPage < totalPages) { %>
