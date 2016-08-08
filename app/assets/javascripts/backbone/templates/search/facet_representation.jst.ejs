@@ -7,6 +7,7 @@ for (var i=0; i<aggregations.length; i++) {
     selectedValue = { name: aggregations[i].selected, link: linkCreator(linkParams) }
   } 
 } %>
+<% var bucketStep = 5; %>
 
 <div class="facet-section">
   <div class="facet-title">
@@ -45,9 +46,9 @@ for (var i=0; i<aggregations.length; i++) {
           </div>
           <div class="facet-group hidden">
             <% var buckets = aggregations[j].facetList.ids.buckets; %>
-            <% for (var m=0; m<buckets.length; m+=10) { %>
+            <% for (var m=0; m<buckets.length; m+=bucketStep) { %>
               <div class="facet-list <%= m > 0 ? 'hidden' : '' %>">
-              <% for (var i=m; i<Math.min(m+10, buckets.length); i++) { %>
+              <% for (var i=m; i<Math.min(m+bucketStep, buckets.length); i++) { %>
                 <% var facet = buckets[i]; %>
                 <% var linkParams = { pagina: null };%>
                 <% linkParams[aggregations[j].paramName] = facet.key %>
@@ -64,7 +65,7 @@ for (var i=0; i<aggregations.length; i++) {
               <% } %>
               </div>
             <% } %>
-            <div class="expand-facet-list <%= buckets.length > 10 ? '' : 'hidden' %>">
+            <div class="expand-facet-list <%= buckets.length > bucketStep ? '' : 'hidden' %>">
               Ver mas...
             </div>
             <div class="collapse-facet-list hidden">
@@ -92,9 +93,9 @@ for (var i=0; i<aggregations.length; i++) {
         } 
       }
       allBuckets = _.sortBy(allBuckets, function(b) { return -b.count; }) 
-      for (var k=0; k<allBuckets.length; k+=10) { %>
+      for (var k=0; k<allBuckets.length; k+=bucketStep) { %>
         <div class="facet-list <%= k > 0 ? 'hidden' : '' %>">
-          <% for (var m=k; m<Math.min(k+10, allBuckets.length); m++) {%>
+          <% for (var m=k; m<Math.min(k+bucketStep, allBuckets.length); m++) {%>
             <% var linkParams = { pagina: null };%>
             <% linkParams[allBuckets[m].paramName] = allBuckets[m].key %>
             <a href="<%= linkCreator(linkParams) %>">
@@ -110,7 +111,7 @@ for (var i=0; i<aggregations.length; i++) {
           <% } %>
         </div>
       <% } %>
-      <div class="expand-facet-list <%= allBuckets.length > 10 ? '' : 'hidden' %>">
+      <div class="expand-facet-list <%= allBuckets.length > bucketStep ? '' : 'hidden' %>">
         Ver mas...
       </div>
       <div class="collapse-facet-list hidden">

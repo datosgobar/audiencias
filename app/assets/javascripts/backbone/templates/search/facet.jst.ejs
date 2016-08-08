@@ -17,10 +17,11 @@
     </a>
 
   <% } else { %>
+    <% var bucketStep = 5; %>
     <% var buckets = facetList ? facetList.ids.buckets : []; %>
-    <% for (var m=0; m<buckets.length; m+=10) { %>
+    <% for (var m=0; m<buckets.length; m+=bucketStep) { %>
       <div class="facet-list <%= m > 0 ? 'hidden' : '' %>">
-      <% for (var i=m; i<Math.min(m+10, buckets.length); i++) { %>
+      <% for (var i=m; i<Math.min(m+bucketStep, buckets.length); i++) { %>
         <% var facet = buckets[i]; %>
         <% var linkParams = { pagina: null };%>
         <% linkParams[paramName] = facet.key %>
@@ -38,7 +39,7 @@
       <% } %>
       </div>
     <% } %>
-    <div class="expand-facet-list <%= buckets.length > 10 ? '' : 'hidden' %>">
+    <div class="expand-facet-list <%= buckets.length > bucketStep ? '' : 'hidden' %>">
       Ver mas...
     </div>
     <div class="collapse-facet-list hidden">
