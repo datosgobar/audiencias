@@ -75,24 +75,22 @@
 
 }
 
-.single-audience.full-result {
+.single-audience-container {
   position: fixed;
   z-index: 20;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
-  display: table;
+  overflow: auto;
+  padding: 50px 0;
+  background: rgba(90, 90, 90, 0.5);
+}
 
-  .background-veil {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    background: rgba(90, 90, 90, 0.5);
-  }
+.single-audience.full-result {
+  display: table;
+  margin: auto;
+  height: 100%;
 
   .vertical-spacer {
     display: table-cell;

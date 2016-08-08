@@ -1,9 +1,8 @@
 class audiencias.views.FullResult extends Backbone.View
-  className: 'single-audience full-result'
+  className: 'single-audience-container'
   template: JST["backbone/templates/search/full_result"]
   historicTemplate: JST["backbone/templates/search/full_result_historic"]
   events: 
-    'click .background-veil': 'die'
     'click .close': 'die'
 
   initialize: (options) ->
@@ -25,6 +24,7 @@ class audiencias.views.FullResult extends Backbone.View
         audience: @audience 
       ))
     $(document).on('keydown', @dieIfEsc)
+    @$el.on('click', @dieIfClickOnBackground)
 
   die: =>
     title = $(document).find("title").text()
@@ -39,3 +39,6 @@ class audiencias.views.FullResult extends Backbone.View
     if e.keyCode == 27
       $(document).off('keydown', @dieIfEsc)
       @die()
+
+  dieIfClickOnBackground: (e) =>
+    @die() if $(e.target).hasClass('single-audience-container')
