@@ -64,6 +64,8 @@ IMPORTANTE: La migración ChangeColumsLimitInOldAudiences tiene que correrse ant
 
 * El script que importa las audiencias historicas está en `db/seeds/historic.rb` y se corre ejecutando `bundle exec rake db:seed historic=yes`. Asume que se va a importar desde un archivo csv, cuyo path es `db/seeds/audiencias.csv` (ver los comentarios del script para ver detalles sobre el csv).
 
+* Si se encuentran errores de strings invalidos al momento de importar audiencias historicas, chequear que la codificacion de las tablas sea utf8. Para esto, correr `show variables like 'char%';` desde la consola de mysql. En caso de tener otra codificacion, se puede cambiar corriendo `ALTER TABLE audiencias.old_audiences CONVERT TO CHARACTER SET utf8`;
+
 ## Crear primer usuario 
 Abrir la consola de Rails (`bundle exec rails c`) y ejecutar:
 
