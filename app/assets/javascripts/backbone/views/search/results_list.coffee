@@ -1,6 +1,7 @@
 class audiencias.views.ResultsList extends Backbone.View
   id: 'results'
   template: JST["backbone/templates/search/results_list"]
+  noResultsTemplate: JST["backbone/templates/search/no_results_list"]
 
   initialize: (options) ->
     @linkCreator = options.linkCreator
@@ -34,3 +35,6 @@ class audiencias.views.ResultsList extends Backbone.View
       facets = new audiencias.views.Facets(linkCreator: @linkCreator)
       facets.render()
       @$el.find('.facets-container').append(facets.el)
+
+    else 
+      @$el.html(@noResultsTemplate())
