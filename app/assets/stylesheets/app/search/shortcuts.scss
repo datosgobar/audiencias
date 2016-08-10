@@ -1,6 +1,6 @@
 #searcher .shortcuts {
   @include outer-container();
-  padding: 20px 0;
+  padding: 20px 0 40px 0;
 
   .shortcuts-content {
     @include span-columns(10);
@@ -98,6 +98,11 @@
       .collapse-all {
         cursor: pointer;
         color: $blue-300;
+        padding: 8px 13px;
+        font-size: 13px;
+        @include border-radius(4px);
+        color: white;
+        background: $blue-300;
       }
 
       .dependencies-search {
@@ -106,14 +111,14 @@
         input {
           width: 20em;
           background: white;
-          padding: 3px 30px 3px 6px;
-          margin-left: 5px;
+          padding: 6px 30px 6px 6px;
+          margin-left: 10px;
         }
         img {
           position: absolute;
-          width: 22px;
-          top: 4px;
-          right: 4px;
+          width: 25px;
+          top: 6px;
+          right: 5px;
         }
       }
     }
