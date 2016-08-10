@@ -31,5 +31,6 @@
 <div class="menu-lists"></div>
 <% var submittable = dependency.get('obligee') && !editingTitle %>
 <div class="confirmation-container">
+  <div class="errors"><%= _.isString(errors) ? errors : '' %></div>
   <button id="confirm-actions" class="<%= submittable ? '' : 'hidden' %>">FINALIZAR</button>
 </div>

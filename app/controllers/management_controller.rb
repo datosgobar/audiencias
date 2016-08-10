@@ -179,7 +179,7 @@ class ManagementController < ApplicationController
     person = Person.find_or_initialize(params[:person])
     person.update_minor_attributes(params[:person])
     if person.has_active_obligee
-      render json: { success: false, errors: 'El sujeto obligado está en otra dependencia' }
+      render json: { success: false, errors: 'El sujeto obligado está activo en otra dependencia' }
       return
     end
     user = User.find_or_initialize(params[:person])

@@ -12,6 +12,7 @@ class audiencias.views.NewDependencyMenu extends Backbone.View
   initialize: (options) ->
     @initDependency(options)
     @editingTitle = true
+    @errors = ''
 
   initDependency: (options) ->
     audiencias.globals.userDependencies.deselectAll()
@@ -26,6 +27,7 @@ class audiencias.views.NewDependencyMenu extends Backbone.View
     @$el.html(@template(
       dependency: @dependency
       editingTitle: @editingTitle
+      errors: @errors
     ))
 
     userMode = if @dependency.get('obligee') then 'editable' else null
@@ -82,6 +84,9 @@ class audiencias.views.NewDependencyMenu extends Backbone.View
           audiencias.globals.userDependencies.forceUpdate(response.dependency)
           @cancelNewDependency()
           $(window).trigger('dependency-selected', response.dependency.id)
+        else if response and not response.success and response.errors
+          @errors = response.errors
+          @render()
     )
 
   setAutocomplete: =>
