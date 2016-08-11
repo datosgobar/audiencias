@@ -138,7 +138,7 @@ module AudienceSearchMethods
       filters
     end
 
-    def parse_aggregations(options, conditions)
+    def parse_aggregations(options={}, conditions={})
       aggregations = {}
       SEARCH_ALIASES.each do |k, v|
         unless options[k]
