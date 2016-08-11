@@ -12,6 +12,13 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
   initialize: (@options) ->
     @audience = @options.audience
     @audience.on('change', @render)
+    dateThreshold = moment('2017/01/01')
+    now = moment()
+    if now.isAfter(dateThreshold) 
+      limit = moment.duration(45, 'days')
+      @minDate = now.subtract(limit)
+    else 
+      @minDate = moment('2015/12/10')
 
   render: =>
     @$el.html(@template(
@@ -39,7 +46,7 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
     @$el.find('#date').datetimepicker(
       format: 'd/m/Y H:i'
       lazyInit: true
-      minDate: '10/12/2015'
+      minDate: @minDate.format('DD/MM/YYYY')
       formatDate:'d/m/Y'
       yearStart: 2015
       yearEnd: (new Date()).getFullYear()
@@ -48,10 +55,7 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
 
   validateDate: =>
     newDate = @$el.find('#date').datetimepicker('getValue')
-    year = newDate.getFullYear()
-    month = newDate.getMonth() + 1
-    day = newDate.getDate()
-    if year < 2015 or (year == 2015 and (month < 12 or day < 10))
+    if newDate and moment(newDate).isBefore(@minDate.subtract(moment.duration(1, 'day')))
       @$el.find('#date').datetimepicker('reset')
 
   enableMainEdit: =>

@@ -304,6 +304,12 @@
       <% if (publish_validations && publish_validations.date == 'not_yet_valid') { %> 
         <div class="missing-field">*No es posible publicar una audiencia con fecha futura.</div>
       <% } %>
+      <% if (publish_validations && publish_validations.date == 'passed_45_days') { %> 
+        <div class="missing-field">*No es posible publicar una audiencia con antiguedad mayor a 45 dias.</div>
+      <% } %>
+      <% if (publish_validations && publish_validations.date == 'passed_time') { %> 
+        <div class="missing-field">*La fecha minima de audiencias es el 10 de diciembre de 2015.</div>
+      <% } %>
       <% if (publish_validations && publish_validations.participants != 'valid') { %>
         <div class="missing-field">*La audiencia debe tener por lo menos un participante.</div>
       <% } %>

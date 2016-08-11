@@ -119,8 +119,20 @@ class Audience < ActiveRecord::Base
   end
 
   def publish_validations
+
     if self.date && self.date < DateTime.now
-      date = 'valid'
+      if DateTime.now > DateTime.parse('2017-01-01 00:00') 
+        minDate = DateTime.now - 45.days 
+        error_name = 'passed_45_days'
+      else 
+        minDate = DateTime.parse('2015-12-10 00:00') 
+        error_name = 'passed_time'
+      end
+      if self.date >= minDate
+        date = 'valid'
+      else
+        date = error_name
+      end
     elsif self.date 
       date = 'not_yet_valid'
     else 
