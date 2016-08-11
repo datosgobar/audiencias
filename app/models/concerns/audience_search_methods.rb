@@ -12,7 +12,7 @@ module AudienceSearchMethods
       'organismo-estatal' => '_represented_organism'
     })
 
-    def search_options(options={})
+    def search_options(options={}, conditions={})
       query = parse_query(options)
 
       should_filters = []
@@ -21,10 +21,10 @@ module AudienceSearchMethods
       date_filter = parse_dates(options)
       must_filters << date_filter if date_filter
 
-      nested_filters = parse_nested_filters(options)
+      nested_filters = parse_nested_filters(options, conditions)
       must_filters += nested_filters if nested_filters
 
-      aggregations = parse_aggregations(options)
+      aggregations = parse_aggregations(options, conditions)
 
       make_query({
         sort: { date: :desc },
@@ -115,14 +115,14 @@ module AudienceSearchMethods
       end
     end
 
-    def parse_nested_filters(options)
+    def parse_nested_filters(options, conditions)
       filters = []
       SEARCH_ALIASES.each do |k, v|
         if options[k]
           nested_filter = { nested: { path: v, query: { bool: { must: [], must_not: [] } } } }
           nested_filter[:nested][:query][:bool][:must] << { term: { "#{v}.id" => options[k] } }
 
-          if k == 'persona' and options['roles-persona']
+          if k == 'persona' and options['roles-persona'] and conditions[:roles_aggregations] != 'all'
             roles = options['roles-persona'].split('-')
             role_translations = { 'obligado' => 'obligee', 'participante' => 'participant', 'representado' => 'represented', 'solicitante' => 'applicant'}
             role_translations.each do |k, v|
@@ -138,7 +138,7 @@ module AudienceSearchMethods
       filters
     end
 
-    def parse_aggregations(options)
+    def parse_aggregations(options, conditions)
       aggregations = {}
       SEARCH_ALIASES.each do |k, v|
         unless options[k]
@@ -163,6 +163,28 @@ module AudienceSearchMethods
             }
           }
         end
+      end
+      if conditions[:roles_aggregations] == 'all'
+        aggregations['_roles'] = {
+          nested: { path: '_people' },
+          aggs: {
+            _roles: {
+              filter: {
+                term: {
+                  '_people.id' => options['persona']
+                }
+              },
+              aggs: {
+                role: {
+                  terms: {
+                    field: '_people.role',
+                    size: 4
+                  }
+                }
+              }  
+            }
+          }
+        }
       end
       aggregations
     end
@@ -233,7 +255,12 @@ module AudienceSearchMethods
     end
 
     def public_search(options={})
-      self.search(search_options(options))
+      results = self.search(search_options(options))
+      if options['persona']
+        not_filtered_by_role_results = self.search(search_options(options, {roles_aggregations: 'all'}))
+        results.response['aggregations']['_roles'] = not_filtered_by_role_results.response['aggregations']['_roles']
+      end
+      results
     end
 
     def operator_search(query, person_id) 

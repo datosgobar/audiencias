@@ -193,6 +193,12 @@
 
     .table-cell {
       display: table-cell;
+      &.disabled {
+        pointer-events: none;
+        label a {
+          color: $grey-350;
+        }
+      }
     }
 
     input {

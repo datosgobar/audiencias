@@ -35,50 +35,77 @@
             return audiencias.app.linkCreator(params);
           } %>
 
-          <div class="table-cell">
+          <% 
+          var rolesAggregation = audiencias.globals.results.audiences.aggregations ? audiencias.globals.results.audiences.aggregations._roles : {} ;
+          var rolesBuckets = rolesAggregation && rolesAggregation._roles && rolesAggregation._roles.role && rolesAggregation._roles.role.buckets ? rolesAggregation._roles.role.buckets : null;
+          var roles = {};
+          _.map(rolesBuckets, function(b) { roles[b.key] = b.doc_count })
+          %>
+
+          <% var appearsAsObligee = roles['obligee'] > 0 %>
+          <div class="table-cell <%= appearsAsObligee ? '' : 'disabled' %>">
             <% var showingObligees = selectedRoles.indexOf('obligado') > -1 %>
             <input type="checkbox" id="role-obligee" <%= showingObligees ? 'checked' : '' %> class="role-checkbox">
             <label for="role-obligee">
               <a href="<%= linkForCheckboxLink('obligado') %>">
-                Sujeto obligado
-                <img src="/assets/icon-check.svg" class="checked">
-                <img src="/assets/icon-check-no.svg" class="not-checked">
+                Sujeto obligado (<%= appearsAsObligee ? roles['obligee'] : 0 %>)
+                <% if (appearsAsObligee) { %>
+                  <img src="/assets/icon-check.svg" class="checked">
+                  <img src="/assets/icon-check-no.svg" class="not-checked">
+                <% } else { %>
+                  <img src="/assets/icon-check-no-gris.svg" class="not-checked">
+                <% } %>
               </a>
             </label>
           </div>
 
-          <div class="table-cell">
+          <% var appearsAsApplicant = roles['applicant'] > 0 %>
+          <div class="table-cell <%= appearsAsApplicant ? '' : 'disabled' %>">
             <% var showingApplicant = selectedRoles.indexOf('solicitante') > -1 %>
             <input type="checkbox" id="role-applicant" <%= showingApplicant ? 'checked' : '' %> class="role-checkbox">
             <label for="role-applicant">
               <a href="<%= linkForCheckboxLink('solicitante') %>">
-                Solicitante
-                <img src="/assets/icon-check.svg" class="checked">
-                <img src="/assets/icon-check-no.svg" class="not-checked">
+                Solicitante (<%= appearsAsApplicant ? roles['applicant'] : 0 %>)
+                <% if (appearsAsApplicant) { %>
+                  <img src="/assets/icon-check.svg" class="checked">
+                  <img src="/assets/icon-check-no.svg" class="not-checked">
+                <% } else { %>
+                  <img src="/assets/icon-check-no-gris.svg" class="not-checked">
+                <% } %>
               </a>
             </label>
           </div>
 
-          <div class="table-cell">
+          <% var appearsAsParticipant = roles['participant'] > 0 %>
+          <div class="table-cell <%= appearsAsParticipant ? '' : 'disabled' %>">
             <% var showingParticipants = selectedRoles.indexOf('participante') > -1 %>
             <input type="checkbox" id="role-participant" <%= showingParticipants ? 'checked' : '' %> class="role-checkbox">
             <label for="role-participant">
               <a href="<%= linkForCheckboxLink('participante') %>">
-                Participante
-                <img src="/assets/icon-check.svg" class="checked">
-                <img src="/assets/icon-check-no.svg" class="not-checked">
+                Participante (<%= appearsAsParticipant ? roles['participant'] : 0 %>)
+                <% if (appearsAsParticipant) { %>
+                  <img src="/assets/icon-check.svg" class="checked">
+                  <img src="/assets/icon-check-no.svg" class="not-checked">
+                <% } else { %>
+                  <img src="/assets/icon-check-no-gris.svg" class="not-checked">
+                <% } %>
               </a>
             </label>
           </div>
 
-          <div class="table-cell">
+          <% var appearsAsRepresented = roles['represented'] > 0 %>
+          <div class="table-cell <%= appearsAsRepresented ? '' : 'disabled' %>">
             <% var showingRepresented = selectedRoles.indexOf('representado') > -1 %>
             <input type="checkbox" id="role-represented" <%= showingRepresented ? 'checked' : '' %> class="role-checkbox">
             <label for="role-represented">
               <a href="<%= linkForCheckboxLink('representado') %>">
-                Representado
-                <img src="/assets/icon-check.svg" class="checked">
-                <img src="/assets/icon-check-no.svg" class="not-checked">
+                Representado (<%= appearsAsRepresented ? roles['represented'] : 0 %>)
+                <% if (appearsAsRepresented) { %>
+                  <img src="/assets/icon-check.svg" class="checked">
+                  <img src="/assets/icon-check-no.svg" class="not-checked">
+                <% } else { %>
+                  <img src="/assets/icon-check-no-gris.svg" class="not-checked">
+                <% } %>
               </a>
             </label>
           </div>
