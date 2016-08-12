@@ -76,7 +76,7 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
     data = { id: @audience.get('id') }
     someThingChanged = false
 
-    newSummary = @$el.find('#summary').val()
+    newSummary = @$el.find('#summary').val().trim()
     if newSummary != @audience.get('summary')
       data.summary = newSummary 
       someThingChanged = true
@@ -86,7 +86,7 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
       data.interest_invoked = newInterestInvoked 
       someThingChanged = true
 
-    newMotif = @$el.find('#motif').val()
+    newMotif = @$el.find('#motif').val().trim()
     if newMotif != @audience.get('motif')
       data.motif = newMotif 
       someThingChanged = true
