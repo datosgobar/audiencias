@@ -13,7 +13,7 @@
       padding: 10px 0;
       @include span-columns(3 of 10);
       font-size: 18px;
-      color: $grey-300;
+      color: $blue-300;
 
       .arrow {
         width: 20px;
@@ -54,9 +54,10 @@
         }
 
         .info-label {
-          color: $grey-300;
+          color: $blue-300;
           font-size: 15px;
           padding-left: 39px;
+          font-weight: 500;
         }
         .info-content {
           padding-left: 39px;

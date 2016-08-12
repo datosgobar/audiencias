@@ -7,7 +7,8 @@
       margin-bottom: 20px;
       font-size: 14px;
       a {
-        color: $grey-300;
+        color: $grey-400;
+        font-weight: 500;
       }
       img {
         height: 15px;
@@ -52,7 +53,7 @@
 
   #obligee {
     .left-column {
-      color: $grey-300;
+      color: $grey-400;
     }
   }
 
@@ -72,7 +73,7 @@
     .represented-radio-container {
       display: inline-block;
       position: relative;
-      background: $grey-100;
+      background: $grey-150;
       border: solid 1px $grey-200;
       @include border-radius(4px);
       margin-left: 15px;
@@ -87,7 +88,7 @@
         cursor: pointer;
       }
       .represented-radio:checked + .represented-label {
-        background: $grey-200;
+        background: $grey-300;
       }
     }
     .represented-or-not.disabled {
@@ -247,7 +248,7 @@
   }
   .nationality-container {
     font-size: 14px;
-    background: $grey-100;
+    background: $grey-150;
     border: solid 1px $grey-200;
     @include border-radius(4px);
     display: inline-block;
@@ -263,7 +264,7 @@
     cursor: pointer;
   }
   .nationality-radio:checked + .nationality-label {
-    background: $grey-200;
+    background: $grey-300;
   }
 
   .field-table {
