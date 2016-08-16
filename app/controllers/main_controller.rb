@@ -157,7 +157,7 @@ class MainController < ApplicationController
     workbook.add_worksheet(:name => "audiencias") do |sheet|
       if audiences.length > 1 
         attributes = audiences.first.class.table_headers
-        types = [:string] * attributes.length
+        types = audiences.first.class.table_types
         sheet.add_row(attributes)
       end
       audiences.each do |audience|
