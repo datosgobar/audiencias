@@ -46,7 +46,44 @@ module AudienceSearchMethods
         options['buscar-representado']
       )
       
-      return { match: { "_all" => options['q'] } } if has_query and not searching_specific
+      if has_query and not searching_specific
+        main_query = { 
+          multi_match: { 
+            "query" => options['q'],
+            "fields" => [
+              "address",
+              "applicant.ocupation",
+              "applicant.person.name",
+              "applicant.person.country",
+              "applicant.person.person_id",
+              "applicant.represented_legal_entity.name",
+              "applicant.represented_legal_entity.cuit",
+              "applicant.represented_legal_entity.argentina",
+              "applicant.represented_people_group.name",
+              "applicant.represented_people_group.country",
+              "applicant.represented_people_group.description",
+              "applicant.represented_person.name",
+              "applicant.represented_person.country",
+              "applicant.represented_person.person_id",
+              "applicant.represented_state_organism.name",
+              "applicant.represented_state_organism.country",
+              "interest_invoked",
+              "motif",
+              "obligee.dependency.name",
+              "obligee.person.name",
+              "obligee.person.person_id",
+              "obligee.position",
+              "participants.ocupation",
+              "participants.person.country",
+              "participants.person.name",
+              "participants.person.person_id",
+              "place",
+              "summary"
+            ]
+          } 
+        } 
+        return main_query
+      end
       
       should_fields = []
       if options['buscar-persona']
