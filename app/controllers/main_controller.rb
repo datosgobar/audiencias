@@ -147,6 +147,7 @@ class MainController < ApplicationController
 
   def generate_json(audiences)
     audiences_json = audiences.as_json(for_public: true)
+    audiences_json = audiences.first.class.prepare_json_for_download(audiences_json)
     JSON.pretty_generate(audiences_json)
   end
 

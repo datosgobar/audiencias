@@ -11,7 +11,14 @@ module OldAudienceDownloadMethods
   sintesis_audiencia }
 
   def as_csv 
-    CSV_HEADERS.collect{ |attr| self[attr] }
+    CSV_HEADERS.collect do |attr| 
+      attribute = self[attr] 
+      if attribute.kind_of?(Time)
+        attribute.iso8601
+      else
+        attribute.to_s
+      end
+    end
   end
 
   module ClassMethods
@@ -27,9 +34,13 @@ module OldAudienceDownloadMethods
     def table_headers
       CSV_HEADERS
     end
+
+    def prepare_json_for_download(audiences_json)
+      audiences_json.collect do |audience|
+        audience['fecha_solicitud_audiencia'] = audience['fecha_solicitud_audiencia'].iso8601 if audience['fecha_solicitud_audiencia']
+        audience['fecha_hora_audiencia'] = audience['fecha_hora_audiencia'].iso8601 if audience['fecha_hora_audiencia']
+        audience
+      end
+    end
   end
 end
-
-
-
-

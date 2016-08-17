@@ -82,6 +82,58 @@ module AudienceDownloadMethods
       DOWNLOAD_HEADERS.collect { |table_attribute| table_attribute[:name] }
     end
 
+    def prepare_json_for_download(audiences_json)
+      audiences_json = audiences_json.collect do |audience|
+        audience['date'] = audience['date'].iso8601 if audience['date']
+        audience['publish_date'] = audience['publish_date'].iso8601 if audience['publish_date']
+        audience
+      end
+      translate_json(audiences_json)
+    end
+
+    def translate_json(audiences_json)
+      if audiences_json.kind_of?(Array)
+        audiences_json = audiences_json.collect { |a| translate_json(a) }
+      elsif audiences_json.kind_of?(Hash)
+        audiences_json.keys.each do |k| 
+          v = audiences_json[k]
+          v = translate_json(v) if v.kind_of?(Array) or v.kind_of?(Hash)
+          if JSON_TRANSLATIONS[k]
+            audiences_json[JSON_TRANSLATIONS[k]] = v
+            audiences_json.delete(k)
+          end
+        end
+        audiences_json
+      else
+        audiences_json
+      end
+    end
+
+    JSON_TRANSLATIONS = {
+      'date' => 'fecha',
+      "publish_date" => 'fecha_de_publicacion',
+      "summary" => "sintesis",
+      "published" => 'publicada',
+      "place" => 'lugar',
+      "motif" => 'motivo',
+      "interest_invoked" => 'interes_invocado',
+      "address" => 'direccion',
+      "applicant" => 'solicitante',
+      "ocupation" => 'ocupacion',
+      "represented_person_ocupation" => 'persona_representada_ocupacion',
+      "absent" => 'ausente',
+      "person" => 'persona',
+      "person_id" => 'documento',
+      "name" => 'nombre',
+      "id_type" => 'tipo_documento',
+      "country" => 'pais',
+      "obligee" => 'sujeto_obligado',
+      "active" => 'vigente',
+      "position" => 'cargo',
+      "dependency" => 'dependencia',
+      "participants" => 'participantes'
+    }
+
   end
 
 end
