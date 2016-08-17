@@ -5,11 +5,15 @@ class UtilsController < ApplicationController
   def person_autocomplete
     id_type = params[:id_type]
     person_id = params[:person_id]
+    country = params[:country]
     responsePeople = []
 
-    if id_type and person_id
+    if person_id and id_type and id_type.length > 0
       person = Person.find_by_document(id_type, person_id)
       responsePeople << person if person
+    elsif person_id and country
+      person = Person.where(person_id: person_id, country: country)
+      responsePeople += person
     else
       render json: { success: false }
       return

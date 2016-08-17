@@ -43,7 +43,7 @@ class audiencias.views.AudienceParticipantsForm extends audiencias.views.Form
       person_id: @$el.find('.person-id-input').val().trim()
       name: @$el.find('.name-input').val().trim()
       country: country
-      id_type: if country == 'Argentina' then @$el.find('.id-type-input').val() else country
+      id_type: if country == 'Argentina' then @$el.find('.id-type-input').val() else ''
     }
     participantAttr = {
       ocupation: @$el.find('.position-input').val().trim()

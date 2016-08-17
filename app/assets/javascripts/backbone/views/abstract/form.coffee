@@ -25,15 +25,17 @@ class audiencias.views.Form extends Backbone.View
 
     # todo: tomar como parametro los selectores
     if @$el.find('.id-type-input').length > 0
+      country = 'Argentina'
       id_type = @$el.find('.id-type-input').val() 
     else 
-      id_type = @$el.find('.countries-select').val()
+      country = @$el.find('.countries-select').val()
+      id_type = ''
     person_id = autocompleteRequest.term
     
     $.ajax(
       url: '/buscar_persona'
       method: 'GET'
-      data: { id_type: id_type, person_id: person_id }
+      data: { id_type: id_type, person_id: person_id, country: country }
       success: (response) =>
         if response and response.success
           wrappedPeople = @people2autocomplete(response.results)

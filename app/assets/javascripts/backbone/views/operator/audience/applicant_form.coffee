@@ -46,7 +46,7 @@ class audiencias.views.AudienceApplicantForm extends audiencias.views.Form
       email: @$el.find('.email-input').val().trim()
       telephone: @$el.find('.telephone-input').val().trim()
       country: country
-      id_type: if person.country == 'Argentina' then @$el.find('.id-type-input').val() else country
+      id_type: if person.country == 'Argentina' then @$el.find('.id-type-input').val() else ''
     }
     applicantAttr = {
       ocupation: @$el.find('.position-input').val().trim()
