@@ -54,6 +54,7 @@
 * Traer la ultima version del proyecto con `git pull`.
 * En caso de que sea el servidor desarrollo, saltar este paso. Para el servidor de produccion correr `export RAILS_ENV=production` y adicionalmente exportar las variables `SECRET_KEY_BASE` y `AUDIENCIAS_DB_PASS` con sus valores correspondientes.
 * Declarar que version y gemset de ruby vamos a estar usando: `rvm use 2.1.5@audiencias`
+* Renombrar el archivo /config/initializers/passwords.rb.sample a /config/initializers/passwords.rb. En el entorno de producción reemplazar los valores default por los valores correctos, para desarrollo no es necesario.
 * Correr migraciones pendientes: `bundle exec rake db:migrate`
 * Levantar server de desarrollo: `bundle exec rails server -p 80 -b0.0.0.0`
 * Levantar server local de elasticsearch
