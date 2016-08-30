@@ -38,10 +38,6 @@ class ManagementController < ApplicationController
     person = Person.find_or_initialize(params[:person])
     person.update_minor_attributes(params[:person])
     dependency = Dependency.find_by_id(params[:dependency][:id])
-    if dependency.obligee or person.has_active_obligee
-      render json: { success: false }
-      return
-    end
     user = User.find_or_initialize(params[:person])
     user.update_minor_attributes(params[:person])
     new_user = user.new_record?
@@ -178,10 +174,6 @@ class ManagementController < ApplicationController
     dependency = Dependency.new(name: params[:dependency][:name], parent_id: params[:dependency][:parent_id])
     person = Person.find_or_initialize(params[:person])
     person.update_minor_attributes(params[:person])
-    if person.has_active_obligee
-      render json: { success: false, errors: 'El sujeto obligado está activo en otra dependencia' }
-      return
-    end
     user = User.find_or_initialize(params[:person])
     user.update_minor_attributes(params[:person])
     new_user = user.new_record?

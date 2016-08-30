@@ -10,7 +10,7 @@
           <% for (var i=0; i<obligees.length; i++) { %>
             <% var obligee = obligees[i]; %>
               <option value="<%= obligee.id %>" <%= currentObligee == obligee.id ? 'selected': '' %>>
-                <%= obligee.person.name %>
+                <%= obligee.person.name %> - <%= obligee.position %>
               </option>
           <% } %>
         </select>

@@ -39,11 +39,6 @@ class Obligee < ActiveRecord::Base
   end
 
   def all_audiences
-    proper_audiences = audiences.where(deleted: false)
-    as_applicant_audiences = Audience.joins(:applicant).where('person_id = ?', person.id)
-    as_participant_audiences = Audience.joins(:participants).where('person_id = ?', person.id)
-    (proper_audiences | as_applicant_audiences | as_participant_audiences).sort_by(&:created_at).reverse
-
     Audience
       .where(deleted: false)
       .joins('LEFT OUTER JOIN applicants ON applicants.id = audiences.applicant_id')

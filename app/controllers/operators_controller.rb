@@ -25,7 +25,7 @@ class OperatorsController < ApplicationController
     end
 
     page = (params[:pagina] || 1).to_i
-    @audiences = @audiences.paginate(page: page)
+    @audiences = @audiences.paginate(page: page).order("created_at DESC")
     @pagination = {
       total_audiences: @audiences.total_entries,
       total_pages: @audiences.total_pages,

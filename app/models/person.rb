@@ -28,17 +28,6 @@ class Person < ActiveRecord::Base
     person
   end
 
-  def has_active_obligee
-    active_obligee = false
-    obligees.each do |obligee|
-      if obligee.active 
-        active_obligee = true 
-        break
-      end
-    end
-    active_obligee
-  end
-
   AS_JSON_OPTIONS = {
     only: [:country, :email, :id, :id_type, :name, :person_id, :telephone]
   }
