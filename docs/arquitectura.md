@@ -23,6 +23,7 @@ En modo de desarrollo el server usa sqlite como base de datos. La ubicación def
 En modo de producción se utiliza mysql. Los accesos a esta base de datos son los definidos en el doc de [instalacion](./instalacion.md)
 
 - [Imagen de esquema de la db](./db.png?raw=true)
+- [Esquema de la db](../db/schema.rb) (archivo que resume todas las tablas, columnas y tipos de datos de la db)
 
 Las busquedas están manejadas por [elasticsearch](https://www.elastic.co/products/elasticsearch) bajo dos indices llados `audiences` y `old_audiences`.
 
