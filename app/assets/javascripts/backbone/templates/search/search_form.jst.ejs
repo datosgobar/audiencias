@@ -80,7 +80,10 @@
 
   <div class="total-count">  
     <% if (audiencias.globals.results) { %>
-      Se encontraron <%= audiencias.globals.results.total %> resultado<%= audiencias.globals.results.total != 1 ? 's' : '' %>
+      Se encontraron <%= audiencias.globals.results.total %> resultado<%= audiencias.globals.results.total != 1 ? 's' : '' %> 
+      <% if (!$.isEmptyObject(audiencias.globals.results.audiences.selected_values)) { %>
+        para el filtro seleccionado 
+      <% } %>
       <% if (searchOptions && searchOptions.q && searchOptions.q.length > 0) { %>
         para "<%= searchOptions.q %>"
       <% } %>
