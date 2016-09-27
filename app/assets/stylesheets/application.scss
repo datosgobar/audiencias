@@ -52,3 +52,8 @@
 @import 'app/search/static_section';
 @import 'app/search/results_list';
 @import 'app/search/result';
+
+*, *::after, *::before {
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
