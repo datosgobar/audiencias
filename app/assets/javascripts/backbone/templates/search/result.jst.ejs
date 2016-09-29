@@ -11,12 +11,18 @@
     <div class="table-cell">
       <p class="obligee-name bold">
         <%= audience.obligee.person.name %>
+        <% if (!audience.obligee.active) { %>
+          <span class="label-not-active">(No vigente)</span>
+        <% } %>
       </p>
       <p class="obligee-position small-font">
         <%= audience.obligee.position.toUpperCase() %>
       </p>
       <p class="obligee-dependency small-font">
         <%= audience.obligee.dependency.name %>
+        <% if (!audience.obligee.dependency.active) { %>
+          <span class="label-not-active">(No vigente)</span>
+        <% } %>
       </p>
       <p class="obligee-country space-up small-font">
         <%= audience.obligee.person.country %>
