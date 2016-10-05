@@ -15,7 +15,7 @@
     <div class="row">
       <% if (country == 'Argentina') { %>
         <div class="cell">
-          <div class="field-label">CUIT</div>
+          <div class="field-label">CUIT <img src="/assets/logo-question.svg" class="cuit-tooltip tooltip"> </div>
           <input maxlength="20" type="text" placeholder="0000000000" value="<%= representedEntity.cuit %>" class="field-input cuit-input">      
         </div>
       <% } else { %>

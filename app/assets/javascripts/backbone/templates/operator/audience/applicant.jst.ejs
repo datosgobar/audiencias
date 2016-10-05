@@ -45,7 +45,7 @@
           <% } %>
           <div class="participant-absent">
             <% if (typeof applicant.get('absent') == 'boolean') { %>
-              <%= applicant.get('absent') ? 'El solicitante no participó de la audiencia' : 'El solicitante participió de la audiencia' %>
+              <%= applicant.get('absent') ? 'El solicitante no participó de la audiencia' : 'El solicitante participó de la audiencia' %>
             <% } else { %> 
               <span class="red">Participación</span>
             <% } %>

@@ -199,6 +199,17 @@
     }
   }
 
+ .dni-tooltip {
+        height: 20px;
+        vertical-align: middle;
+      }
+
+ .cuit-tooltip {
+        height: 20px;
+        vertical-align: middle;
+      }
+
+
   #audience-editor-actions {
     @include span-columns(10 of 10);
     text-align: center;

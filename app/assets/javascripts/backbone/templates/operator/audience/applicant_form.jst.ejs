@@ -27,7 +27,7 @@
 
       <div class="cell">
         <% if (applicantCountry == 'Argentina') { %>
-          <div class="field-label">Tipo de nro. de documento</div>
+          <div class="field-label">Tipo de nro. de documento <img src="/assets/logo-question.svg" class="dni-tooltip tooltip"> </div> 
           <div class="id-joint-field">
             <% var idType = applicant.get('person').id_type %>
             <select class="id-type-input">

@@ -11,10 +11,16 @@ class audiencias.views.AudienceApplicantForm extends audiencias.views.Form
 
   render: =>
     @$el.html(@template(audience: @audience))
+    new audiencias.views.Tooltip({
+      el: @$el.find('.dni-tooltip')
+      content: "Debe ingresar el numero de documento sin puntos ni espacios."
+    })
+
     new audiencias.views.Tooltip(
       el: @$el.find('.tooltip')
       content: "Solicite primero el pasaporte, de no contar con este solicite id."
     )
+
     @setPersonAutoComplete('.person-id-input')
     @setMaxLength()
 

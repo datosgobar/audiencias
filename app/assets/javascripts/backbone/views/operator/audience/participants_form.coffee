@@ -19,6 +19,13 @@ class audiencias.views.AudienceParticipantsForm extends audiencias.views.Form
       el: @$el.find('.id-tooltip')
       content: "Solicite primero el pasaporte, de no contar con este solicite id."
     })
+
+    new audiencias.views.Tooltip({
+      el: @$el.find('.dni-tooltip')
+      content: "Debe ingresar el numero de documento sin puntos ni espacios."
+    })
+
+
     @setPersonAutoComplete('.person-id-input')
     @setMaxLength()
 

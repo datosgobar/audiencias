@@ -14,6 +14,10 @@ class audiencias.views.AudienceRepresentedEntityForm extends audiencias.views.Fo
     @$el.html(@template(
       audience: @audience
     )) 
+    new audiencias.views.Tooltip({
+      el: @$el.find('.cuit-tooltip')
+      content: "Debe ingresar el numero de CUIT sin guiones ni espacios."
+    })
     @setEntityAutocomplete('.cuit-input')
 
   onEntityAutocompleteSelected: (e, entity) =>
