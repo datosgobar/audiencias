@@ -40,6 +40,7 @@ class audiencias.views.Form extends Backbone.View
         if response and response.success and response.results.length > 0
           wrappedPeople = @people2autocomplete(response.results)
           autocompleteCallback(wrappedPeople)
+          @$el.find('.sintys-error').css('display', 'none')
         else 
           @$el.find('.sintys-error').css('display', 'block')
     )
