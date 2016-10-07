@@ -10,12 +10,12 @@
       <% var aggregations = audiencias.globals.aggregations %>
       <% var type = aggregations._obligee ? 'obligees' : aggregations._applicant ? 'applicants' : 'dependencies' %>
 
-      <% var path = type == 'dependencies' ? 'Listado de Estructura del Poder Ejecutivo Nacional' : type == 'obligees' ? 'Listado de Sujetos Obligados a registrar audiencias' : 'Listado de solicitantes de audiencias' %>
+      <% var path = type == 'dependencies' ? 'Estructura del Poder Ejecutivo Nacional' : type == 'obligees' ? 'Quienes concedieron audiencias' : 'Solicitantes de audiencias' %>
       <div class="path">
-        <a href="/">Home</a> / <%= path %>
+        <a href="/">Inicio</a> / <%= path %>
       </div>
 
-      <% var title = type == 'dependencies' ? 'Estructura del Poder Ejecutivo Nacional' : type == 'obligees' ? 'Sujetos obligados a registrar audiencias' : 'Solicitantes de audiencias' %>
+      <% var title = type == 'dependencies' ? 'Estructura del Poder Ejecutivo Nacional' : type == 'obligees' ? 'Quienes concedieron audiencias' : 'Solicitantes de audiencias' %>
       <h1><%= title %></h1>
       
       <div class="shortcuts-table">
