@@ -8,7 +8,12 @@ class audiencias.views.UserLogin extends Backbone.View
     'change #remember-me': 'toggleCheckImg'
 
   render: ->
-    @$el.html(@template())
+    @$el.html(@template(audience: @audience))
+    new audiencias.views.Tooltip({
+      el: @$el.find('.dni-tooltip')
+      content: "Debe ingresar el numero de documento sin puntos ni espacios."
+    })
+
 
   submitIfEnter: (e) =>
     @validateInputs() if e.keyCode == 13

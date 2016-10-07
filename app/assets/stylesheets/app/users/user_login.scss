@@ -54,6 +54,10 @@
     }
   }
 }
+.dni-tooltip {
+     height: 20px;
+     vertical-align: middle;
+  }
 
 @mixin id-and-password {
   label {
