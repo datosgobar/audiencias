@@ -21,7 +21,7 @@
             <%= obligee.get('position') %>
           </div>
           <div class="participant-id">
-            <%= obligee.get('person').id_type.toUpperCase() %> <%= obligee.get('person').person_id %>
+            <%= obligee.get('person').id_type %> <%= obligee.get('person').person_id %>
           </div>
           <div class="participant-email">
             <%= obligee.get('person').email %>
@@ -239,7 +239,7 @@
         <% var interest_invoked = audience.get('interest_invoked'); %>
         <% if (interest_invoked && interest_invoked.length > 0) { %>
           <div class="info-label">Interés invocado</div>
-          <div class="info-content"><%= interest_invoked.toUpperCase() %></div>
+          <div class="info-content"><%= interest_invoked %></div>
         <% } else { %>
           <div class="missing-field">Interés invocado</div>
         <% } %>

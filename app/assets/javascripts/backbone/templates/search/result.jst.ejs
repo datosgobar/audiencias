@@ -16,7 +16,7 @@
         <% } %>
       </p>
       <p class="obligee-position small-font">
-        <%= audience.obligee.position.toUpperCase() %>
+        <%= audience.obligee.position %>
       </p>
       <p class="obligee-dependency small-font">
         <%= audience.obligee.dependency.name %>
@@ -37,7 +37,7 @@
         <%= audience.applicant.person.name %>
       </p>
       <p class="applicant-position small-font">
-        <%= audience.applicant.ocupation.toUpperCase() %>
+        <%= audience.applicant.ocupation %>
       </p>
       <p class="applicant-country small-font space-up">
         <%= audience.applicant.person.country %>
@@ -91,7 +91,7 @@
             <%= participant.person.name %>
           </p>
           <p class="participant-position small-font">
-            <%= participant.ocupation.toUpperCase() %>
+            <%= participant.ocupation %>
           </p>
           <p class="participant-country space-up small-font">
             <%= participant.person.country %>
@@ -131,7 +131,7 @@
       </div>
 
       <p class="grey big-space-up">Interés invocado</p>
-      <p class="small-font"><%= audience.interest_invoked.toUpperCase() %></p>
+      <p class="small-font"><%= audience.interest_invoked %></p>
 
       <p class="grey big-space-up">Motivo</p>
       <p class="small-font"><%= audience.motif %></p>

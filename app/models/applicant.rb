@@ -40,7 +40,7 @@ class Applicant < ActiveRecord::Base
   end
 
   def update_minor_attributes(params)
-    self.ocupation = params[:ocupation].mb_chars.upcase if params.include?(:ocupation)
+    self.ocupation = params[:ocupation].mb_chars if params.include?(:ocupation)
     self.absent = params[:absent] if params.include?(:absent)
 
     if params[:person]
@@ -80,7 +80,7 @@ class Applicant < ActiveRecord::Base
       self.represented_legal_entity = nil
       self.represented_state_organism = nil
       self.represented_people_group = nil
-      self.represented_person_ocupation = params[:represented_person][:ocupation].mb_chars.upcase if params[:represented_person].include?(:ocupation)
+      self.represented_person_ocupation = params[:represented_person][:ocupation].mb_chars if params[:represented_person].include?(:ocupation)
       self.represented_person = Person.find_or_initialize(params[:represented_person])
       self.represented_person.update_minor_attributes(params[:represented_person])
       self.represented_person.save
