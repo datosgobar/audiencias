@@ -145,7 +145,7 @@ class Audience < ActiveRecord::Base
       self.summary && 
       self.summary.length > 0 && 
       self.interest_invoked && 
-      ['particular', 'difuso', 'colectivo'].include?(self.interest_invoked) && 
+      ['Particular', 'Difuso', 'Colectivo'].include?(self.interest_invoked) && 
       self.place && 
       self.place.length > 0 && 
       self.address && 
