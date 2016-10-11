@@ -55,8 +55,8 @@
             </p>
 
             <% if (audience.applicant.represented_person) { %>
-              <p class="representation-type big-space-up small-font">EN REPRESENTACIÓN</p>
-              <p class="representation-type small-font">PERSONA FÍSICA</p>
+              <p class="representation-type big-space-up small-font">En representación</p>
+              <p class="representation-type small-font">Persona física</p>
               <p class="represented-name bold"><%= audience.applicant.represented_person.name %></p>
               <p class="represented-id small-font space-up">
                 <%= audience.applicant.represented_person.country %>
@@ -67,21 +67,21 @@
               </p>
 
             <% } else if (audience.applicant.represented_legal_entity) { %>
-              <p class="representation-type big-space-up small-font">EN REPRESENTACIÓN</p>
-              <p class="representation-type small-font">PERSONA JURÍDICA</p>
+              <p class="representation-type big-space-up small-font">En representación</p>
+              <p class="representation-type small-font">Persona jurídica</p>
               <p class="represented-name bold"><%= audience.applicant.represented_legal_entity.name %></p>
               <% if (audience.applicant.represented_legal_entity.country == 'Argentina') { %>
                 <p class="represented-id small-font space-up">CUIT <%= audience.applicant.represented_legal_entity.cuit %></p>
               <% } %>
 
             <% } else if (audience.applicant.represented_state_organism) { %>
-              <p class="representation-type big-space-up small-font">EN REPRESENTACIÓN</p>
-              <p class="representation-type small-font">ORGANISMO ESTATAL</p>
+              <p class="representation-type big-space-up small-font">En representación</p>
+              <p class="representation-type small-font">Organismo estatal</p>
               <p class="represented-name bold"><%= audience.applicant.represented_state_organism.name %></p>
 
             <% } else if (audience.applicant.represented_people_group) { %>
-              <p class="representation-type big-space-up small-font">EN REPRESENTACIÓN</p>
-              <p class="representation-type small-font">GRUPO DE PERSONAS</p>
+              <p class="representation-type big-space-up small-font">En representación</p>
+              <p class="representation-type small-font">Grupo de personas</p>
               <p class="represented-name bold"><%= audience.applicant.represented_people_group.name %></p>
               <p class="represented-description small-font space-up"><%= audience.applicant.represented_people_group.description %></p>
             <% } %>

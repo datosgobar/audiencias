@@ -25,9 +25,9 @@
         <p class="invoked-interest-description">Determine a partir del motivo de la audiencia qué tipo de interés se invoca.</p>
         <select id="invoked-interest-select" <%= disabledIfNotEditing %>>
           <option disabled="disabled" <%= !interest || interest.length == 0 ? 'selected' : '' %>>Seleccionar</option>
-          <option value="particular" <%= interest == 'particular' ? 'selected' : '' %>>Particular</option>
-          <option value="colectivo" <%= interest == 'colectivo' ? 'selected' : '' %>>Colectivo</option>
-          <option value="difuso" <%= interest == 'difuso' ? 'selected' : '' %>>Difuso</option>
+          <option value="Particular" <%= interest == 'particular' ? 'selected' : '' %>>Particular</option>
+          <option value="Colectivo" <%= interest == 'colectivo' ? 'selected' : '' %>>Colectivo</option>
+          <option value="Difuso" <%= interest == 'difuso' ? 'selected' : '' %>>Difuso</option>
         </select> 
         <img src="/assets/logo-question.svg" class="interest-tooltip tooltip">
         <div class="interest-tooltip-content hidden">
