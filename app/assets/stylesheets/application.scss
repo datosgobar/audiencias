@@ -53,29 +53,7 @@
 @import 'app/search/results_list';
 @import 'app/search/result';
 
+@import 'extras';
 
-*, *::after, *::before {
- -moz-box-sizing: inherit;
- box-sizing: inherit;
- }
 
-.label-not-active{
-	font-size: 0.8em;
-	color: #cccccc;
-	font-style:italic;
-}
-
-.sintys-error{
-	position: absolute; 
-	bottom: -1.5em;
-	color:#d9534f;
-	font-size: 0.8em; 
-	display: none
- }
-
-@media screen and (max-width: 1450px) {
-    .sintys-error {
-     bottom: -2.6em!important;
-  }
-}
 
