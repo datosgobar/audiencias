@@ -191,4 +191,15 @@ class Audience < ActiveRecord::Base
   def send_publish_email
     UserMailer.audience_new(self).deliver_now
   end
+
+  def self.check_db
+    orphan_records = OperatorAssociation.all.select { |a| a.user == nil or a.obligee == nil }
+    orphan_records += AdminAssociation.all.select { |a| a.user == nil or a.dependency == nil }
+    orphan_records += Participant.all.select { |p| p.person == nil } 
+    orphan_records += Applicant.all.select { |a| a.person == nil } 
+    orphan_records += Obligee.all.select { |o| o.person == nil or o.dependency == nil }
+    orphan_records += Audience.all.select { |a| a.obligee == nil }
+    orphan_records.each { |r| r.destroy }
+    Audience.import
+  end
 end
