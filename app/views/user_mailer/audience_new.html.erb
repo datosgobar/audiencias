@@ -1,7 +1,10 @@
 <%= stylesheet_link_tag 'mails', media: 'all' %>
 
 <p class="greeting">Estimado <%= @audience.applicant.person.name %>,</p>
-<p>Tenemos el agrado de informarle que ha sido nombrado en una Audiencia de Gestión de Intereses, en carácter de Solicitante. Para ver la información de la Audiencia completa, por favor, siga el siguiente link:</p>
+<p>Tenemos el agrado de informarle que ha sido mencionado en una Audiencia de Gestión de Intereses, en carácter de Solicitante. Para ver la información de la Audiencia completa, por favor, siga el siguiente link:</p>
 <p><%= link_to('Ver audiencia', audience_url({id: @audience.id}), { target: '_blank'}) %></p>
+
+<p>¿Qué es el Registro Único de Audiencias de Gestión de Intereses?<br><a href="https://youtu.be/GmgNE-fHGX4" target="_blank">Vea el video.</a></p>
+
 <p>Saludos cordiales,</p>
 
