@@ -50,7 +50,8 @@ class OperatorsController < ApplicationController
       author_id: params[:audience][:author_id]
     )
     @current_audience.update_minor_attributes(params[:audience])
-    if @current_audience.save 
+    if @current_audience.save
+      @current_audience.__elasticsearch__.index_document 
       render json: { success: true, audience: @current_audience }
     else
       render json: { success: false, errors: @current_audience.errors.messages }
@@ -78,7 +79,8 @@ class OperatorsController < ApplicationController
     end
 
     @current_audience.update_minor_attributes(params[:audience])
-    if @current_audience.save 
+    if @current_audience.save
+      @current_audience.__elasticsearch__.index_document 
       render json: { success: true, audience: @current_audience }
     else
       render json: { success: false, errors: @current_audience.errors.messages }
@@ -90,7 +92,8 @@ class OperatorsController < ApplicationController
     audience.deleted = true
     audience.deleted_at = DateTime.now
 
-    if audience.save 
+    if audience.save
+      audience.__elasticsearch__.index_document 
       render json: { success: true }
     else
       render json: { success: false }
@@ -101,6 +104,7 @@ class OperatorsController < ApplicationController
     audience = Audience.find_by_id(params[:audience][:id])
     participant = audience.participants.find_by_id(params[:participant][:id])
     if participant and participant.destroy
+      audience.__elasticsearch__.index_document
       render json: { success: true, audience: audience }
     else
       render json: { success: false }
@@ -112,6 +116,7 @@ class OperatorsController < ApplicationController
     applicant = audience.applicant
     applicant.remove_represented
     if applicant.save 
+      audience.__elasticsearch__.index_document
       render json: { success: true, applicant: applicant }
     else
       render json: { success: false }
@@ -128,7 +133,8 @@ class OperatorsController < ApplicationController
       return
     end 
 
-    if audience.save 
+    if audience.save
+      audience.__elasticsearch__.index_document 
       audience.send_publish_email
       render json: { success: true }
     else
