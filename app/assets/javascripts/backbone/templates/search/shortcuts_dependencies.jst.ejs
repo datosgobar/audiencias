@@ -8,8 +8,11 @@
         <img src="/assets/icon-marcador-derecha.svg" class="collapsed">
         <img src="/assets/icon-marcador-derecha.svg" class="expanded">
         -->
-        <li>
-        <%= node.name %> </li>
+        
+        <li> <%= node.name %>  <% if (!node.active) { %>
+           <span class="label-not-active">(No vigente)</span>
+           <% } %>
+          </li>
       </div>
       <div class="shortcut-value">
         <%= aggregations[node.id] ? aggregations[node.id].doc_count : 0 %>
