@@ -23,7 +23,7 @@ class Obligee < ActiveRecord::Base
     only: [:id, :active, :position],
     include: [
       { person: Person::AS_PUBLIC_JSON_OPTIONS },
-      { dependency: { only: [:name, :active, :id]} }
+      { dependency: { only: [:name, :active, :id], methods: [:full_name]} }
     ]
   }
   def as_json(options={})
