@@ -21,7 +21,7 @@ class audiencias.views.AudienceRepresentedApplicantForm extends audiencias.views
     @$el.find('.name-input').val(person.name).prop('disabled', true)
 
   onPersonAutocompleteRemoved: =>
-    @$el.find('.name-input').prop('disabled', false).val('')
+    @$el.find('.name-input').val('')
     
   nationalityChange: =>
     newCountry = @$el.find('.nationality-radio:checked').val()

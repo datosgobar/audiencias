@@ -44,9 +44,8 @@
         <% } %>
       </div>
       <div class="cell">
-        <% var disabledIfPersonSelected = represented.person_id && represented.person_id.length > 0 ? 'disabled' : '' %>
         <div class="field-label">Apellido y nombre</div>
-        <input maxlength="200" type="text" placeholder="Apellido y nombre" value="<%= represented.name %>" class="field-input name-input" <%= disabledIfPersonSelected %>>
+        <input maxlength="200" type="text" placeholder="Apellido y nombre" value="<%= represented.name %>" class="field-input name-input" disabled="disabled">
       </div>
       <% if (country == 'Argentina') { %>
         <div class="cell">

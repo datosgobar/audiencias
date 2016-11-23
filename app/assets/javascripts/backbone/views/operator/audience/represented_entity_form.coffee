@@ -24,7 +24,7 @@ class audiencias.views.AudienceRepresentedEntityForm extends audiencias.views.Fo
     @$el.find('.name-input').val(entity.name).prop('disabled', true)
 
   onEntityAutocompleteRemoved: =>
-    @$el.find('.name-input').prop('disabled', false).val('')
+    @$el.find('.name-input').val('')
 
   nationalityChange: =>
     newCountry = @$el.find('.nationality-radio:checked').val()
