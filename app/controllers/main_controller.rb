@@ -6,6 +6,7 @@ class MainController < ApplicationController
       obligee_size: 50,
       applicant_size: 50
     }).as_json
+    @aggregations = full_dependency_names_for_aggregations(@aggregations)
   end
 
   def audience
@@ -16,6 +17,7 @@ class MainController < ApplicationController
         obligee_size: 50,
         applicant_size: 50
       }).as_json
+      @aggregations = full_dependency_names_for_aggregations(@aggregations)
       render :home
     else
       redirect_to '/404'  
@@ -30,6 +32,7 @@ class MainController < ApplicationController
         obligee_size: 50,
         applicant_size: 50
       }).as_json
+      @aggregations = full_dependency_names_for_aggregations(@aggregations)
       render :home
     else
       redirect_to '/404'  
@@ -66,6 +69,7 @@ class MainController < ApplicationController
       obligee_size: 0,
       applicant_size: 0
     }).as_json
+    @aggregations = full_dependency_names_for_aggregations(@aggregations)
     @dependencies = Dependency.all.as_json(for_public: true)
     render :shortcuts
   end
@@ -100,6 +104,7 @@ class MainController < ApplicationController
     audience_json = audience_paginated_results.records.as_json({for_public: true})
     audience_total_pages = audience_paginated_results.total_pages
     audience_aggregations = audience_search_results.response['aggregations'].as_json
+    audience_aggregations = full_dependency_names_for_aggregations(audience_aggregations)
     audience_total = audience_paginated_results.records.total
 
     if selected_facet
@@ -186,7 +191,7 @@ class MainController < ApplicationController
     end
     if search_options.include?('pen')
       dependency = Dependency.find_by_id(search_options['pen'])
-      selected['dependency'] = dependency.name if dependency
+      selected['dependency'] = dependency.full_name if dependency
     end
     if search_options.include?('organismo-estatal')
       organism = StateOrganism.find_by_id(search_options['organismo-estatal'])
@@ -206,6 +211,18 @@ class MainController < ApplicationController
 
   def selected_facet
     ['person', 'interest_invoked', 'dependency', 'organism', 'group', 'entity'].any? { |param| @selected.include?(param) }
+  end
+
+  def full_dependency_names_for_aggregations(aggregations)
+    if aggregations['_dependency'] and aggregations['_dependency']['ids']
+      aggregations['_dependency']['ids']['buckets'].each do |bucket|
+        dependency = Dependency.find_by_id(bucket['key'])
+        if dependency 
+          bucket['name']['buckets'][0]['key'] = dependency.full_name
+        end
+      end
+    end
+    aggregations
   end
 
 end
