@@ -33,7 +33,7 @@
       <div class="cell">
         <% var disabledIfEntitySelected = country == 'Argentina' && representedEntity.cuit && representedEntity.cuit.length > 0 ? 'disabled' : '' %>
         <div class="field-label">Razon social</div>
-        <input maxlength="200" type="text" placeholder="Razon social" value="<%= representedEntity.name %>" class="field-input name-input" disabled="disabled">      
+        <input maxlength="200" type="text" placeholder="Razon social" value="<%= representedEntity.name %>" class="field-input name-input" <%= disableNameInput ? 'disabled="disabled"' : '' %> >
       </div>
     </div>
 

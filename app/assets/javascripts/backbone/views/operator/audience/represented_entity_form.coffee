@@ -12,7 +12,8 @@ class audiencias.views.AudienceRepresentedEntityForm extends audiencias.views.Fo
 
   render: ->
     @$el.html(@template(
-      audience: @audience
+      audience: @audience,
+      disableNameInput: !@userCanWriteName
     )) 
     new audiencias.views.Tooltip({
       el: @$el.find('.cuit-tooltip')
@@ -24,10 +25,11 @@ class audiencias.views.AudienceRepresentedEntityForm extends audiencias.views.Fo
     @$el.find('.name-input').val(entity.name).prop('disabled', true)
 
   onEntityAutocompleteRemoved: =>
-    @$el.find('.name-input').val('')
+    @$el.find('.name-input').val('').prop('disabled', !@userCanWriteName)
 
   nationalityChange: =>
     newCountry = @$el.find('.nationality-radio:checked').val()
+    @userCanWriteName = newCountry != 'Argentina'
     represented = @applicant.get('represented_legal_entity')
     represented.country = newCountry
     @applicant.set('represented_legal_entity', represented)

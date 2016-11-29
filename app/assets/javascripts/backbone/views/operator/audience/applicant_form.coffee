@@ -10,7 +10,10 @@ class audiencias.views.AudienceApplicantForm extends audiencias.views.Form
     @audience = @options.audience
 
   render: =>
-    @$el.html(@template(audience: @audience))
+    @$el.html(@template(
+      audience: @audience, 
+      disableNameInput: !@userCanWriteName
+    ))
     new audiencias.views.Tooltip({
       el: @$el.find('.dni-tooltip')
       content: "Debe ingresar el numero de documento sin puntos ni espacios."
@@ -28,10 +31,11 @@ class audiencias.views.AudienceApplicantForm extends audiencias.views.Form
     @$el.find('.name-input').val(person.name).prop('disabled', true)
 
   onPersonAutocompleteRemoved: =>
-    @$el.find('.name-input').val('')
+    @$el.find('.name-input').val('').prop('disabled', !@userCanWriteName)
 
   nationalityChanged: =>
     newCountry = @$el.find('.nationality-radio:checked').val()
+    @userCanWriteName = newCountry != 'Argentina'
     applicantPerson = @audience.get('applicant').get('person')
     applicantPerson.country = newCountry
     @audience.get('applicant').set('person', applicantPerson)

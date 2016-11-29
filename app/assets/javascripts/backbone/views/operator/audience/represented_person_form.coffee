@@ -12,7 +12,8 @@ class audiencias.views.AudienceRepresentedApplicantForm extends audiencias.views
 
   render: ->
     @$el.html(@template(
-      audience: @audience
+      audience: @audience,
+      disableNameInput: !@userCanWriteName
     )) 
     @setPersonAutoComplete('.person-id-input')
     @setMaxLength()
@@ -21,10 +22,11 @@ class audiencias.views.AudienceRepresentedApplicantForm extends audiencias.views
     @$el.find('.name-input').val(person.name).prop('disabled', true)
 
   onPersonAutocompleteRemoved: =>
-    @$el.find('.name-input').val('')
+    @$el.find('.name-input').val('').prop('disabled', !@userCanWriteName)
     
   nationalityChange: =>
     newCountry = @$el.find('.nationality-radio:checked').val()
+    @userCanWriteName = newCountry != 'Argentina'
     represented = @applicant.get('represented_person')
     represented.country = newCountry
     @applicant.set('represented_person', represented)
