@@ -19,21 +19,21 @@
                 <span class="label-not-active">(No vigente)</span>
               <% } %>
             </p>
-            <p class="obligee-position small-font">
-              <%= audience.obligee.position %>
-            </p>
-            <p class="obligee-dependency small-font">
-              <%= audience.obligee.dependency.name %>
-              <% if (!audience.obligee.dependency.active) { %>
-                <span class="label-not-active">(No vigente)</span>
-              <% } %>
-            </p>
-            <p class="obligee-country space-up small-font">
+            <p class="obligee-country small-font">
               <%= audience.obligee.person.country %>
             </p>
             <p class="obligee-id small-font">
               <%= audience.obligee.person.country == 'Argentina' ? audience.obligee.person.id_type.toUpperCase() : 'ID' %>
               <%= audience.obligee.person.person_id %>
+            </p>
+            <p class="obligee-position space-up small-font">
+              <%= audience.obligee.position %>
+            </p>
+            <p class="obligee-dependency small-font">
+              <%= audience.obligee.dependency.full_name %>
+              <% if (!audience.obligee.dependency.active) { %>
+                <span class="label-not-active">(No vigente)</span>
+              <% } %>
             </p>
           </div>
           <div class="table-cell">

@@ -10,7 +10,6 @@ audiencias.globals.countries = [
   "Antigua y Barbuda",
   "Antillas Neerlandesas",
   "Arabia Saudita",
-  "Argentina",
   "Armenia",
   "Aruba",
   "Australia",

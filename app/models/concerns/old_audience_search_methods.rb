@@ -5,7 +5,10 @@ module OldAudienceSearchMethods
   module ClassMethods
     def search_options(options={})
       search_options = {
-        sort: { fecha_hora_audiencia: :desc },
+        sort: [
+          '_score',
+          { fecha_hora_audiencia: :desc }
+        ],
         query: {
           filtered: {
             filter: {
@@ -18,7 +21,9 @@ module OldAudienceSearchMethods
       }
 
       if options['q']
-        search_options[:query][:filtered][:query] = { match: { "_all" => options['q'] } }
+        options['q'].split(' ').each do |term|
+          search_options[:query][:filtered][:filter][:bool][:must] << { match: { "_all" => term } }
+        end
       end
 
       if options['desde'] or options['hasta']

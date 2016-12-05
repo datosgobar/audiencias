@@ -48,9 +48,8 @@
 
     </div>
     <div class="cell"> 
-      <% var disabledIfPersonSelected = participant.person && participant.person.person_id ? 'disabled' : '' %>
       <div class="field-label">Apellido y nombre</div>
-      <input maxlength="200" type="text" placeholder="Apellido y nombre" value="<%= participant.person.name %>" class="field-input name-input" <%= disabledIfPersonSelected %>>
+      <input maxlength="200" type="text" placeholder="Apellido y nombre" value="<%= participant.person.name %>" class="field-input name-input" <%= disableNameInput ? 'disabled="disabled"' : '' %> >
     </div>
   </div>
 

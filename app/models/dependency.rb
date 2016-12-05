@@ -87,4 +87,12 @@ class Dependency < ActiveRecord::Base
     save
   end
 
+  def full_name
+    if self.parent_dependency
+      "#{self.name}, #{self.parent_dependency.full_name}"
+    else
+      self.name
+    end
+  end
+
 end

@@ -43,9 +43,8 @@
         <% } %>
       </div>
       <div class="cell">
-        <% var disabledIfPersonSelected = applicant.get('person').person_id && applicant.get('person').person_id.length > 0 ? 'disabled' : '' %>
         <div class="field-label">Apellido y nombre</div>
-        <input maxlength="200" type="text" placeholder="Apellido y nombre" value="<%= applicant.get('person').name %>" class="field-input name-input" <%= disabledIfPersonSelected %>>
+        <input maxlength="200" type="text" placeholder="Apellido y nombre" value="<%= applicant.get('person').name %>" class="field-input name-input" <%= disableNameInput ? 'disabled="disabled"' : '' %> >
       </div>
       
       <% if (applicantCountry == 'Argentina') { %>
