@@ -22,7 +22,7 @@
         <% if (type == 'obligees') {
           var obligees = aggregations._obligee._obligees.ids.buckets;
           for (var i=0; i<Math.min(obligees.length, 100); i++) { %>
-            <a href="<%= linkCreator({ persona: obligees[i].key, 'roles-persona': 'obligado' }) %>">
+            <a href="<%= linkCreator({ q: obligees[i].name.buckets[0].key }) %>">
               <div class="shortcut-row">
                 <div class="shortcut-name ellipsis">
                     <%= obligees[i].name.buckets[0].key %>
@@ -55,7 +55,7 @@
           for (var i=0; i<Math.min(all_applicants.length, 100); i++) {
             var linkParams;
             if (all_applicants[i].type == 'person') {
-              linkParams = { 'persona': all_applicants[i].key, 'roles-persona': 'solicitante' }
+              linkParams = { 'q': all_applicants[i].name.buckets[0].key }
             } else if (all_applicants[i].type == 'group') {
               linkParams = { 'grupo-de-personas': all_applicants[i].key }
             } else if (all_applicants[i].type == 'entity') {
