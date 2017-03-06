@@ -1,5 +1,9 @@
+
+
+
 <% for (var i=0; i<nodes.length; i++) { %>
   <% var node = nodes[i]; %>
+
 
   <a href="<%= audiencias.app.linkCreator({ pen: node.id }) %>" class="dependency">
     <div class="shortcut-row" style=" list-style-type: square; padding-left:<%= padding %>%">
@@ -8,10 +12,21 @@
         <img src="/assets/icon-marcador-derecha.svg" class="collapsed">
         <img src="/assets/icon-marcador-derecha.svg" class="expanded">
         -->
+        
+         <li> 
+        <% var childrenNodes = allNodes[node.id] %>
 
-        <li> <%= node.name %>  <% if (!node.active) { %>
-           <span class="label-not-active">(No vigente)</span>
-           <% } %>
+        <% if (node.parent_id < 1 ) { %>
+           <span style="font-weight:bold">
+             <%= node.name %> 
+           </span>
+        <% } else { %>
+           <%= node.name %> 
+        <% } %>
+        <% if (!node.active) { %>
+          <span class="label-not-active">(No vigente)</span>
+        <% } %>
+
           </li>
       </div>
       <div class="shortcut-value">
