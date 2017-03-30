@@ -13,8 +13,5 @@ Para información orientada al usuario final, ver las secciones de [Acerca](http
 
 Existe tambien un readme sobre [modificaciones de datos via consola](./docs/consola.md) orientado al mantenedor del servidor.
 
-## Créditos 
-En caso de haberlo forkeado de otro repositorio, mencionar al owner original. Mencionar insipiradores, colaboradores fuera del repo, y a todo el que corresponda elogiar. 
-
 ## Contacto 
 Te invitamos a [crearnos un issue](https://github.com/datosgobar/audiencias/issues/new?title=Encontre%20un%20bug%20en%20audiencias) en caso de que encuentres algún bug o tengas feedback de alguna parte de `audiencias.mininterior.gob.ar`. Para todo lo demás, podés mandarnos tu comentario o consulta a [registroaudiencias@mininterior.gob.ar](mailto:registroaudiencias@mininterior.gob.ar) o [datos@modernizacion.gob.ar](mailto:datos@modernizacion.gob.ar).
