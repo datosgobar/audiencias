@@ -68,7 +68,7 @@ Rails.application.configure do
   Rails.application.routes.default_url_options[:host] = 'audiencias.mininterior.gob.ar'
   config.action_mailer.smtp_settings = {
     address: 'smtp.office365.com',
-    port: 25,
+    port: 587,
     user_name: 'audiencias-no-reply@mininterior.gob.ar',
     password: ' 3nv14d0rAud', 
     openssl_verify_mode: 'none'
