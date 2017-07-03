@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "no-reply@mininterior.gov.ar"
+  default from: "audiencias-no-reply@mininterior.gob.ar"
   layout 'mailer'
 end
