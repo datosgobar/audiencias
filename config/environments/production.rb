@@ -70,8 +70,10 @@ Rails.application.configure do
     address: 'smtp.office365.com',
     port: 587,
     user_name: 'audiencias-no-reply@mininterior.gob.ar',
-    password: ' 3nv14d0rAud', 
+    password: ' 3nv14d0rAud',
+    openssl_verify_mode: 'none', 
     enable_starttls_auto: true
+   
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
