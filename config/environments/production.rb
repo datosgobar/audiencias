@@ -67,13 +67,10 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { :host => "audiencias.mininterior.gob.ar" }
   Rails.application.routes.default_url_options[:host] = 'audiencias.mininterior.gob.ar'
   config.action_mailer.smtp_settings = {
-    address: 'smtp.office365.com',
+    address: 'smtp.mininterior.gov.ar',
     port: 587,
-    user_name: 'audiencias-no-reply@mininterior.gob.ar',
-    password: ' 3nv14d0rAud',
-    openssl_verify_mode: 'none', 
-    enable_starttls_auto: true
-   
+    openssl_verify_mode: 'none'
+
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
