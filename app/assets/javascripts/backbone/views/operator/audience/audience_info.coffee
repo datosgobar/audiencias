@@ -119,5 +119,6 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
     else
       @audience.set('editingInfo', false)
 
+	  
   isDate: (date) ->
     Object.prototype.toString.call(date) == "[object Date]" 
