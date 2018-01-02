@@ -12,7 +12,7 @@ class audiencias.views.AudienceInfoSection extends audiencias.views.Form
   initialize: (@options) ->
     @audience = @options.audience
     @audience.on('change', @render)
-    dateThreshold = moment('2018/01/01')
+    dateThreshold = moment('2019/01/01')
     now = moment()
     if now.isAfter(dateThreshold) 
       limit = moment.duration(45, 'days')
